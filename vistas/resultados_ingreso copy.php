@@ -9,12 +9,6 @@ if(isset($_SESSION)){ }else{ session_start(); }
     $usuario=$_SESSION['login'][0]->usuario;    
 ?>
 <style>
-     tr { 
-        height: 10px!important; 
-        font-size: 11px !important;
-        vertical-align: middle;
-    }
-
     .boldSpan {
         font-weight:bold;
         font-size: x-small;
@@ -38,10 +32,6 @@ if(isset($_SESSION)){ }else{ session_start(); }
     .card-body {
         padding: 0rem;
     }    
-
-    table.dataTable {
-        margin: 0px;
-    }    
 </style>
 <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css"> -->
 
@@ -64,13 +54,13 @@ if(isset($_SESSION)){ }else{ session_start(); }
                     <div class="row">
                         <div class="col-sm-9 " >
                             <div class="row " h>
-                                <div class="col-6 col-sm-10 " >
-                                    <div class="col-12 mt-1">
+                                <div class="col-6 col-sm-6 " >
+                                    <div class="col-10 mt-1">
                                         <div class="">
                                             <label class="" for="iptOrdenTrabajo"><i class="fas fa-barcode fs-6"></i>
                                                     <span class="small">Orden de Trabajo</span><span class="text-danger">*</span>
                                             </label>
-                                            <input type="text" class="form-control" id="iptOrdenTrabajo"  placeholder="# Orden"style="max-width:160px;display:inline-block"/>
+                                            <input type="text" class="form-control" id="iptOrdenTrabajo"  placeholder="# Orden"style="max-width:260px;display:inline-block"/>
                                             <button type="submit" id="btnBuscarOrden" class="btn btn-primary px-0 py-0" style="margin-left:-1px; width: 40px; height: 28px;">+</button>
                                         </div>
                                     </div>                                
@@ -104,10 +94,10 @@ if(isset($_SESSION)){ }else{ session_start(); }
                                 <table id="tbl_Analisis" class="table table-striped " style="width=100%" hidden>
                                     <thead class="bg-gray">
                                         <tr style="font-size: 15px;">
-                                            <th class="text-center">Orden_tra</th> <!-- 1 -->
-                                            <th class="text-center">id_Normativa</th> <!-- 6 -->
-                                            <th class="text-center">Normativa</th> <!-- 6 -->
-                                            <th class="text-center">Categoria</th> <!-- 6 -->
+                                            <th class="text-center" hidden>Orden_tra</th> <!-- 1 -->
+                                            <th class="text-center" hidden>id_Normativa</th> <!-- 6 -->
+                                            <th class="text-center" hidden>Normativa</th> <!-- 6 -->
+                                            <th class="text-center" hidden>Categoria</th> <!-- 6 -->
                                             <th class="text-center">Tipo </th> <!-- 6 -->
                                             <th class="text-center">Analisis </th> <!-- 6 -->
                                             <th class="text-center">Min</th> 
@@ -157,7 +147,7 @@ if(isset($_SESSION)){ }else{ session_start(); }
                     <!-- row para tabla  -->
                     <div class="row">
                         <div class="col-lg-12">
-                        <table id="tbl_resultados"  class="table table-striped " style="width:100%">
+                        <table id="tbl_resultados" class="table table-striped cell-border w-100 shadow" width="100%">
                                 <thead class="bg-gray">
                                     <tr style="font-size: 15px;">
                                         <th class="text-center">Id Res</th>
@@ -203,11 +193,9 @@ $(document).ready(function(){
      
 
     table = $("#tbl_resultados").DataTable({
-                        "bDestroy": true,
-                         info: false,
-                         ordering: false,
-                        // paging: false,
-                        searching: false,
+        select: true,
+        info: false,
+        ordering: false,
         // pagingType: 'simple_numbers',
         
         //paging: false,            
@@ -243,11 +231,10 @@ $(document).ready(function(){
 
             {targets:0,orderable:false,className:'control'},
             {"className": "dt-center", "targets": "_all"},
-            // {targets:0,visible:false},
-            // {targets: [3,9], className: "text-center",width: "4%"},
-            // {targets:[0,1,2,5,6],visible:false},
+            {targets: [3,9], className: "text-center",width: "4%"},
+            {targets:[0,1,2,5,6],visible:false},
 
-            { responsivePriority: 1, targets: 11 },
+            //{ responsivePriority: 1, targets: 1 },
             {
                 targets:11,
                 orderable:false,
@@ -317,8 +304,8 @@ $(document).ready(function(){
                     // BUSCAMOS LOS ANALISIS
                     table2 = $("#tbl_Analisis").DataTable({
                         "bDestroy": true,
-                         info: false,
-                         ordering: false,
+                        info: false,
+                        ordering: false,
                         paging: false,
                         searching: false,
                         ajax:{
@@ -339,15 +326,12 @@ $(document).ready(function(){
 
                         {"className": "dt-center", "targets": "_all"},
                         {targets:0,orderable:false,className:'control'},
-                            // {targets:0,visible:false},
-                            // {targets:1,visible:false},
-                            // {targets:2,visible:false},
-                            // {targets:3,visible:false},
+                            {targets:0,visible:false},
+                            {targets:1,visible:false},
+                            {targets:2,visible:false},
+                            {targets:3,visible:false},
 
-                            { responsivePriority: 1, targets: 5 },
-                            { responsivePriority: 1, targets: 6 },
                             { responsivePriority: 1, targets: 7 },
-                            { responsivePriority: 1, targets: 8 },
                             {
                                 targets:8,
                                 orderable:false,
