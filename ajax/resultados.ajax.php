@@ -48,7 +48,8 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR REGISTROS
             "id_normativa_analisis" => $_POST["id_normativa_analisis"],
             "resultado" => $_POST["resultado"],
             "fecha_creacion" => $_POST["fecha_creacion"],
-            "validacion" => $_POST["validacion"]
+            "validacion" => $_POST["validacion"],
+            "estado" => $_POST["estado"]
     );
 
 	$registrar -> ajaxRegistrarResultados($data);

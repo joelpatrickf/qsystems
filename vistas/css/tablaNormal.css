@@ -1,0 +1,48 @@
+   th{
+        background-color: #6c757d;
+        color: white;
+    }    
+    table.dataTable {
+         margin-bottom: 2px!important;         
+    }    
+    table.dataTable tbody th, 
+    table.dataTable tbody td 
+    {
+        padding: 0px 3px !important;
+        font-family: lato,sans-serif;
+        text-rendering: optimizeLegibility;
+        font-size: 13px!important;        
+    }
+
+    .uniqueClassName {
+        text-align: left;
+    }    
+
+    table.dataTable tbody tr:hover {
+      background-color: rgba(13, 110, 253, 0.954);
+      color: white;
+    }
+     
+    table.dataTable tbody tr:hover > .sorting_1 {
+      background-color: rgba(13, 110, 253, 0.954);
+      color: white;
+    }  
+
+    .dataTables_wrapper .dataTables_info {
+        padding-top: 0.55em;
+    }
+
+    table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd {
+        background-color: rgba(0,0,0,.05);
+    }    
+
+/*    table#tbl_usuarios.dataTable tbody tr:hover {
+      background-color: rgba(13, 110, 253, 0.954);
+      color: white;
+    }
+     
+    table#tbl_usuarios.dataTable tbody tr:hover > .sorting_1 {
+      background-color: rgba(13, 110, 253, 0.954);
+      color: white;
+    } */    
+

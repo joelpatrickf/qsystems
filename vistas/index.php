@@ -12,6 +12,7 @@
 
     <!-- Bootstrap -->
     <link href="vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+
     
     <!-- Custom Theme Style -->
     <link href="build/css/custom.min.css" rel="stylesheet">

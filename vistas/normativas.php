@@ -1,4 +1,4 @@
-<?php 
+    <?php 
     //include("modulos/header.php");  
     $fechaActual = date('YmdHis', time()); 
 ?>
@@ -21,7 +21,7 @@
 					       <h4> Administrar Normativas</h4>
                         </div>
                         <div class="col-6 text-" >
-                        <button type="button" class="btn btn-warning mx-1" id="btnClose" style="float: right;" hidden>close</button>
+                        <button type="button" class="btn btn-warning mx-1" id="btnClose" style="float: right;" hidden>Close</button>
                             <button type="button" class="btn btn-success" id="btnSave" style="float: right;" > Save </button>
                             <button type="button" class="btn btn-dark mx-1" id="btnNew" style="float: right;"> New </button>
 
@@ -84,7 +84,7 @@
                         </div>
 
                         <!-- Columna LIMITE MINIMO -->
-                        <div class="col-12 col-lg-3">
+                        <div class="col-12 col-lg-2">
                             <div class="form-group mb-2">
                                 <label class="" for="iptLimiteMinimo"><i class="fas fa-users fs-6"></i>
                                     <span class="small">Limte Min.</span>
@@ -94,14 +94,23 @@
                             </div>
                         </div>                        
                         <!-- Columna LIMITE MAXIMO -->
-                        <div class="col-12 col-lg-3">
+                        <div class="col-12 col-lg-2">
                             <div class="form-group mb-2">
                                 <label class="" for="iptLimiteMaximo"><i class="fas fa-users fs-6"></i>
                                     <span class="small">Limite Max.</span><span class="text-danger"><abbr title="En caso de menor que, colocar el carácter, menor o igual que sin caracter" class="acronimo" >?</abbr></span>  
                                 </label>
                                 <input type="text" class="form-control " id="iptLimiteMaximo" placeholder="Ingrese Limite Maximo" required disabled autocomplete="off" >
                             </div>
-                        </div>                    
+                        </div> 
+                       <!-- Columna UNIDAD DE MEDIDA -->
+                       <div class="col-12 col-lg-2">
+                            <div class="form-group mb-2">
+                                <label class="" for="iptUnidadMedida"><i class="fas fa-users fs-6"></i>
+                                <span class="small">Unidad de Medida</span><span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control " id="iptUnidadMedida" placeholder="Ingrese la Unidad de Medida" required disabled >
+                            </div>
+                        </div>                                             
 					</div>                        
 
 				</div>  <!-- END div 1º card body -->
@@ -120,10 +129,11 @@
                                         <th class="text-center">Categoria</th> <!-- 2 -->
                                         <th class="text-center">Tipo Analisis</th> <!-- 2 -->
                                         <th class="text-center">Analisis</th> <!-- 5 -->
-                                        <th class="text-center">Lim-Min</th> <!-- 5 -->
-                                        <th class="text-center">Lim-Max</th> <!-- 5 -->
+                                        <th class="text-center">Min</th> <!-- 5 -->
+                                        <th class="text-center">Max</th> <!-- 5 -->
                                         <th class="text-center">Fecha</th> <!-- 5 -->
                                         <th class="text-center">Usuario</th> <!-- 5 -->
+                                        <th class="text-center">U Med</th> <!-- 5 -->
                                         <th class="text-center">Opciones</th> <!-- 12 -->
                                     </tr>
                                 </thead>
@@ -133,7 +143,7 @@
                         </div>
                     </div>                    
                 </div> <!-- END 2º card-body      -->
-            </div> <!-- END CARD      -->
+                </div> <!-- END CARD      -->
         </div>
     </div>
 
@@ -184,13 +194,15 @@ $(document).ready(function(){
 
                 {"className": "dt-center", "targets": "_all"},
                 {targets:0,orderable:false,className:'control'},
-                { width: '20%', targets: 5},
+                // { width: '20%', targets: 5},
 
                 {targets:0,visible:false,},
+                {targets:8,visible:false,},
                 {targets:9,visible:false,},
+                { responsivePriority: 1, targets: 11 },
                 { responsivePriority: 1, targets: 10 },
                 {
-                    targets:10,
+                    targets:11,
                     orderable:false,
                     render: function(data, type, full, meta){
                         return "<center>"+
@@ -233,7 +245,7 @@ $(document).ready(function(){
     $('#tbl_normativas tbody').on('click','.btnEditar', function(){
         accion = 3; //-GUARDAR MODIFICACION
         var data = table.row($(this).parents('tr')).data();
-console.log(data);
+        console.log(data);
         id_normativa = data[1];
 
         //alert(data[4]);
@@ -242,6 +254,8 @@ console.log(data);
         $("#iptAnalisis").val(data[5]);
         $("#iptLimiteMinimo").val(data[6]);
         $("#iptLimiteMaximo").val(data[7]);
+        $("#iptUnidadMedida").val(data[10]);
+        
 
         //$("#iptTipoAnalisis").val(data[4]);
         buscarEnSelect(data[4],'iptTipoAnalisis')
@@ -267,11 +281,12 @@ console.log(data);
         if ($("#iptAnalisis").val() == ''){msg.push(' Analisis');}
         if ($("#iptLimiteMinimo").val() == ''){msg.push(' Limite Minimo');}
         if ($("#iptLimiteMaximo").val() == ''){msg.push(' Limite Maximo');}
+        if ($("#iptUnidadMedida").val() == ''){msg.push(' Unidad de Medida');}
         
-        if (msg.length != 6 && msg.length != 0){
+        if (msg.length != 7 && msg.length != 0){
             toastr["error"]("Ingrese los siguientes datos  :"+msg, "!Atención!");
             return;
-        }else if(msg.length == 6){
+        }else if(msg.length == 7){
             
             toastr["error"]("No existen datos para guardar", "!Atención!");
             bloquearInputs();
@@ -294,6 +309,7 @@ console.log(data);
                     'limite_minimo': $("#iptLimiteMinimo").val(),
                     'limite_maximo': $("#iptLimiteMaximo").val(),
                     'id_normativa': id_normativa,
+                    'unidad_medida': $("#iptUnidadMedida").val()
                 },
                 dataType: "json",
                 success: function(respuesta){
@@ -332,6 +348,7 @@ function desBloquearInputs(){
     $("#iptLimiteMinimo").prop( "disabled", false );
     $("#iptLimiteMaximo").prop( "disabled", false );
     $("#iptCategoria").prop( "disabled", false );
+    $("#iptUnidadMedida").prop( "disabled", false );
     
     $("#iptNormativa").focus();
 }
@@ -342,6 +359,7 @@ function bloquearInputs(){
     $("#iptLimiteMinimo").prop( "disabled", true );
     $("#iptLimiteMaximo").prop( "disabled", true );
     $("#iptCategoria").prop( "disabled", true );
+    $("#iptUnidadMedida").prop( "disabled", true );
 }
 function limpiar(){
     $("#iptNormativa").val('');
@@ -350,6 +368,8 @@ function limpiar(){
     $("#iptLimiteMinimo").val('');
     $("#iptLimiteMaximo").val('');
     $("#iptCategoria").val('');
+    $("#iptUnidadMedida").val("");
+    
     
 }
 

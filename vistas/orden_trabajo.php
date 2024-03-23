@@ -33,7 +33,7 @@
 					       <h4> Generación Orden de Trabajo </h4>
                         </div>
                         <div class="col-6 text-" >
-                            <button type="button" class="btn btn-warning mx-1" id="btnClose" style="float: right;" hidden>close</button>
+                            <button type="button" class="btn btn-warning mx-1" id="btnClose" style="float: right;" hidden>Close</button>
                             <button type="button" class="btn btn-success" id="btnSave" style="float: right;"> Save </button>
                             <button type="button" class="btn btn-dark mx-1" id="btnNew" style="float: right;"> New </button>
 
@@ -59,7 +59,7 @@
                             <label class="" for="iptProducto"><i class="fa fa-search fs-6"></i>
                                     <span class="small">Buscar</span><span class="text-danger">*</span>
                             </label>                            
-                            <input type="text" id="iptProducto" class="form-control form-control-sm" placeholder="Producto a buscar" autocomplete="off" disabled>
+                            <input type="text" id="iptProducto" class="form-control" placeholder="Producto a buscar" autocomplete="off" disabled>
                             <input type="hidden" id="iptProductoBuscar" disabled>
                             <input type="hidden" id="iptId_item" disabled>
                   

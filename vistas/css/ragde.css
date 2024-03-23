@@ -1,56 +1,45 @@
-.card .card-header {
-    padding: 0.5rem; 
-    margin: 10px;
-}
 
-/*.btn { float: right;}*/
-th.dt-center, td.dt-center { text-align: center; }
+/* flas pqñas */
+table.dataTable > tbody > tr > th, 
+table.dataTable > tbody > tr > td {
+    padding: 0px 0px;
+    vertical-align: middle!important;
+    font-family: lato,sans-serif;
+    font-size: 12px!important;
+    color: #767676;
+    text-rendering: optimizeLegibility;
+    
+}
 
 /* Color a los heads de tablas */
 th{
     background-color: #455a64!important;
-    text-align: center;
+    text-align: center!important;
     color:white!important;
+    vertical-align: middle!important;
 } 
-
-/* tamaño y color a los inputs placeholder */
-::-webkit-input-placeholder {
-    color: rgb( 44, 46, 255 );
-    font-size: 12px;
-}
-
-/* tamaño y color a las datatables */
-table.dataTable tbody th, 
-table.dataTable tbody td 
-{
-    padding: 0px 3px !important;
-
-    font-family: lato,sans-serif;
-    color: #767676;
-    text-rendering: optimizeLegibility;
-    font-size: 13px!important;        
-}
 
 /* tamaño y padding alos inputs */
 .form-control {
     border-radius: 4px!important;
     padding: 0.15rem 0.75rem!important;
     height: 1.8em!important;
+    font-size: 13px!important;
 }
 
+div.dt-container .dt-paging .dt-paging-button {
+    padding: 0.5em;
+}
 
-    div.dt-container .dt-paging .dt-paging-button {
-        padding: 0.5em;
-    }
+div.dt-container div.dt-paging ul.pagination {float: right;}
 
-    div.dt-container div.dt-paging ul.pagination {float: right;}
+.page-item .page-link, .page-item span {border-radius: 5px!important;} 
 
-    .page-item .page-link, .page-item span {border-radius: 5px!important;}  
 
-    /* cambiar de color los botones de paginacion next*/
-    /*.page-item.active .page-link {
-        color: #fff;
-        background-color: #6c757d;
-        border-color: #6c757d;
-        box-shadow: none;
-    }*/
+
+
+/* tamaño y color a los inputs placeholder */
+::-webkit-input-placeholder {
+    color: rgb( 44, 46, 255 );
+    font-size: 12px;
+}

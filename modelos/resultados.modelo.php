@@ -10,7 +10,7 @@ class ResultadosModelo{
 	**********************************/
 	static public function mdlListarResultados()
 	{
-		$stmt = Conexion::conectar()->prepare("SELECT res.id_resultados, res.orden_trabajo, res.id_normativa_analisis, res.fecha_creacion, res.usuario_creacion,nor.normativa, nor.categoria, nor.tipo_analisis, nor.analisis, res.resultado,res.validacion
+		$stmt = Conexion::conectar()->prepare("SELECT res.id_resultados, res.orden_trabajo, res.id_normativa_analisis, res.fecha_creacion, res.usuario_creacion,nor.normativa, nor.categoria, nor.tipo_analisis, nor.analisis, res.resultado,res.validacion,res.estado
 		FROM resultados res
 		INNER JOIN normativas nor ON res.id_normativa_analisis=nor.id_normativa
 		");
@@ -46,8 +46,8 @@ class ResultadosModelo{
 			if ($nreg >0 ){
 				$resultado = 'existe';
 			}else{
-				$stmt = Conexion::conectar()->prepare("INSERT INTO resultados(orden_trabajo,id_normativa_analisis,resultado,fecha_creacion,usuario_creacion,validacion)
-				 VALUES(:orden_trabajo,:id_normativa_analisis,:resultado,:fecha_creacion,:usuario_creacion,:validacion)");
+				$stmt = Conexion::conectar()->prepare("INSERT INTO resultados(orden_trabajo,id_normativa_analisis,resultado,fecha_creacion,usuario_creacion,validacion,estado)
+				 VALUES(:orden_trabajo,:id_normativa_analisis,:resultado,:fecha_creacion,:usuario_creacion,:validacion,:estado)");
 	
 				$stmt->bindParam(":orden_trabajo", $data['orden_trabajo']); 
 				$stmt->bindParam(":id_normativa_analisis", $data['id_normativa_analisis']); 
@@ -55,6 +55,7 @@ class ResultadosModelo{
 				$stmt->bindParam(":fecha_creacion", $data['fecha_creacion']); 
 				$stmt->bindParam(":usuario_creacion", $usuario); 
 				$stmt->bindParam(":validacion", $data['validacion']); 
+				$stmt->bindParam(":estado", $data['estado']); 
 				$stmt->execute();
 				$resultado = 'ok';
 

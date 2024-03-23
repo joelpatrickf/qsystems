@@ -14,9 +14,9 @@ class AjaxNormativas{
 	// 		GUARDAR NUEVOS REGISTROS
 	// **********************************/
 
-	public function ajaxRegistrarNormativas($normativa,$categoria,$tipo_analisis,$analisis,$limite_minimo,$limite_maximo)
+	public function ajaxRegistrarNormativas($normativa,$categoria,$tipo_analisis,$analisis,$limite_minimo,$limite_maximo,$unidad_medida)
 	{
-		$categorias = NormativasControlador::ctrlNormativasRegistrar($normativa,$categoria,$tipo_analisis,$analisis,$limite_minimo,$limite_maximo);
+		$categorias = NormativasControlador::ctrlNormativasRegistrar($normativa,$categoria,$tipo_analisis,$analisis,$limite_minimo,$limite_maximo,$unidad_medida);
 		echo json_encode($categorias,JSON_UNESCAPED_UNICODE);
 	}	
     
@@ -59,6 +59,7 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR REGISTROS
     $normativas-> ajaxListarNormativas();
 
 } else if (isset($_POST['accion']) && $_POST['accion'] == 2) { //  GUARDAR REGISTROS NUEVOS
+    // print_r($_POST);
     $Normativasregistrar = new AjaxNormativas();
 
 	$Normativasregistrar -> ajaxRegistrarNormativas(
@@ -67,7 +68,8 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR REGISTROS
         $_POST["tipo_analisis"],
         $_POST["analisis"],
         $_POST["limite_minimo"],
-        $_POST["limite_maximo"]
+        $_POST["limite_maximo"],
+        $_POST["unidad_medida"]
     );
 
 } else if (isset($_POST['accion']) && $_POST['accion'] == 3) { // GUARDAR MODIFICACION
@@ -79,7 +81,8 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR REGISTROS
             "analisis" => $_POST["analisis"],
             "limite_min" => $_POST["limite_minimo"],
             "limite_max" => $_POST["limite_maximo"],
-            "id_normativa" => $_POST["id_normativa"]
+            "id_normativa" => $_POST["id_normativa"],
+            "unidad_medida" => $_POST["unidad_medida"]
     );
 
     $NormativasActualizar -> ajaxNormativasActualizar($data);
