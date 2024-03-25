@@ -23,16 +23,16 @@ if(isset($_SESSION)){ }else{ session_start(); }
     .Span1 {
         font-size: x-small;
     }        
-    .card-body {
-        padding: 0rem;
-    }    
 
-    /* .paging_full_numbers {
+    .paging_full_numbers {
          width: 100%;
     }
     div.dt-container .dt-paging .dt-paging-button {
         padding: 0px;
     }
+    .card-body {
+        padding: 0rem;
+    }    
 
     table.dataTable {
         margin: 0px;
@@ -44,24 +44,20 @@ if(isset($_SESSION)){ }else{ session_start(); }
         vertical-align: middle;
     }
     .table td, .table th {
-        vertical-align: middle!important;
+        vertical-align: middle;
         margin: 0px;
-        padding: 0px 3px !important;
-    } */
+    }
 
-    /* table.dataTable tbody th, table.dataTable tbody td {
-        padding: 0px 3px !important;
-        font-size: 12px !important;
-        height: 10px;
-    } */
     table.dataTable tbody th, table.dataTable tbody td {
-        padding: 8px 10px;
-    }    
+    padding: 0px 3px !important;
+    font-size: 12px !important;
+    height: 10px;
+}
 </style>
  
 
 <!-- <link rel="stylesheet" href="css/tablaNormal.css"/> -->
-
+<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css"> -->
 
 	<div class="row">
 		<div class="col-md-12">
@@ -82,11 +78,11 @@ if(isset($_SESSION)){ }else{ session_start(); }
                     <div class="row">
                         <div class="col-sm-9 " >
                             <div class="row ">
-                                <div class="col-6 "  >
+                                <div class="col-6 col-sm-6 " >
 
 
                                     <!-- <div class="col-12 mt-1"> -->
-                                        <div class="col-12" >
+                                        <div class="col-12">
                                             <label class="" for="iptOrdenTrabajo"><i class="fas fa-barcode fs-6"></i>
                                                     <span class="small">Orden de Trabajo</span><span class="text-danger">*</span>
                                             </label>
@@ -99,9 +95,9 @@ if(isset($_SESSION)){ }else{ session_start(); }
                                     <form>
                                         <div class="form-row">
                                             
-                                            <div class="form-group col-md-6">
+                                            <div class="form-group col-md-6"">
                                                 <label for="inputEmail4" class="mb-0">Resultado</label>
-                                                <input type="text" class="form-control" id="iptResultados" placeholder="Resultados" pattern="^[A-Za-z]+$" autocomplete="off" >
+                                                <input type="text" class="form-control" id="iptResultados" placeholder="Resultados" pattern="^[A-Za-z]+$" >
 
                                                 <select class="form-control " aria-label=".form-select-sm example" id="selResultados"  >
                                                 </select>           
@@ -121,14 +117,14 @@ if(isset($_SESSION)){ }else{ session_start(); }
                                                                     
                                 </div>
                             </div>
-                            <div class="card-body pb-0 pt-0">
+                            <div class="card-body pb-0 pt-3">
                                 <!-- row para tabla  -->
                                 <div class="row">
                                     <div class="col-lg-12">
                                     
-                                        <table id="tbl_Analisis" class="table table-striped cell-border table-responsive-sm" style="width:100%" hidden>
+                                        <table id="tbl_Analisis" class="table table-striped cell-border display nowrap" style="width:100%" hidden>
                                             <thead class="bg-gray">
-                                                <tr>
+                                                <tr style="font-size: 15px;">
                                                     <th class="text-center">Orden_tra</th> <!-- 1 -->
                                                     <th class="text-center">id_Nor</th> <!-- 6 -->
                                                     <th class="text-center">Normativa</th> <!-- 6 -->
@@ -180,13 +176,13 @@ if(isset($_SESSION)){ }else{ session_start(); }
                     </div>
 			    </div> <!-- END div 1º card body -->
                     
-                <div class="card-body pb-0 pt-1">
+                <div class="card-body pb-0 pt-3">
                     <!-- row para tabla  -->
                     <div class="row">
                         <div class="col-lg-12">
-                        <table id="tbl_resultados"  class="table table-striped table-responsive-xl" style="width:100%">
+                        <table id="tbl_resultados"  class="table table-striped " style="width:100%">
                                 <thead class="bg-gray">
-                                    <tr>
+                                    <tr style="font-size: 15px;">
                                         <th class="text-center">Id Res</th>
                                         <th class="text-center">OT</th>
                                         <th class="text-center">Id Nor</th>
@@ -242,7 +238,6 @@ $(document).ready(function(){
                          ordering: false,
                         // paging: false,
                         searching: false,
-                        
         // pagingType: 'simple_numbers',
         
         //paging: false,            
@@ -328,12 +323,6 @@ $(document).ready(function(){
         },
     });
 
-    //******************//
-    //--BUSCAR ORDEN -//
-    //******************//
-    // $("#iptResultados").change(function() {
-    //     alert("fer");
-    // });        
     
     //******************//
     //--BUSCAR ORDEN -//
@@ -465,21 +454,17 @@ $(document).ready(function(){
     //********************************************************    
     $("#btnSave").click(function() {
 
+        var selResultado = document.getElementById("selResultados");
+        var selResultados = selResultado.options[selResultado.selectedIndex].text;
         var estado = '';
         var validacion ='';
         var validarResultadoLetras = '';
         var varResultados='';
-        var varLimiteMaxSinEspacios='';
-        var varResultadosSinEspacios='';
         
         // Si es texto contenido del select si es numero contenido del input
         if ((validarMin == 'NUMERO') && (validarMax == 'NUMERO')) {
             varResultados = $("#iptResultados").val();
-            varResultados = varResultados.replace(/,/g, '.');
-
         }else if ((validarMin == 'TEXTO') && (validarMax == 'TEXTO')){
-            var selResultado = document.getElementById("selResultados");
-            var selResultados = selResultado.options[selResultado.selectedIndex].text;
             varResultados = selResultados;
         }
         //alert(" Min->"+validarMin+" Max->"+validarMin+"  res"+varResultados);
@@ -488,28 +473,35 @@ $(document).ready(function(){
         if (varResultados.length == 0){toastr["error"]("Faltan datos para guardar", "!Atención!");return;}
 
         validarResultadoLetras = validarTexto(varResultados);
-        
-        varLimiteMaxSinEspacios = varLimiteMax.replace(/ /g, "");
-        varResultadosSinEspacios = varResultados.replace(/ /g, "");
-        
+
         if (validarMin == 'TEXTO') {
-            if (varLimiteMaxSinEspacios == varResultadosSinEspacios ) {
-                resCondicionMin = true;
-                resCondicionMax = true;
-            }else if (varLimiteMaxSinEspacios != varResultadosSinEspacios ) {
-                resCondicionMin = true;
-                resCondicionMax = false;
-            }
-            //console.log("varLimiteMaxSinEspacios "+varLimiteMaxSinEspacios+"   varResultadosSinEspacios "+varResultadosSinEspacios);
-            //console.log(varLimiteMax.length+"   "+varResultados.length);
-            
-            //console.log("VALICION TEXTO  "+resCondicionMax+" "+resCondicionMin);
+           
+            //console.log("es texto entro");
+            //if ((varResultados === varLimiteMin) || (varResultados === varLimiteMax)){
+                    //console.log("validando   min->"+varLimiteMin+"   max->"+varLimiteMax);
+                    // Validacion cualitativa POSITIVO/NEGA0TIVO
+                    if ((varResultados.includes('NEGATIVO')) && (varResultados.includes('NEGATIVO')) ) {
+                        resCondicionMin = true;
+                        resCondicionMax = true;
+                    }else if ((varResultados.includes('POSITIVO')) && (varResultados.includes('POSITIVO')) ) {
+                        resCondicionMin = false;
+                        resCondicionMax = false;
+                    }else{
+                        console.log("datos ingresados no coinsiden con la normatva seleccionada");      
+                        return false;
+                    }
+                    //return;
+
+            //}else{
+            //    alert("datos ingresados no coinsiden con la normatva seleccionada");
+            //    return false;
+            //}
         } else{ // CASO CONTRARIO ES NUMERO
             if (validarResultadoLetras != 'NUMERO') {
                 alert("EL RESULTADO NO COINSIDE CON EL TIPO DE INGRESO DE DATOS");
                 return false;
             }
-            //console.log("ES NUMERO");
+            console.log("ES NUMERO");
             
             //Validamos el limite Maximo
             if (varLimiteMax.includes('<')) {
@@ -551,10 +543,9 @@ $(document).ready(function(){
             validacion = 'NO CUMPLE';
             estado = 'RETENIDO';
         }
-        //console.log("VALIDACION-> "+validacion+"    ESTADO->"+estado);
-        console.log("resCondicionMin-> "+resCondicionMin+"    resCondicionMax->"+resCondicionMax);
+        console.log("VALIDACION-> "+validacion+"    ESTADO->"+estado);
 
-//return;
+return;
         $.ajax({
                 async: false,
                 url:"../ajax/resultados.ajax.php",
@@ -563,7 +554,7 @@ $(document).ready(function(){
                     'accion':2, // GUARDAR
                     'orden_trabajo': varOrdenTrabajo,
                     'id_normativa_analisis': varIdNormativa,
-                    'resultado': varResultados,
+                    'resultado': $("#iptResultados").val(),
                     'fecha_creacion': $("#iptFechaResultados").val(),
                     'validacion': validacion,
                     'estado': estado
@@ -573,7 +564,6 @@ $(document).ready(function(){
                     console.log("guardar ",respuesta);
                     if (respuesta == 'existe'){
                         toastr["error"]("Registro ya existe", "!Atención!");
-                        return false;
                     }else if (respuesta == 'ok'){
                         toastr["success"]("Ingreso de Información Correcta", "!Atención!");
                         table.ajax.reload();
@@ -663,7 +653,22 @@ function limpiar(){
     $("#iptObservacion").val("");
 }
 
-   
+    function ValidateMoney(_id)
+    {
+		//     var amount = document.getElementById(_id).value;
+		//     console.log(amount);
+        //            //d+ permite caracteres enteros
+        //            //si hay un caracter que no es dígito entonces evalua lo que está en paréntesis (?) significa opcional
+		//     var patron = /^(\d+(.{1}\d{2})?)$/;     		    
+        //             if (!patron.test(amount))
+		//     {
+		//         window.alert('cantidad ingresada incorrectamente');
+		//         document.getElementById('amount').focus();
+		//         return false;
+        // }
+		//     else
+		//         return true;
+	}
 
     function validarTexto(valor) {
         contar_numeros = valor.replace(/[^0-9]/g,"").length;

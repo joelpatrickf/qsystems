@@ -10,11 +10,12 @@
 
     <title>Q Analytics</title>
 
+    
     <!-- Bootstrap -->
     <link href="vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-
     
     <!-- Custom Theme Style -->
+    <!-- ESTA CAMBIA EL ESTILO DE LAS DATATABLEE -->
     <link href="build/css/custom.min.css" rel="stylesheet">
     
     <!-- Font Awesome -->
