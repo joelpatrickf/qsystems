@@ -248,7 +248,7 @@ $(document).ready(function(){
         console.log(data);
         id_normativa = data[1];
 
-        //alert(data[4]);
+
         $("#iptNormativa").val(data[2]);
         $("#iptCategoria").val(data[3]);
         $("#iptAnalisis").val(data[5]);
@@ -256,8 +256,6 @@ $(document).ready(function(){
         $("#iptLimiteMaximo").val(data[7]);
         $("#iptUnidadMedida").val(data[10]);
         
-
-        //$("#iptTipoAnalisis").val(data[4]);
         buscarEnSelect(data[4],'iptTipoAnalisis')
 
         $("#btnClose" ).prop( "hidden", false );
@@ -273,6 +271,11 @@ $(document).ready(function(){
     //-GUARDAR NORMATIVA
     //********************************************************    
     $("#btnSave").click(function() {
+        var varLimiteMinimo = "";
+        var varLimiteMaximo = "";
+        var resValidarLimiteMin = "";
+        var resValidarLimiteMax = "";
+        var varUnidadMedida = "";
 
         const msg = [];
         if ($("#iptNormativa").val() == ''){msg.push('Normativa');}
@@ -293,8 +296,32 @@ $(document).ready(function(){
             $("#btnClose" ).prop( "hidden", true );
             return;
         }
+        // validar si es texto o numero para cambiar coma por punto
+        varMinimo = $("#iptLimiteMinimo").val();
+        varMaximo = $("#iptLimiteMaximo").val();
+        varUnidadMedida = $("#iptUnidadMedida").val();
         
+        resValidarLimiteMin = validarTexto(varMinimo);
+        resValidarLimiteMax = validarTexto(varMaximo);
 
+        if (resValidarLimiteMin != resValidarLimiteMax){
+            toastr["error"]("Lo ingresado no es consistente", "!Atención!");
+            return false;
+        }
+        if ((resValidarLimiteMin == 'NUMERO') && (resValidarLimiteMax == 'NUMERO')){
+            varMinimo = varMinimo.replace(/,/g, '.');
+            varMaximo = varMaximo.replace(/,/g, '.');
+        }
+        
+        if ((resValidarLimiteMin == 'TEXTO') && (resValidarLimiteMax == 'TEXTO')){
+            if (varUnidadMedida.includes('/')){
+            }else{
+
+                toastr["error"]("La unidad de medida no corresponde a lo contenido en Limites Máximo y Mínimo, este debera contener Max/Min separados por barra invertida /", "!Atención!");
+
+                return false;
+            }
+        }        
 
         $.ajax({
                 async: false,
@@ -306,8 +333,8 @@ $(document).ready(function(){
                     'categoria': $("#iptCategoria").val(),
                     'tipo_analisis': $("#iptTipoAnalisis").val(),
                     'analisis': $("#iptAnalisis").val(),
-                    'limite_minimo': $("#iptLimiteMinimo").val(),
-                    'limite_maximo': $("#iptLimiteMaximo").val(),
+                    'limite_minimo': varMinimo,
+                    'limite_maximo': varMaximo,
                     'id_normativa': id_normativa,
                     'unidad_medida': $("#iptUnidadMedida").val()
                 },
@@ -402,4 +429,15 @@ function buscarEnSelect(abuscar,select1)
 		}
 	}
 }
+
+    function validarTexto(valor) {
+        contar_numeros = valor.replace(/[^0-9]/g,"").length;
+        if ( contar_numeros == 0){
+            resultado = 'TEXTO';
+        }else{
+            resultado ='NUMERO';
+        }
+        //console.log("# "+contar_numeros+"  resultado->"+resultado);
+        return resultado;
+    }
 </script>

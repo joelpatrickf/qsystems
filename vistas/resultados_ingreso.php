@@ -12,12 +12,8 @@ if(isset($_SESSION)){ }else{ session_start(); }
 
     .boldSpan {
         font-weight:bold;
-        font-size: x-small;
+        /* font-size: x-small; */
         color:#2E2C40;
-        margin-left: 0px!important;
-        margin-right: 0px!important;
-        padding-left: 0px!important;
-        padding-right: 0px!important;
     }
 
     .Span1 {
@@ -27,35 +23,12 @@ if(isset($_SESSION)){ }else{ session_start(); }
         padding: 0rem;
     }    
 
-    /* .paging_full_numbers {
-         width: 100%;
-    }
-    div.dt-container .dt-paging .dt-paging-button {
-        padding: 0px;
-    }
-
-    table.dataTable {
-        margin: 0px;
-    }    
-
-    tr { 
-        height: 10px!important; 
-        font-size: 11px !important;
-        vertical-align: middle;
-    }
-    .table td, .table th {
-        vertical-align: middle!important;
-        margin: 0px;
-        padding: 0px 3px !important;
-    } */
-
-    /* table.dataTable tbody th, table.dataTable tbody td {
-        padding: 0px 3px !important;
-        font-size: 12px !important;
-        height: 10px;
-    } */
     table.dataTable tbody th, table.dataTable tbody td {
         padding: 8px 10px;
+    }    
+
+    div.dt-container .dt-paging .dt-paging-button {
+        padding: 0px;
     }    
 </style>
  
@@ -328,12 +301,7 @@ $(document).ready(function(){
         },
     });
 
-    //******************//
-    //--BUSCAR ORDEN -//
-    //******************//
-    // $("#iptResultados").change(function() {
-    //     alert("fer");
-    // });        
+ 
     
     //******************//
     //--BUSCAR ORDEN -//
@@ -450,7 +418,7 @@ $(document).ready(function(){
                     
                     
                 }else{
-                    alert("no existe orden de trabajo");
+                    toastr["error"]("No existe Orden de Trabajo", "!Atención!");
                 }
                 
                 
@@ -482,7 +450,6 @@ $(document).ready(function(){
             var selResultados = selResultado.options[selResultado.selectedIndex].text;
             varResultados = selResultados;
         }
-        //alert(" Min->"+validarMin+" Max->"+validarMin+"  res"+varResultados);
 
         if (typeof varAnalisis == "undefined" || varAnalisis == null){toastr["error"]("No existen datos para guardar", "!Atención!");return;}
         if (varResultados.length == 0){toastr["error"]("Faltan datos para guardar", "!Atención!");return;}
@@ -500,17 +467,13 @@ $(document).ready(function(){
                 resCondicionMin = true;
                 resCondicionMax = false;
             }
-            //console.log("varLimiteMaxSinEspacios "+varLimiteMaxSinEspacios+"   varResultadosSinEspacios "+varResultadosSinEspacios);
-            //console.log(varLimiteMax.length+"   "+varResultados.length);
-            
-            //console.log("VALICION TEXTO  "+resCondicionMax+" "+resCondicionMin);
+
         } else{ // CASO CONTRARIO ES NUMERO
             if (validarResultadoLetras != 'NUMERO') {
-                alert("EL RESULTADO NO COINSIDE CON EL TIPO DE INGRESO DE DATOS");
+                toastr["error"]("El resultado no coinside con el tipo de Ingreso de Datos", "!Atención!");
                 return false;
             }
-            //console.log("ES NUMERO");
-            
+
             //Validamos el limite Maximo
             if (varLimiteMax.includes('<')) {
                 valorMax = varLimiteMax.replace("<", "");
@@ -551,10 +514,9 @@ $(document).ready(function(){
             validacion = 'NO CUMPLE';
             estado = 'RETENIDO';
         }
-        //console.log("VALIDACION-> "+validacion+"    ESTADO->"+estado);
+
         console.log("resCondicionMin-> "+resCondicionMin+"    resCondicionMax->"+resCondicionMax);
 
-//return;
         $.ajax({
                 async: false,
                 url:"../ajax/resultados.ajax.php",
@@ -657,11 +619,11 @@ $(document).ready(function(){
 });
 
 
-function limpiar(){
-    $("#iptResultados").val("");
-    $("#iptOrdenTrabajo").val("");
-    $("#iptObservacion").val("");
-}
+    function limpiar(){
+        $("#iptResultados").val("");
+        $("#iptOrdenTrabajo").val("");
+        $("#iptObservacion").val("");
+    }
 
    
 

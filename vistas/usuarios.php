@@ -1,6 +1,8 @@
 <?php 
+if(isset($_SESSION)){ }else{ session_start(); }
     //include("modulos/header.php");  
     $fechaActual = date('YmdHis', time()); 
+    // print_r($_SESSION['login']);
 ?>
 <style>
     table.dataTable.no-footer {border-bottom: 1px solid #ddd;}   

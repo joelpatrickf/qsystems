@@ -1,3 +1,16 @@
+<?php 
+session_start();
+// print_r($_SESSION);
+// exit();
+if(!isset($_SESSION['login']) ){
+    echo '<script> window.location = "http://localhost/qsystems/"</script>';
+    // echo '<script> window.location = "https://qanalytics.farmagreenscc.com/"</script>';
+    
+    session_unset();
+    session_destroy();
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>

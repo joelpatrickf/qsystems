@@ -6,8 +6,9 @@ if(isset($_SESSION)){ }else{ session_start(); }
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Login Page</title>
+	<title>Qui Analytics</title>
    <!--Made with love by Mutiullah Samim -->
+   <link rel="shortcut icon" href="vistas/images/favicon.ico" type="image/x-icon">
    
 	<!--Bootsrap 4 CDN-->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -85,10 +86,10 @@ if(isset($_SESSION)){ }else{ session_start(); }
       var pass = $("#iptPassword").val();
 
       $.ajax({
-        url:"functions/authcode.php",
+        url:"ajax/usuarios.ajax.php",
         type: "POST",
         data: {
-          'accion': 1,
+          'accion': 5,
           'usuario': usuario ,
           'clave': pass
         },
@@ -98,6 +99,7 @@ if(isset($_SESSION)){ }else{ session_start(); }
 
             if (respuesta.length >0){
               //Swal.fire({title: "!Atención!",text: "Credenciales Correctas, ingresando al sistema",icon: "info"});
+			//   alert("Credenciales CORRECTAS!");
               window.location = "vistas/";
 				
             }else{

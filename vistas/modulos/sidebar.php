@@ -1,18 +1,22 @@
 <?php 
 if(isset($_SESSION)){ }else{ session_start(); } 
-include('../functions/myfunctions.php');
-include('../controladores/constantes.php');
+// include('../functions/myfunctions.php');
+// include('../controladores/constantes.php');
 
-    if (!isset($_SESSION['login'])){
-        redirect("../../index.php","Login Continue");
-    }
+// if (!isset($_SESSION['login'])){
+//   //redirect("../../index.php","Login Continue");
+//   echo '<script> window.location = "http://qanalytics.farmagreenscc.com/index.php"</script>';
+//   session_unset();
+// }
     
     $page= substr($_SERVER['SCRIPT_NAME'],strrpos($_SERVER['SCRIPT_NAME'],"/")+1);    
 ?>
 <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a href="index.php" class="site_title"><i class="fa fa-paw"></i> <span>Q Analytics</span></a>
+            
+            
+              <a href="index.php" class="site_title"><img src="images/favicon.ico" width="30" height="30"/> <span>Q Analytics</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -24,7 +28,8 @@ include('../controladores/constantes.php');
               </div>
               <div class="profile_info">
                 <!-- <span>Bienvenido</span> -->
-                <h2>ragde Figueroa Pinargote</h2>
+                <!-- <h2>ragde Figueroa Pinargote</h2> -->
+                <h2><?php echo ucwords(strtolower($_SESSION['login'][0]->nombres));?></h2>
               </div>
             </div>
             <!-- /menu profile quick info -->
@@ -81,6 +86,7 @@ include('../controladores/constantes.php');
                 <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
               </a>
               <a data-toggle="tooltip" data-placement="top"  href="../logout.php">
+              <!-- <a data-toggle="tooltip" data-placement="top"  onclick="CargarContenido('../logout.php','')"> -->
                 <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
               </a>
             </div>
@@ -99,7 +105,7 @@ include('../controladores/constantes.php');
                 <ul class=" navbar-right">
                   <li class="nav-item dropdown open" style="padding-left: 15px;">
                     <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
-                      <img src="images/img.jpg" alt="">Fernando Figueroa
+                      <img src="images/img.jpg" alt=""> <?php echo $_SESSION['login'][0]->usuario;?>
                     </a>
                     <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
                       <a class="dropdown-item"  href="../logout.php"><i class="fa fa-sign-out pull-right"></i> Log Out</a>

@@ -1,4 +1,5 @@
 <?php 
+if(isset($_SESSION)){ }else{ session_start(); }
 require_once "../controladores/usuarios.controlador.php";
 require_once "../modelos/usuarios.modelo.php";
 
@@ -39,7 +40,21 @@ class AjaxUsuarios{
 
 		echo json_encode($usuarios3,JSON_UNESCAPED_UNICODE);
 	}    
+
+
+	public function ajaxLoginUsuarios($usuario, $password)
+	{
+		$usuarios4 = UsuarioControlador::ctrLogin($usuario, $password);
+        $_SESSION['login'] = $usuarios4;
+		echo json_encode($usuarios4,JSON_UNESCAPED_UNICODE);
+	}        
+    
 }
+
+
+
+
+
 if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR
 	$usuarios = new AjaxUsuarios();
 	$usuarios-> ajaxListarUsuarios();
@@ -90,6 +105,13 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR
 }else if (isset($_POST['accion']) && $_POST['accion'] == 4) { // ELIMINAR
 	$usuarios = new AjaxUsuarios();
 	$usuarios-> ajaxEliminarUsuarios($_POST['usuario']);
+
+
+
+}else if (isset($_POST['accion']) && $_POST['accion'] == 5) { // LOGIN
+    // print_r($_POST)
+	$login1 = new AjaxUsuarios();
+	$login1-> ajaxLoginUsuarios($_POST['usuario'],$_POST['clave']);
 
 }
 

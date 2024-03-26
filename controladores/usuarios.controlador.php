@@ -8,10 +8,13 @@ class UsuarioControlador{
 	/* *********************************
 		login de usuarios
 	**********************************/
-	public function ctrLogin($usuario, $password){
+	static public function ctrLogin($usuario, $password){
 			//$password = crypt($_POST['loginPassword'], '$2a$07$azybxcags23425sdg23sdfhsd$');
 			$respuesta = UsuarioModelo::mdlIniciarSesion($usuario,$password);
+			return $respuesta;
 			//echo json_encode($respuesta,JSON_UNESCAPED_UNICODE);
+
+
 	}
 
 	/* *********************************
