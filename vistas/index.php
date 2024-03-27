@@ -87,9 +87,11 @@ if(!isset($_SESSION['login']) ){
   <link rel="stylesheet" href="css/plantilla.css">  
 
   <!-- PROPBAR SINO FUNCIONA BORRAR -->
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tarekraafat-autocomplete.js/10.2.7/css/autoComplete.min.css"> -->
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tarekraafat-autocomplete.js/10.2.7/css/autoComplete.min.css">
+  <!-- select2 css -->
+  <link href='vendors/select2/dist/css/select2.min.css' rel='stylesheet' type='text/css'>  
 
   </head>
   <body class="nav-md">
@@ -219,16 +221,15 @@ if(!isset($_SESSION['login']) ){
         <!-- input autocomplete -->
         <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
   
-  <!-- PROPBAR SINO FUNCIONA BORRAR -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/tarekraafat-autocomplete.js/10.2.7/autoComplete.min.js"></script>
 
-
+        <!-- select2 script -->
+        <!-- <script src='vendors/select2/dist/js/select2.min.js'></script> -->
 
 
       </body>
     </html>
 
-<//?php include("modulos/footer.php"); ?>
+
 
 <script>
     function CargarContenido(pagina_php){

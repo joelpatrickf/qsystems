@@ -15,7 +15,7 @@ class AjaxResultadosVisualizacion{
 	// **********************************/
 	public function ajaxResultadosVisualizacionBuscar($lote)
 	{
-		$resultados4 = OrdenResultadosVisualizacion::ctrlResultadosVisualizacionBuscar($lote);
+		$resultados4 = ResultadosVisualizacionControlador::ctrlResultadosVisualizacionBuscar($lote);
 		echo json_encode($resultados4,JSON_UNESCAPED_UNICODE);
 	}	
 
@@ -31,11 +31,11 @@ class AjaxResultadosVisualizacion{
 	// /* *********************************
 	// 		ELIMINAR REGISTROS
 	// **********************************/
-	public function ajaxResultadosVisualizacionEliminar($orden_trabajo,$estado)
-	{
-		$resultados3 = OrdenTrabajoControlador::ctrlOrdenTrabajoEliminar($orden_trabajo,$estado);
-		echo json_encode($resultados3,JSON_UNESCAPED_UNICODE);
-	}	
+	// public function ajaxResultadosVisualizacionEliminar($orden_trabajo,$estado)
+	// {
+	// 	$resultados3 = OrdenTrabajoControlador::ctrlOrdenTrabajoEliminar($orden_trabajo,$estado);
+	// 	echo json_encode($resultados3,JSON_UNESCAPED_UNICODE);
+	// }	
 
 	
 
@@ -47,8 +47,8 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR TODOS
 
 } else if (isset($_POST['accion']) && $_POST['accion'] == 2) { // BUSCAR 
 print_r($_POST);
-	// $normativas = new AjaxResultadosVisualizacion();
-	// $normativas-> ajaxResultadosVisualizacionBuscar($_POST['orden_trabajo']);
+	$normativas = new AjaxResultadosVisualizacion();
+	$normativas-> ajaxResultadosVisualizacionBuscar($_POST['orden_trabajo']);
 
 }
 

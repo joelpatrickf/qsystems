@@ -20,11 +20,15 @@
     div.dt-container .dt-paging .dt-paging-button {
         padding: 0px;
     }
+    
 /* .ui-menu {
     background-color: black!important;
     color: white!important;
-    display: table-header-group!important;
+    width: 418px!important;
+    top: -660.889px!important; 
+    left: 485.921px!important;
 } */
+
 
 </style>    
 
@@ -67,7 +71,12 @@
                             <input type="text" id="iptProducto" class="form-control" placeholder="Producto a buscar"  disabled>
                             <input type="hidden" id="iptProductoBuscar" disabled>
                             <input type="hidden" id="iptId_item" disabled>
-                            <input type="text" name="country" id="autocomplete"/>
+                            <!-- <input type="text" name="country" id="autocomplete"/> -->
+                            
+                            <!-- SELECT 2 PARA PRODUCTOS -->
+                            <!-- <select id='selUser' style='width: 200px;'>
+                                <option value='0'>- Buscar Productos -</option>
+                            </select> -->
 
                   
                         </div>
@@ -246,7 +255,7 @@
 
 
 <!-- SELECT2 AUTOCOMPLETE -->
-<!-- <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>   -->
+<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script> -->
 
   <!-- <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script> -->
 
@@ -267,6 +276,27 @@ $(document).ready(function(){
     
     var items = []; // SE USA PARA EL INPUT DE AUTOCOMPLETE
 
+
+    // $("#selUser").select2({
+    //             ajax: {
+    //                 url: "../ajax/productos.ajax.php",
+    //                 type: "POST",
+    //                 dataType: 'json',
+    //                 delay: 250,
+    //                 data: function (params) {
+    //                     return {
+    //                         searchTerm: params.term // search term
+    //                     };
+    //                 },
+    //                 processResults: function (response) {
+    //                     console.log("fer",response);
+    //                     return {
+    //                         results: response
+    //                     };
+    //                 },
+    //                 cache: true
+    //             }
+    //         });
 
         //****************************
         //----CARGA UBICACION
@@ -431,7 +461,7 @@ $(document).ready(function(){
                 data: {'accion':4},
                 dataType: "json",
                 success: function(respuesta){
-                    //console.log("autocomplete 1",respuesta);
+                    console.log("autocomplete 1",respuesta);
                     for (let i = 0; i < respuesta.length;i++){
                         items.push(respuesta[i]['codigo_barra1']+"   "+respuesta[i]['nombre_producto']);
                     }

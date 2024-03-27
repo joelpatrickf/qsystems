@@ -69,7 +69,7 @@ if(isset($_SESSION)){ }else{ session_start(); }
 
                             </div>
 
-                            <div class="col-lg-12" id="div_tbl_resultados" hidden>
+                            <div class="col-lg-12" id="div_tbl_resultados" >
                                 <table id="tbl_resultados"  class="table table-striped table-responsive-xl" style="width:100%">
                                     <thead class="bg-gray">
                                         <tr>

@@ -77,15 +77,23 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR
     $productos = new AjaxProductos();
     $productos-> ajaxAutocomplete();
 
-}else if (isset($_POST['accion']) && $_POST['accion'] == 5) { // AUTOCOMPLETE 2
-    
+}else if ((isset($_POST['accion']) && $_POST['accion'] == 5) ) { // AUTOCOMPLETE 2
+        
     $varBuscar= $_POST['data'][0].'-'.$_POST['data'][1];
     $retorno = mb_convert_encoding( htmlspecialchars( $varBuscar, ENT_QUOTES, 'UTF-8' ), 'HTML-ENTITIES', 'UTF-8' );    
   
     $productos = new AjaxProductos();
     $productos-> ajaxBuscarProductos($retorno);
 
-} 
+}else if ( isset($_POST['searchTerm'])) { // AUTOCOMPLETE select 2
+    print_r($_POST);
+        
+    $varBuscar= 'vacio-'.$_POST['searchTerm'][1];
+    $retorno = mb_convert_encoding( htmlspecialchars( $varBuscar, ENT_QUOTES, 'UTF-8' ), 'HTML-ENTITIES', 'UTF-8' );    
+  
+    $productos = new AjaxProductos();
+    $productos-> ajaxBuscarProductos($retorno);
 
+}
 
 
