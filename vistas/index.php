@@ -80,11 +80,16 @@ if(!isset($_SESSION['login']) ){
   <!-- Toast CSS  (siempre debajo de los stilos de datatables) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     
-
+  
   <link href="css/ragde.css" rel="stylesheet" >
   
   <!-- Estilos personzalidos datatables buttons-->
   <link rel="stylesheet" href="css/plantilla.css">  
+
+  <!-- PROPBAR SINO FUNCIONA BORRAR -->
+
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tarekraafat-autocomplete.js/10.2.7/css/autoComplete.min.css">
 
   </head>
   <body class="nav-md">
@@ -162,8 +167,7 @@ if(!isset($_SESSION['login']) ){
         <!-- <script type="text/javascript" src="https://cdn.datatables.net/1.10.8/js/jquery.dataTables.min.js"></script> -->
 
 
-        <!-- input autocomplete -->
-        <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js" integrity="sha256-eTyxS0rkjpLEo16uXTS0uVCS4815lc40K2iVpWDvdSY=" crossorigin="anonymous"></script>
+
 
 
         <!--   Core JS Files   -->
@@ -211,6 +215,16 @@ if(!isset($_SESSION['login']) ){
         <script src="https://cdn.jsdelivr.net/npm/datatables-buttons-excel-styles@1.2.0/js/buttons.html5.styles.templates.min.js"></script>
 
         <script src="js/buttons.print.js"></script>
+
+        <!-- input autocomplete -->
+        <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+  
+  <!-- PROPBAR SINO FUNCIONA BORRAR -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tarekraafat-autocomplete.js/10.2.7/autoComplete.min.js"></script>
+
+
+
+
       </body>
     </html>
 

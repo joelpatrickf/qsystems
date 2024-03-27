@@ -67,8 +67,6 @@
                             <input type="text" id="iptProducto" class="form-control" placeholder="Producto a buscar"  disabled>
                             <input type="hidden" id="iptProductoBuscar" disabled>
                             <input type="hidden" id="iptId_item" disabled>
-                            <input type="text" name="country" id="autocomplete"/>
-
                   
                         </div>
                         
@@ -258,8 +256,6 @@
     var contNorma = 0;
     var numero_orden = null;
 
-
-    
 $(document).ready(function(){
     // Personalizamos el toast mensajes
     toastr.options.timeOut = 1500; // 1.5s

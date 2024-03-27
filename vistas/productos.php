@@ -5,6 +5,7 @@
     table.dataTable.no-footer {border-bottom: 1px solid #ddd;}   
     
     .paging_full_numbers {width: 100%;}    
+    
 </style>
 
 <!-- page content -->
@@ -42,7 +43,7 @@
                                 <label class="" for="iptProducto"><i class="fas fa-file-signature fs-6"></i>
                                     <span class="small">Nombre del Producto</span><span class="text-danger">*</span>
                                 </label>
-                                <input type="text" class="form-control " id="iptProducto" required disabled >
+                                <input type="text" class="form-control " id="iptProducto" required disabled autocomplete="off">
                             </div>
                         </div>
                         <!-- Columna NORMATIVA -->
