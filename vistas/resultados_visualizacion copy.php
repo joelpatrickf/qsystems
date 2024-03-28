@@ -9,10 +9,7 @@ if(isset($_SESSION)){ }else{ session_start(); }
     $usuario=$_SESSION['login'][0]->usuario;    
 ?>
 <style>
-colgroup {
-    display: none!important;
- 
-}
+
     .boldSpan {
         font-weight:bold;
         /* font-size: x-small; */
@@ -76,21 +73,21 @@ colgroup {
                                 <table id="tbl_resultados"  class="table table-striped table-responsive-xl" style="width:100%">
                                     <thead class="bg-gray">
                                         <tr>
-                                            <th class="text-center"></th>
-                                            <th class="text-center">Id_nor</th>
-                                            <th class="text-center">Id_res</th>
-                                            <th class="text-center">OT</th>
-                                            <th class="text-center">Tipo</th>
+                                            <th ></th>
                                             <th class="text-center">Analisis</th>
-                                            <th class="text-center">Categoria</th>
-                                            <th class="text-center">Normativa</th>
-                                            <th class="text-center">Lote</th>
-                                            <th class="text-center">Fecha</th>
-                                            <th class="text-center">Resultado</th>
-                                            <th class="text-center">Usuario</th>
-                                            <th class="text-center">Validacion</th>
-                                            <th class="text-center">Estado</th>
-                                            <th class="text-center">Accion</th>
+                                            <th class="text-center">categoria</th>
+                                            <th class="text-center">estado</th>
+                                            <th class="text-center">fecha_creacion</th>
+                                            <th class="text-center">id_normativa_analisis</th>
+                                            <th class="text-center">id_resultados</th>
+                                            <th class="text-center">lote</th>
+                                            <th class="text-center">normativa</th>
+                                            <th class="text-center">orden_trabajo</th>
+                                            <th class="text-center">resultado</th>
+                                            <th class="text-center">tipo_analisis</th>
+                                            <th class="text-center">usuario_creacion</th>
+                                            <th class="text-center">validacion</th>
+                                            <!-- <th class="text-center">Action</th> -->
                                         </tr>
                                     </thead>
                                     <tbody class="text-small">
@@ -228,6 +225,18 @@ $(document).ready(function(){
     //******************//
     $("#btnBuscar").click(function() {
         
+        
+        $.ajax({ //----BUSCAR 
+            url:"../ajax/resultados_visualizacion.ajax.php",
+            type: "POST",
+            data: {
+                'accion': 2,
+                'lote': $("#iptLote").val()
+            },
+            dataType: 'json',
+            success: function(respuesta){
+                console.log("lote",respuesta);
+                if (respuesta.length == 1){
                     
                     $("#div_tbl_resultados" ).prop( "hidden", false );
 
@@ -239,31 +248,30 @@ $(document).ready(function(){
                         ordering: false,
                         paging: false,
                         searching: false,
-                        //responsive:true,
+                        // responsive:true,
                         ajax:{
-                            url:"../ajax/resultados_visualizacion.ajax.php",
+                            url:"../ajax/normativas.ajax.php",
                             dataSrc: '',
                             type:"POST",            
                             data: {
-                                'accion': 2,
-                                'lote': $("#iptLote").val()
-                            },
+                                'accion':2,
+                                'lote': $("#iptOrdenTrabajo").val(),
+                            }, // 1 para listar productos
                         },
                         columns: [
-                            { "data": "vacio" },
-                            { "data": "id_normativa_analisis" },
-                            { "data": "id_resultados" },
-                            { "data": "orden_trabajo" },
-                            { "data": "tipo_analisis" },
                             { "data": "analisis" },
                             { "data": "categoria" },
-                            { "data": "normativa" },
-                            { "data": "lote" },
-                            { "data": "fecha_creacion" },
-                            { "data": "resultado" },
-                            { "data": "usuario_creacion" },
-                            { "data": "validacion" },
                             { "data": "estado" },
+                            { "data": "fecha_creacion" },
+                            { "data": "id_normativa_analisis" },
+                            { "data": "id_resultados" },
+                            { "data": "lote" },
+                            { "data": "normativa" },
+                            { "data": "orden_trabajo" },
+                            { "data": "resultado" },
+                            { "data": "tipo_analisis" },
+                            { "data": "usuario_creacion" },
+                            { "data": "validacion" }
                         ],              
 
                         responsive: {
@@ -276,12 +284,12 @@ $(document).ready(function(){
                         {"className": "dt-center", "targets": "_all"},
                         {targets:0,orderable:false,className:'control'},
 
-                        {targets:1,visible:false},
-                        {targets:2,visible:false},
                             // {targets:0,visible:false},
+                            // {targets:1,visible:false},
+                            // {targets:2,visible:false},
                             // {targets:3,visible:false},
 
-                            { responsivePriority: 1, targets: 14 },
+                            // { responsivePriority: 1, targets: 0 },
 
                             // {
                             //     targets: 1,
@@ -295,27 +303,33 @@ $(document).ready(function(){
                             //         return data;
                             //     }
                             //},                            
-                            {
-                                targets:14,
-                                orderable:false,
-                                render: function(data, type, full, meta){
-                                    return "<center>"+
-                                                    "<span class='btnNewAnalisis text-primary px-1' style='cursor:pointer;'>"+
-                                                    "<i class='fas fa-pencil-alt fs-5'></i>"+
-                                                "</span>"                                    
+                            // {
+                            //     targets:14,
+                            //     orderable:false,
+                            //     render: function(data, type, full, meta){
+                            //         return "<center>"+
+                            //                         "<span class='btnNewAnalisis text-primary px-1' style='cursor:pointer;'>"+
+                            //                         "<i class='fas fa-pencil-alt fs-5'></i>"+
+                            //                     "</span>"                                    
 
-                                            "</center>"
-                                }
-                            }     
+                            //                 "</center>"
+                            //     }
+                            // }     
                         ],
                         pageLength: 10,
                             
                     });                       
                     
                     
-                   
+                }else{
+                    toastr["error"]("No existe Orden de Trabajo", "!Atención!");
+                }
+                
+                
+            }
+        });        
 
-    }); // boton buscar
+    });
    
 
 //     //********************************************************    

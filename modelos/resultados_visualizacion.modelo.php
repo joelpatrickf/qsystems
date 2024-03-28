@@ -15,14 +15,11 @@ class ResultadosVisualizacionModelo{
 		// echo "<pre>";
 		// exit();
 
-		$stmt = Conexion::conectar()->prepare(" SELECT ot.orden_trabajo, ot.fecha_muestreo, ot.id_item, prod.nombre_producto, 
-								prod.categoria, prod.normativa, ot.planta, ubi.ubicacion,
-								prov.razon_social, ot.turno, ot.numero_muestra, ot.lote, ot.estado
-								FROM orden_trabajo ot
-								INNER JOIN productos prod ON ot.id_item=prod.id_item
-								INNER JOIN ubicacion ubi ON ubi.id_ubicacion=ot.ubicacion
-								INNER JOIN proveedores prov ON ot.id_proveedor = prov.id_proveedor
-								WHERE orden_trabajo='$lote';
+		$stmt = Conexion::conectar()->prepare("SELECT '' as vacio, res.id_resultados, res.orden_trabajo, res.id_normativa_analisis, res.fecha_creacion, res.usuario_creacion,nor.normativa, nor.categoria, nor.tipo_analisis, nor.analisis, res.resultado,res.validacion,res.estado, ot.lote
+												FROM resultados res
+												INNER JOIN normativas nor ON res.id_normativa_analisis=nor.id_normativa
+												INNER JOIN orden_trabajo ot ON res.orden_trabajo=ot.orden_trabajo
+												where ot.lote = '$lote'
 													");
 
 		$stmt->execute();

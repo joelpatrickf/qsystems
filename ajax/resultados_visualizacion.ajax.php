@@ -46,9 +46,9 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR TODOS
     $normativas-> ajaxResultadosVisualizacionListar();
 
 } else if (isset($_POST['accion']) && $_POST['accion'] == 2) { // BUSCAR 
-print_r($_POST);
+// print_r($_POST);
 	$normativas = new AjaxResultadosVisualizacion();
-	$normativas-> ajaxResultadosVisualizacionBuscar($_POST['orden_trabajo']);
+	$normativas-> ajaxResultadosVisualizacionBuscar($_POST['lote']);
 
 }
 

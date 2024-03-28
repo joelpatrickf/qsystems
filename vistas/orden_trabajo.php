@@ -6,9 +6,6 @@
     $fechaActual = date('YmdHis', time()); 
     $SoloFechaActual = date('Y-m-d');
 ?>
-    <!-- para el SELECT2 -->
-    <!-- <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> -->
-    <!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css"> -->
         
 <style>
     th,td {
@@ -52,174 +49,172 @@
 				<div class="card-body pb-0 pt-0">
 	                <form>
 
-                    <div class="row">
-                        <!-- Columna FECHA -->
-                        <div class="col-12 col-lg-2">
-                            <div class="form-group mb-2">
-                                <label class="" for="iptFecha"><i class="fas fa-calendar fs-6"></i>
-                                    <span class="small">Fecha</span><span class="text-danger">*</span>
-                                </label>
-                                <input type="date" class="form-control" id="iptFecha" required disabled>
+                        <div class="row">
+                            <!-- Columna FECHA -->
+                            <div class="col-12 col-lg-2">
+                                <div class="form-group mb-2">
+                                    <label class="" for="iptFecha"><i class="fas fa-calendar fs-6"></i>
+                                        <span class="small">Fecha</span><span class="text-danger">*</span>
+                                    </label>
+                                    <input type="date" class="form-control" id="iptFecha" required disabled>
+                                </div>
                             </div>
-                        </div>
 
-                        <!-- Columna BUUUUUUUSCAR -->
-                        <div class="col-12 col-lg-4">
-                            <label class="" for="iptProducto"><i class="fa fa-search fs-6"></i>
-                                    <span class="small">Buscar</span><span class="text-danger">*</span>
-                            </label>                            
-                            <input type="text" id="iptProducto" class="form-control" placeholder="Producto a buscar"  disabled>
-                            <input type="hidden" id="iptProductoBuscar" disabled>
-                            <input type="hidden" id="iptId_item" disabled>
-                            <!-- <input type="text" name="country" id="autocomplete"/> -->
+                            <!-- Columna BUUUUUUUSCAR -->
+                            <div class="col-12 col-lg-4">
+                                <label class="" for="iptProducto"><i class="fa fa-search fs-6"></i>
+                                        <span class="small">Buscar</span><span class="text-danger">*</span>
+                                </label>                            
+                                <input type="text" id="iptProducto" class="form-control" placeholder="Producto a buscar"  disabled>
+                                <input type="hidden" id="iptProductoBuscar" disabled>
+                                <input type="hidden" id="iptId_item" disabled>
+                                <!-- <input type="text" name="country" id="autocomplete"/> -->
+                                
+                                <!-- SELECT 2 PARA PRODUCTOS -->
+                                <!-- <select id='selUser' style='width: 200px;'>
+                                    <option value='0'>- Buscar Productos -</option>
+                                </select> -->
+
+                    
+                            </div>
                             
-                            <!-- SELECT 2 PARA PRODUCTOS -->
-                            <!-- <select id='selUser' style='width: 200px;'>
-                                <option value='0'>- Buscar Productos -</option>
-                            </select> -->
+                            
+                            <!-- Columna Norma -->
+                            <div class="col-12 col-lg-3">
+                                <div class="form-group mb-2">
+                                    <label class="" for="iptNorma"><i class="fas fa-file-signature fs-6"></i>
+                                        <span class="small">Normativa</span><span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control " id="iptNorma" required   disabled>
+                                    <!-- <input type="hidden" class="form-control " id="iptIdNormativa"> -->
+                                </div>
+                            </div>
 
-                  
-                        </div>
+                            <!-- Columna Categoria -->
+                            <div class="col-12 col-lg-3">
+                                <div class="form-group mb-2">
+                                    <label class="" for="iptCategoria"><i class="fas fa-file-signature fs-6"></i>
+                                        <span class="small">Categoria</span><span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control " id="iptCategoria" required  disabled>
+                                </div>
+                            </div>
+
+
+                            <!-- Columna Presentación -->
+                            <div class="col-12 col-lg-3" hidden>
+                                <div class="form-group mb-2">
+                                    <label class="" for="iptPresentacion"><i class="fas fa-file-signature fs-6"></i>
+                                        <span class="small">Presentación</span><span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" id="iptPresentacion" required  disabled>
+                                </div>
+                            </div>
                         
                         
-                        <!-- Columna Norma -->
-                        <div class="col-12 col-lg-3">
-                            <div class="form-group mb-2">
-                                <label class="" for="iptNorma"><i class="fas fa-file-signature fs-6"></i>
-                                    <span class="small">Normativa</span><span class="text-danger">*</span>
-                                </label>
-                                <input type="text" class="form-control " id="iptNorma" required   disabled>
-                                <!-- <input type="hidden" class="form-control " id="iptIdNormativa"> -->
+                            <!-- Columna PLANTA -->
+                            <div class="col-4 col-lg-2">
+                                <div class="form-group mb-2">
+                                    <label class="" for="selPlanta"><i class="fas fa-building fs-6"></i>
+                                        <span class="small">Planta</span><span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-control " aria-label=".form-select-sm example" id="selPlanta"  disabled>
+                                        <option value="0">Planta</option>
+                                            <option value="PILLARO">PILLARO</option>
+                                            <option value="RIOBAMBA">RIOBAMBA</option>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
+    
+                            <!-- Columna UBICACION -->
+                            <div class="col-4 col-lg-2">
+                                <div class="form-group mb-2">
+                                    <label class="" for="selUbicacion"><i class="fa fa-location-arrow fs-6"></i>
+                                        <span class="small">Ubicacion</span><span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-control " aria-label=".form-select-sm example" id="selUbicacion"  disabled>
 
-                        <!-- Columna Categoria -->
-                        <div class="col-12 col-lg-3">
-                            <div class="form-group mb-2">
-                                <label class="" for="iptCategoria"><i class="fas fa-file-signature fs-6"></i>
-                                    <span class="small">Categoria</span><span class="text-danger">*</span>
-                                </label>
-                                <input type="text" class="form-control " id="iptCategoria" required  disabled>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
 
+                            <!-- Columna PROVEEDOR -->
+                            <div class="col-4 col-lg-2">
+                                <div class="form-group mb-2">
+                                    <label class="" for="selProveedor"><i class="fas fa-user fs-6"></i>
+                                        <span class="small">Proveedor</span><span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-control " aria-label=".form-select-sm example" id="selProveedor"  disabled>
 
-                        <!-- Columna Presentación -->
-                        <div class="col-12 col-lg-3">
-                            <div class="form-group mb-2">
-                                <label class="" for="iptPresentacion"><i class="fas fa-file-signature fs-6"></i>
-                                    <span class="small">Presentación</span><span class="text-danger">*</span>
-                                </label>
-                                <input type="text" class="form-control" id="iptPresentacion" required  disabled>
+                                    </select>
+                                </div>
                             </div>
-                        </div>
-                       
-                       
-                        <!-- Columna PLANTA -->
-                       <div class="col-4 col-lg-2">
-                            <div class="form-group mb-2">
-                                <label class="" for="selPlanta"><i class="fas fa-building fs-6"></i>
-                                    <span class="small">Planta</span><span class="text-danger">*</span>
-                                </label>
-			                    <select class="form-control " aria-label=".form-select-sm example" id="selPlanta"  disabled>
-                                    <option value="0">Planta</option>
-                                        <option value="PILLARO">PILLARO</option>
-                                        <option value="RIOBAMBA">RIOBAMBA</option>
-			                    </select>
-                            </div>
-                        </div>
- 
-                        <!-- Columna UBICACION -->
-                        <div class="col-4 col-lg-2">
-                            <div class="form-group mb-2">
-                                <label class="" for="selUbicacion"><i class="fa fa-location-arrow fs-6"></i>
-                                    <span class="small">Ubicacion</span><span class="text-danger">*</span>
-                                </label>
-			                    <select class="form-control " aria-label=".form-select-sm example" id="selUbicacion"  disabled>
+                            
 
-			                    </select>
-                            </div>
-                        </div>
+                            <!-- Columna TURNO -->
+                            <div class="col-4 col-lg-2">
+                                <div class="form-group mb-2">
+                                    <label class="" for="selTurno"><i class="fas fa-calendar fs-6"></i>
+                                        <span class="small">Turno</span><span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-control " aria-label=".form-select-sm example" id="selTurno"  disabled>
+                                        <option value="0">Turno</option>
+                                            <option value="DIA">DIA</option>
+                                            <option value="NOCHE">NOCHE</option>
+                                    </select>
+                                </div>
+                            </div>                        
+                            
+                            <!-- Columna USUARIOS -->
+                            <div class="col-4 col-lg-2">
+                                <div class="form-group mb-2">
+                                    <label class="" for="selUsuarios"><i class="fas fa-user fs-6"></i>
+                                        <span class="small">Usuarios</span><span class="text-danger">*</span>
+                                    </label>
+                                    <select class="form-control " aria-label=".form-select-sm example" id="selUsuarios"  disabled>
+                                    </select>
+                                </div>
+                            </div>                      
 
-                        <!-- Columna PROVEEDOR -->
-                        <div class="col-4 col-lg-2">
-                            <div class="form-group mb-2">
-                                <label class="" for="selProveedor"><i class="fas fa-user fs-6"></i>
-                                    <span class="small">Proveedor</span><span class="text-danger">*</span>
-                                </label>
-			                    <select class="form-control " aria-label=".form-select-sm example" id="selProveedor"  disabled>
-
-			                    </select>
+                            <!-- Columna MUESTRA -->
+                            <div class="col-12 col-lg-2">
+                                <div class="form-group mb-2">
+                                    <label class="" for="iptMuestra"><i class="fas fa-barcode fs-6"></i>
+                                        <span class="small">Muestra</span><span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" id="iptMuestra" required disabled >
+                                </div>
                             </div>
-                        </div>
-                        
 
-                        <!-- Columna TURNO -->
-                        <div class="col-4 col-lg-2">
-                            <div class="form-group mb-2">
-                                <label class="" for="selTurno"><i class="fas fa-calendar fs-6"></i>
-                                    <span class="small">Turno</span><span class="text-danger">*</span>
-                                </label>
-			                    <select class="form-control " aria-label=".form-select-sm example" id="selTurno"  disabled>
-                                    <option value="0">Turno</option>
-                                        <option value="DIA">DIA</option>
-                                        <option value="NOCHE">NOCHE</option>
-			                    </select>
-                            </div>
+                            <!-- Columna LOTE -->
+                            <div class="col-12 col-lg-2">
+                                <div class="form-group mb-2">
+                                    <label class="" for="iptLote"><i class="fas fa-barcode fs-6"></i>
+                                        <span class="small">Lote</span><span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" id="iptLote" required disabled>
+                                </div>
+                            </div>                        
+                            <!-- Columna ESTADO -->
+                            <div class="col-12 col-lg-2">
+                                <div class="form-group mb-2">
+                                    <label class="" for="iptEstado"><i class="fas fa-signal fs-6"></i>
+                                        <span class="small">Estado</span><span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" id="iptEstado" required disabled >
+                                </div>
+                            </div>     
+
                         </div>                        
-                          
-                        <!-- Columna USUARIOS -->
-                          <div class="col-4 col-lg-2">
-                            <div class="form-group mb-2">
-                                <label class="" for="selUsuarios"><i class="fas fa-user fs-6"></i>
-                                    <span class="small">Usuarios</span><span class="text-danger">*</span>
-                                </label>
-			                    <select class="form-control " aria-label=".form-select-sm example" id="selUsuarios"  disabled>
-			                    </select>
-                            </div>
-                        </div>                      
-
-                        <!-- Columna MUESTRA -->
-                        <div class="col-12 col-lg-2">
-                            <div class="form-group mb-2">
-                                <label class="" for="iptMuestra"><i class="fas fa-barcode fs-6"></i>
-                                    <span class="small">Muestra</span><span class="text-danger">*</span>
-                                </label>
-                                <input type="text" class="form-control" id="iptMuestra" required disabled >
-                            </div>
-                        </div>
-
-                        <!-- Columna LOTE -->
-                        <div class="col-12 col-lg-2">
-                            <div class="form-group mb-2">
-                                <label class="" for="iptLote"><i class="fas fa-barcode fs-6"></i>
-                                    <span class="small">Lote</span><span class="text-danger">*</span>
-                                </label>
-                                <input type="text" class="form-control" id="iptLote" required disabled>
-                            </div>
-                        </div>                        
-                        <!-- Columna ESTADO -->
-                        <div class="col-12 col-lg-2">
-                            <div class="form-group mb-2">
-                                <label class="" for="iptEstado"><i class="fas fa-signal fs-6"></i>
-                                    <span class="small">Estado</span><span class="text-danger">*</span>
-                                </label>
-                                <input type="text" class="form-control" id="iptEstado" required disabled >
-                            </div>
-                        </div>     
-
-					</div>                        
-	                  <!-- <button type="button" class="btn btn-primary" id="btnSave">Save</button> -->
 	                </form>        
-
 				</div> 
 			</div> <!-- END div 1º card body -->
                 
                 <div class="card-body pb-0 pt-3">
                     <!-- row para tabla  -->
                     <div class="row">
-                        <div class="col-lg-12">
-                        <table id="tbl_orden_trabajo" class="table table-striped cell-border w-100 shadow  " width="100%">
+                        <div class="col-12">
+                            <table id="tbl_orden_trabajo" class="table table-striped cell-border w-100 shadow  " width="100%">
                                 <thead class="bg-gray">
                                     <tr style="font-size: 15px;">
                                         <th ></th> <!-- 1 -->
@@ -253,11 +248,6 @@
 	</div>
 
 
-
-<!-- SELECT2 AUTOCOMPLETE -->
-<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script> -->
-
-  <!-- <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script> -->
 
 
 <script type="text/javascript">

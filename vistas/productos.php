@@ -49,11 +49,11 @@
                         <!-- Columna NORMATIVA -->
                         <div class="col-4 col-lg-3 pb-0">
                             <div class="form-group mb-2">
-                                <label class="" for="selNormativa"><i class="fas fa-user fs-6"></i>
+                                <label class="" for="iptNormativa"><i class="fas fa-user fs-6"></i>
                                     <span class="small">Normativa</span><span class="text-danger">*</span>
                                 </label>
-			                    <select class="form-control " aria-label=".form-select-sm example" id="selNormativa" disabled >
-			                    </select>
+                                <input type="text" class="form-control" id="iptNormativa" required disabled autocomplete="off">
+                                <input type="hidden" id="iptNormativa_hidden" >
                             </div>
                         </div>    
                         <!-- Columna Categoria -->
@@ -78,7 +78,7 @@
                         </div>
                                                 
                        <!-- Columna UNIDAD DE MEDIDA -->
-                       <div class="col-4 col-lg-2">
+                       <div class="col-4 col-lg-3">
                             <div class="form-group mb-2">
                                 <label class="" for="selUnidadMedida"><i class="fas fa-user fs-6"></i>
                                     <span class="small">Unidad de Medida</span><span class="text-danger">*</span>
@@ -142,32 +142,41 @@ $(document).ready(function(){
     // Personalizamos el toast mensajes
     toastr.options.timeOut = 1500; // 1.5s
     toastr.options.closeButton = true;
+    var items = []; // SE USA PARA EL INPUT DE AUTOCOMPLETE
 
-         //****************************
-        //----CARGA NORMATIVA
-        //****************************
+
+        //*******************autocomplete*************************    
+        //-TRAER LISTADO DE PRODUCTOS PARA INPUT DE AUTOCOMPLETADO
+        //********************************************************    
         $.ajax({
-            url:"../ajax/normativas.ajax.php",
-            type: "POST",
-            data: {'accion': 4}, // 1  lista 
-            dataType: 'json',
-            success: function(respuesta){
-                console.log(respuesta);
-                var options = '<option selected value="0">Normativa</option>';
-                for (let index = 0; index < respuesta.length;index++){
-                    options = options + '<option value='+respuesta[index]['normativa']+'>'+respuesta[index]['normativa']+'</option>';
-
-
+                async: false,
+                url:"../ajax/normativas.ajax.php",
+                type: "POST",
+                data: {'accion': 4}, // 1  lista DISTINCT
+                dataType: 'json',
+                success: function(respuesta){
+                    console.log("autocomplete 1",respuesta);
+                    for (let i = 0; i < respuesta.length;i++){
+                        items.push(respuesta[i]['normativa']+" | "+respuesta[i]['categoria']);
+                    }
+                    $("#iptNormativa").autocomplete({
+                        source: items,
+                        select: function(event, ui){
+                            
+                            const myArray = ui.item.value.split(" | ");
+                            // varProducto = myArray[0];
+                            // varProducto = myArray[1];
+                            $("#iptNormativa_hidden").val(myArray[0]);
+                            $("#iptCategoria").val(myArray[1]);
+                            $("#iptPresentacion").focus();
+                            
+                            
+                        }
+                    })
                 }
-                $("#selNormativa").html(options);
-                varNormativas = respuesta;
-                
+            }); 
 
 
-            }
-        });
- 
- 
     //********************************************************    
     //-CARGA DE USUARIOS EXISTENTES
     //********************************************************    
@@ -206,15 +215,14 @@ $(document).ready(function(){
         },
         columnDefs:[
 
-        {"className": "dt-center", "targets": "_all"},
-        {targets:0,orderable:false,className:'control'},
-            // {targets:0,visible:false},
-            // {targets:7,visible:false},
-            // {targets:8,visible:false},
+            {"className": "dt-center", "targets": "_all"},
+            {targets: 0,orderable:false,className:'control'},
+            {targets: 2, width: '30%'},
+            {targets: 6, className: 'dt-body-center'},
+            {targets: 5, visible:false},
 
-            { responsivePriority: 1, targets: 9 },
-            { responsivePriority: 2, targets: 2 },
-            {targets:8,visible:false,},
+            {targets: 9, responsivePriority: 1 },
+            {targets: 8, visible:false,},
             {
                 targets:9,
                 orderable:false,
@@ -246,22 +254,6 @@ $(document).ready(function(){
         }, 
     });
 
-    //******************//
-    //--BOTON SELECT NORMATIVA -//
-    //******************//
-    $("#selNormativa").change(function() {
-        //---selNormativa
-        var varNormativaSel1 = document.getElementById("selNormativa");
-        var varNormativaSel = varNormativaSel1.options[varNormativaSel1.selectedIndex].text;
-
-        for (let i = 0; i < varNormativas.length; i++) {
-            if (varNormativas[i]["normativa"] == varNormativaSel)  {
-                //console.log(varNormativas[i]["normativa"]);
-                $("#iptCategoria").val(varNormativas[i]["categoria"]);
-            }
-        }
-    });
-
 
     //******************//
     //--BOTON EDITAR -//
@@ -269,7 +261,7 @@ $(document).ready(function(){
 
     $('#tbl_usuarios tbody').on('click','.btnEditar', function(){
         accion = 3; //-GUARDAR MODIFICACION
-        
+        $('#iptNormativa').prop('readonly', false);
         
         //---------------------------------------
         var data = table.row($(this).parents('tr')).data();
@@ -290,7 +282,9 @@ $(document).ready(function(){
         
         
         buscarSelect(var_UnidadMedida,'selUnidadMedida')
-        buscarSelect(data[3],'selNormativa')
+        
+        $("#iptNormativa").val(data[3]);
+        // buscarSelect(data[3],'selNormativa')
         
         // alert(data[3]);
         $("#btnClose" ).prop( "hidden", false );
@@ -317,6 +311,22 @@ $(document).ready(function(){
     })     
      $("#btnNew").click(function() {
         accion=2;
+
+        $('#iptNormativa').prop('readonly', false);
+
+        //********************************************************    
+        //-AUTOCOMPLETE BUSCAR
+        //********************************************************  
+        $( "#iptNormativa" ).blur(function() {
+            setTimeout(() => {
+                $("#iptNormativa").val($("#iptNormativa_hidden").val());
+                $('#iptNormativa').prop('readonly', true);
+
+            }, 1);        
+
+        } );
+
+
         $("#btnClose" ).prop( "hidden", false );
         desBloquearInputs();
         $("#iptCodigoBarra").focus();
@@ -327,13 +337,15 @@ $(document).ready(function(){
     //********************************************************    
     $("#btnSave").click(function() {
         //---selNormativa
-        var varNormativaSel1 = document.getElementById("selNormativa");
+
         
         const msg = [];
         var codigoBarra =  $("#iptCodigoBarra").val();
         var producto =  $("#iptProducto").val();
         var categoria =  $("#iptCategoria").val();
-        var normativa = varNormativaSel1.options[varNormativaSel1.selectedIndex].text;
+        
+        var normativa = $("#iptNormativa").val();;
+
         var presentacion =  $("#iptPresentacion").val();
 
         var um1 = document.getElementById("selUnidadMedida");
@@ -398,7 +410,7 @@ $(document).ready(function(){
 function desBloquearInputs(){
     $("#iptCodigoBarra").prop( "disabled", false );
     $("#iptProducto").prop( "disabled", false );
-    $("#selNormativa").prop( "disabled", false );
+    $("#iptNormativa").prop( "disabled", false );
     //$("#iptCategoria").prop( "disabled", false );
     $("#iptPresentacion").prop( "disabled", false );
     $("#selUnidadMedida").prop( "disabled", false );
@@ -407,7 +419,7 @@ function desBloquearInputs(){
 function bloquearInputs(){
     $("#iptCodigoBarra").prop( "disabled", true );
     $("#iptProducto").prop( "disabled", true );
-    $("#selNormativa").prop( "disabled", true );    
+    $("#iptNormativa").prop( "disabled", true );    
     //$("#iptCategoria").prop( "disabled", true );
     $("#iptPresentacion").prop( "disabled", true );
     $("#selUnidadMedida").prop( "disabled", true );
@@ -415,7 +427,7 @@ function bloquearInputs(){
 function limpiar(){
     $("#iptCodigoBarra").val("");
     $("#iptProducto").val("");
-    $("#selNormativa").val(0);
+    $("#iptNormativa").val("");
     $("#iptCategoria").val("");
     $("#iptPresentacion").val("");
     $("#selUnidadMedida").val(0);

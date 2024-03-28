@@ -9,7 +9,9 @@ if(isset($_SESSION)){ }else{ session_start(); }
     $usuario=$_SESSION['login'][0]->usuario;    
 ?>
 <style>
-
+    colgroup {
+        display: none!important;
+    }
     .boldSpan {
         font-weight:bold;
         /* font-size: x-small; */
@@ -387,18 +389,18 @@ $(document).ready(function(){
                             { responsivePriority: 1, targets: 8 },
                             { responsivePriority: 1, targets: 9 },
 
-                            {
-                                targets: 5,
-                                render: function (data, type, row) {
-                                    if (type === 'display') {
-                                    return data.replace(/,/g, '<br>');
-                                    }
-                                    if (type === 'export') {
-                                    return data;
-                                    }
-                                    return data;
-                                }
-                            },                            
+                            //{
+                                //targets: 5,
+                                //render: function (data, type, row) {
+                                    //if (type === 'display') {
+                                    //return data.replace(/,/g, '<br>');
+                                    //}
+                                    //if (type === 'export') {
+                                    //return data;
+                                    //}
+                                    //return data;
+                                //}
+                            //},
                             {
                                 targets:9,
                                 orderable:false,
