@@ -32,12 +32,20 @@ class OrdenTrabajoControlador{
 	}	
 	
 	// *********************************
-	// 		BUSCAR ORDEN TRABAJO
+	// 		BUSCAR ORDEN TRABAJO # 5
 	// **********************************/
 	static public function ctrlOrdenTrabajoBuscar($orden_trabajo){
 		$Usuario1 = OrdenTrabajoModelo::mdlOrdenTrabajoBuscar($orden_trabajo);
 		return $Usuario1;
 	}			
+
+	// *********************************
+	// 		BUSCAR ORDEN X LOTE # 6
+	// **********************************/
+	static public function ctrlOrdenLoteBuscar($lote){
+		$Usuario1 = OrdenTrabajoModelo::mdlOrdenLoteBuscar($lote);
+		return $Usuario1;
+	}
 
 }
 
