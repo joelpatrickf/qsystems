@@ -509,12 +509,12 @@ $(document).ready(function(){
         }
         
         if ((resCondicionMin == true) && (resCondicionMax == true) ){
-            validacion = 'CUMPLE';
-            estado = 'LIBERADO';
+            validacion = 'CONFORME';
+            estado = 'Liberado';
             
         }else{
-            validacion = 'NO CUMPLE';
-            estado = 'RETENIDO';
+            validacion = 'NO CONFORME';
+            estado = 'Retenido';
         }
 
         console.log("resCondicionMin-> "+resCondicionMin+"    resCondicionMax->"+resCondicionMax);

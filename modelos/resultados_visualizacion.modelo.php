@@ -6,7 +6,7 @@ require_once "conexion.php";
 class ResultadosVisualizacionModelo{
 
 	// *********************************
-	// 		BUSCAR 
+	// 		BUSCAR # 2
 	// **********************************/
 	static public function mdlResultadosVisualizacionBuscar($lote)
 	{
@@ -15,7 +15,7 @@ class ResultadosVisualizacionModelo{
 		// echo "<pre>";
 		// exit();
 
-		$stmt = Conexion::conectar()->prepare("SELECT '' as vacio, res.id_resultados, res.orden_trabajo, res.id_normativa_analisis, res.fecha_creacion, res.usuario_creacion,nor.normativa, nor.categoria, nor.tipo_analisis, nor.analisis, res.resultado,res.validacion,res.estado, ot.lote
+		$stmt = Conexion::conectar()->prepare("SELECT '' as vacio, res.id_resultados, res.orden_trabajo, res.id_normativa_analisis, res.fecha_creacion, res.usuario_creacion,nor.normativa, nor.categoria, nor.tipo_analisis, nor.analisis, res.resultado,res.validacion,res.estado, ot.lote, res.observacion
 												FROM resultados res
 												INNER JOIN normativas nor ON res.id_normativa_analisis=nor.id_normativa
 												INNER JOIN orden_trabajo ot ON res.orden_trabajo=ot.orden_trabajo
@@ -59,80 +59,48 @@ class ResultadosVisualizacionModelo{
 	// }
 
 	/* *********************************
-			GUARDAR NUEVOS REGISTROS
+			GUARDAR NUEVOS REGISTROS # 3
 	**********************************/
 
-	// static public function mdlResultadosVisualizacionGuardar($data)
-	// {
-	// 	// echo"<pre>";
-	// 	// print_r($data);
-	// 	// echo"<pre>";
-	// 	//exit();
+	static public function mdlResultadosVisualizacionGuardarCambios($validacion,$estado,$nuevo_resultado,$observacion,$nResultados)
+	{
+		// echo"<pre>";
+		// print_r($data);
+		// echo"<pre>";
+		//exit();
 
-	// 	//print_r($_SESSION);
+		//print_r($_SESSION);
 
-	// 	$user= $_SESSION['login'][0]->usuario;
-	// 	try {
-	// 		$stmt=null;
-	// 		date_default_timezone_set("America/Guayaquil");
-	// 		$fechaActual = date('Y-m-d H:i:s', time()); 
-
-	// 		if ($data['accion'] == 2){
-	// 			$varEstado='ACTIVO';
-	// 			$stmt = Conexion::conectar()->prepare("INSERT INTO orden_trabajo(fecha_muestreo,id_item,planta,ubicacion,id_proveedor,turno,usuario,numero_muestra,lote,estado,normativa)
-	// 			 VALUES(:fecha_muestreo,:id_item,:planta,:ubicacion,:id_proveedor,:turno,:usuario,:numero_muestra,:lote,:estado,:normativa)");
-	
-	// 			$stmt->bindParam(":fecha_muestreo", $data['fecha']); 
-	// 			$stmt->bindParam(":id_item", $data['id_item']); 
-	// 			$stmt->bindParam(":planta", $data['planta']);
-	// 			$stmt->bindParam(":ubicacion", $data['ubicacion']); 
-	// 			$stmt->bindParam(":id_proveedor", $data['proveedor']); 
-	// 			$stmt->bindParam(":turno", $data['turno']); 
-	// 			$stmt->bindParam(":usuario", $data['usuario']); 
-	// 			$stmt->bindParam(":numero_muestra", $data['lote']); 
-	// 			$stmt->bindParam(":lote", $data['lote']); 
-	// 			$stmt->bindParam(":usuario", $user); 
-	// 			$stmt->bindParam(":estado", $varEstado); 
-	// 			$stmt->bindParam(":normativa", $data['normativa']); 
-	
-	// 			$stmt->execute();
-	// 			$resultado = 'ok-ING';
-	// 		}else if ($data['accion'] == 3){
+		$user= $_SESSION['login'][0]->usuario;
+		// try {
+			$stmt=null;
+			date_default_timezone_set("America/Guayaquil");
+			$fechaActual = date('Y-m-d H:i:s', time()); 
 				
-	// 			$stmt2 = Conexion::conectar()->prepare("UPDATE orden_trabajo SET 
-	// 				fecha_muestreo =:fecha_muestreo, 
-	// 				id_item =:id_item, 
-	// 				planta =:planta, 
-	// 				ubicacion =:ubicacion, 
-	// 				id_proveedor =:id_proveedor,
-	// 				turno =:turno,
-	// 				usuario =:usuario,
-	// 				numero_muestra =:numero_muestra,
-	// 				lote =:lote
-	// 				WHERE orden_trabajo = :numero_orden  ");
+			$stmt2 = Conexion::conectar()->prepare("UPDATE resultados SET 
+				validacion =:validacion, 
+				estado =:estado, 
+				resultado =:nuevo_resultado, 
+				observacion =:observacion 
+				WHERE id_resultados = :nResultados  ");
 
-	// 			$stmt2->bindParam(":fecha_muestreo", $data['fecha']);
-	// 			$stmt2->bindParam(":id_item", $data['id_item']);
-	// 			$stmt2->bindParam(":planta", $data['planta']);
-	// 			$stmt2->bindParam(":ubicacion", $data['ubicacion']);
-	// 			$stmt2->bindParam(":id_proveedor", $data['proveedor']);
-	// 			$stmt2->bindParam(":turno", $data['turno']);
-	// 			$stmt2->bindParam(":numero_muestra", $data['muestra']);
-	// 			$stmt2->bindParam(":lote", $data['lote']);
-	// 			$stmt2->bindParam(":usuario", $data['usuarios']);
-	// 			$stmt2->bindParam(":numero_orden", $data['numero_orden']);
-	// 			$stmt2->execute();
-	// 			$resultado = 'ok-EDIT';
-	// 			$stmt2=null;
-	// 		}
+				$stmt2->bindParam(":validacion", $validacion);
+				$stmt2->bindParam(":estado", $estado);
+				$stmt2->bindParam(":nuevo_resultado", $nuevo_resultado);
+				$stmt2->bindParam(":observacion", $observacion);
+				$stmt2->bindParam(":nResultados", $nResultados);
+				$stmt2->execute();
+				$resultado = 'ok';
+				$stmt2=null;
+			
 
 
-	// 	} catch (Exception $e) {
-    //         $resultado='Exception Capturada'. $e->getMessage(). "\n";
+		// } catch (Exception $e) {
+            // $resultado='Exception Capturada'. $e->getMessage(). "\n";
              
-    //     }
-	// 	return $resultado;
-	// }
+        // }
+		return $resultado;
+	}
 
 	
 	/* *********************************

@@ -6,7 +6,7 @@ require_once "../modelos/resultados_visualizacion.modelo.php";
 class ResultadosVisualizacionControlador{
 
 	// *********************************
-	// 		BUSCAR ORDEN TRABAJO
+	// 		BUSCAR # 2
 	// **********************************/
 	static public function ctrlResultadosVisualizacionBuscar($lote){
 		$respuesta1 = ResultadosVisualizacionModelo::mdlResultadosVisualizacionBuscar($lote);
@@ -22,22 +22,15 @@ class ResultadosVisualizacionControlador{
 	// }
 
 	// /* *********************************
-	// 		GUARDAR NUEVOS REGISTROS
+	// 		GUARDAR NUEVOS REGISTROS #3
 	// **********************************/
-	// static public function ctrlResultadosVisualizacionGuardar($data){
-	// 	$respuesta02 = ResultadosVisualizacionModelo::mdlOrdenTrabajoGuardar($data);
-	// 	return $respuesta02;
-	// }
+	static public function ctrlResultadosVisualizacionGuardarCambios($validacion,$estado,$nuevo_resultado,$observacion,$nResultados){
+		$respuesta02 = ResultadosVisualizacionModelo::mdlResultadosVisualizacionGuardarCambios($validacion,$estado,$nuevo_resultado,$observacion,$nResultados);
+		return $respuesta02;
+	}
 
 
-	// /* *********************************
-	// 		ELIMINAR
-	// **********************************/
-	// static public function ctrlResultadosVisualizacionEliminar($orden_trabajo,$estado){
-	// 	$respuesta3 = ResultadosVisualizacionModelo::mdlOrdenTrabajoEliminar($orden_trabajo,$estado);
-	// 	return $respuesta3;
-	// }	
-	
+
 		
 
 }

@@ -29,13 +29,23 @@ class AjaxOrdenTrabajo{
 	}	
 
 	// *********************************
-	// 		BUSCAR ORDEN TRABAJO
+	// 		BUSCAR ORDEN TRABAJO # 5
 	// **********************************/
 	public function ajaxOrdenTrabajoBuscar($orden_trabajo)
 	{
 		$OrdenTrabajo03 = OrdenTrabajoControlador::ctrlOrdenTrabajoBuscar($orden_trabajo);
 		echo json_encode($OrdenTrabajo03,JSON_UNESCAPED_UNICODE);
 	}		
+
+	// *********************************
+	// 		BUSCAR ORDEN X LOTE # 6
+	// **********************************/
+	public function ajaxOrdenLoteBuscar($lote)
+	{
+		$OrdenTrabajo03 = OrdenTrabajoControlador::ctrlOrdenLoteBuscar($lote);
+		echo json_encode($OrdenTrabajo03,JSON_UNESCAPED_UNICODE);
+	}
+
 
 } // FIN CLASE
 
@@ -76,8 +86,9 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR REGISTROS
 	$normativas = new AjaxOrdenTrabajo();
 	$normativas-> ajaxOrdenTrabajoBuscar($_POST['orden_trabajo']);
 
-}
-
-	// echo"<pre>";
+}else if (isset($_POST['accion']) && $_POST['accion'] == 6) { // BUSCAR  LOTE
 	// print_r($_POST);
-	// echo"<pre>";
+	$normativas = new AjaxOrdenTrabajo();
+	$normativas-> ajaxOrdenLoteBuscar($_POST['orden_lote']);
+
+}

@@ -1,0 +1,13 @@
+{
+	"key0": "Liberado",
+	"key1": "Retenido",
+	"key2": "Cuarentena",
+	"key3": "Rechazado",
+	"key4": "Liberado reproceso",
+	"key5": "Liberado reacondicionado",
+	"key6": "En espera de análisis",
+	"key7": "Recall",
+	"key8": "En proceso de retiro",
+	"key9": "Producto Retirado",
+	"key10": "En Espera de Revisión de Calidad"
+}

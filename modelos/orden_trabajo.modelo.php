@@ -19,7 +19,7 @@ class OrdenTrabajoModelo{
 												ON m.id_proveedor= prov.id_proveedor
 											INNER JOIN ubicacion AS ubi
 												ON m.ubicacion= ubi.id_ubicacion
-													");
+													ORDER by m.orden_trabajo");
 
 		$stmt->execute();
 		//return $stmt-> fetchAll(PDO::FETCH_OBJ);
@@ -132,7 +132,7 @@ class OrdenTrabajoModelo{
 	}	
 
 	// *********************************
-	// 		BUSCAR ORDEN TRABAJO
+	// 		BUSCAR ORDEN TRABAJO # 5
 	// **********************************/
 	static public function mdlOrdenTrabajoBuscar($orden_trabajo)
 	{
@@ -152,13 +152,32 @@ class OrdenTrabajoModelo{
 													");
 
 		$stmt->execute();
-		//return $stmt-> fetchAll(PDO::FETCH_OBJ);
-		//return $stmt-> fetchAll(PDO::FETCH_NUM);
+
 		
 		return $stmt-> fetchAll(PDO::FETCH_CLASS);
 		
 	}
+	
+	
+	// *********************************
+	// 		BUSCAR ORDEN x LOTE # 6
+	// **********************************/
+	static public function mdlOrdenLoteBuscar($lote)
+	{
+		$stmt11 = Conexion::conectar()->prepare(" SELECT ot.orden_trabajo, ot.fecha_muestreo, ot.id_item, prod.nombre_producto, 
+								prod.categoria, prod.normativa, ot.planta, ubi.ubicacion,
+								prov.razon_social, ot.turno, ot.numero_muestra, ot.lote, ot.estado
+								FROM orden_trabajo ot
+								INNER JOIN productos prod ON ot.id_item=prod.id_item
+								INNER JOIN ubicacion ubi ON ubi.id_ubicacion=ot.ubicacion
+								INNER JOIN proveedores prov ON ot.id_proveedor = prov.id_proveedor
+								WHERE ot.lote='$lote';
+													");
 
+		$stmt11->execute();
+		return $stmt11-> fetchAll(PDO::FETCH_CLASS);
+		
+	}
 
 }
 
