@@ -19,7 +19,7 @@ class OrdenTrabajoModelo{
 												ON m.id_proveedor= prov.id_proveedor
 											INNER JOIN ubicacion AS ubi
 												ON m.ubicacion= ubi.id_ubicacion
-													ORDER by m.orden_trabajo");
+													ORDER by m.orden_trabajo DESC");
 
 		$stmt->execute();
 		//return $stmt-> fetchAll(PDO::FETCH_OBJ);

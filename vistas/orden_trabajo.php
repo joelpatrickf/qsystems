@@ -397,9 +397,11 @@ $(document).ready(function(){
         },
         columnDefs:[
             {className: 'dt-center', targets: '_all' },
-
             {targets:0,orderable:false,className:'control'},
-            //{targets:5,visible:false},
+            
+            // {targets: 4, className: "text-center",width: "40%"},
+
+            {targets:7,visible:false},
             //{targets:6,visible:false},
             //{targets:7,visible:false},
 

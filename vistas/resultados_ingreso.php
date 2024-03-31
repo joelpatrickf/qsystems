@@ -9,6 +9,9 @@ if(isset($_SESSION)){ }else{ session_start(); }
     $usuario=$_SESSION['login'][0]->usuario;    
 ?>
 <style>
+.ui-datatable tbody td {
+    white-space: normal;
+}    
     colgroup {
         display: none!important;
     }
@@ -101,13 +104,13 @@ if(isset($_SESSION)){ }else{ session_start(); }
                                 <div class="row">
                                     <div class="col-lg-12">
                                     
-                                        <table id="tbl_Analisis" class="table table-striped cell-border table-responsive-sm" style="width:100%" hidden>
+                                        <table id="tbl_Analisis" class="table table-striped cell-border table-responsive-sm" style="width:100%" >
                                             <thead class="bg-gray">
                                                 <tr>
-                                                    <th class="text-center">Orden_tra</th> <!-- 1 -->
-                                                    <th class="text-center">id_Nor</th> <!-- 6 -->
-                                                    <th class="text-center">Normativa</th> <!-- 6 -->
-                                                    <th class="text-center">Categoria</th> <!-- 6 -->
+                                                    <th class="text-center" hidden>Orden_tra</th> <!-- 1 -->
+                                                    <th class="text-center" hidden>id_Nor</th> <!-- 6 -->
+                                                    <th class="text-center" hidden>Normativa</th> <!-- 6 -->
+                                                    <th class="text-center" hidden>Categoria</th> <!-- 6 -->
                                                     <th class="text-center">Tipo </th> <!-- 6 -->
                                                     <th class="text-center">Analisis </th> <!-- 6 -->
                                                     <th class="text-center">Min</th> 
@@ -212,11 +215,11 @@ $(document).ready(function(){
      
 
     table = $("#tbl_resultados").DataTable({
-                        "bDestroy": true,
-                         info: false,
-                         ordering: false,
-                        // paging: false,
-                        searching: false,
+        "bDestroy": true,
+        info: false,
+        ordering: false,
+        // paging: false,
+        searching: false,
                         
         // pagingType: 'simple_numbers',
         
@@ -292,13 +295,14 @@ $(document).ready(function(){
                 "sProcessing":"Procesando...",
         }, 
         rowCallback:function(row,data){
-                if(data[11] != "RETENIDO"){
-                    $($(row).find("td")[7]).css("background-color","#FAF421");
-                }else if(data[11] != "LIBERADO"){
-                    $($(row).find("td")[7]).css("background-color","#5FFA21");
-                }else if(data[11] != "CUARENTENA"){
-                    $($(row).find("td")[7]).css("background-color","#FF5733");
-                }
+            console.log("estado",data['estado']);
+            if ((data['estado'] == "Rechazado") || (data['estado'] == "Cuarentena") || (data['estado'] == "Recall") || (data['estado'] == "Producto Retirado")) {
+                $($(row).find("td")[7]).css("background-color","#ECBFB6 ");
+            } else if ((data['estado'] == "Liberado") || (data['estado'] == "Liberado reproceso") || (data['estado'] == "Liberado reacondicionado") ) {
+                    $($(row).find("td")[7]).css("background-color","#DAF7A6");
+                } else if ((data['estado'] == "Retenido") || (data['estado'] == "En espera de análisis") || (data['estado'] == "En proceso de retiro") || (data['estado'] == "En Espera de Revisión de Calidad") ) {
+                $($(row).find("td")[7]).css("background-color","#FFEA8E");
+            }
 
         },
     });

@@ -9,14 +9,7 @@ if(isset($_SESSION)){ }else{ session_start(); }
     $usuario=$_SESSION['login'][0]->usuario;    
 ?>
 <style>
-    /* Hace multilineas */
-    table.dataTable > tbody > tr > td {
-        white-space: normal!important;
-    }
-    colgroup {
-        display: none!important;
-    }    
-    .table-responsive {
+    /* .table-responsive {
         display: inline-table!important;
     }
 
@@ -37,7 +30,7 @@ if(isset($_SESSION)){ }else{ session_start(); }
 
 div.dt-container .dt-paging .dt-paging-button {
     padding: 0px;
-}    
+}     */
 
 
 /*     
@@ -236,24 +229,24 @@ $(document).ready(function(){
                     $("#spnMuestra").html(respuesta[0]['numero_muestra']);
                     $("#spnLote").html(respuesta[0]['lote']);
 
-// if ( $.fn.dataTable.isDataTable( '#tbl_resultados' ) ) {
-//     var table2 = $('#tbl_resultados').DataTable();
-//         table2.clear().destroy();
-//         table.ajax.reload();
-//     //return;
-// }
+if ( $.fn.dataTable.isDataTable( '#tbl_resultados' ) ) {
+    var table2 = $('#tbl_resultados').DataTable();
+        table2.clear().destroy();
+        table.ajax.reload();
+    //return;
+}
 
                     // BUSCAMOS PARA LA TABLA
                     table = $("#tbl_resultados").DataTable({
-                        // bDestroy: true,
-                        destroy: true,
-                        bAutoWidth: true,
+                        //destroy: true,
+                        bDestroy: true,
+                        // bAutoWidth: true,
 
                         info: false,
                         ordering: false,
                         paging: false,
                         searching: false,
-                        // responsive:true,                        
+                        responsive:true,                        
                         ajax:{
                             url:"../ajax/resultados_visualizacion.ajax.php",
                             dataSrc: '',
@@ -282,23 +275,21 @@ $(document).ready(function(){
                             { "data": "vacio" }, // campo para el action
                         ],              
 
-                        responsive: {
-                            details: {
-                                type: 'column'
-                            }
-                        },
+                        // responsive: {
+                        //     details: {
+                        //         type: 'column'
+                        //     }
+                        // },
                         columnDefs:[
 
-                            {"className": "dt-center", "targets": "_all"},
-                            {targets:0,orderable:false,className:'control'},
+                            // {"className": "dt-center", "targets": "_all"},
+                            // {targets:0,orderable:false,className:'control'},
 
-                            // {targets:0,visible:false},
                             {targets:1,visible:false},
                             {targets:2,visible:false},
                             {targets:3,visible:false},
                             {targets:4,visible:false},
 
-                            { responsivePriority: 1, targets: 13 },
                             { responsivePriority: 1, targets: 15 },
 
                             // {
@@ -327,19 +318,20 @@ $(document).ready(function(){
                             },
                         ],
                         pageLength: 10,
-                       rowCallback:function(row,data){
-                           console.log(data['estado']);
-                               if ((data['estado'] == "Rechazado") || (data['estado'] == "Cuarentena") || (data['estado'] == "Recall") || (data['estado'] == "Producto Retirado")) {
-                                   $($(row).find("td")[9]).css("background-color","#ECBFB6 ");
-                               } else if ((data['estado'] == "Liberado") || (data['estado'] == "Liberado reproceso") || (data['estado'] == "Liberado reacondicionado") ) {
-                                   $($(row).find("td")[9]).css("background-color","#DAF7A6");
-                                   } else if ((data['estado'] == "Retenido") || (data['estado'] == "En espera de análisis") || (data['estado'] == "En proceso de retiro") || (data['estado'] == "En Espera de Revisión de Calidad") ) {
-                                   $($(row).find("td")[9]).css("background-color","#FFEA8E");
-                               }
-
-                       },
+//                        rowCallback:function(row,data){
+//                            console.log(data['estado']);
+//                                if ((data['estado'] == "Rechazado") || (data['estado'] == "Cuarentena") || (data['estado'] == "Recall") || (data['estado'] == "Producto Retirado")) {
+//                                    $($(row).find("td")[9]).css("background-color","#ECBFB6 ");
+//                                } else if ((data['estado'] == "Liberado") || (data['estado'] == "Liberado reproceso") || (data['estado'] == "Liberado reacondicionado") ) {
+//                                    $($(row).find("td")[9]).css("background-color","#DAF7A6");
+//                                    } else if ((data['estado'] == "Retenido") || (data['estado'] == "En espera de análisis") || (data['estado'] == "En proceso de retiro") || (data['estado'] == "En Espera de Revisión de Calidad") ) {
+//                                    $($(row).find("td")[9]).css("background-color","#FFEA8E");
+//                                }
+//
+//                        },
                             
                     });  
+return;
                 }else{
                     toastr["error"]("No existe Orden de Trabajo", "!Atención!");
                 }

@@ -22,14 +22,15 @@ if(!isset($_SESSION['login']) ){
   <link rel="icon" href="images/favicon.ico" type="image/ico" />
 
     <title>Q Analytics</title>
-
     
     <!-- Bootstrap -->
     <link href="vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     
+    
     <!-- Custom Theme Style -->
     <!-- ESTA CAMBIA EL ESTILO DE LAS DATATABLEE -->
     <link href="build/css/custom.min.css" rel="stylesheet">
+    
     
     <!-- Font Awesome -->
     <link href="vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
@@ -81,17 +82,18 @@ if(!isset($_SESSION['login']) ){
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     
   
-  <link href="css/ragde.css" rel="stylesheet" >
   
   <!-- Estilos personzalidos datatables buttons-->
   <link rel="stylesheet" href="css/plantilla.css">  
-
+  
   <!-- PROPBAR SINO FUNCIONA BORRAR -->
   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tarekraafat-autocomplete.js/10.2.7/css/autoComplete.min.css"> -->
   <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
-
+  
   <!-- select2 css -->
   <link href='vendors/select2/dist/css/select2.min.css' rel='stylesheet' type='text/css'>  
+  
+  <link href="css/ragde.css" rel="stylesheet" >
 
   </head>
   <body class="nav-md">
