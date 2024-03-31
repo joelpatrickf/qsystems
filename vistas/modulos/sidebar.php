@@ -11,6 +11,20 @@ if(isset($_SESSION)){ }else{ session_start(); }
     
     $page= substr($_SERVER['SCRIPT_NAME'],strrpos($_SERVER['SCRIPT_NAME'],"/")+1);    
 ?>
+
+<style>
+  /* Invisible texto */
+  /* figcaption {
+    display:none; 
+    transition: all .5s;
+  } */
+  /* Visible texto */
+  /* li:hover > figcaption {
+    display:block;
+    transition: all .5s;
+  }   */
+</style>
+
 <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
@@ -74,6 +88,20 @@ if(isset($_SESSION)){ }else{ session_start(); }
                       </li>                                        
                     </ul>
                   </li>                  
+                  <li><a><i class="fa fa-codepen"></i>Inspección<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li>
+                        <a onclick="CargarContenido('orden_trabajo.php','right_col')">Ingreso de variables a inspeccionar</a>
+                        <!-- <figcaption>Tu texto</figcaption> -->
+                      </li>                  
+                      <!-- <li>
+                        <a onclick="CargarContenido('resultados_ingreso.php','right_col')"></i>Conteo sellado conforme</a>
+                      </li>  -->
+                      <!-- <li>
+                        <a onclick="CargarContenido('resultados_visualizacion.php','right_col')"></i>Visualizacion de Resultados</a>
+                      </li> -->
+                    </ul>
+                  </li> 
 
                 </ul>
               </div>
