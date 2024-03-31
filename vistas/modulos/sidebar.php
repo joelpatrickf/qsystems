@@ -91,15 +91,15 @@ if(isset($_SESSION)){ }else{ session_start(); }
                   <li><a><i class="fa fa-codepen"></i>Inspección<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li>
-                        <a onclick="CargarContenido('orden_trabajo.php','right_col')">Ingreso de variables a inspeccionar</a>
+                        <a onclick="CargarContenido('inspeccion_ingreso_variables.php','right_col')">Ingreso de variables a inspeccionar</a>
                         <!-- <figcaption>Tu texto</figcaption> -->
                       </li>                  
-                      <!-- <li>
-                        <a onclick="CargarContenido('resultados_ingreso.php','right_col')"></i>Conteo sellado conforme</a>
-                      </li>  -->
-                      <!-- <li>
+                      <li>
+                        <a onclick="CargarContenido('resultados_ingreso.php','right_col')"></i>Inspección</a>
+                      </li> 
+                      <li>
                         <a onclick="CargarContenido('resultados_visualizacion.php','right_col')"></i>Visualizacion de Resultados</a>
-                      </li> -->
+                      </li>
                     </ul>
                   </li> 
 
