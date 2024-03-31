@@ -1,8 +1,7 @@
 <?php 
-if(isset($_SESSION)){ }else{ session_start(); } 
-
-  require_once "controladores/constantes.php";
- ?>
+	if(isset($_SESSION)){ }else{ session_start(); } 
+	require_once "controladores/constantes.php";
+?>
 <!DOCTYPE html>
 <html>
 <head>
