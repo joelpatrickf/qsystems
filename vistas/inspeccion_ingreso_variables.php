@@ -2,12 +2,36 @@
 if(isset($_SESSION)){ }else{ session_start(); }
     //include("modulos/header.php");  
     $fechaActual = date('YmdHis', time()); 
+    $SoloFechaActual = date('Y-m-d');     
     // print_r($_SESSION['login']);
 ?>
 <style>
     table.dataTable.no-footer {border-bottom: 1px solid #ddd;}   
-    
     .paging_full_numbers {width: 100%;}    
+   
+    table.dataTable td.dt-type-numeric, table.dataTable td.dt-type-date {
+        text-align: center;
+    }
+
+
+    .ui-datatable tbody td {
+        white-space: normal;
+    }    
+    colgroup {
+        display: none!important;
+    }
+      
+    .card-body {
+        padding: 0rem;
+    }    
+
+    table.dataTable tbody th, table.dataTable tbody td {
+        padding: 8px 10px;
+    }    
+
+    div.dt-container .dt-paging .dt-paging-button {
+        padding: 0px;
+    }      
 </style>
 
 <!-- page content -->
@@ -19,7 +43,7 @@ if(isset($_SESSION)){ }else{ session_start(); }
                 <div class="card-header pb-0 mb-0" >
                     <div class="row">
                         <div class="col-6">
-                           <h4> Administrar Ingresos de variables </h4>
+                           <h4> Inspección Administrar Ingresos de variables </h4>
                         </div>
                         <div class="col-6 text-" >
                             <button type="button" class="btn btn-warning mx-1" id="btnClose" style="float: right;" hidden>close</button>
@@ -39,7 +63,7 @@ if(isset($_SESSION)){ }else{ session_start(); }
                                     <span class="small">Fecha</span><span class="text-danger">*</span>
                                 </label>
                                 <input type="date" class="form-control" id="iptFecha"
-                                    name="iptFecha" placeholder="Ingrese el Usuario" required autofocus disabled>
+                                    placeholder="Ingrese el Usuario"  required disabled value="<?php echo $SoloFechaActual ?>">
                             </div>
                         </div>
 
@@ -75,20 +99,17 @@ if(isset($_SESSION)){ }else{ session_start(); }
                     <div class="row">
                         <div class="col-lg-12">
                             <!-- <table id="tbl_usuarios" class="table table-striped cell-border w-100 shadow " width="100%"> -->
-                            <table id="tbl_usuarios"  class="table table-striped " style="width:100%">
+                            <table id="tbl_usuarios"  class="table table-striped cell-border" style="width:100%">
 
                                 <thead class="bg-gray">
                                     <tr style="font-size: 15px;">
-                                        <th class="text-center">123</th> <!-- 1 -->
-                                        <th class="text-center">Usuario</th> <!-- 2 -->
-                                        <th class="text-center">password</th> <!-- 5 -->
-                                        <th class="text-center">Id-CDI</th> <!-- 5 -->
-                                        <th class="text-center">Nombres</th> <!-- 4 -->
-                                        <th class="text-center">Perfil</th> <!-- 6 -->
-                                        <th class="text-center">Fecha</th> <!-- 6 -->
-                                        <th class="text-center">Estado</th> <!-- 6 -->
-                                        <th class="text-center">Cargo</th> <!-- 6 -->
-                                        <th class="text-center">Opciones</th> <!-- 12 -->
+                                        <th class="text-center">11</th> <!-- 1 -->
+                                        <th class="text-center">id</th> <!-- 2 -->
+                                        <th class="text-center">Fecha</th> <!-- 5 -->
+                                        <th class="text-center">Variable</th> <!-- 5 -->
+                                        <th class="text-center">Numero</th> <!-- 4 -->
+                                        <th class="text-center">Usuario</th> <!-- 6 -->
+                                        <!-- <th class="text-center">Opciones</th> -->
                                     </tr>
                                 </thead>
                                 <tbody class="text-small">
@@ -106,14 +127,13 @@ if(isset($_SESSION)){ }else{ session_start(); }
 <!-- /page content -->
       
 
-<//?php include("modulos/footer.php"); ?>
 
 <script type="text/javascript">
 var accion = 2;
 $(document).ready(function(){
     // Personalizamos el toast mensajes
-    toastr.options.timeOut = 1500; // 1.5s
-    toastr.options.closeButton = true;
+    // toastr.options.timeOut = 1500; // 1.5s
+    // toastr.options.closeButton = true;
     //********************************************************    
     //-CARGA DE USUARIOS EXISTENTES
     //********************************************************    
@@ -122,168 +142,59 @@ $(document).ready(function(){
             select: true,
             info: false,
             ordering: false,
-            
+            // responsive:true,
             //paging: false,            
-            dom: 'Bfrtilp',
-            buttons: 
-                [
-                //'excel', 'print','pdf'
-                    {
-                        extend:    'excelHtml5',
-                        text:      '<i class="fas fa-file-excel"></i> ',
-                        titleAttr: 'Exportar a Excel',
-                        className: 'btn btn-success',
-
-                        excelStyles: {template: "blue_medium",},
-
-                        filename: function() {
-                            return 'Usuarios_'+<?php echo $fechaActual; ?>
-                          },
-                        title: function() {
-                            var searchString = table.search(); 
-                            return searchString.length? "Search: " + searchString : "Reporte General de Usuarios "
-                          },
-                        exportOptions: {
-                            columns: [ 1, 3, 4, 5, 6, 7,8],
-                            format: {
-                                body: function ( data, row, column, node ) {
-                                    return column === 1 ?
-                                        data.replace( /[$,]/g, '' ) :
-                                        data;
-                                }
-                            }
-                        }
-                    }, //fin del BUTTON excel
-
-                    { // INICIO DE PDF
-                        extend:    'pdfHtml5',
-                        text:      '<i class="fas fa-file-pdf"></i> ',
-                        titleAttr: 'Exportar a PDF',
-                        className: 'btn btn-warning',
-                        customize: function(doc) {
-                            //doc.layout = 'lightHorizotalLines;'
-                            
-                            // doc.defaultStyle.fontSize = 6
-                            // doc.content[1].margin = [ 20, 0, 10, 0 ] //left, top, right, bottom
-
-                            
-                    doc.pageMargins = [30, 30, 30, 30];
-                    doc.defaultStyle.fontSize = 11;
-                    doc.styles.tableHeader.fontSize = 12;
-                    doc.styles.title.fontSize = 14;                            
-
-                            var rowCount =  doc.content[1].table.body.length;
-                            for (i = 0; i < rowCount; i++) {
-                               doc.content[1].table.body[i][0].alignment = 'center';
-                               doc.content[1].table.body[i][2].alignment = 'center';
-                               doc.content[1].table.body[i][3].alignment = 'center';
-                               doc.content[1].table.body[i][4].alignment = 'center';
-                               doc.content[1].table.body[i][5].alignment = 'center';
-                               doc.content[1].table.body[i][6].alignment = 'center';
-                            };                    
-
-
-                        },
-                        filename: function() {
-                            return 'Usuarios_'+<?php echo $fechaActual; ?>
-                          },
-                        title: function() {
-                            var searchString = table.search();        
-                            return searchString.length? "Search: " + searchString : "Reporte General de Usuarios "
-                          },
-                        exportOptions: {
-                            columns: [ 1, 3, 4, 5, 6, 7,8],
-                            format: {
-                                body: function ( data, row, column, node ) {
-                                    return column === 1 ?
-                                        data.replace( /[$,]/g, '' ) :
-                                        data;
-                                }
-                            }
-                        }
-                    },
-                    { // IMPRIMIR
-                        extend:    'print',
-                        text:      '<i class="fa fa-print"></i> ',
-                        titleAttr: 'Imprimir',
-                        className: 'btn btn-info',
-                        title: function() {
-                            var searchString = table.search();        
-                            return searchString.length? "Search: " + searchString : "Reporte General de Usuarios "
-                          },                        
-                        exportOptions: {
-                            columns: [ 1, 3, 4, 5, 6, 7,8],
-                            format: {
-                                body: function ( data, row, column, node ) {
-                                    return column === 1 ?
-                                        data.replace( /[$,]/g, '' ) :
-                                        data;
-                                }
-                            }
-                        }                        
-                    },                    
-
-                ],
 
             ajax:{
-                url:"../ajax/usuarios.ajax.php",
+                url:"../ajax/inspeccion.ajax.php",
                 dataSrc: '',
                 type:"POST",            
                 data: {'accion' : 1}, // 1 para listar 
             },
+            columns: [
+            { "data": "vacio" },
+            { "data": "id_ins_var" },
+            { "data": "fecha" },
+            { "data": "variable" },
+            { "data": "nmuestras" },
+            { "data": "usuario" },
+           ],             
          
-            responsive: {
-                details: {
-                    type: 'column'
-                }
-            },
-            rowReorder: {
-        selector: 'td:nth-child(2)'
-    },
+            // responsive: {
+            //     details: {
+            //         type: 'column'
+            //     }
+            // },
+
             columnDefs:[
                 {"className": "dt-center", "targets": "_all"},
                 {targets:0,orderable:false,className:'control'},
-                {targets:0,visible:false,},
-                {targets:2,visible:false,},
+                // {targets:0,visible:false,},
+                // {targets:2,visible:false,},
                 
-                { responsivePriority: 1, targets: 9 },
+                // { responsivePriority: 1, targets: 9 },
                 
-                {
-                    targets:9,
-                    orderable:false,
-                    render: function(data, type, full, meta){
-                        return "<center>"+
-                                      "<span class='btnEditar text-primary px-1' style='cursor:pointer;'>"+
-                                        "<i class='fas fa-pencil-alt fs-5'></i>"+
-                                    "</span>"+
-                                    "<span class='btnEliminar text-danger px-1' style='cursor:pointer;'>"+
-                                        "<i class='fas fa-trash fs-5'></i>"+
-                                    "</span>"+                                    
+                // {
+                //     targets:9,
+                //     orderable:false,
+                //     render: function(data, type, full, meta){
+                //         return "<center>"+
+                //                       "<span class='btnEditar text-primary px-1' style='cursor:pointer;'>"+
+                //                         "<i class='fas fa-pencil-alt fs-5'></i>"+
+                //                     "</span>"+
+                //                     "<span class='btnEliminar text-danger px-1' style='cursor:pointer;'>"+
+                //                         "<i class='fas fa-trash fs-5'></i>"+
+                //                     "</span>"+                                    
 
-                                "</center>"
-                    }
+                //                 "</center>"
+                //     }
 
-                }     
+                // }     
 
 
             ],
             pageLength: 10,
-            language: {
-                "lengthMenu": "",
-                "zeroRecords": "No se encontraron resultados",
-                "info": "",
-                "infoEmpty": "",
-        
-                "infoFiltered": "",
-                "sSearch": "Buscar:",
-                "oPaginate": {
-                    "sFirst": "<",
-                    "sLast":">>",
-                    "sNext":">",
-                    "sPrevious": "<<"
-                },
-                "sProcessing":"Procesando...",
-            },
+
         });
 
     //******************//
@@ -368,18 +279,16 @@ $(document).ready(function(){
     $("#btnSave").click(function() {
 
         const msg = [];
-        if ($("#iptUsuario").val() == ''){msg.push('Usuario');}
-        if ($("#iptPassword").val() == ''){msg.push('Password');}
-        if ($("#iptCedula").val() == ''){msg.push('Cedula');}
-        if ($("#iptNombres").val() == ''){msg.push('Apellidos y Nombres');}
-        if ($("#selPerfil").val() == 0){msg.push('Perfil');}
-        if ($("#iptCargo").val() == ''){msg.push('Cargo');}
+
+        if ($("#iptVariables").val() == ''){msg.push(' Variables');}
+        if ($("#iptNumeroMuestras").val() == ''){msg.push(' Numero de Muestras a Inspeccionar');}
+
         //toastr["error"]("Ingrese los siguientes datos  :"+msg, "!Atención!");
 
-        if (msg.length != 6 && msg.length != 0){
+        if (msg.length != 2 && msg.length != 0){
             toastr["error"]("Ingrese los siguientes datos  :"+msg, "!Atención!");
             return;
-        }else if(msg.length == 6){
+        }else if(msg.length == 2){
             
             toastr["error"]("No existen datos para guardar", "!Atención!");
             bloquearInputs();
@@ -387,23 +296,20 @@ $(document).ready(function(){
         }
 
 
-        
+
         $.ajax({
                 async: false,
-                url:"../ajax/usuarios.ajax.php",
+                url:"../ajax/inspeccion.ajax.php",
                 method: "POST",
                 data: {
                     'accion':accion,
-                    'usuario': $("#iptUsuario").val(),
-                    'clave': $("#iptPassword").val(),
-                    'cedula': $("#iptCedula").val(),
-                    'nombres': $("#iptNombres").val(),
-                    'perfil': $("#selPerfil").val(),
-                    'cargo': $("#iptCargo").val()
+                    'fecha': $("#iptFecha").val(),
+                    'variables': $("#iptVariables").val(),
+                    'numero_muestras': $("#iptNumeroMuestras").val(),
                 },
                 dataType: "json",
                 success: function(respuesta){
-                    console.log(respuesta);
+                    console.log("ingreso variables  ",respuesta);
                     if (respuesta == 'ok'){
                         toastr["success"]("Ingreso de Información Correcta", "!Atención!");
                         limpiar();
@@ -428,18 +334,16 @@ function desBloquearInputs(){
     $("#iptFecha").prop( "disabled", false );
     $("#iptVariables").prop( "disabled", false );
     $("#iptNumeroMuestras").prop( "disabled", false );
-    
-    $("#iptFecha").focus();
+    $("#iptVariables").focus();
 }
 function bloquearInputs(){
     $("#iptFecha").prop( "disabled", true );
     $("#iptVariables").prop( "disabled", true );
     $("#iptNumeroMuestras").prop( "disabled", true );
-    $("#iptFecha").focus();
+    $("#iptVariables").focus();
 }
 function limpiar(){
-    $("#iptFecha").val('');
-    $("#iptVariables").val("");
+    $("#iptVariables").val('');
     $("#iptNumeroMuestras").val("");
 }
 </script>
