@@ -10,12 +10,8 @@ class ProductosModelo{
 	**********************************/
 	static public function mdlListarProductos()
 	{
-		// $stmt = Conexion::conectar()->prepare("
-		// SELECT p.id_item, p.codigo_barra1, p.nombre_producto, n.normativa, n.categoria,  p.presentacion, p.usuario, p.fecha_creacion, p.estado 
-		// FROM productos p
-		// INNER JOIN normativas n ON n.id_normativa = p.id_normativa;		
-		// ");
-		$stmt = Conexion::conectar()->prepare("SELECT id_item, codigo_barra1, nombre_producto, normativa, categoria,  presentacion, usuario, fecha_creacion, estado FROM productos");		
+
+		$stmt = Conexion::conectar()->prepare("SELECT id_item, codigo_barra1, nombre_producto, normativa, categoria,  presentacion, usuario, fecha_creacion, estado, precio FROM productos");		
 
 		$stmt->execute();
 		return $stmt-> fetchAll();
@@ -29,7 +25,7 @@ class ProductosModelo{
 	static public function mdlRegistrarProductos($data)
 	{
 		
-		try {
+		//try {
 			$stmt=null;
 			date_default_timezone_set("America/Guayaquil");
 
@@ -37,8 +33,8 @@ class ProductosModelo{
 			$fechaActual = date('Y-m-d H:i:s', time()); 
 			$estado = 'ACTIVO';
 
-	        $stmt = Conexion::conectar()->prepare("INSERT INTO productos(codigo_barra1, nombre_producto, categoria, normativa, presentacion, usuario, fecha_creacion, estado) 
-			VALUES(:codigo_barra1, :nombre_producto, :categoria, :normativa, :presentacion, :usuario, :fecha_creacion, :estado)");
+	        $stmt = Conexion::conectar()->prepare("INSERT INTO productos(codigo_barra1, nombre_producto, categoria, normativa, presentacion, usuario, fecha_creacion, estado,precio) 
+			VALUES(:codigo_barra1, :nombre_producto, :categoria, :normativa, :presentacion, :usuario, :fecha_creacion, :estado,:precio)");
 
 	        $stmt->bindParam(":codigo_barra1", $data['codigo_barra1'], PDO::PARAM_STR); 
 	        $stmt->bindParam(":nombre_producto", $data['nombre_producto'], PDO::PARAM_STR); 
@@ -48,12 +44,13 @@ class ProductosModelo{
 	        $stmt->bindParam(":usuario", $usuario, PDO::PARAM_STR); 
 	        $stmt->bindParam(":fecha_creacion", $fechaActual);
 	        $stmt->bindParam(":estado", $estado, PDO::PARAM_STR); 
+	        $stmt->bindParam(":precio", $data['precio'], PDO::PARAM_STR); 
 			$stmt->execute();
 			$resultado = 'ok';
 
-		} catch (Exception $e) {
-            $resultado='Exception Capturada'. $e->getMessage(). "\n";
-        }
+		//} catch (Exception $e) {
+        //    $resultado='Exception Capturada'. $e->getMessage(). "\n";
+        //}
 		return $resultado;
 	}
 	

@@ -54,3 +54,11 @@ table.dataTable tbody td {
     color: rgb( 44, 46, 255 );
     font-size: 12px;
 }
+
+div.dt-container .dt-paging .dt-paging-button {
+    padding: 0px!important;
+}       
+
+table.dataTable td.dt-type-numeric, table.dataTable td.dt-type-date {
+    text-align: center!important;
+}

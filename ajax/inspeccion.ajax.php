@@ -19,22 +19,22 @@ class AjaxInspeccion{
 	}	
     
 	// // // ACTUALIAR 
-    // public function ajaxModificarInspeccion($dataModificar){
-    //     $table= "proveedores";
-    //     $id= $dataModificar['id_proveedor']; 
-    //     $nameId = "id_proveedor";
+    public function ajaxModificarInspeccion($data){
+        $table= "insp_variables";
+        $id= $data['id_ins_var']; 
+        $nameId = "id_ins_var";
 
-    //     $respuesta3 = InspeccionControlador::ctrActualizarInspeccion($table,$dataModificar, $id, $nameId);
-    //     echo json_encode($respuesta3);
-    // }
+        $respuesta3 = InspeccionControlador::ctrlActualizarInspeccion($table,$data, $id, $nameId);
+        echo json_encode($respuesta3);
+    }
 	
 	// // ELIMINAR
-	// public function ajaxEliminarInspeccion($id_proveedor,$estado)
-	// {
-	// 	$respuesta4 = InspeccionControlador::ctrEliminarInspeccion($id_proveedor,$estado);
+	public function ajaxEliminarInspeccion($id_ins_var)
+	{
+		$respuesta4 = InspeccionControlador::ctrEliminarInspeccion($id_ins_var);
 
-	// 	echo json_encode($respuesta4,JSON_UNESCAPED_UNICODE);
-	// }    	
+		echo json_encode($respuesta4,JSON_UNESCAPED_UNICODE);
+	}    	
 }
 
 if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR 
@@ -50,23 +50,21 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR
             "numero_muestras" => $_POST["numero_muestras"]
     );
     $registrar -> ajaxRegistrarInspeccion($data);
-} 
-// else if (isset($_POST['accion']) && $_POST['accion'] == 3) { // ACTUALIZAR
+} else if (isset($_POST['accion']) && $_POST['accion'] == 3) { // ACTUALIZAR
+    // print_r($_POST);
+	$modificar = new AjaxInspeccion();
+    $dataModificar = array(
+		"fecha" => $_POST["fecha"],
+		"variable" => $_POST["variables"],
+		"nmuestras" => $_POST["numero_muestras"],
+		"id_ins_var" => $_POST["id_ins_var"]
+    );
     
-// 	$modificar = new AjaxInspeccion();
-//     $dataModificar = array(
-// 		"razon_social" => $_POST["razon_social"],
-// 		"rucc" => $_POST["rucc"],
-// 		"tipo_proveedor" => $_POST["tipo_proveedor"],
-// 		"direccion" => $_POST["direccion"],
-//         "id_proveedor" => $_POST["id_proveedor"]
-//     );
-    
-//     $modificar -> ajaxModificarProveedores($dataModificar);
-// }else if (isset($_POST['accion']) && $_POST['accion'] == 4) { // ELIMINAR
-// 	$usuarios = new AjaxInspeccion();
-// 	$usuarios-> ajaxEliminarProveedores($_POST['id_proveedor'],$_POST['estado']);
+    $modificar -> ajaxModificarInspeccion($dataModificar);
+} else if (isset($_POST['accion']) && $_POST['accion'] == 4) { // ELIMINAR
+	$usuarios = new AjaxInspeccion();
+	$usuarios-> ajaxEliminarInspeccion($_POST['id_ins_var']);
 
-// }
+}
 
 

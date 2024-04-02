@@ -70,6 +70,7 @@ if(isset($_SESSION)){ }else{ session_start(); }
                       <li><a onclick="CargarContenido('normativas.php','right_col')">Normativas</a></li>
 
                       <li><a onclick="CargarContenido('productos.php','right_col')">Productos</a></li>
+                      <li><a onclick="CargarContenido('zonificacion.php','right_col')">Zonificacion</a></li>
                       
                       <!-- <li><a href="productos.php">Productos</a></li> -->
 

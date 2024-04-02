@@ -56,7 +56,8 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR
             "nombre_producto" => $_POST["nombre_producto"],
             "normativa" => $_POST["normativa"],
             "categoria" => $_POST["categoria"],
-            "presentacion" => $_POST["presentacion"]
+            "presentacion" => $_POST["presentacion"],
+            "precio" => $_POST["precio"]
     );
     $registrar -> ajaxRegistrarProductos($data);
 } else if (isset($_POST['accion']) && $_POST['accion'] == 3) { // ACTUALIZAR 
@@ -68,7 +69,8 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR
         "normativa" => $_POST["normativa"],
         "categoria" => $_POST["categoria"],
         "presentacion" => $_POST["presentacion"],
-        "id_item" => $_POST["id_item"]
+        "id_item" => $_POST["id_item"],
+        "precio" => $_POST["precio"]
     );
     
     $modificar -> ajaxModificarProductos($dataModificar);

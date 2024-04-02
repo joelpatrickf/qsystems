@@ -33,7 +33,7 @@
                                 <label class="" for="iptCodigoBarra"><i class="fas fa-barcode fs-6"></i>
                                     <span class="small">Codigo de Barra</span><span class="text-danger">*</span>
                                 </label>
-                                <input type="text" class="form-control" id="iptCodigoBarra" required autofocus disabled>
+                                <input type="text" class="form-control" id="iptCodigoBarra" required autofocus disabled autocomplete="off">
                             </div>
                         </div>
 
@@ -73,7 +73,7 @@
                                 <label class="" for="iptPresentacion"><i class="fas fa-plus-circle fs-6"></i>
                                     <span class="small">Presentación</span><span class="text-danger">*</span>
                                 </label>
-                                <input type="text" class="form-control " id="iptPresentacion" required  disabled>
+                                <input type="text" class="form-control " id="iptPresentacion" required  disabled autocomplete="off">
                             </div>
                         </div>
                                                 
@@ -95,7 +95,17 @@
                                         <option value="N/A">N/A</option>
 			                    </select>
                             </div>
-                        </div>                         
+                        </div>
+                       <!-- Columna Precio -->
+                       <div class="col-12 col-lg-3">
+                            <div class="form-group mb-2">
+                                <label class="" for="iptPrecio"><i class="fas fa-plus-circle fs-6"></i>
+                                    <span class="small">Precio</span><span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control " id="iptPrecio" step="0.01" required  disabled>
+                            </div>
+                        </div>
+
 					</div>                        
 				</div> <!-- END div 1º card body -->
                 <div class="card-body pb-0 pt-3">
@@ -114,6 +124,7 @@
                                         <th class="text-center">Fecha_Creacion</th> <!-- 6 -->
                                         <th class="text-center">Estado</th> <!-- 6 -->
                                         <th class="text-center">Usuario</th> <!-- 6 -->
+                                        <th class="text-center">Precio</th> <!-- 6 -->
                                         <th class="text-center">Opciones</th> <!-- 12 -->
                                     </tr>
                                 </thead>
@@ -182,9 +193,9 @@ $(document).ready(function(){
     //********************************************************    
 
     table = $("#tbl_usuarios").DataTable({
-        select: true,
-        info: false,
-        ordering: false,
+        // select: true,
+        // info: false,
+        // ordering: false,
         // pagingType: 'simple_numbers',
         
         //paging: false,            
@@ -206,7 +217,8 @@ $(document).ready(function(){
             { "data": "presentacion" },
             { "data": "fecha_creacion" },
             { "data": "estado" },
-            { "data": "usuario" }
+            { "data": "usuario" },
+            { "data": "precio" }
            ],        
         responsive: {
             details: {
@@ -217,14 +229,16 @@ $(document).ready(function(){
 
             {"className": "dt-center", "targets": "_all"},
             {targets: 0,orderable:false,className:'control'},
+
             {targets: 2, width: '30%'},
             {targets: 6, className: 'dt-body-center'},
             {targets: 5, visible:false},
 
-            {targets: 9, responsivePriority: 1 },
+            // {targets: 0, visible:false,},
             {targets: 8, visible:false,},
+            {targets: 10, responsivePriority: 1 },
             {
-                targets:9,
+                targets:10,
                 orderable:false,
                 render: function(data, type, full, meta){
                     return "<center>"+
@@ -265,13 +279,15 @@ $(document).ready(function(){
         
         //---------------------------------------
         var data = table.row($(this).parents('tr')).data();
-        // console.log(data);
+        $("#iptPrecio").val(data[9]);
+        
 
         // return;
         Id_Item = data[0];
         $("#iptCodigoBarra").val(data[1]);
         $("#iptCategoria").val(data[4]);
         
+
         var var_productoAll = data[2].split(' | ');
         var var_producto =var_productoAll[0];
         $("#iptProducto").val(var_producto);
@@ -347,6 +363,9 @@ $(document).ready(function(){
         var normativa = $("#iptNormativa").val();;
 
         var presentacion =  $("#iptPresentacion").val();
+        var precio =  $("#iptPrecio").val();
+
+        //varMinimo.replace(/,/g, '.');
 
         var um1 = document.getElementById("selUnidadMedida");
         var um = um1.options[um1.selectedIndex].text;        
@@ -357,11 +376,12 @@ $(document).ready(function(){
         if (categoria.length == 0){msg.push(' Categoria');}
         if (presentacion.length == 0){msg.push(' Presentación');}
         if ($("#selUnidadMedida").val() == 0){msg.push(' Unidad de Medida U.M.');}
+        if (precio.length == 0){msg.push(' Precio');}
 
-        if (msg.length != 6 && msg.length != 0){
+        if (msg.length != 7 && msg.length != 0){
             toastr["error"]("Ingrese los siguientes datos :"+msg, "!Atención!");
             return;
-        }else if(msg.length == 6){
+        }else if(msg.length == 7){
             toastr["error"]("No existen datos para guardar", "!Atención!");
             return;
         }
@@ -382,7 +402,8 @@ $(document).ready(function(){
                     'normativa': normativa,
                     'categoria': categoria,
                     'presentacion': presentacion,
-                    'id_item': Id_Item // para cuando se envie a guardar modificaciones
+                    'id_item': Id_Item, // para cuando se envie a guardar modificaciones
+                    'precio': precio // para cuando se envie a guardar modificaciones
                 },
                 dataType: "json",
                 success: function(respuesta){
@@ -414,7 +435,8 @@ function desBloquearInputs(){
     //$("#iptCategoria").prop( "disabled", false );
     $("#iptPresentacion").prop( "disabled", false );
     $("#selUnidadMedida").prop( "disabled", false );
-
+    $("#iptPrecio").prop( "disabled", false );
+    
 }
 function bloquearInputs(){
     $("#iptCodigoBarra").prop( "disabled", true );
@@ -423,6 +445,7 @@ function bloquearInputs(){
     //$("#iptCategoria").prop( "disabled", true );
     $("#iptPresentacion").prop( "disabled", true );
     $("#selUnidadMedida").prop( "disabled", true );
+    $("#iptPrecio").prop( "disabled", true );
 }
 function limpiar(){
     $("#iptCodigoBarra").val("");
@@ -431,6 +454,7 @@ function limpiar(){
     $("#iptCategoria").val("");
     $("#iptPresentacion").val("");
     $("#selUnidadMedida").val(0);
+    $("#iptPrecio").val("");
 }
 
 

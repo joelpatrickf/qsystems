@@ -24,10 +24,18 @@ class InspeccionControlador{
 	/* *********************************
 			ACTUALIZAR
 	**********************************/
-	// static public function ctrlActualizarInspeccion($table,$data, $id, $nameId){
-	// 	$Usuario1 = InspeccionModelo::mdlActuaizarInspeccion($table,$data, $id, $nameId);
-	// 	return $Usuario1;
-	// }		
+	static public function ctrlActualizarInspeccion($table,$data, $id, $nameId){
+		$Usuario1 = InspeccionModelo::mdlActuaizarInspeccion($table,$data, $id, $nameId);
+		return $Usuario1;
+	}
+	
+	/* *********************************
+			ELIMINA
+	**********************************/
+	static public function ctrEliminarInspeccion($id_ins_var){
+		$Usuario1 = InspeccionModelo::mdlEliminarInspeccion($id_ins_var);
+		return $Usuario1;
+	}	
 
 }
 

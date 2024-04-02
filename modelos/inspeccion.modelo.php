@@ -53,36 +53,48 @@ class InspeccionModelo{
 
 	
    // ACTUALIZAR REGISTROS
-   static public function mdlActuaizarCategorias($table,$data, $id, $nameId){
+   static public function mdlActuaizarInspeccion($table,$data, $id, $nameId){
 
-	// print_r($data);
-	// exit();
+		// print_r($data);
+		// exit();
 
-	//$user=$_SESSION['login'][0]->usuario;
-			
-	$set = "";
-	foreach ($data as $key => $value){
-		$set .= $key." = :".$key.",";
+		//$user=$_SESSION['login'][0]->usuario;
+				
+		$set = "";
+		foreach ($data as $key => $value){
+			$set .= $key." = :".$key.",";
+		}
+
+		$set = substr($set, 0, -1);
+
+		$stmt = Conexion::conectar()->prepare("UPDATE $table SET $set WHERE $nameId = :$nameId");
+		
+		foreach ($data as $key => $value){
+			$stmt->bindParam(":".$key, $data[$key], PDO::PARAM_STR);
+		}
+		
+		$stmt->bindParam(":".$nameId, $id, PDO::PARAM_STR);
+
+		if($stmt->execute()){
+			return "ok";
+		}else{
+			return Conexion::conectar()->errorInfo();
+
+		}
+
+	}		
+
+	static public function mdlEliminarInspeccion($id_ins_var)
+	{
+
+        	$sql1 = "DELETE FROM insp_variables WHERE id_ins_var = ? " ;
+	        $stmt1 = Conexion::conectar()->prepare($sql1);
+	        $stmt1->bindvalue(1, $id_ins_var);
+	        $stmt1->execute();
+
+        return 'ok';
 	}
 
-	$set = substr($set, 0, -1);
-
-	$stmt = Conexion::conectar()->prepare("UPDATE $table SET $set WHERE $nameId = :$nameId");
-	
-	foreach ($data as $key => $value){
-		$stmt->bindParam(":".$key, $data[$key], PDO::PARAM_STR);
-	}
-	
-	$stmt->bindParam(":".$nameId, $id, PDO::PARAM_STR);
-
-	if($stmt->execute()){
-		return "ok";
-	}else{
-		return Conexion::conectar()->errorInfo();
-
-	}
-
-}		
 
 }
 

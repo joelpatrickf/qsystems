@@ -6,32 +6,12 @@ if(isset($_SESSION)){ }else{ session_start(); }
     // print_r($_SESSION['login']);
 ?>
 <style>
-    table.dataTable.no-footer {border-bottom: 1px solid #ddd;}   
-    .paging_full_numbers {width: 100%;}    
-   
+
     table.dataTable td.dt-type-numeric, table.dataTable td.dt-type-date {
         text-align: center;
     }
 
 
-    .ui-datatable tbody td {
-        white-space: normal;
-    }    
-    colgroup {
-        display: none!important;
-    }
-      
-    .card-body {
-        padding: 0rem;
-    }    
-
-    table.dataTable tbody th, table.dataTable tbody td {
-        padding: 8px 10px;
-    }    
-
-    div.dt-container .dt-paging .dt-paging-button {
-        padding: 0px;
-    }      
 </style>
 
 <!-- page content -->
@@ -63,7 +43,7 @@ if(isset($_SESSION)){ }else{ session_start(); }
                                     <span class="small">Fecha</span><span class="text-danger">*</span>
                                 </label>
                                 <input type="date" class="form-control" id="iptFecha"
-                                    placeholder="Ingrese el Usuario"  required disabled value="<?php echo $SoloFechaActual ?>">
+                                    placeholder="Ingrese la Fecha"  required disabled value="<?php echo $SoloFechaActual ?>">
                             </div>
                         </div>
 
@@ -79,7 +59,7 @@ if(isset($_SESSION)){ }else{ session_start(); }
                         </div>
 
                         <!-- Columna numero de muestras -->
-                        <div class="col-12 col-lg-2">
+                        <div class="col-12 col-lg-4">
                             <div class="form-group mb-2">
                                 <label class="" for="iptNumeroMuestras"><i class="fas fa-id-card fs-6"></i>
                                     <span class="small">No. Muestras x Inspección</span><span class="text-danger">*</span>
@@ -95,21 +75,19 @@ if(isset($_SESSION)){ }else{ session_start(); }
             
                 
                 <div class="card-body pb-0 pt-0">
-                    <!-- row para tabla  -->
                     <div class="row">
                         <div class="col-lg-12">
-                            <!-- <table id="tbl_usuarios" class="table table-striped cell-border w-100 shadow " width="100%"> -->
-                            <table id="tbl_usuarios"  class="table table-striped cell-border" style="width:100%">
+                            <table id="tbl_inspeccion"  class="table table-striped cell-border" style="width:100%">
 
                                 <thead class="bg-gray">
                                     <tr style="font-size: 15px;">
-                                        <th class="text-center">11</th> <!-- 1 -->
-                                        <th class="text-center">id</th> <!-- 2 -->
-                                        <th class="text-center">Fecha</th> <!-- 5 -->
-                                        <th class="text-center">Variable</th> <!-- 5 -->
-                                        <th class="text-center">Numero</th> <!-- 4 -->
-                                        <th class="text-center">Usuario</th> <!-- 6 -->
-                                        <!-- <th class="text-center">Opciones</th> -->
+                                        <!-- <th class="text-center">11</th>  -->
+                                        <th class="text-center">id</th> 
+                                        <th class="text-center">Fecha</th> 
+                                        <th class="text-center">Variable</th> 
+                                        <th class="text-center">Numero</th> 
+                                        <th class="text-center">Usuario</th> 
+                                        <th class="text-center">Opciones</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-small">
@@ -131,18 +109,19 @@ if(isset($_SESSION)){ }else{ session_start(); }
 <script type="text/javascript">
 var accion = 2;
 $(document).ready(function(){
+    var id_ins_var=0;
     // Personalizamos el toast mensajes
     // toastr.options.timeOut = 1500; // 1.5s
     // toastr.options.closeButton = true;
     //********************************************************    
-    //-CARGA DE USUARIOS EXISTENTES
+    //-CARGA DE  EXISTENTES
     //********************************************************    
 
-        table = $("#tbl_usuarios").DataTable({
+        table = $("#tbl_inspeccion").DataTable({
             select: true,
             info: false,
             ordering: false,
-            // responsive:true,
+            responsive:true,
             //paging: false,            
 
             ajax:{
@@ -152,12 +131,13 @@ $(document).ready(function(){
                 data: {'accion' : 1}, // 1 para listar 
             },
             columns: [
-            { "data": "vacio" },
+            //{ "data": "vacio" },
             { "data": "id_ins_var" },
             { "data": "fecha" },
             { "data": "variable" },
             { "data": "nmuestras" },
             { "data": "usuario" },
+            { "data": "vacio" },
            ],             
          
             // responsive: {
@@ -172,24 +152,25 @@ $(document).ready(function(){
                 // {targets:0,visible:false,},
                 // {targets:2,visible:false,},
                 
-                // { responsivePriority: 1, targets: 9 },
+                { responsivePriority: 1, targets: 2 },
+                { responsivePriority: 1, targets: 5 },
                 
-                // {
-                //     targets:9,
-                //     orderable:false,
-                //     render: function(data, type, full, meta){
-                //         return "<center>"+
-                //                       "<span class='btnEditar text-primary px-1' style='cursor:pointer;'>"+
-                //                         "<i class='fas fa-pencil-alt fs-5'></i>"+
-                //                     "</span>"+
-                //                     "<span class='btnEliminar text-danger px-1' style='cursor:pointer;'>"+
-                //                         "<i class='fas fa-trash fs-5'></i>"+
-                //                     "</span>"+                                    
+                {
+                    targets:5,
+                    orderable:false,
+                    render: function(data, type, full, meta){
+                        return "<center>"+
+                                      "<span class='btnEditar text-primary px-1' style='cursor:pointer;'>"+
+                                        "<i class='fas fa-pencil-alt fs-5'></i>"+
+                                    "</span>"+
+                                    "<span class='btnEliminar text-danger px-1' style='cursor:pointer;'>"+
+                                        "<i class='fas fa-trash fs-5'></i>"+
+                                    "</span>"+                                    
 
-                //                 "</center>"
-                //     }
+                                "</center>"
+                    }
 
-                // }     
+                }     
 
 
             ],
@@ -201,51 +182,46 @@ $(document).ready(function(){
     //--BOTON EDITAR -//
     //******************//
 
-    $('#tbl_usuarios tbody').on('click','.btnEditar', function(){
+    $('#tbl_inspeccion tbody').on('click','.btnEditar', function(){
         accion = 3; //-GUARDAR MODIFICACION
 
         var data = table.row($(this).parents('tr')).data();
-        $("#iptUsuario").val(data[1]);
-        $("#iptPassword").val(data[2]);
-        $("#iptCedula").val(data[3]);
-        $("#iptNombres").val(data[4]);
-        $("#iptCargo").val(data[8]);
+        id_ins_var =  data['id_ins_var']
+        $("#iptFecha").val(data['fecha']);
+        $("#iptVariables").val(data['variable']);
+        $("#iptNumeroMuestras").val(data['nmuestras']);
 
         
-
-        if (data[5] == 'ADMIN'){
-            $("#selPerfil").val(1) ;
-        }else if (data[5] == 'NORMAL'){
-            $("#selPerfil").val(2) ;
-        }
+        
         $("#btnClose" ).prop( "hidden", false );
         desBloquearInputs();        
         $("#iptUsuario").prop( "disabled", true );
         $("#iptPassword").focus();
-     })
+    })
     
-     $('#tbl_usuarios tbody').on('click','.btnEliminar', function(){
+     $('#tbl_inspeccion tbody').on('click','.btnEliminar', function(){
         var data = table.row($(this).parents('tr')).data();
-        varUsuarioEliminar = data[1];
+        varEliminar = data['id_ins_var'];
+
         $.ajax({
                 async: false,
-                url:"../ajax/usuarios.ajax.php",
+                url:"../ajax/inspeccion.ajax.php",
                 method: "POST",
                 data: {
                     'accion':4,
-                    'usuario': varUsuarioEliminar
+                    'id_ins_var': varEliminar
                 },
                 dataType: "json",
                 success: function(respuesta){
                     console.log(respuesta);
                     if (respuesta == 'ok'){
-                        toastr["success"]("Cambio de estado a INACTIVO Correcta", "!Atención!");
+                        toastr["success"]("Eliminacion Correcta", "!Atención!");
                         // limpiar();
                         // bloquearInputs();
 
                         table.ajax.reload();
                     }else{
-                        toastr["error"]("No se pudo cambiar de estado al USUARIO", "!Atención!");
+                        toastr["error"]("No se pudo Eliminar", "!Atención!");
                     }
                     // bloquearInputs();
                     // limpiar();
@@ -306,6 +282,7 @@ $(document).ready(function(){
                     'fecha': $("#iptFecha").val(),
                     'variables': $("#iptVariables").val(),
                     'numero_muestras': $("#iptNumeroMuestras").val(),
+                    'id_ins_var' : id_ins_var
                 },
                 dataType: "json",
                 success: function(respuesta){
