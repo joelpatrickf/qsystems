@@ -447,49 +447,49 @@ $(document).ready(function(){
         //********************************************************    
         //console.log("🚀 ~ file: ventas.php ~ line 313 ~ $ ~ ui.item.value", ui.item.value);
         $.ajax({
-                async: false,
-                url:"../ajax/productos.ajax.php",
-                method: "POST",
-                data: {'accion':4},
-                dataType: "json",
-                success: function(respuesta){
-                    console.log("autocomplete 1",respuesta);
-                    for (let i = 0; i < respuesta.length;i++){
-                        items.push(respuesta[i]['codigo_barra1']+"   "+respuesta[i]['nombre_producto']);
-                    }
-                    $("#iptProducto").autocomplete({
-                        source: items,
-                        select: function(event, ui){
-                            //CargarProductos(ui.item.value);
-                            
-                            const myArray = ui.item.value.split("   ");
-                            varProducto = myArray[1];
-                            $("#iptProductoBuscar").val(varProducto);
-                            
-                            // ****************************
-                            // ----BUSQUEDA DE PRODUCTO
-                            // ****************************
-                            //alert(myArray);
-                            $.ajax({
-                                url:"../ajax/productos.ajax.php",
-                                type: "POST",
-                                data: {'accion': 5, 'data':myArray}, // 1  buscar 
-                                dataType: 'json',
-                                success: function(respuesta){
-                                    console.log("producto-normativa",respuesta)
-                                    $("#iptNorma").val(respuesta[0]['normativa']);
-                                    $("#iptCategoria").val(respuesta[0]['categoria']);
-                                    //$("#iptIdNormativa").val(respuesta[0]['id_normativa']);
-                                    
-                                    $("#iptPresentacion").val(respuesta[0]['presentacion']);
-                                    $("#iptId_item").val(respuesta[0]['id_item']);
-                                    $("#selPlanta").focus();
-                                }
-                            });                            
-                        }
-                    })
+            async: false,
+            url:"../ajax/productos.ajax.php",
+            method: "POST",
+            data: {'accion':4},
+            dataType: "json",
+            success: function(respuesta){
+                console.log("autocomplete 1",respuesta);
+                for (let i = 0; i < respuesta.length;i++){
+                    items.push(respuesta[i]['codigo_barra1']+"   "+respuesta[i]['nombre_producto']);
                 }
-            });
+                $("#iptProducto").autocomplete({
+                    source: items,
+                    select: function(event, ui){
+                        //CargarProductos(ui.item.value);
+                        
+                        const myArray = ui.item.value.split("   ");
+                        varProducto = myArray[1];
+                        $("#iptProductoBuscar").val(varProducto);
+                        
+                        // ****************************
+                        // ----BUSQUEDA DE PRODUCTO
+                        // ****************************
+                        //alert(myArray);
+                        $.ajax({
+                            url:"../ajax/productos.ajax.php",
+                            type: "POST",
+                            data: {'accion': 5, 'data':myArray}, // 1  buscar 
+                            dataType: 'json',
+                            success: function(respuesta){
+                                console.log("producto-normativa",respuesta)
+                                $("#iptNorma").val(respuesta[0]['normativa']);
+                                $("#iptCategoria").val(respuesta[0]['categoria']);
+                                //$("#iptIdNormativa").val(respuesta[0]['id_normativa']);
+                                
+                                $("#iptPresentacion").val(respuesta[0]['presentacion']);
+                                $("#iptId_item").val(respuesta[0]['id_item']);
+                                $("#selPlanta").focus();
+                            }
+                        });                            
+                    }
+                })
+            }
+        });
 
 
     //******************//

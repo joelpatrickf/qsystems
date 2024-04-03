@@ -222,14 +222,14 @@ $(document).ready(function(){
         });
 
         
+    //*************************
+    //-TRAER LISTADO DE LINEAS
+    //*************************
 
     $("#iptArea").change(function() {
 
         selResultadoArea = $("#iptArea").val();
         //alert(selResultadosArea);
-        //*************************
-        //-TRAER LISTADO DE LINEAS
-        //*************************
         $.ajax({
             async: false,
             url:"../ajax/zonificacion.ajax.php",
