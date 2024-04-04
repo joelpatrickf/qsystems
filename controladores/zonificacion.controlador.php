@@ -36,5 +36,22 @@ class ZonificacionControlador{
 		$res = ZonificacionModelo::mdlZonificacionEditar($table,$data, $id, $nameId);
 		return $res;
 	}	
+
+	/* *********************************
+			ACCION MODAL AREA
+	**********************************/
+	static public function ctrlZonificacion_mdlArea($data){
+		$res = ZonificacionModelo::mdlZonificacion_mdlArea($data);
+		return $res;
+	}
+	
+	/* *********************************
+			ACCION MODAL AREA
+	**********************************/
+	static public function ctrlZonificacion_mdlLinea($data){
+		$res = ZonificacionModelo::mdlZonificacion_mdlLinea($data);
+		return $res;
+	}	
+
 }
 

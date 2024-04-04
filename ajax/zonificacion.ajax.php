@@ -42,6 +42,24 @@ class AjaxZonificacion{
         $respuesta = ZonificacionControlador::ctrlZonificacionEditar($table,$data, $id, $nameId);
         echo json_encode($respuesta);
     }	
+
+	// /* *********************************
+	// 		 ACCION MODAL AREA
+	// **********************************/	
+	public function AjaxZonificacion_mdlArea($data)
+	{
+		$res1 = ZonificacionControlador::ctrlZonificacion_mdlArea($data);
+		echo json_encode($res1);
+	}
+	
+	// /* *********************************
+	// 		 ACCION MODAL LINEA
+	// **********************************/	
+	public function AjaxZonificacion_mdlLinea($data)
+	{
+		$res1 = ZonificacionControlador::ctrlZonificacion_mdlLinea($data);
+		echo json_encode($res1);
+	}	
 		
 }
 
@@ -63,13 +81,36 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR
 }else if (isset($_POST['accion']) && $_POST['accion'] == 4) { // MODIFICAR
 	//print_r($_POST);
     $res = new AjaxZonificacion();
-   $data = array(
+   	$data = array(
             "area_p" => $_POST["area"],
             "linea_p" => $_POST["linea"],
             "puntos_insp" => $_POST["puntos"],
             "id" => $_POST["id"]
     );
-
 	$res -> ajaxZonificacionEditar($data);
+
+}else if (isset($_POST['accion']) && ($_POST['accion'] == 'mdlArea_new' || $_POST['accion'] == 'mdlArea_edit')) {  // AREA
+	// print_r($_POST);
+    $res = new AjaxZonificacion();
+   	$data = array(
+            "accion" => $_POST["accion"],
+            "area" => $_POST["area"],
+            "observacion" => $_POST["observacion"],
+            "id_area" => $_POST["id"],
+            "estado" => $_POST["estado"]
+    );
+	$res -> AjaxZonificacion_mdlArea($data);
+
+}else if (isset($_POST['accion']) && ($_POST['accion'] == 'mdlLinea_new' || $_POST['accion'] == 'mdlLinea_edit')) {  // LINEA
+	// print_r($_POST);
+    $res = new AjaxZonificacion();
+   	$data = array(
+            "accion" => $_POST["accion"],
+            "linea" => $_POST["linea"],
+            "observacion" => $_POST["observacion"],
+            "id_linea" => $_POST["id"],
+            "estado" => $_POST["estado"]
+    );
+	$res -> AjaxZonificacion_mdlLinea($data);
 
 }

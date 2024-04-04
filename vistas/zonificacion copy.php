@@ -45,7 +45,7 @@
 
                         <div class="col-6 text-" >
                             <div class="btn-group" role="group" aria-label="Basic example">
-                                    <a id="btnArea" class="btn btn-info" href="#" role="button" >Area</a>
+                                    <!-- <a id="btnArea" class="btn btn-info" href="#" role="button" >Area</a> -->
                                     <a id="btnLinea" class="btn btn-dark" href="#" role="button">Linea</a>
                             </div>
 
@@ -128,7 +128,6 @@
 
 
 		</div>
-
         <!-- Modal AREA-->
         <div class="modal fade bd-example-modal-lg" id="mdlArea" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg" role="document">
@@ -206,82 +205,6 @@
         </div>
         <!-- Modal AREA-->
 
-        <!-- Modal LINEA-->
-        <div class="modal fade bd-example-modal-lg" id="mdlLinea" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg" role="document">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Administrar Lineas</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                    <div class="modal-body">
-                            <div class="row">
-                                <!-- Columna Area -->
-                                <div class="col-12 col-lg-4">
-                                    <div class="form-group mb-2">
-                                        <label class="" for="ipt_mdlLinea"><i class="fas fa-bank fs-6"></i>
-                                            <span class="small">Linea de Produccion</span><span class="text-danger">*</span>
-                                        </label>
-                                        <input type="text" class="form-control" id="ipt_mdlLinea" required  >
-                                    </div>
-                                    
-                                </div>
-
-                                <!-- Columna observacion -->
-                                <div class="col-12 col-lg-4">
-                                    <div class="form-group mb-2">
-                                        <label class="" for="ipt_mdlObservacion"><i class="fas fa-comment fs-6"></i>
-                                            <span class="small">Observacion</span><span class="text-danger">*</span>
-                                        </label>
-                                        <input type="text" class="form-control" id="ipt_mdlObservacion" required  >
-                                    </div>                            
-                                </div>
-                                <!-- Columna TIPO DE PROVEEDOR -->
-                                <div class="col-4 col-lg-4">
-                                    <div class="form-group mb-2">
-                                        <label class="" for="sel_mdlEstado"><i class="fas fa-user fs-6"></i>
-                                            <span class="small">Estado</span><span class="text-danger">*</span>
-                                        </label>
-                                        <select class="form-control " aria-label=".form-select-sm example" id="sel_mdlEstado">
-                                                <option value="ACTIVO" selected>ACTIVO</option>
-                                                <option value="INACTIVO">INACTIVO</option>
-                                        </select>
-                                    </div>
-                                </div>                    
-                            </div>  
-                            
-                            <div class="row">
-                                <div class="col-lg-12">
-                                    <table id="tbl_mdlLinea" class="table table-striped cell-border w-100 shadow  " width="100%">
-                                        <thead class="bg-gray">
-                                            <tr style="font-size: 15px;">
-                                                <!-- <th class="text-center"></th> -->
-                                                <th class="text-center">Id</th>
-                                                <th class="text-center">Linea</th>
-                                                <th class="text-center" >Fecha</th>
-                                                <th class="text-center" >Usuario</th>
-                                                <th class="text-center">Observacion</th>
-                                                <th class="text-center">Estado</th>
-                                                <th class="text-center">Acción</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="text-small">
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>                 
-
-                    </div>
-                <div class="modal-footer">
-                    <button type="button" id="btnMdlLineaClose" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" id="btnMdlLineaSave" class="btn btn-primary">Save changes</button>
-                </div>
-                </div>
-            </div>
-        </div>
-        <!-- Modal LINEA-->        
 
 	</div>
 <!-- </div> -->
@@ -305,10 +228,7 @@ $(document).ready(function(){
     var flagValidarLinea; // flag de lineas
     var id_mdlArea = null;
     var accion_mdlArea = "mdlArea_new";
-
-    var id_mdlLinea = null;
-    var accion_mdlLinea = "mdlLinea_new";    
-
+    
     //********************************************************    
     //-CARGA DE USUARIOS EXISTENTES
     //********************************************************    
@@ -584,7 +504,6 @@ $(document).ready(function(){
     /*============================
         activar el modal de area
     ============================*/
-
     $("#btnArea").click(function() {
         $("#mdlArea").modal('show');
             
@@ -675,155 +594,17 @@ $(document).ready(function(){
 
     })
 
-//*********************************************LINEA ACTIVITIES******************************************** */
-
-
+//************************************************************************************************ */    
+    /*============================
+        activar el modal de area
+    ============================*/
     $("#btnLinea").click(function() {
-        $("#mdlLinea").modal('show');    
+        $("#mdlArea").modal('show');
+        alert("fer");
 
-        table_Linea = $("#tbl_mdlLinea").DataTable({
-            "bDestroy": true,
-            select: true,
-            info: false,
-            ordering: false,
-            responsive: true,
-           
-            //paging: false,            
-            dom: 'Bfrtilp',
-            buttons: ['excel', 'pdf'],
+    })        
 
-            ajax:{
-                url:"../ajax/zonificacion.ajax.php",
-                dataSrc: '',
-                type:"POST",            
-                data: {
-                    'accion':1,
-                    'filtro': 'linea',
-                    'dato': null
-                },
-            },
-            columns: [
-                { "data": "id_linea" }, 
-                { "data": "linea" }, 
-                { "data": "fecha" },
-                { "data": "usuario" },
-                { "data": "observacion" },
-                { "data": "estado" },
-                { "data": "vacio" }
-            ],        
-            columnDefs:[
-
-                {"className": "dt-center", "targets": "_all"},
-                {targets:0,orderable:false,className:'control'},
-
-                {targets:2,visible:false},
-                {targets:3,visible:false},
-
-                { responsivePriority: 1, targets: 6 },
-                {
-                    targets:6,
-                    orderable:false,
-                    render: function(data, type, full, meta){
-                        return "<center>"+
-                                        "<span class='btn_mdlEditarLinea text-primary px-1' style='cursor:pointer;'>"+
-                                        "<i class='fas fa-pencil-alt fs-5'></i>"+
-                                    "</span>"+                                    
-                                "</center>"
-                    }
-                } ,    
-            ],
-            pageLength: 10,
-            language: 
-                {
-                    "lengthMenu": "",
-                    "zeroRecords": "No se encontraron resultados",
-                    "info": "",
-                    "infoEmpty": "",
-                    "infoFiltered": "",
-                    "sSearch": "Buscar:",
-                    "oPaginate": {
-                        "sFirst": "<<",
-                        "sLast":">>",
-                        "sNext":">",
-                        "sPrevious": "< "
-                        },
-                        "sProcessing":"Procesando...",
-                }, 
-        }); 
-    })
-
-    //*******************************
-    //- LINEA EDITAR
-    //*******************************
-    $('#tbl_mdlLinea tbody').on('click','.btn_mdlEditarLinea', function(){
-        var data = table_Linea.row($(this).parents('tr')).data();
-        //console.log(data);
-
-        
-        
-        $("#ipt_mdlLinea").val(data['linea']);
-        $("#ipt_mdlObservacion").val(data['observacion']);
-        buscarSelect(data['estado'],'sel_mdlEstado');
-
-        id_mdlLinea = data['id_linea']
-        accion_mdlLinea = "mdlLinea_edit";
-        
-    })
-
-    //*******************************
-    //-GUARDAR LINEA 
-    //*******************************
-    $("#btnMdlLineaSave").click(function() {
-        //var accion_mdlArea = "mdlArea_new";
-        var sel_mdlEstado = document.getElementById("sel_mdlEstado");
-        var mdlLineaEstado = sel_mdlEstado.options[sel_mdlEstado.selectedIndex].text;
-        
-        const msg = [];
-        var mdlLinea =  $("#ipt_mdlLinea").val();
-        var mdlLineaObservacion =  $("#ipt_mdlObservacion").val();
-        
-        if (mdlLinea.length == 0){msg.push(' Linea');}
-        if (mdlLineaObservacion.length == 0){msg.push(' Observacion');}
-        if ($("#sel_mdlEstado").val() == 0){msg.push(' Estado');}
-
-        if (msg.length != 3 && msg.length != 0){
-            toastr["error"]("Ingrese los siguientes datos :"+msg, "!Atención!");
-            return;
-        }else if(msg.length == 3){
-            toastr["error"]("No existen datos para guardar", "!Atención!");
-            return;
-        }
-        
-        $.ajax({
-                async: false,
-                url:"../ajax/zonificacion.ajax.php",
-                method: "POST",
-                data: {
-                    'accion':accion_mdlLinea,
-                    'linea': mdlLinea,
-                    'observacion': mdlLineaObservacion,
-                    'id': id_mdlLinea,
-                    'estado': mdlLineaEstado,
-                },
-                dataType: "json",
-                success: function(respuesta){
-                    console.log("guardar modal area ",respuesta);
-                    if (respuesta == 'ok'){
-                        $("#ipt_mdlLinea").val("")
-                        $("#ipt_mdlObservacion").val("")
-                        toastr["success"]("Ingreso de Información Correcta", "!Atención!");
-                        table_Linea.ajax.reload();
-                    }else{
-                        toastr["error"]("Ingreso Incorrecto, entrada duplicada", "!Atención!");
-                    }
-                    accion_mdlArea = "mdlArea_new";
-                }
-        });
-    });    
-//*********************************************LINEA ACTIVITIES******************************************** */
-
-
-
+//************************************************************************************************ */    
     //*******************************
     //-GUARDAR Zonificacion completa
     //*******************************
@@ -881,7 +662,7 @@ $(document).ready(function(){
     //-GUARDAR Area 
     //*******************************
     $("#btnMdlAreaSave").click(function() {
-        //var accion_mdlLinea = "mdlArea_new";
+        //var accion_mdlArea = "mdlArea_new";
         var selEstado = document.getElementById("selModalEstado");
         var mdlAreaEstado = selEstado.options[selEstado.selectedIndex].text;
         
@@ -893,10 +674,10 @@ $(document).ready(function(){
         if (mdlAreaObservacion.length == 0){msg.push(' Observacion');}
         if ($("#selModalEstado").val() == 0){msg.push(' Estado');}
 
-        if (msg.length != 3 && msg.length != 0){
+        if (msg.length != 2 && msg.length != 0){
             toastr["error"]("Ingrese los siguientes datos :"+msg, "!Atención!");
             return;
-        }else if(msg.length == 3){
+        }else if(msg.length == 2){
             toastr["error"]("No existen datos para guardar", "!Atención!");
             return;
         }
@@ -943,7 +724,35 @@ $(document).ready(function(){
         
     })
 
-    
+    //*******************************
+    //- AREA ELIMINAR
+    //*******************************        
+    $('#tbl_mdlArea tbody').on('click','.btn_mdlEliminarArea', function(){
+        var data = table_Area.row($(this).parents('tr')).data();
+        id_mdlArea = data['id_area']
+        accion_mdlArea = "mdlArea_delete";
+
+        $.ajax({
+                async: false,
+                url:"../ajax/zonificacion.ajax.php",
+                method: "POST",
+                data: {
+                    'accion':accion_mdlArea,
+                    'id': id_mdlArea,
+                },
+                dataType: "json",
+                success: function(respuesta){
+                    console.log("guardar modal area ",respuesta);
+                    if (respuesta == 'ok'){
+                        toastr["success"]("Ingreso de Información Correcta", "!Atención!");
+                        table_Area.ajax.reload();
+                    }else{
+                        toastr["error"]("Ingreso Incorrecto, entrada duplicada", "!Atención!");
+                    }
+                    accion_mdlArea = "mdlArea_new";
+                }
+        });        
+    })    
 
 
 });
