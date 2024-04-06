@@ -27,20 +27,24 @@ class ZonificacionModelo{
 	}
 
 	/* *********************************
-			LISTAR ALL
+			LISTAR ALL GRID PRINCIPAL
 	**********************************/
 	static public function mdlZonificacionListarAll()
 	{
-		$stmt = Conexion::conectar()->prepare("SELECT '' as vacio, id, area_p, linea_p, puntos_insp, fecha, usuario FROM zonificacion");
+		//$stmt = Conexion::conectar()->prepare("SELECT '' as vacio, id, area_p, linea_p, puntos_insp, fecha, usuario FROM zonificacion");
+			$stmt = Conexion::conectar()->prepare("SELECT '' as vacio, z.id_zonificacion, a.id_area, a.area, l.id_linea, l.linea,z.punto_insp, z.fecha, z.usuario
+													FROM zonificacion z
+													INNER JOIN area a ON z.id_area= a.id_area
+													INNER JOIN linea l ON z.id_linea= l.id_linea");
 		$stmt->execute();
 		return $stmt-> fetchAll(PDO::FETCH_CLASS);
 	}	
 
 	/* *********************************
-			GUARDAR NUEVOS REGISTROS
+			GUARDAR NUEVOS REGISTROS # 2
 	**********************************/
 
-	static public function mdlZonificacionGuardar($area,$linea,$puntos)
+	static public function mdlZonificacionGuardar($id_area,$id_linea,$puntos)
 	{
 		// print_r($data);
 		// exit();
@@ -51,12 +55,12 @@ class ZonificacionModelo{
 			$fechaActual = date('Y-m-d H:i:s', time()); 
 			$user=$_SESSION['login'][0]->usuario;
 
-	        $stmt = Conexion::conectar()->prepare("INSERT INTO zonificacion(area_p,linea_p,puntos_insp, fecha, usuario)
-			 VALUES(:area_p, :linea_p, :puntos_insp, :fecha, :usuario)");
+	        $stmt = Conexion::conectar()->prepare("INSERT INTO zonificacion(id_area,id_linea,punto_insp, fecha, usuario)
+			 VALUES(:id_area, :id_linea, :punto_insp, :fecha, :usuario)");
 
-	        $stmt->bindParam(":area_p", $area); 
-	        $stmt->bindParam(":linea_p", $linea); 
-	        $stmt->bindParam(":puntos_insp", $puntos); 
+	        $stmt->bindParam(":id_area", $id_area); 
+	        $stmt->bindParam(":id_linea", $id_linea); 
+	        $stmt->bindParam(":punto_insp", $puntos); 
 	        $stmt->bindParam(":fecha", $fechaActual); 
 	        $stmt->bindParam(":usuario", $user); 
 			$stmt->execute();
@@ -161,7 +165,7 @@ class ZonificacionModelo{
 
 	static public function mdlZonificacion_mdlLinea($data)
 	{
-		// print_r($data['area']);
+		// print_r($data);
 		// exit();
 		
 		// Ingreso de area
@@ -172,7 +176,7 @@ class ZonificacionModelo{
 				$fechaActual = date('Y-m-d H:i:s', time()); 
 				$user=$_SESSION['login'][0]->usuario;
 	
-				$stmt = Conexion::conectar()->prepare("INSERT INTO area(linea,fecha,usuario,observacion,estado)
+				$stmt = Conexion::conectar()->prepare("INSERT INTO linea(linea,fecha,usuario,observacion,estado)
 				 VALUES(:linea,:fecha,:usuario,:observacion,:estado)");
 	
 				$stmt->bindParam(":linea", $data['linea']); 
@@ -207,6 +211,20 @@ class ZonificacionModelo{
 		}
 		return $resultado;
 	}	
+
+	/* *********************************
+	 		 LISTAR AREA/LINEA # 5
+	 ***********************************/
+	static public function mdlZonificacionListarArea_Linea()
+	{
+		//$stmt = Conexion::conectar()->prepare("SELECT '' as vacio, id, area_p, linea_p, puntos_insp, fecha, usuario FROM zonificacion");
+			$stmt = Conexion::conectar()->prepare("SELECT distinct z.id_area, z.id_linea, a.area, l.linea, a.area as label
+													FROM zonificacion z
+													INNER JOIN area a ON z.id_area = a.id_area
+													INNER JOIN linea l ON z.id_linea = l.id_linea");
+		$stmt->execute();
+		return $stmt-> fetchAll(PDO::FETCH_CLASS);
+	}
 
 }
 

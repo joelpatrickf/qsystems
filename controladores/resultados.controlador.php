@@ -7,50 +7,19 @@
 class ResultadosControlador{
 
 	/* *********************************
-			LISTAR PRODUCTOS
-	**********************************/
+			LISTAS # 1
+	**********************************/ 
 	static public function ctrlListarResultados(){
 		$resultados1 = ResultadosModelo::mdlListarResultados();
 		return $resultados1;
 	}
 
 	/* *********************************
-			GUARDAR NUEVOS REGISTROS
+		GUARDAR NUEVOS REGISTROS # 2
 	**********************************/
 	static public function ctrlRegistrarResultados($data){
 		$resultados2 = ResultadosModelo::mdlRegistrarResultados($data);
 		return $resultados2;
 	}
 
-	/* *********************************
-			ACTUALIZAR
-	**********************************/
-	// static public function ctrlActualizarResultados($table,$data, $id, $nameId){
-	// 	$resultados3 = ResultadosModelo::mdlActuaizarResultados($table,$data, $id, $nameId);
-	// 	return $resultados3;
-	// }		
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// if (isset($_POST['accion']) && $_POST['accion'] == 1) { // verificar login
-// 	$horarios1 = new UsuarioControlador();
-// 	$horarios1-> login($_POST['usuario'],$_POST['clave']);
-
-// } 

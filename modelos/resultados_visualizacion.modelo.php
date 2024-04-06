@@ -5,13 +5,13 @@ require_once "conexion.php";
 
 class ResultadosVisualizacionModelo{
 
-	// *********************************
-	// 		BUSCAR # 2
-	// **********************************/
+	/* ********************************************
+	 		BUSCAR Visualizacion de Resultados # 2
+	   ********************************************/
 	static public function mdlResultadosVisualizacionBuscar($lote)
 	{
 		// echo "<pre>";
-		// print_r($stmt-> fetchAll(PDO::FETCH_CLASS));
+		// print_r($lote);
 		// echo "<pre>";
 		// exit();
 

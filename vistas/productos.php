@@ -118,13 +118,13 @@
                                         <th class="text-center">Item</th> <!-- 1 -->
                                         <th class="text-center">Cod-Barra</th> <!-- 2 -->
                                         <th class="text-center">Producto</th> <!-- 5 -->
+                                        <th class="text-center">Precio</th> <!-- 6 -->
                                         <th class="text-center">Normativa</th> <!-- 4 -->
                                         <th class="text-center">Categoria</th> <!-- 4 -->
                                         <th class="text-center">Presentacion</th> <!-- 5 -->
                                         <th class="text-center">Fecha_Creacion</th> <!-- 6 -->
                                         <th class="text-center">Estado</th> <!-- 6 -->
                                         <th class="text-center">Usuario</th> <!-- 6 -->
-                                        <th class="text-center">Precio</th> <!-- 6 -->
                                         <th class="text-center">Opciones</th> <!-- 12 -->
                                     </tr>
                                 </thead>
@@ -212,13 +212,13 @@ $(document).ready(function(){
             { "data": "id_item" }, //Estas son las colunas del json
             { "data": "codigo_barra1" },
             { "data": "nombre_producto" },
+            { "data": "precio" },
             { "data": "normativa" },
             { "data": "categoria" },
             { "data": "presentacion" },
             { "data": "fecha_creacion" },
             { "data": "estado" },
-            { "data": "usuario" },
-            { "data": "precio" }
+            { "data": "usuario" }
            ],        
         responsive: {
             details: {

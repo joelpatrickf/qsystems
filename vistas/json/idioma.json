@@ -1,0 +1,15 @@
+{
+    "lengthMenu": "",
+    "zeroRecords": "No se encontraron resultados",
+    "info": "",
+    "infoEmpty": "",
+    "infoFiltered": "",
+    "sSearch": "Buscar:",
+    "oPaginate": {
+        "sFirst": "<<",
+        "sLast":">>",
+        "sNext":">",
+        "sPrevious": "< "
+        },
+        "sProcessing":"Procesando..."
+}

@@ -25,18 +25,59 @@
     top: -660.889px!important; 
     left: 485.921px!important;
 } */
+    .p-label, .p-id {
+    	color: white;
+    	border-radius: 2px;
+    	padding: 0.2em;
+    }
+    .ui-autocomplete .p-label {
+        float: left;
+        font-size: smaller;
+        background: #16a765;
+    }
 
+    .ui-autocomplete .p-id {
+        margin-left: -1em!important;
+        float: right;
+        font-size: smaller;
+        background: #428bca;
+    }
+    .ui-menu .ui-menu-item {
+        padding: 3px 0em 3px .4em!important;
+    }
+    .ui-widget {
+        font-size: 0.9em!important;
+    }
 
+    .ui-widget-content {
+        /* background: red !important; */
+        width: 380px !important;
+    }
+
+    .ui-title .h-label{
+        padding-left: 0.7em; 
+    }
+    .ui-title .h-linea {
+    	margin-left: -1em !important;
+        float: right !important;
+    }    
+    /* .ui-menu .ui-menu-item-wrapper {
+        padding: 0px 0em 0px 0em !important;
+    }     */
 </style>    
 
 
+
+
+  <link href="https://code.jquery.com/ui/1.11.2/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+  <!-- <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet"> -->
 	<div class="row">
 		<div class="col-md-12">
 			<div class="card">
 				<div class="card-header pb-0 mb-0" >
                     <div class="row">
                         <div class="col-6">
-					       <h4> Generación Orden de Trabajo </h4>
+					       <h4> Generación Orden de Trabajo 11</h4>
                         </div>
                         <div class="col-6 text-" >
                             <button type="button" class="btn btn-warning mx-1" id="btnClose" style="float: right;" hidden>Close</button>
@@ -126,8 +167,25 @@
                                 </div>
                             </div>
     
-                            <!-- Columna UBICACION -->
-                            <div class="col-4 col-lg-2">
+                            <!-- Columna AREA -->
+                            <div class="col-12 col-lg-2">
+                                <div class="form-group mb-2">
+                                    <label class="" for="iptArea"><i class="fas fa-barcode fs-6"></i>
+                                        <span class="small">Area</span><span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" id="iptArea" required disabled >
+                                </div>
+                            </div>
+                            <!-- Columna LINEA -->
+                            <div class="col-12 col-lg-2">
+                                <div class="form-group mb-2">
+                                    <label class="" for="iptLinea"><i class="fas fa-barcode fs-6"></i>
+                                        <span class="small">Linea</span><span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control" id="iptLinea" required disabled >
+                                </div>
+                            </div>
+                            <!-- <div class="col-4 col-lg-2">
                                 <div class="form-group mb-2">
                                     <label class="" for="selUbicacion"><i class="fa fa-location-arrow fs-6"></i>
                                         <span class="small">Ubicacion</span><span class="text-danger">*</span>
@@ -136,7 +194,7 @@
 
                                     </select>
                                 </div>
-                            </div>
+                            </div> -->
 
                             <!-- Columna PROVEEDOR -->
                             <div class="col-4 col-lg-2">
@@ -214,27 +272,32 @@
                     <!-- row para tabla  -->
                     <div class="row">
                         <div class="col-12">
+                            <!-- <table id="tbl_orden_trabajo" class="table table-striped cell-border w-100 shadow  " width="100%"> -->
                             <table id="tbl_orden_trabajo" class="table table-striped cell-border w-100 shadow  " width="100%">
+                                
                                 <thead class="bg-gray">
                                     <tr style="font-size: 15px;">
-                                        <th ></th> <!-- 1 -->
-                                        <th >Orden</th> <!-- 1 -->
-                                        <th >Muestra</th> <!-- 1 -->
-                                        <th >Item</th> <!-- 2 -->
-                                        <th >Producto</th> <!-- 5 -->
-                                        <th >Categoria</th> <!-- 5 -->
-                                        <th >Norma</th> <!-- 5 -->
-                                        <th >Presentacion</th> <!-- 5 -->
-                                        <th >Planta</th> <!-- 4 -->
-                                        <th >Ubicacion</th> <!-- 4 -->
-                                        <th >Proveedor</th> <!-- 6 -->
-                                        <th >Turno</th> <!-- 6 -->
-                                        <th >Usuario</th> <!-- 6 -->
-                                        <th >Lote</th> <!-- 12 -->
-                                        <th >Fecha</th> <!-- 12 -->
-                                        <th >Estado</th> <!-- 12 -->
-                                        <!-- <th >id_norm</th> -->
-                                        <th >Accion</th> <!-- 12 -->
+                                    
+                                        <th ></th>
+                                        <th >Orden</th>
+                                        <th >Muestra</th>
+                                        <th >Item</th>
+                                        <th >Fecha</th>
+                                        <th >Producto</th>
+                                        <th >Categoria</th>
+                                        <th >Norma</th>
+                                        <th >Presentacion</th>
+                                        <th >Planta</th>
+                                        <th >Proveedor</th>
+                                        <th >Turno</th>
+                                        <th >Usuario</th>
+                                        <th >Lote</th>
+                                        <th >Area</th>
+                                        <th >Id_area</th>
+                                        <th >Linea</th>
+                                        <th >Id_Linea</th>
+                                        <th >Estado</th>
+                                        <th >Accion</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-small">
@@ -248,6 +311,8 @@
 	</div>
 
 
+    <!-- <script src="https://code.jquery.com/ui/1.11.2/jquery-ui.min.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" ></script>
 
 
 <script type="text/javascript">
@@ -256,7 +321,10 @@
     let varProducto = '';
     var contNorma = 0;
     var numero_orden = null;
+    var i = 0; // para el autocomplete
 
+    var id_area=null;
+    var id_linea=null;
 
     
 $(document).ready(function(){
@@ -266,49 +334,51 @@ $(document).ready(function(){
     
     var items = []; // SE USA PARA EL INPUT DE AUTOCOMPLETE
 
-
-    // $("#selUser").select2({
-    //             ajax: {
-    //                 url: "../ajax/productos.ajax.php",
-    //                 type: "POST",
-    //                 dataType: 'json',
-    //                 delay: 250,
-    //                 data: function (params) {
-    //                     return {
-    //                         searchTerm: params.term // search term
-    //                     };
-    //                 },
-    //                 processResults: function (response) {
-    //                     console.log("fer",response);
-    //                     return {
-    //                         results: response
-    //                     };
-    //                 },
-    //                 cache: true
-    //             }
-    //         });
-
         //****************************
         //----CARGA UBICACION
         //****************************
+
         $.ajax({
-            url:"../ajax/ubicacion.ajax.php",
-            type: "POST",
-            data: {'accion': 1}, // 1  lista 
-            dataType: 'json',
+            async: false,
+            url:"../ajax/zonificacion.ajax.php",
+            method: "POST",
+            data: {
+                'accion':5,
+                'filtro': 'area',
+                'dato': null
+            },
+            dataType: "json",
             success: function(respuesta){
-                //console.log(respuesta);
-                var options = '<option selected value="0">Ubicacion</option>';
-                for (let index = 0; index < respuesta.length;index++){
-                    options = options + '<option value='+respuesta[index]['id_ubicacion']+'>'+respuesta[index]['ubicacion']+'</option>';
+                console.log("autocomplete AREA",respuesta);
+                
+                    $("#iptArea").bind( "keydown", function( event ) {
+                    i = 0;
+                    }).autocomplete({
+                        source: respuesta,
+                        minLength: 1,
+                        select: function(event, ui) {
+                            // flagValidarArea="";
+                            // flagValidarArea = ui.item.id_area;
+                            // console.log(ui.item.linea);
+                            console.log("value  ",ui.item.value)
+                            $("#iptLinea").val(ui.item.linea);
+                            id_area = ui.item.id_area;
+                            id_linea = ui.item.id_linea;
+                            // console.log("id_area ",id_area)
+                            // console.log("id_linea ",id_linea)
+                        }
+                    }).data("ui-autocomplete")._renderItem = function(ul, item) {
+                    var elemento = $("<a></a>");
+                    $("<span class='p-label'></span>").text(item.label).appendTo(elemento);
+                    $("<span class='p-id'></span>").text(item.linea).appendTo(elemento);
 
-                }
-                $("#selUbicacion").html(options);
-                //$("#selConcepto").val("Venta");
-
-
+                    // (i > 0)? '' : ul.prepend('<li class="ui-title"><span class="h-label">AREA</span><span class="h-linea">LINEA</span></li>'); 
+                    i++;
+                    return $("<li></li>").append(elemento).appendTo(ul);
+                  };
             }
-        });    
+        });        
+  
         //****************************
         //----CARGA PROVEEDORES
         //****************************
@@ -359,6 +429,9 @@ $(document).ready(function(){
         select: true,
         info: false,
         ordering: false,
+        autoWidth: true,
+        bDestroy: true,
+        // responsive: true,        
         // pagingType: 'simple_numbers',
         
         //paging: false,            
@@ -371,25 +444,29 @@ $(document).ready(function(){
             type:"POST",            
             data: {'accion' : 1}, // 1 LISTAR ORDEN DE TRABAJO EXISTENTES
         },
+
         columns: [
             { "data": "vacio"}, 
             { "data": "orden_trabajo"}, 
             { "data": "numero_muestra" }, 
             { "data": "id_item" },
+            { "data": "fecha_muestreo" },
             { "data": "nombre_producto" },
             { "data": "categoria" },
             { "data": "normativa" },
             { "data": "presentacion" },
             { "data": "planta" },
-            { "data": "ubicacion" },
             { "data": "razon_social"},
             { "data": "turno" },
             { "data": "usuario" },
             { "data": "lote" },
-            { "data": "fecha_muestreo" },
-            { "data": "estado" }
-            //{ "data": "id_normativa" }
-           ],        
+            { "data": "area" },
+            { "data": "id_area" },
+            { "data": "linea" },
+            { "data": "id_linea" },
+            { "data": "estado" },
+            { "data": "vacio"}, 
+           ],                
         responsive: {
             details: {
                 type: 'column'
@@ -401,14 +478,14 @@ $(document).ready(function(){
             
             // {targets: 4, className: "text-center",width: "40%"},
 
-            {targets:7,visible:false},
-            //{targets:6,visible:false},
-            //{targets:7,visible:false},
+            {targets:2,visible:false}, //id_muesstra
+            {targets:15,visible:false}, // id_area
+            {targets:17,visible:false}, // id_linea
 
-            { responsivePriority: 1, targets: 4 },
-            { responsivePriority: 2, targets: 16 },
+            // { responsivePriority: 1, targets: 4 },
+            { responsivePriority: 2, targets: 19 },
             {
-                targets:16,
+                targets:19,
                 orderable:false,
                 render: function(data, type, full, meta){
                     return "<center>"+
@@ -425,21 +502,9 @@ $(document).ready(function(){
         ],
         pageLength: 10,
         language: 
-            {
-                "lengthMenu": "",
-                "zeroRecords": "No se encontraron resultados",
-                "info": "",
-                "infoEmpty": "",
-                "infoFiltered": "",
-                "sSearch": "Buscar:",
-                "oPaginate": {
-                    "sFirst": "<<",
-                    "sLast":">>",
-                    "sNext":">",
-                    "sPrevious": "< "
-                    },
-                    "sProcessing":"Procesando...",
-            }, 
+        {
+            url: "json/idioma.json"
+        }, 
     });
 
         //********************************************************    
@@ -491,7 +556,12 @@ $(document).ready(function(){
             }
         });
 
-
+    $("#iptArea").keydown(function(e){
+        if((e.which == 8) || (e.which == 46)){
+            $("#iptArea").val("");
+            $("#iptLinea").val("");
+        }
+    });
     //******************//
     //--BOTON ELIMINAR -//
     //******************//
@@ -530,6 +600,9 @@ $(document).ready(function(){
 
     $('#tbl_orden_trabajo tbody').on('click','.btnEditar', function(){
         accion = 3; //-GUARDAR MODIFICACION
+
+        id_area = null;
+        id_linea =null;
         desBloquearInputs();
 
         $("#btnClose" ).prop( "hidden", false );
@@ -548,7 +621,11 @@ $(document).ready(function(){
         $("#iptPresentacion").val(data['presentacion']) ;
         $("#selPlanta").val(data['planta']) ;
         
-        buscarSelect(data['ubicacion'],'selUbicacion');
+        $("#iptArea").val(data['area']) ;
+        $("#iptLinea").val(data['linea']) ;
+        id_area = data['id_area'];
+        id_linea = data['id_linea'];
+
         buscarSelect(data['razon_social'],'selProveedor');
         buscarSelect(data['turno'],'selTurno');
         
@@ -623,7 +700,11 @@ $(document).ready(function(){
     
     var varPresentacion = $("#iptPresentacion").val();
     var varPlanta = $("#selPlanta").val();
-    var varUbicacion = $("#selUbicacion").val();
+    
+    var varUbicacion = $("#iptArea").val();
+    // var id_area
+    // var id_linea
+
     var varProveedor = $("#selProveedor").val();
     var varTurno = $("#selTurno").val();
     var varUsuarios = $("#selUsuarios").val();
@@ -632,14 +713,15 @@ $(document).ready(function(){
     var varIdNormativa = $("#iptNorma").val();
 
     //if (varId_item.length == 0){msg.push(' Id_item');}
-    
+    // alert(varIdNormativa);
+    // return;
     
     if (varProducto.length == 0){msg.push(' Producto');}
     if (varNorma.length == 0){msg.push(' Norma');}
     if (varCategoria.length == 0){msg.push('Categoria');}
     if (varPresentacion.length == 0){msg.push('Presentacion');}
     if (varPlanta.length == 1){msg.push(' Planta');}
-    if (varUbicacion == 0){msg.push(' Ubicacion');}
+    if (varUbicacion == 0){msg.push(' Ubicacion/Area/Linea');}
     if (varProveedor == 0){msg.push(' Proveedor');}
     if (varTurno == 0){msg.push(' Turno');}
     if (varUsuarios.length == 1){msg.push(' Usuarios');}
@@ -668,7 +750,9 @@ $(document).ready(function(){
                     'varIdNormativa':varIdNormativa,
                     //'varPresentacion':varPresentacion,
                     'varPlanta':varPlanta,
-                    'varUbicacion':varUbicacion,
+                    // 'varUbicacion':varUbicacion,
+                    'varId_Area':id_area,
+                    'varId_Linea':id_linea,
                     'varProveedor':varProveedor,
                     'varTurno':varTurno,
                     'varUsuarios':varUsuarios,
@@ -702,11 +786,10 @@ $(document).ready(function(){
 function desBloquearInputs(){
     $("#iptFecha").prop("disabled",false);
     $("#iptProducto").prop("disabled",false);
-    // $("#iptNorma").prop("disabled",false);
-    // $("#iptCategoria").prop("disabled",false);
-    // $("#iptPresentacion").prop("disabled",false);
+
     $("#selPlanta").prop("disabled",false);
-    $("#selUbicacion").prop("disabled",false);
+    $("#iptArea").prop("disabled",false);
+    // $("#iptLinea").prop("disabled",false);
     $("#selProveedor").prop("disabled",false);
     $("#selTurno").prop("disabled",false);
     $("#selUsuarios").prop("disabled",false);
@@ -721,7 +804,8 @@ function bloquearInputs(){
     // $("#iptCategoria").prop("disabled",true);
     // $("#iptPresentacion").prop("disabled",true);
     $("#selPlanta").prop("disabled",true);
-    $("#selUbicacion").prop("disabled",true);
+    $("#iptArea").prop("disabled",true);
+    // $("#iptLinea").prop("disabled",true);
     $("#selProveedor").prop("disabled",true);
     $("#selTurno").prop("disabled",true);
     $("#selUsuarios").prop("disabled",true);
@@ -736,7 +820,8 @@ function limpiar(){
     $("#iptCategoria").val("");
     $("#iptPresentacion").val("");
     $("#selPlanta").val(0);
-    $("#selUbicacion").val(0);
+    $("#iptArea").val("");
+    $("#iptLinea").val("");
     $("#selProveedor").val(0);
     $("#selTurno").val(0);
     $("#selUsuarios").val(0);

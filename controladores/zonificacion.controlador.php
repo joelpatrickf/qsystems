@@ -24,8 +24,8 @@ class ZonificacionControlador{
 	/* *********************************
 			GUARDAR 
 	**********************************/
-	static public function ctrlZonificacionGuardar($area,$linea,$puntos){
-		$res = ZonificacionModelo::mdlZonificacionGuardar($area,$linea,$puntos);
+	static public function ctrlZonificacionGuardar($id_area,$id_linea,$puntos){
+		$res = ZonificacionModelo::mdlZonificacionGuardar($id_area,$id_linea,$puntos);
 		return $res;
 	}	
 	
@@ -52,6 +52,15 @@ class ZonificacionControlador{
 		$res = ZonificacionModelo::mdlZonificacion_mdlLinea($data);
 		return $res;
 	}	
+	
+	
+	/* *********************************
+	 		 LISTAR AREA/LINEA # 5
+	 ***********************************/
+	static public function ctrlZonificacionListarArea_Linea(){
+		$res = ZonificacionModelo::mdlZonificacionListarArea_Linea();
+		return $res;
+	}		
 
 }
 

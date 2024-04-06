@@ -41,7 +41,7 @@ class NormativasControlador{
 
 
 	// *********************************
-	// 		 BUSCAMOS LOS ANALISIS
+	// 		 BUSCAMOS LOS ANALISIS # 5
 	// **********************************/
 	static public function ctrlNormativasBuscarAnalisis($orden_trabajo){
 		$normativa5 = NormativasModelo::mdlNormativasBuscarAnalisis($orden_trabajo);

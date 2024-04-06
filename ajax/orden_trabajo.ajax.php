@@ -3,7 +3,10 @@ require_once "../controladores/orden_trabajo.controlador.php";
 require_once "../modelos/orden_trabajo.modelo.php";
 
 class AjaxOrdenTrabajo{
-    
+	
+	//  *********************************
+	// 		LISTAR # 1
+	// **********************************/
 	public function ajaxOrdenTrabajoListar()
 	{
 		$OrdenTrabajo01 = OrdenTrabajoControlador::ctrlOrdenTrabajoListar();
@@ -11,7 +14,7 @@ class AjaxOrdenTrabajo{
 	}
 
 	// /* *********************************
-	// 		GUARDAR NUEVOS REGISTROS
+	// 		GUARDAR NUEVOS REGISTROS # 3
 	// **********************************/
 	public function ajaxOrdenTrabajoGuardar_GenerarOrden($data)
 	{
@@ -37,9 +40,9 @@ class AjaxOrdenTrabajo{
 		echo json_encode($OrdenTrabajo03,JSON_UNESCAPED_UNICODE);
 	}		
 
-	// *********************************
-	// 		BUSCAR ORDEN X LOTE # 6
-	// **********************************/
+	// *************************************************
+	// 		BUSCAR LOTE Visualizacion de Resultados # 6
+	// *************************************************/
 	public function ajaxOrdenLoteBuscar($lote)
 	{
 		$OrdenTrabajo03 = OrdenTrabajoControlador::ctrlOrdenLoteBuscar($lote);
@@ -66,7 +69,9 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR REGISTROS
 				// "presentacion" => $_POST["varPresentacion"],
 				"normativa" => $_POST["varIdNormativa"],
 				"planta" => $_POST["varPlanta"],
-				"ubicacion" => $_POST["varUbicacion"],
+				// "ubicacion" => $_POST["varUbicacion"],
+				"id_area" => $_POST["varId_Area"],
+				"id_linea" => $_POST["varId_Linea"],
 				"proveedor" => $_POST["varProveedor"],
 				"turno" => $_POST["varTurno"],
 				"usuarios" => $_POST["varUsuarios"],

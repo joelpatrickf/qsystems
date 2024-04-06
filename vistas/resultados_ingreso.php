@@ -42,8 +42,8 @@ if(isset($_SESSION)){ }else{ session_start(); }
 
 
 	<div class="row">
-		<div class="col-md-12">
-			<div class="card">
+		<div class="col-md-12 px-0">
+			<div class="card px-1">
 				<div class="card-header pb-0 mb-0" >
                     <div class="row">
                         <div class="col-6">
@@ -55,12 +55,12 @@ if(isset($_SESSION)){ }else{ session_start(); }
                         </div>                    
                     </div>
 				</div>
-				<div class="card-body pb-0 pt-0">
+				<div class="card-body ">
 
-                    <div class="row">
+                    <!-- <div class="row"> -->
                         <div class="col-sm-9 " >
                             <div class="row ">
-                                <div class="col-6 "  >
+                                <div class="col-6 "  style="padding-right: 0px;!important">
 
 
                                     <!-- <div class="col-12 mt-1"> -->
@@ -104,7 +104,8 @@ if(isset($_SESSION)){ }else{ session_start(); }
                                 <div class="row">
                                     <div class="col-lg-12">
                                     
-                                        <table id="tbl_Analisis" class="table table-striped cell-border table-responsive-sm" style="width:100%" >
+                                        <!-- <table id="tbl_Analisis" class="table table-striped cell-border table-responsive" style="width:100%" > -->
+                                        <table id="tbl_Analisis" class="table table-striped cell-border w-100 shadow  " width="100%">
                                             <thead class="bg-gray">
                                                 <tr>
                                                     <th class="text-center" hidden>Orden_tra</th> <!-- 1 -->
@@ -128,7 +129,7 @@ if(isset($_SESSION)){ }else{ session_start(); }
                             </div>
 
                         </div>
-                        <div class="col-sm-3 element rounded border border-3 my-1 px-0">
+                        <div class="col-sm-3 element rounded border border-1 my-1 px-1">
                             <div class="col-md-12 ">
                                 <span class="boldSpan ">Orden:</span><span class="Span1" id="spnOrden"></span>
                             </div>
@@ -155,14 +156,15 @@ if(isset($_SESSION)){ }else{ session_start(); }
                             <div class="col-md-12 ">
                                 <span class="boldSpan">Lote:</span><span class="Span1" id="spnLote"></span></div>
                         </div>
-                    </div>
+                    <!-- </div> -->
 			    </div> <!-- END div 1º card body -->
                     
                 <div class="card-body pb-0 pt-1">
                     <!-- row para tabla  -->
                     <div class="row">
                         <div class="col-lg-12">
-                        <table id="tbl_resultados"  class="table table-striped table-responsive-xl" style="width:100%">
+                        <!-- <table id="tbl_resultados"  class="table table-striped table-responsive" style="width:100%"> -->
+                        <table id="tbl_resultados" class="table table-striped cell-border w-100 shadow  " width="100%">
                                 <thead class="bg-gray">
                                     <tr>
                                         <th class="text-center">Id Res</th>
@@ -177,7 +179,7 @@ if(isset($_SESSION)){ }else{ session_start(); }
                                         <th class="text-center">Resultado</th>
                                         <th class="text-center">Validacion</th>
                                         <th class="text-center">Estado</th>
-                                        <th class="text-center">Opciones</th>
+                                        <!-- <th class="text-center">Opciones</th> -->
                                     </tr>
                                 </thead>
                                 <tbody class="text-small">
@@ -218,14 +220,17 @@ $(document).ready(function(){
         "bDestroy": true,
         info: false,
         ordering: false,
-        // paging: false,
+        paging: false,
         searching: false,
-                        
-        // pagingType: 'simple_numbers',
+
+        // info: false,
+        // ordering: false,
+        // searching: false,
+        
         
         //paging: false,            
         dom: 'Bfrtilp',
-        buttons: ['excel', 'print','pdf'],
+        buttons: ['excel', 'pdf'],
 
         ajax:{
             url:"../ajax/resultados.ajax.php",
@@ -257,45 +262,36 @@ $(document).ready(function(){
 
             {targets:0,orderable:false,className:'control'},
             {"className": "dt-center", "targets": "_all"},
-            {targets:0,visible:false},
-            {targets:1,visible:false},
-            {targets:2,visible:false},
-            {targets:4,visible:false}, //usario
+            // {targets:0,visible:false},
+            // {targets:1,visible:false},
+            // {targets:2,visible:false},
+            // {targets:4,visible:false}, 
+
+
             // {targets: [3,9], className: "text-center",width: "4%"},
             // {targets:[0,1,2,5,6],visible:false},
 
-            { responsivePriority: 1, targets: 12 },
-            {
-                targets:12,
-                orderable:false,
-                render: function(data, type, full, meta){
-                    return "<center>"+
-                                    "<span class='btnEditar text-primary px-1' style='cursor:pointer;'>"+
-                                    "<i class='fas fa-pencil-alt fs-5'></i>"+
-                                "</span>"                                    
+            // { responsivePriority: 1, targets: 12 },
+            // {
+            //     targets:12,
+            //     orderable:false,
+            //     render: function(data, type, full, meta){
+            //         return "<center>"+
+            //                         "<span class='btnEditar text-primary px-1' style='cursor:pointer;'>"+
+            //                         "<i class='fas fa-pencil-alt fs-5'></i>"+
+            //                     "</span>"                                    
 
-                            "</center>"
-                }
-            }     
+            //                 "</center>"
+            //     }
+            // }     
         ],
         pageLength: 10,
-        language: {
-            "lengthMenu": "",
-            "zeroRecords": "No se encontraron resultados",
-            "info": "",
-            "infoEmpty": "",
-            "infoFiltered": "",
-            "sSearch": "Buscar:",
-            "oPaginate": {
-                "sFirst": "<<",
-                "sLast":">>",
-                "sNext":">",
-                "sPrevious": "< "
-                },
-                "sProcessing":"Procesando...",
-        }, 
+        language: 
+        {
+            url: "json/idioma.json"
+        },  
         rowCallback:function(row,data){
-            console.log("estado",data['estado']);
+            // console.log("estado",data['estado']);
             if ((data['estado'] == "Rechazado") || (data['estado'] == "Cuarentena") || (data['estado'] == "Recall") || (data['estado'] == "Producto Retirado")) {
                 $($(row).find("td")[7]).css("background-color","#ECBFB6 ");
             } else if ((data['estado'] == "Liberado") || (data['estado'] == "Liberado reproceso") || (data['estado'] == "Liberado reacondicionado") ) {
@@ -324,7 +320,7 @@ $(document).ready(function(){
             },
             dataType: 'json',
             success: function(respuesta){
-                console.log(respuesta);
+                console.log("buscar Orden",respuesta);
                 //console.log(respuesta[0]['orden_trabajo']);
                 if (respuesta.length == 1){
                     
@@ -390,7 +386,7 @@ $(document).ready(function(){
                             { responsivePriority: 1, targets: 5 },
                             { responsivePriority: 1, targets: 6 },
                             { responsivePriority: 1, targets: 7 },
-                            { responsivePriority: 1, targets: 8 },
+                            // { responsivePriority: 1, targets: 8 },
                             { responsivePriority: 1, targets: 9 },
 
                             //{
@@ -438,6 +434,8 @@ $(document).ready(function(){
     //-GUARDAR 
     //********************************************************    
     $("#btnSave").click(function() {
+        
+        var varIdItem = $("#spnId_item").html();
 
         var estado = '';
         var validacion ='';
@@ -534,7 +532,8 @@ $(document).ready(function(){
                     'resultado': varResultados,
                     'fecha_creacion': $("#iptFechaResultados").val(),
                     'validacion': validacion,
-                    'estado': estado
+                    'estado': estado,
+                    'id_item': varIdItem
                 },
                 dataType: "json",
                 success: function(respuesta){

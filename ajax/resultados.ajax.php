@@ -3,7 +3,9 @@ require_once "../controladores/resultados.controlador.php";
 require_once "../modelos/resultados.modelo.php";
 
 class AjaxResultados{
-    
+	/* *********************************
+			LISTA # 1
+	**********************************/    
 	public function ajaxListarResultados()
 	{
 		$resultados1 = ResultadosControlador::ctrlListarResultados();
@@ -11,23 +13,14 @@ class AjaxResultados{
 	}
 
 	/* *********************************
-			GUARDAR NUEVOS REGISTROS
+		GUARDAR NUEVOS REGISTROS # 2
 	**********************************/
 	public function ajaxRegistrarResultados($data)
 	{
 		$resultados = ResultadosControlador::ctrlRegistrarResultados($data);
 		echo json_encode($resultados,JSON_UNESCAPED_UNICODE);
 	}	
-    
-	// // // ACTUALIAR 
-    // public function ajaxActualizarResultados($data){
-    //     $table= "categorias";
-    //     $id= $data['id_categoria']; 
-    //     $nameId = "id_categoria";
-
-    //     $respuesta = ResultadosControlador::ctrlActualizarResultados($table,$data, $id, $nameId);
-    //     echo json_encode($respuesta);
-    // }	
+ 
 }
 
 
@@ -49,26 +42,12 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR REGISTROS
             "resultado" => $_POST["resultado"],
             "fecha_creacion" => $_POST["fecha_creacion"],
             "validacion" => $_POST["validacion"],
-            "estado" => $_POST["estado"]
+            "estado" => $_POST["estado"],
+            "id_item" => $_POST["id_item"]
     );
 
 	$registrar -> ajaxRegistrarResultados($data);
 
 }
-// else if (isset($_POST['accion']) && $_POST['accion'] == 3) { // GUARDAR ->  ACTUALIZAR MODIFICAR, EDITAR
-//     //print_r($_POST["id_normativa"]);
-//     $modificar = new AjaxCategorias();
 
-//     $data = array(
-//             "id_categoria" => $_POST["id_categoria"],
-//             "categoria" => $_POST["categoria"],
-//             "observacion" => $_POST["observacion"],
-//             "id_normativa" => $_POST["id_normativa"]
-//     );
-
-
-
-// 	$modificar -> ajaxActualizarCategorias($data);
-
-//  }
 

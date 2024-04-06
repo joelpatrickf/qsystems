@@ -6,16 +6,16 @@ require_once "../modelos/orden_trabajo.modelo.php";
 
 class OrdenTrabajoControlador{
 
-	/* *********************************
-			LISTAR PRODUCTOS
-	**********************************/
+	// /* *********************************
+	// 		LISTAR # 1
+	// **********************************/
 	static public function ctrlOrdenTrabajoListar(){
 		$muestras01 = OrdenTrabajoModelo::mdlOrdenTrabajoListar();
 		return $muestras01;
 	}
 
 	/* *********************************
-			GUARDAR NUEVOS REGISTROS
+			GUARDAR NUEVOS REGISTROS #3
 	**********************************/
 	static public function ctrlOrdenTrabajoGuardar($data){
 		$muestras02 = OrdenTrabajoModelo::mdlOrdenTrabajoGuardar($data);
@@ -39,9 +39,9 @@ class OrdenTrabajoControlador{
 		return $Usuario1;
 	}			
 
-	// *********************************
-	// 		BUSCAR ORDEN X LOTE # 6
-	// **********************************/
+	// *************************************************
+	// 		BUSCAR LOTE Visualizacion de Resultados # 6
+	// *************************************************/
 	static public function ctrlOrdenLoteBuscar($lote){
 		$Usuario1 = OrdenTrabajoModelo::mdlOrdenLoteBuscar($lote);
 		return $Usuario1;

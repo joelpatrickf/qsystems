@@ -158,7 +158,7 @@ div.dt-container .dt-paging .dt-paging-button {
                 <div class="modal-body">
                     <div class="form-group">
                         <label for="iptNuevoResultado" class="col-form-label">Resultado:</label>
-                        <input type="text" class="form-control modalCajas" id="iptNuevoResultado" >
+                        <input type="text" class="form-control modalCajas" id="iptNuevoResultado" autocomplete="off">
                     </div>
                     
                     <select class="form-control form-select mb-3 modalCajas" aria-label=".form-select example" id="selCambioValidacion" >
@@ -218,6 +218,7 @@ $(document).ready(function(){
             },
             dataType: 'json',
             success: function(respuesta){
+                console.log("busqueda de orden ",respuesta);
 
                 if (respuesta.length == 1){
                     
@@ -236,12 +237,6 @@ $(document).ready(function(){
                     $("#spnMuestra").html(respuesta[0]['numero_muestra']);
                     $("#spnLote").html(respuesta[0]['lote']);
 
-// if ( $.fn.dataTable.isDataTable( '#tbl_resultados' ) ) {
-//     var table2 = $('#tbl_resultados').DataTable();
-//         table2.clear().destroy();
-//         table.ajax.reload();
-//     //return;
-// }
 
                     // BUSCAMOS PARA LA TABLA
                     table = $("#tbl_resultados").DataTable({
@@ -328,7 +323,7 @@ $(document).ready(function(){
                         ],
                         pageLength: 10,
                        rowCallback:function(row,data){
-                           console.log(data['estado']);
+                           //console.log(data['estado']);
                                if ((data['estado'] == "Rechazado") || (data['estado'] == "Cuarentena") || (data['estado'] == "Recall") || (data['estado'] == "Producto Retirado")) {
                                    $($(row).find("td")[9]).css("background-color","#ECBFB6 ");
                                } else if ((data['estado'] == "Liberado") || (data['estado'] == "Liberado reproceso") || (data['estado'] == "Liberado reacondicionado") ) {

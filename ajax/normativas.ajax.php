@@ -20,7 +20,9 @@ class AjaxNormativas{
 		echo json_encode($categorias,JSON_UNESCAPED_UNICODE);
 	}	
     
-	// // // ACTUALIAR 
+	// *********************************
+	// 		ACTUALIZAR # 3
+	// **********************************/
     public function ajaxNormativasActualizar($data){
         $table= "normativas";
         $id= $data['id_normativa']; 
@@ -38,7 +40,7 @@ class AjaxNormativas{
     }    
     
 	// *********************************
-	// 		 BUSCAMOS LOS ANALISIS
+	// 		 BUSCAMOS LOS ANALISIS # 5
 	// **********************************/ 
     public function ajaxNormativasBuscarAnalisis($orden_trabajo){
 
@@ -86,6 +88,7 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR REGISTROS
     );
 
     $NormativasActualizar -> ajaxNormativasActualizar($data);
+
 }else if (isset($_POST['accion']) && $_POST['accion'] == 4) { // LISTAR DISCTINT NORMATIVA
     $normativas = new AjaxNormativas();
     $normativas-> ajaxNormativasListarDisctint();

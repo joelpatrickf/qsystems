@@ -89,7 +89,7 @@ class NormativasModelo{
 	}	
 
 	// *********************************
-	// 		 BUSCAMOS LOS ANALISIS
+	// 		 BUSCAMOS LOS ANALISIS # 5
 	// **********************************/
 	static public function mdlNormativasBuscarAnalisis($orden_trabajo)
 	{

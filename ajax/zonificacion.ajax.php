@@ -16,9 +16,9 @@ class AjaxZonificacion{
 	// /* *********************************
 	// 		 GUARDAR # 2
 	// **********************************/
-	public function ajaxZonificacionGuardar($area,$linea,$puntos)
+	public function ajaxZonificacionGuardar($id_area,$id_linea,$puntos)
 	{
-		$Ubicacion = ZonificacionControlador::ctrlZonificacionGuardar($area,$linea,$puntos);
+		$Ubicacion = ZonificacionControlador::ctrlZonificacionGuardar($id_area,$id_linea,$puntos);
 		echo json_encode($Ubicacion);
 	}	
 	
@@ -36,8 +36,8 @@ class AjaxZonificacion{
 	// **********************************/	
 	public function ajaxZonificacionEditar($data){
         $table= "zonificacion";
-        $id= $data['id']; 
-        $nameId = "id";
+        $id= $data['id_zonificacion']; 
+        $nameId = "id_zonificacion";
 
         $respuesta = ZonificacionControlador::ctrlZonificacionEditar($table,$data, $id, $nameId);
         echo json_encode($respuesta);
@@ -60,7 +60,16 @@ class AjaxZonificacion{
 		$res1 = ZonificacionControlador::ctrlZonificacion_mdlLinea($data);
 		echo json_encode($res1);
 	}	
-		
+	
+	
+	/* *********************************
+	 		 LISTAR AREA/LINEA # 5
+	 ***********************************/
+	public function ajaxZonificacionListarArea_Linea()
+	{
+		$res1 = ZonificacionControlador::ctrlZonificacionListarArea_Linea();
+		echo json_encode($res1);
+	}		
 }
 
 
@@ -70,22 +79,23 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR
     $res = new AjaxZonificacion();
     $res-> ajaxZonificacionListar($_POST['filtro'],$_POST['dato']);
 
-}else if (isset($_POST['accion']) && $_POST['accion'] == 2) { // GUARAR
+}else if (isset($_POST['accion']) && $_POST['accion'] == 2) { // GUADAR nUEVOS REGISTROS ZONIFICACION
+	// print_r($_POST);
     $res = new AjaxZonificacion();
-    $res-> ajaxZonificacionGuardar($_POST['area'],$_POST['linea'],$_POST['puntos']);
+    $res-> ajaxZonificacionGuardar($_POST['id_area'],$_POST['id_linea'],$_POST['punto']);
 
-}else if (isset($_POST['accion']) && $_POST['accion'] == 3) { // LISTAR ALL
+}else if (isset($_POST['accion']) && $_POST['accion'] == 3) { // LISTAR ALL ZONIFICACION
     $res = new AjaxZonificacion();
     $res-> ajaxZonificacionListarAll();
 
 }else if (isset($_POST['accion']) && $_POST['accion'] == 4) { // MODIFICAR
-	//print_r($_POST);
+	// print_r($_POST);
     $res = new AjaxZonificacion();
    	$data = array(
-            "area_p" => $_POST["area"],
-            "linea_p" => $_POST["linea"],
-            "puntos_insp" => $_POST["puntos"],
-            "id" => $_POST["id"]
+            "id_area" => $_POST["id_area"],
+            "id_linea" => $_POST["id_linea"],
+            "punto_insp" => $_POST["punto"],
+            "id_zonificacion" => $_POST["id"]
     );
 	$res -> ajaxZonificacionEditar($data);
 
@@ -112,5 +122,9 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR
             "estado" => $_POST["estado"]
     );
 	$res -> AjaxZonificacion_mdlLinea($data);
+
+}else if (isset($_POST['accion']) && $_POST['accion'] == 5) { // LISTAR AREA-LINEA
+    $res = new AjaxZonificacion();
+    $res-> ajaxZonificacionListarArea_Linea();
 
 }

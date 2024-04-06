@@ -10,9 +10,9 @@ class AjaxResultadosVisualizacion{
 	// 	echo json_encode($resultados1);
 	// }
 
-	// *********************************
-	// 		BUSCAR # 2
-	// **********************************/
+	/* ********************************************
+	 		BUSCAR Visualizacion de Resultados # 2
+	   ********************************************/
 	public function ajaxResultadosVisualizacionBuscar($lote)
 	{
 		$resultados4 = ResultadosVisualizacionControlador::ctrlResultadosVisualizacionBuscar($lote);
@@ -40,6 +40,7 @@ class AjaxResultadosVisualizacion{
 
 // } else 
 if (isset($_POST['accion']) && $_POST['accion'] == 2) { // BUSCAR 
+	// print_r($_POST);
 	$normativas = new AjaxResultadosVisualizacion();
 	$normativas-> ajaxResultadosVisualizacionBuscar($_POST['lote']);
 

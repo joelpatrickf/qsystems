@@ -5,9 +5,9 @@ require_once "../modelos/resultados_visualizacion.modelo.php";
 
 class ResultadosVisualizacionControlador{
 
-	// *********************************
-	// 		BUSCAR # 2
-	// **********************************/
+	/* ********************************************
+	 		BUSCAR Visualizacion de Resultados # 2
+	   ********************************************/
 	static public function ctrlResultadosVisualizacionBuscar($lote){
 		$respuesta1 = ResultadosVisualizacionModelo::mdlResultadosVisualizacionBuscar($lote);
 		return $respuesta1;

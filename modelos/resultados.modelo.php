@@ -6,7 +6,7 @@ require_once "conexion.php";
 class ResultadosModelo{
 	
 	/* *********************************
-			LISTAR 
+			LISTAS # 1
 	**********************************/
 	static public function mdlListarResultados()
 	{
@@ -16,15 +16,12 @@ class ResultadosModelo{
 		");
 
 		$stmt->execute();
-		//return $stmt-> fetchAll(PDO::FETCH_OBJ);
-		//return $stmt-> fetchAll(PDO::FETCH_NUM);
-		// print_r($stmt-> fetchAll());
-		// exit();
+
 		return $stmt-> fetchAll();
 	}
 
 	/* *********************************
-			GUARDAR NUEVOS REGISTROS
+		GUARDAR NUEVOS REGISTROS # 2
 	**********************************/
 
 	static public function mdlRegistrarResultados($data)
@@ -46,8 +43,8 @@ class ResultadosModelo{
 			if ($nreg >0 ){
 				$resultado = 'existe';
 			}else{
-				$stmt = Conexion::conectar()->prepare("INSERT INTO resultados(orden_trabajo,id_normativa_analisis,resultado,fecha_creacion,usuario_creacion,validacion,estado)
-				 VALUES(:orden_trabajo,:id_normativa_analisis,:resultado,:fecha_creacion,:usuario_creacion,:validacion,:estado)");
+				$stmt = Conexion::conectar()->prepare("INSERT INTO resultados(orden_trabajo,id_normativa_analisis,resultado,fecha_creacion,usuario_creacion,validacion,estado,id_item)
+				 VALUES(:orden_trabajo,:id_normativa_analisis,:resultado,:fecha_creacion,:usuario_creacion,:validacion,:estado,:id_item)");
 	
 				$stmt->bindParam(":orden_trabajo", $data['orden_trabajo']); 
 				$stmt->bindParam(":id_normativa_analisis", $data['id_normativa_analisis']); 
@@ -56,6 +53,7 @@ class ResultadosModelo{
 				$stmt->bindParam(":usuario_creacion", $usuario); 
 				$stmt->bindParam(":validacion", $data['validacion']); 
 				$stmt->bindParam(":estado", $data['estado']); 
+				$stmt->bindParam(":id_item", $data['id_item']); 
 				$stmt->execute();
 				$resultado = 'ok';
 
