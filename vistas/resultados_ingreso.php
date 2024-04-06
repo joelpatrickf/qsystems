@@ -293,11 +293,11 @@ $(document).ready(function(){
         rowCallback:function(row,data){
             // console.log("estado",data['estado']);
             if ((data['estado'] == "Rechazado") || (data['estado'] == "Cuarentena") || (data['estado'] == "Recall") || (data['estado'] == "Producto Retirado")) {
-                $($(row).find("td")[7]).css("background-color","#ECBFB6 ");
+                $($(row).find("td")[11]).css("background-color","#ECBFB6 ");
             } else if ((data['estado'] == "Liberado") || (data['estado'] == "Liberado reproceso") || (data['estado'] == "Liberado reacondicionado") ) {
-                    $($(row).find("td")[7]).css("background-color","#DAF7A6");
+                    $($(row).find("td")[11]).css("background-color","#DAF7A6");
                 } else if ((data['estado'] == "Retenido") || (data['estado'] == "En espera de análisis") || (data['estado'] == "En proceso de retiro") || (data['estado'] == "En Espera de Revisión de Calidad") ) {
-                $($(row).find("td")[7]).css("background-color","#FFEA8E");
+                $($(row).find("td")[11]).css("background-color","#FFEA8E");
             }
 
         },

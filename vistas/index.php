@@ -102,6 +102,7 @@ if(!isset($_SESSION['login']) ){
         <?php include("modulos/sidebar.php");?>
         <div class="right_col" role="main">
 
+<h1>ola</h1>
 
         </div>
       </div>

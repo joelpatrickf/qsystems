@@ -113,16 +113,16 @@ if(isset($_SESSION)){ }else{ session_start(); }
 
                                 <thead class="bg-gray">
                                     <tr style="font-size: 15px;">
-                                        <th class="text-center">123</th> <!-- 1 -->
-                                        <th class="text-center">Usuario</th> <!-- 2 -->
-                                        <th class="text-center">password</th> <!-- 5 -->
-                                        <th class="text-center">Id-CDI</th> <!-- 5 -->
-                                        <th class="text-center">Nombres</th> <!-- 4 -->
-                                        <th class="text-center">Perfil</th> <!-- 6 -->
-                                        <th class="text-center">Fecha</th> <!-- 6 -->
-                                        <th class="text-center">Estado</th> <!-- 6 -->
-                                        <th class="text-center">Cargo</th> <!-- 6 -->
-                                        <th class="text-center">Opciones</th> <!-- 12 -->
+                                        <th class="text-center"></th>
+                                        <th class="text-center">Usuario</th>
+                                        <th class="text-center">password</th>
+                                        <th class="text-center">CDI</th> 
+                                        <th class="text-center">Nombres</th>
+                                        <th class="text-center">Perfil</th> 
+                                        <th class="text-center">Fecha</th>
+                                        <th class="text-center">Cargo</th>
+                                        <th class="text-center">Estado</th> 
+                                        <th class="text-center">Opciones</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-small">
@@ -157,7 +157,7 @@ $(document).ready(function(){
             info: false,
             ordering: false,
             
-            //paging: false,            
+            paging: false,            
             dom: 'Bfrtilp',
             buttons: 
                 [
@@ -264,20 +264,33 @@ $(document).ready(function(){
                 dataSrc: '',
                 type:"POST",            
                 data: {'accion' : 1}, // 1 para listar 
+                dataType: "json",
             },
-         
+
+            columns: [
+                { "data": "id" },
+                { "data": "usuario" },
+                { "data": "password1" },
+                { "data": "idempleado" },
+                { "data": "nombres" },
+                { "data": "cargo" },
+                { "data": "fecha_creacion" },
+                { "data": "perfil" },
+                { "data": "estado" }
+            ],          
             responsive: {
                 details: {
                     type: 'column'
                 }
             },
-            rowReorder: {
-        selector: 'td:nth-child(2)'
-    },
+            // rowReorder: {
+            //     selector: 'td:nth-child(2)'
+            // },
             columnDefs:[
-                {"className": "dt-center", "targets": "_all"},
+               {"className": "dt-center", "targets": "_all"},
                 {targets:0,orderable:false,className:'control'},
-                {targets:0,visible:false,},
+                
+                // {targets:0,visible:false,},
                 {targets:2,visible:false,},
                 
                 { responsivePriority: 1, targets: 9 },

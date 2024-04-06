@@ -119,9 +119,9 @@
                                         <th class="text-center">Cod-Barra</th> <!-- 2 -->
                                         <th class="text-center">Producto</th> <!-- 5 -->
                                         <th class="text-center">Precio</th> <!-- 6 -->
+                                        <th class="text-center">Presentacion</th> <!-- 5 -->
                                         <th class="text-center">Normativa</th> <!-- 4 -->
                                         <th class="text-center">Categoria</th> <!-- 4 -->
-                                        <th class="text-center">Presentacion</th> <!-- 5 -->
                                         <th class="text-center">Fecha_Creacion</th> <!-- 6 -->
                                         <th class="text-center">Estado</th> <!-- 6 -->
                                         <th class="text-center">Usuario</th> <!-- 6 -->
@@ -213,9 +213,9 @@ $(document).ready(function(){
             { "data": "codigo_barra1" },
             { "data": "nombre_producto" },
             { "data": "precio" },
+            { "data": "presentacion" },
             { "data": "normativa" },
             { "data": "categoria" },
-            { "data": "presentacion" },
             { "data": "fecha_creacion" },
             { "data": "estado" },
             { "data": "usuario" }
@@ -231,8 +231,8 @@ $(document).ready(function(){
             {targets: 0,orderable:false,className:'control'},
 
             {targets: 2, width: '30%'},
-            {targets: 6, className: 'dt-body-center'},
-            {targets: 5, visible:false},
+            // {targets: 6, className: 'dt-body-center'},
+            {targets: 6, visible:false},
 
             // {targets: 0, visible:false,},
             {targets: 8, visible:false,},
