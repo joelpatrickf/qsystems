@@ -96,7 +96,7 @@ if(isset($_SESSION)){ }else{ session_start(); }
                         <!-- <figcaption>Tu texto</figcaption> -->
                       </li>                  
                       <li>
-                        <a onclick="CargarContenido('resultados_ingreso.php','right_col')"></i>Inspección</a>
+                        <a onclick="CargarContenido('inspeccion.php','right_col')"></i>Inspección</a>
                       </li> 
                       <li>
                         <a onclick="CargarContenido('resultados_visualizacion.php','right_col')"></i>Visualizacion de Resultados</a>

@@ -26,7 +26,6 @@ if(!isset($_SESSION['login']) ){
     <!-- Bootstrap -->
     <link href="vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     
-    
     <!-- Custom Theme Style -->
     <!-- ESTA CAMBIA EL ESTILO DE LAS DATATABLEE -->
     <link href="build/css/custom.min.css" rel="stylesheet">
@@ -93,7 +92,9 @@ if(!isset($_SESSION['login']) ){
   <!-- select2 css -->
   <link href='vendors/select2/dist/css/select2.min.css' rel='stylesheet' type='text/css'>  
   
+  <!-- Datatable personalizado linea pequeñas -->
   <link href="css/ragde.css" rel="stylesheet" >
+  <!-- <link href="css/tablaNormal.css" rel="stylesheet" > -->
 
   </head>
   <body class="nav-md">
@@ -113,6 +114,7 @@ if(!isset($_SESSION['login']) ){
 
         <!-- Bootstrap -->
         <script src="vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+        
         <!-- FastClick -->
         <script src="vendors/fastclick/lib/fastclick.js"></script>
         <!-- NProgress -->
