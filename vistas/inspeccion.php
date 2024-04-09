@@ -49,14 +49,15 @@
 					       <h4> Administrar Inspección </h4>
                         </div>
                         <div class="col-4">
-					       <span> # Inspección: 060424_123215_casper</span>
+                            <h5 id="lblBloqueo" style=" color:red;" hidden>ACCESO BLOQUEADO</h5>
+					       <span id='spn1'> # Inspección: 060424_123215_casper</span>
                            <br>
-					       <span> Hora de Inicio: 12:32:15</span>
+					       <span id='spn2'> Hora de Inicio: 12:32:15</span>
                         </div>
                         <div class="col-4 " >
-                            <button type="button" class="btn btn-dark mx-1" id="btnNew" style="float: right;"> Crear Inspección </button>
-                            <!-- <button type="button" class="btn btn-success" id="btnSave" style="float: right;" hidden> Guardar </button>
-                            <button type="button" class="btn btn-warning " id="btnClose" style="float: right;" hidden>Cerrar</button> -->
+                            <button type="button" class="btn btn-dark mx-1" id="btnNew" style="float: right;" disabled> Crear Inspección </button>
+                            <button type="button" class="btn btn-success" id="btnCerrar" style="float: right;" hidden> Cerrar Inspección </button>
+                            <!-- <button type="button" class="btn btn-warning " id="btnClose" style="float: right;" hidden>Cerrar</button> -->
                             
                         </div>
 
@@ -75,7 +76,7 @@
                                     </label>
                                 </div>
                                 <div class="input-group">
-                                    <input type="date" id="iptFechaInspeccion"   class="form-control" autocomplete="off" >
+                                    <input type="date" id="iptFechaInspeccion"   class="form-control" autocomplete="off" disabled>
                                 </div>
                             </div>                        
 
@@ -86,8 +87,7 @@
                                         <span class="">Area de Producción</span><span class="text-danger">*</span>
                                     </label>
                                     <div class="input-group">
-                                        <input id="iptArea" type="text" style="width:20px;" class="form-control" autocomplete="off" >
-                                        <!-- <button id="btnAgregarArea" class="btn btn-secondary btnragde" type="button" >+</button> -->
+                                        <input id="iptArea" type="text" style="width:20px;" class="form-control" autocomplete="off" disabled >
                                     </div>                                
                                 </div>                                
                             </div>
@@ -98,8 +98,7 @@
                                         <span class="">Línea de Producción</span><span class="text-danger">*</span>
                                     </label>
                                     <div class="input-group">
-                                        <input id="iptLinea" type="text" style="width:20px;" class="form-control" autocomplete="off" >
-                                        <!-- <button id="btnAgregarArea" class="btn btn-secondary btnragde" type="button" >+</button> -->
+                                        <input id="iptLinea" type="text" style="width:20px;" class="form-control" autocomplete="off" disabled >
                                     </div>                                
                                 </div>                                
                             </div>
@@ -109,7 +108,7 @@
                                     <label class="" for="iptProducto"><i class="fas fa-signature fs-6"></i>
                                         <span class="">Producto</span><span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" id="iptProducto" required  autocomplete="off" >
+                                    <input type="text" class="form-control" id="iptProducto" required  autocomplete="off" disabled >
                                 </div>
                             </div>
 
@@ -119,7 +118,7 @@
                                     <label class="" for="iptCategoria"><i class="fas fa-signature fs-6"></i>
                                         <span class="">Categoria</span><span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" id="iptCategoria" required  autocomplete="off" >
+                                    <input type="text" class="form-control" id="iptCategoria" required  autocomplete="off" disabled >
                                 </div>
                             </div>
 
@@ -129,7 +128,7 @@
                                     <label class="" for="iptPresentacion"><i class="fas fa-signature fs-6"></i>
                                         <span class="">Cantenido Nominal</span><span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" id="iptPresentacion" required  autocomplete="off" >
+                                    <input type="text" class="form-control" id="iptPresentacion" required  autocomplete="off" disabled >
                                 </div>
                             </div>
                             <!-- Columna Precio -->
@@ -138,7 +137,7 @@
                                     <label class="" for="iptPrecio"><i class="fas fa-signature fs-6"></i>
                                         <span class="">Precio</span><span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" id="iptPrecio" required  autocomplete="off" >
+                                    <input type="text" class="form-control" id="iptPrecio" required  autocomplete="off" disabled >
                                 </div>
                             </div>                                                                        
                         
@@ -148,7 +147,7 @@
                                     <label class="" for="iptLote">
                                         <span class="">Lote</span><span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control" id="iptLote" required  autocomplete="off" >
+                                    <input type="text" class="form-control" id="iptLote" required  autocomplete="off" disabled >
                                 </div>
                             </div>
                             <!-- Columna Turno -->
@@ -165,8 +164,7 @@
                                 </div>
                             </div>                            
                             <div class="col-12 col-lg-2 mt-3">
-                                <button type="button" id="btnLinea" class="btn btn-primary " id="btnClose" style="float: right;" >Agregar</button>
-                                <!-- <button type="button" id="btnArea" class="btn btn-primary " id="btnClose" style="float: right;" >Crear Area</button> -->
+                                <button type="button" id="btnAgregar" class="btn btn-primary " id="btnClose" style="float: right;" disabled>Agregar</button>
                             </div>                  
                         <!-- </div> -->
 				    </div>
@@ -223,20 +221,39 @@ $(document).ready(function(){
     // Personalizamos el toast mensajes
     toastr.options.timeOut = 1500; // 1.5s
     toastr.options.closeButton = true;
-    var selResultadosArea;
-    var items = []; // SE USA PARA EL INPUT DE AUTOCOMPLETE
-    var itemsLinea = []; // SE USA PARA EL INPUT DE AUTOCOMPLETE
-    var id; 
 
-    var flagValidarArea; // flag de areas
-    var flagValidarLinea; // flag de lineas
-    var id_mdlArea = null;
-    var accion_mdlArea = "mdlArea_new";
+    /* -REVISAR SI EXISTE INSPECCION ABIERTA-*/
+    $.ajax({
+        async: false,
+        url:"../ajax/inspeccion.ajax.php",
+        method: "POST",
+        data: {
+            'accion':1,
+            'filtro': 'abierta' 
+        },
+        dataType: "json",
+        success: function(respuesta){
+            console.log("si hay inspecciones abiertas",respuesta);
+            if( respuesta != null){
+                toastr["error"]("TIENE INSPECCIONES ABIERTAS, NO PUEDE SEGUIR, PONGASE EN CONTACTO CON EL ADMINISTRADOR <br> Fecha: "+respuesta[0].fecha+"<br> Hora Inicio: "+respuesta[0].hora_ini+"<br> Usuario: "+respuesta[0].usuario , "!Atención!");
+                
+                $("#lblBloqueo" ).prop( "hidden", false );
+                $("#spn1" ).prop( "hidden", true );
+                $("#spn2" ).prop( "hidden", true );
 
-    var id_mdlLinea = null;
-    var accion_mdlLinea = "mdlLinea_new";    
-    
-    var id_zonificacion = null;
+                return false;
+            }else{
+                $("#btnNew").prop( "disabled", false );
+
+                $("#btnAgregar").prop( "disabled", false );
+
+                bloquearInputs()
+
+            }
+            //10:10:10
+        }
+    });
+
 
     //********************************************* INI PANTALLA PRINCIPAL ZONIFICACION **************************** */    
     /* -CARGA DE ZONIFICACIONES EXISTENTES- */
@@ -450,13 +467,18 @@ $(document).ready(function(){
 
     /*-- BOTON NUEVO ---*/
     $("#btnNew").click(function() {
-        accion=2;
-        id=null;
-        $("#btnClose" ).prop( "hidden", false );
-        $("#btnSave" ).prop( "hidden", false );
-        
+        accion=2;        
         desBloquearInputs();
-        $("#iptCodigoBarra").focus();
+        $("#btnNew" ).prop( "hidden", true );
+        $("#btnCerrar").prop( "hidden", false );
+
+
+
+
+        // $("#btnClose" ).prop( "hidden", false );
+        
+        // $("#btnSave" ).prop( "hidden", false );
+        // $("#iptCodigoBarra").focus();
 
     })
     
@@ -802,21 +824,39 @@ $(document).ready(function(){
 });
 
 function desBloquearInputs(){
+    $("#iptFechaInspeccion").prop( "disabled", false );
     $("#iptArea").prop( "disabled", false );
     $("#iptLinea").prop( "disabled", false );
-    $("#iptPuntos").prop( "disabled", false );
-    $("#selArea").focus();
+    $("#iptProducto").prop( "disabled", false );
+    $("#iptCategoria").prop( "disabled", false );
+    $("#iptPresentacion").prop( "disabled", false );
+    $("#iptPrecio").prop( "disabled", false );
+    $("#iptLote").prop( "disabled", false );
+    $("#selTurno").prop( "disabled", false );
 
+    $("#iptFechaInspeccion").focus();
 }
 function bloquearInputs(){
+    $("#iptFechaInspeccion").prop( "disabled", true );
     $("#iptArea").prop( "disabled", true );
     $("#iptLinea").prop( "disabled", true );
-    $("#iptPuntos").prop( "disabled", true );
+    $("#iptProducto").prop( "disabled", true );
+    $("#iptCategoria").prop( "disabled", true );
+    $("#iptPresentacion").prop( "disabled", true );
+    $("#iptPrecio").prop( "disabled", true );
+    $("#iptLote").prop( "disabled", true );
+    $("#selTurno").prop( "disabled", true );
 }
 function limpiar(){
+    $("#iptFechaInspeccion").val("");
     $("#iptArea").val("");
     $("#iptLinea").val("");
-    $("#iptPuntos").val("");
+    $("#iptProducto").val("");
+    $("#iptCategoria").val("");
+    $("#iptPresentacion").val("");
+    $("#iptPrecio").val("");
+    $("#iptLote").val("");
+    $("#selTurno").val(0);
     
 }
 

@@ -3,30 +3,18 @@
 require_once "conexion.php";
 
 
-class InspeccionModelo{
+class InspeccionVariablesModelo{
 	
 	/* *********************************
 			LISTAR USUARIOS
 	**********************************/
-	static public function mdlInspeccionListar($filtro)
+	static public function mdlListarInspeccionVariables()
 	{
-		date_default_timezone_set("America/Guayaquil");
-		// $fechaActual = date('Y-m-d H:i:s', time()); 		
-		$fechaActual = date('Y-m-d');
-		$user=$_SESSION['login'][0]->usuario;
-
-
-		if ($filtro == 'abierta'){
-			$stmt = Conexion::conectar()->prepare("SELECT * FROM insp_cab where usuario='$user' and hora_fin IS NULL ");
-		}
+		$stmt = Conexion::conectar()->prepare("SELECT '' as vacio,id_ins_var,fecha, variable, nmuestras, usuario
+												FROM insp_variables");
 
 		$stmt->execute();
-		$filas=$stmt->rowcount();
-		if ($filas > 0){
-			return $stmt-> fetchAll(PDO::FETCH_CLASS);
-		}
-
-		
+		return $stmt-> fetchAll(PDO::FETCH_CLASS);
 		
 		
 
@@ -36,7 +24,7 @@ class InspeccionModelo{
 			GUARDAR NUEVOS REGISTROS
 	**********************************/
 
-	static public function mdlInspeccionRegistrar($data)
+	static public function mdlRegistrarInspeccionVariables($data)
 	{
 		// print_r($data);
 		// exit();
@@ -65,7 +53,7 @@ class InspeccionModelo{
 
 	
    // ACTUALIZAR REGISTROS
-   static public function mdlInspeccionActuaizar($table,$data, $id, $nameId){
+   static public function mdlActuaizarInspeccionVariables($table,$data, $id, $nameId){
 
 		// print_r($data);
 		// exit();
@@ -96,7 +84,7 @@ class InspeccionModelo{
 
 	}		
 
-	static public function mdlInspeccionEliminar($id_ins_var)
+	static public function mdlEliminarInspeccionVariables($id_ins_var)
 	{
 
         	$sql1 = "DELETE FROM insp_variables WHERE id_ins_var = ? " ;

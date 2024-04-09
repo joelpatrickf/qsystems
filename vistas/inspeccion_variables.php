@@ -125,7 +125,7 @@ $(document).ready(function(){
             //paging: false,            
 
             ajax:{
-                url:"../ajax/inspeccion.ajax.php",
+                url:"../ajax/inspeccion_variables.ajax.php",
                 dataSrc: '',
                 type:"POST",            
                 data: {'accion' : 1}, // 1 para listar 
@@ -200,12 +200,18 @@ $(document).ready(function(){
     })
     
      $('#tbl_inspeccion tbody').on('click','.btnEliminar', function(){
+        alert("no se puede eliminar si ya existen datos");
+        return;
+
+        // controlar si ya exsiten datos con ese id
+
+
         var data = table.row($(this).parents('tr')).data();
         varEliminar = data['id_ins_var'];
 
         $.ajax({
                 async: false,
-                url:"../ajax/inspeccion.ajax.php",
+                url:"../ajax/inspeccion_variables.ajax.php",
                 method: "POST",
                 data: {
                     'accion':4,
@@ -275,7 +281,7 @@ $(document).ready(function(){
 
         $.ajax({
                 async: false,
-                url:"../ajax/inspeccion.ajax.php",
+                url:"../ajax/inspeccion_variables.ajax.php",
                 method: "POST",
                 data: {
                     'accion':accion,

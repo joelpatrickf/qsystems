@@ -8,56 +8,33 @@ class InspeccionControlador{
 	/* *********************************
 			LISTAR PRODUCTOS
 	**********************************/
-	static public function ctrlListarInspeccion(){
-		$Categorias = InspeccionModelo::mdlListarInspeccion();
+	static public function ctrlInspeccionListar($filtro){
+		$Categorias = InspeccionModelo::mdlInspeccionListar($filtro);
 		return $Categorias;
 	}
 
-	/* *********************************
-			GUARDAR NUEVOS REGISTROS
-	**********************************/
-	static public function ctrlRegistrarInspeccion($data){
-		$Usuario1 = InspeccionModelo::mdlRegistrarInspeccion($data);
-		return $Usuario1;
-	}
+	// /* *********************************
+	// 		GUARDAR NUEVOS REGISTROS
+	// **********************************/
+	// static public function ctrlInspeccionRegistrar($data){
+	// 	$Usuario1 = InspeccionModelo::mdlInspeccionRegistrar($data);
+	// 	return $Usuario1;
+	// }
 
-	/* *********************************
-			ACTUALIZAR
-	**********************************/
-	static public function ctrlActualizarInspeccion($table,$data, $id, $nameId){
-		$Usuario1 = InspeccionModelo::mdlActuaizarInspeccion($table,$data, $id, $nameId);
-		return $Usuario1;
-	}
+	// /* *********************************
+	// 		ACTUALIZAR
+	// **********************************/
+	// static public function ctrlInspeccionActualizar($table,$data, $id, $nameId){
+	// 	$Usuario1 = InspeccionModelo::mdlInspeccionActuaizar($table,$data, $id, $nameId);
+	// 	return $Usuario1;
+	// }
 	
-	/* *********************************
-			ELIMINA
-	**********************************/
-	static public function ctrEliminarInspeccion($id_ins_var){
-		$Usuario1 = InspeccionModelo::mdlEliminarInspeccion($id_ins_var);
-		return $Usuario1;
-	}	
+	// /* *********************************
+	// 		ELIMINA
+	// **********************************/
+	// static public function ctrInspeccionEliminar($id_ins_var){
+	// 	$Usuario1 = InspeccionModelo::mdlInspeccionEliminar($id_ins_var);
+	// 	return $Usuario1;
+	// }	
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// if (isset($_POST['accion']) && $_POST['accion'] == 1) { // verificar login
-// 	$horarios1 = new UsuarioControlador();
-// 	$horarios1-> login($_POST['usuario'],$_POST['clave']);
-
-// } 
