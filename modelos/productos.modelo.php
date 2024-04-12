@@ -122,6 +122,17 @@ class ProductosModelo{
 
 	}	
 
+    /*===================================================
+	 BUSCAR PRODUCTOS AUTOCOMPLETE NUEVO VARIAS COLUMNAS # 6
+      ===================================================*/
+	static public function mdlBuscarProductos6()
+	{
+
+		$stmt = Conexion::conectar()->prepare("SELECT id_item, codigo_barra1, nombre_producto, normativa, categoria, presentacion,precio, nombre_producto as label from productos ");
+		$stmt->execute();
+		return $stmt-> fetchAll(PDO::FETCH_CLASS);
+
+	}	
 
 }
 

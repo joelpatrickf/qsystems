@@ -45,6 +45,14 @@ class ProductosControlador{
 	static public function ctrBuscarProductos($data){
 		$productos = ProductosModelo::mdlBuscarProducto($data);
 		return $productos;
+	}
+
+    /*===================================================
+	 BUSCAR PRODUCTOS AUTOCOMPLETE NUEVO VARIAS COLUMNAS # 6
+      ===================================================*/
+	static public function ctrBuscarProductos6(){
+		$productos = ProductosModelo::mdlBuscarProductos6();
+		return $productos;
 	}	
 
 }

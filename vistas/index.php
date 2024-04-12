@@ -150,6 +150,7 @@ if(!isset($_SESSION['login']) ){
         <script src="vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
 
 
+        <!-- Toast JS -->
         <!-- Toas para mensajes personalizados -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script> 
 
@@ -168,7 +169,7 @@ if(!isset($_SESSION['login']) ){
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <!-- Toast JS -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script> -->
 
         <!-- DataTable -->
         <!-- <script type="text/javascript" src="https://cdn.datatables.net/1.10.8/js/jquery.dataTables.min.js"></script> -->
@@ -213,12 +214,14 @@ if(!isset($_SESSION['login']) ){
          LIRERIAS PARA EXPORTAR Y PARA LOS BOTONES
         ================================================================= - -->
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.js"></script>
-        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+        <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script> -->
+
         <!-- <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.js"></script> -->
-        <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.js"></script>
+        
+        <!-- REVIAR ESTE POR QUE YA EXISTE ARRIAB NO SE VA A DESCARGAR- -->
+        <!-- <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.js"></script> -->
 
         <script src="https://cdn.jsdelivr.net/npm/datatables-buttons-excel-styles@1.2.0/js/buttons.html5.styles.min.js"></script>
-
         <script src="https://cdn.jsdelivr.net/npm/datatables-buttons-excel-styles@1.2.0/js/buttons.html5.styles.templates.min.js"></script>
 
         <script src="js/buttons.print.js"></script>

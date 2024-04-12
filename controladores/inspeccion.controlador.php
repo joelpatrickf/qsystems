@@ -5,13 +5,45 @@ require_once "../modelos/inspeccion.modelo.php";
 
 class InspeccionControlador{
 
-	/* *********************************
-			LISTAR PRODUCTOS
-	**********************************/
+	/* ***********************************************************
+		BUSCAR SI EXISTEN INSPECCIONES ABIERTAS DE DIAS ANTERIORES
+		fecha/usuario/ hora_fin=null
+	**************************************************************/
 	static public function ctrlInspeccionListar($filtro){
 		$Categorias = InspeccionModelo::mdlInspeccionListar($filtro);
 		return $Categorias;
 	}
+
+	/* ***********************************************************
+		GUARDAR CREAR INSPECCION		
+	**************************************************************/
+	static public function ctrlInspeccionCrear(){
+		$Categorias = InspeccionModelo::mdlInspeccionCrear();
+		return $Categorias;
+	}
+	
+	/* ***********************************************************
+		GUARDAR CERRAR INSPECCION		
+	**************************************************************/
+	static public function ctrlInspeccionCerrar($id_insp){
+		$Categorias = InspeccionModelo::mdlInspeccionCerrar($id_insp);
+		return $Categorias;
+	}
+	
+	/* ***********************************************************
+					GUARDAR PRODUCTOS  #4 
+	**************************************************************/
+	static public function ctrlInspeccionSaveProductos($data){
+		$Categorias = InspeccionModelo::mdlInspeccionSaveProductos($data);
+		return $Categorias;
+	}
+	/* ***********************************************************
+					GUARDAR PRODUCTOS  # 5 
+	**************************************************************/
+	static public function ctrlInspeccionListarProductos($id_insp){
+		$Categorias = InspeccionModelo::mdlInspeccionListarProductos($id_insp);
+		return $Categorias;
+	}	
 
 	// /* *********************************
 	// 		GUARDAR NUEVOS REGISTROS

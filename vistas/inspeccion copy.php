@@ -19,7 +19,7 @@
     .p-label, .p-id {
     	color: white;
     	border-radius: 2px;
-    	padding: 0.1em;
+    	padding: 0.2em;
     }
     .ui-autocomplete .p-label {
         float: none;
@@ -33,13 +33,6 @@
         font-size: smaller;
         background: #428bca;
     }
-    /* Cambia color del mouse hover */
-    .ui-state-active, 
-    .ui.widget-content, 
-    .ui-state-active{
-        background-color: #fae3cd !important;
-        border: none !important;
-    }    
     /* @media only screen and (max-width: 800px) {
         .table-responsive {
             display: table!important;
@@ -185,23 +178,19 @@
                 <div class="card-body pb-0 pt-3">
                     <div class="row">
                         <div class="col-lg-12">
-                        <table id="tbl_productos" class="table cell-border shadow display nowrap" width="100%">
+                        <table id="tbl_zonificacion" class="table cell-border shadow display nowrap" width="100%">
+                        <!-- <table id="tbl_zonificacion" class="table table-striped w-100 shadow cell-border compact stripe table-responsive" width="100%"> -->
                                 <thead class="bg-gray">
                                     <tr style="font-size: 15px;">
-                                        <th class="text-center"></th>
-                                        <th class="text-center">au_inc</th>
-                                        <th class="text-center">id_insp</th>
+                                        <th class="text-center" hidden>vacio</th>
+                                        <th class="text-center">Id</th>
+                                        <th class="text-center" hidden>id_area</th>
+                                        <th class="text-center">Area</th>
+                                        <th class="text-center" hidden>id_linea </th>
+                                        <th class="text-center">Linea</th>
+                                        <th class="text-center">Punto Inspeccion</th>
                                         <th class="text-center">Fecha</th>
-                                        <th class="text-center">id_area </th>
-                                        <th class="text-center">Area </th>
-                                        <th class="text-center">id_linea </th>
-                                        <th class="text-center">Linea </th>
-                                        <th class="text-center">Id_Item</th>
-                                        <th class="text-center">Producto</th>
-                                        <th class="text-center">Categoria</th>
-                                        <th class="text-center">Precio</th>
-                                        <th class="text-center">Lote</th>
-                                        <th class="text-center">Turno</th>
+                                        <th class="text-center">Usuario</th>
                                         <th class="text-center">Acción</th> 
                                     </tr>
                                 </thead>
@@ -210,11 +199,9 @@
                             </table>
                         </div>
                     </div>
-                </div> 
-                <!-- END card-body datatable -->
+                </div> <!-- END card-body datatable -->
 
-			</div> 
-            <!-- END div card body principal -->
+			</div> <!-- END div card body principal -->
                 
 
 
@@ -233,14 +220,6 @@
     var id_proveedor = '';
     var verInspecAbierta=0;
     var fechaActual= '<?php echo $SolorFechaActual?>';
-    var estatus;
-
-    var id_area=null;
-    var id_linea=null;
-
-    var flagValidarArea =null;
-    var flagValidarProducto =null;
-    var id_item =null;
 
 $(document).ready(function(){
     // Personalizamos el toast mensajes
@@ -249,70 +228,64 @@ $(document).ready(function(){
 
     /* -REVISAR SI EXISTE INSPECCION ABIERTA-*/
     InciarInspeccion();
-    
+
     if (verInspecAbierta == 1){
         return;
         verInspecAbierta=0;
     }
+
+
+
+    //********************************************* INI PANTALLA PRINCIPAL ZONIFICACION **************************** */    
+    /* -CARGA DE MUESTREO EN PROCESO - */
     
-    /* - TABLA DE PRODUCTOS AGREGADOS-*/
-    table_productos = $("#tbl_productos").DataTable({
-        "bDestroy": true,
-        "bPaginate": false,
-        searching: false,
+
+    table = $("#tbl_zonificacion").DataTable({
         select: true,
         info: false,
         ordering: false,
-        responsive: true,
-    
-        //paging: false,            
-        // dom: 'Bfrtilp',
-        // buttons: ['excel', 'pdf'],
+        responsive: true,        
+        autoWidth: true,
+        bDestroy: true,
+        searching: false,
+        paging: false,
+
 
         ajax:{
-            url:"../ajax/inspeccion.ajax.php",
+            url:"../ajax/zonificacion.ajax.php",
             dataSrc: '',
-            type:"POST",
-            data: {
-                'accion':5,
-                'id_insp': $("#spnInspeccion" ).html()
-            },
+            type:"POST",            
+            data: {'accion' : 3}, // LISTAR ALL
         },
         columns: [
             { "data": "vacio" }, 
-            { "data": "au_inc" }, 
-            { "data": "id_insp" }, 
-            { "data": "fecha" },
-            { "data": "id_area" },
-            { "data": "area" },
+            { "data": "id_zonificacion" }, 
+            { "data": "id_area" }, 
+            { "data": "area" }, 
             { "data": "id_linea" },
             { "data": "linea" },
-            { "data": "id_item" },
-            { "data": "nombre_producto" },
-            { "data": "categoria" },
-            { "data": "precio" },
-            { "data": "lote" },
-            { "data": "turno" },
-            { "data": "vacio" },
-        ],        
+            { "data": "punto_insp" },
+            { "data": "fecha" },
+            { "data": "usuario" },
+            { "data": "vacio" }
+           ],        
         columnDefs:[
 
-            {"className": "dt-center", "targets": "_all"},
-            {targets:0,orderable:false,className:'control'},
-
-            {targets:1,visible:false},
+        {"className": "dt-center", "targets": "_all"},
+        {targets:0,orderable:false,className:'control'},
+            {targets:0,visible:false},
             {targets:2,visible:false},
             {targets:4,visible:false},
-            {targets:6,visible:false},
-            {targets:8,visible:false},
+            {targets:7,visible:false},
 
-            { responsivePriority: 1, targets: 14 },
+            { responsivePriority: 1, targets: 9 },
             {
-                targets:14,
+                targets:9,
                 orderable:false,
                 render: function(data, type, full, meta){
                     return "<center>"+
-                                    "<span class='btn_mdlEditarLinea text-primary px-1' style='cursor:pointer;'>"+"<i class='fas fa-pencil-alt fs-5'></i>"+"</span>"+
+                            "<span class='btnEditar text-primary px-1' style='cursor:pointer;'>"+"<i class='fas fa-pencil-alt fs-5'></i>"+"</span>"+
+                            // "<span class='btnEliminar text-danger px-1' style='cursor:pointer;'>"+"<i class='fas fa-trash fs-5'></i>"+"</span>"+
                             "</center>"
                 }
             } ,    
@@ -321,160 +294,100 @@ $(document).ready(function(){
         language: 
         {
             url: "json/idioma.json"
-        },  
+        }, 
     });
-    
 
-    //****************************
-    //----CARGA AREA
-    //****************************
-    id_area = null;
-    id_linea = null;
 
+    /* -TRAER LISTADO DE AREAS-*/
     $.ajax({
         async: false,
         url:"../ajax/zonificacion.ajax.php",
         method: "POST",
         data: {
-            'accion':5,
+            'accion':1,
             'filtro': 'area',
             'dato': null
         },
         dataType: "json",
         success: function(respuesta){
-            console.log("autocomplete AREA 1",respuesta);
-            
+            console.log("autocomplete AREA",respuesta);
+            var i = 0;
                 $("#iptArea").bind( "keydown", function( event ) {
                 i = 0;
                 }).autocomplete({
-                    source: respuesta,
-                    minLength: 1,
-                    select: function(event, ui) {
-                        console.log("id_area null",id_area)
-                        console.log("id_linea null",id_linea)
-
-                        flagValidarArea="";
-                        flagValidarArea = ui.item.id_area;
-                        // console.log(ui.item.linea);
-                        // console.log("value  ",ui.item.value)
-                        $("#iptLinea").val(ui.item.linea);
-                        
-                        console.log("ui  ",ui.item.value)
-
-                        id_area = ui.item.id_area;
-                        id_linea = ui.item.id_linea;
-                        $("#iptProducto").focus();
-                    }
-                }).data("ui-autocomplete")._renderItem = function(ul, item) {
-                var elemento = $("<a></a>");
-                $("<span class='p-label'></span>").text(item.label).appendTo(elemento);
-                $("<span class='p-id'></span>").text(item.linea).appendTo(elemento);
-
-                // (i > 0)? '' : ul.prepend('<li class="ui-title"><span class="h-label">AREA</span><span class="h-linea">LINEA</span></li>'); 
-                i++;
-                return $("<li></li>").append(elemento).appendTo(ul);
-                };
+                source: respuesta,
+                minLength: 1,
+                select: function(event, ui) {
+                    flagValidarArea="";
+                    flagValidarArea = ui.item.id_area;
+                }
+                })
         }
-    }); 
-
-    /*- AL PRESIONAL DEL O BACKSPACE INPUT AREA -*/
-    $("#iptArea").keydown(function(e){
-        if((e.which == 8) || (e.which == 46)){
-            $("#iptArea").val("");
-            $("#iptLinea").val("");
-        }
-    });    
-
-    /*- AL PERDER EL FOCO DEL INPUT AREA -*/
-    $( "#iptArea" ).on( "blur", function() {
-        console.log("ID AREA ",flagValidarArea);
-        if ((flagValidarArea == undefined) || (flagValidarArea == "") || (flagValidarArea == null)){
-            toastr["error"]("Seleccione Correctamente Area de Producción", "!Atención!");
-            $( "#iptArea" ).val("");
-            $( "#iptArea" ).focus();
-        }
-        flagValidarArea =null;
     });
 
+    
+    /*- AL PERDER EL FOCO DEL INPUT AREA -*/
+    
+    // $( "#iptArea" ).on( "blur", function() {
+    //     console.log("ID AREA ",flagValidarArea);
+    //         var var1 = $( "#iptArea" ).val();
+    //         if ((flagValidarArea == undefined) || (flagValidarArea == "")){
+    //             toastr["error"]("Seleccione Correctamente", "!Atención!");
+    //             $( "#iptArea" ).val("");
+    //             $( "#iptArea" ).focus();
+    //         }
+    // });
+    // $("#iptArea").focus(function(){
+    //     flagValidarArea= "";
+    //     //$(this).css("background-color", "#FFFFCC");
+    // });
  
-    //****************************
-    //----CARGA PRODUCTOS
-    //****************************
 
+    
+    /*-TRAER LISTADO DE LINEAS-*/
+    
     $.ajax({
         async: false,
-        url:"../ajax/productos.ajax.php",
+        url:"../ajax/zonificacion.ajax.php",
         method: "POST",
         data: {
-            'accion':6
+            'accion':1,
+            'filtro': 'linea',
+            'dato': null
         },
         dataType: "json",
         success: function(respuesta){
-            console.log("autocomplete PRODUCTOS",respuesta);
-            
-                $("#iptProducto").bind( "keydown", function( event ) {
+            console.log("autocomplete LINEA",respuesta);
+            var i = 0;
+                $("#iptLinea").bind( "keydown", function( event ) {
                 i = 0;
                 }).autocomplete({
-                    source: respuesta,
-                    minLength: 1,
-                    select: function(event, ui) {
-                        // console.log("id_area null",id_area)
-                        // console.log("id_linea null",id_linea)
-
-                        flagValidarProducto="";
-                        flagValidarProducto = ui.item.label;
-                        // console.log(ui.item.linea);
-                        // console.log("value  ",ui.item.value)
-                        $("#iptProducto").val(ui.item.label);
-                        
-                        $("#iptCategoria").val(ui.item.categoria);
-                        $("#iptPresentacion").val(ui.item.presentacion);
-                        $("#iptPrecio").val(ui.item.precio);
-                        id_item = ui.item.id_item
-                        
-                        // console.log("ui  ",ui.item.value)
-
-                        // id_area = ui.item.id_area;
-                        // id_linea = ui.item.id_linea;
-                        $("#iptLote").focus();
-                    }
+                source: respuesta,
+                minLength: 1,
+                select: function(event, ui) {
+                    flagValidarLinea = ui.item.id_linea;
+                }
                 })
-                // .data("ui-autocomplete")._renderItem = function(ul, item) {
-                // var elemento = $("<a></a>");
-                // $("<span class='p-label'></span>").text(item.label).appendTo(elemento);
-                // $("<span class='p-id'></span>").text(item.linea).appendTo(elemento);
-
-                // // (i > 0)? '' : ul.prepend('<li class="ui-title"><span class="h-label">AREA</span><span class="h-linea">LINEA</span></li>'); 
-                // i++;
-                // return $("<li></li>").append(elemento).appendTo(ul);
-                // };
         }
-    });     
-
-    /*- AL PRESIONAL DEL O BACKSPACE INPUT PRODUCTO -*/
-    $("#iptProducto").keydown(function(e){
-        if((e.which == 8) || (e.which == 46)){
-            $("#iptProducto").val("");
-            $("#iptCategoria").val("");
-            $("#iptPresentacion").val("");
-            $("#iptPrecio").val("");
-        }
-    });    
-
-    /*- AL PERDER EL FOCO DEL INPUT PRODUCTO -*/
-    $( "#iptProducto" ).on( "blur", function() {
-        console.log("ID PRODUCTO ",flagValidarProducto);
-        if ((flagValidarProducto == undefined) || (flagValidarProducto == "") || (flagValidarProducto == null)){
-            toastr["error"]("Seleccione Correctamente Producto", "!Atención!");
-            $("#iptProducto" ).val("");
-            $("#iptCategoria").val("");
-            $("#iptPresentacion").val("");
-            $("#iptPrecio").val("");
-
-            $("#iptProducto" ).focus();
-        }
-        flagValidarProducto =null;
     });
+    
+    // /*- AL PERDER EL FOCO DEL INPUT LINEA -*/
+    
+    // $( "#iptLinea" ).on( "blur", function() {
+    //     console.log("ID LINEA",flagValidarLinea);
+    //         var var1 = $( "#iptLinea" ).val();
+    //         if ((flagValidarLinea == undefined) || (flagValidarLinea == "")){
+    //             toastr["error"]("Seleccione Correctamente", "!Atención!");
+    //             $( "#iptLinea" ).val("");
+    //             $( "#iptLinea" ).focus();
+    //         }
+            
+    // });
+    // $("#iptLinea").focus(function(){
+    //     flagValidarLinea= "";
+    //     //$(this).css("background-color", "#FFFFCC");
+    // });
+
     //*******************************
     //- CERRAR INSPECCION
     //*******************************    
@@ -508,75 +421,6 @@ $(document).ready(function(){
             }
         });
     }); 
-
-    /*******************************
-          AGREGAR PRODUCTOS
-    *******************************/
-    $("#btnAgregar").click(function() {
-        
-
-        // alert(id_area);
-        // alert(id_linea);
-        // alert(id_item);
-        
-        const msg = [];
-        
-        var area = $("#iptArea").val();
-        var producto = $("#iptProducto").val();
-        var lote = $("#iptLote").val();
-        var turno = $("#selTurno").val();
-        
-
-        if (area.length == 0){msg.push(' Area');}
-        if (producto.length == 0){msg.push('Producto');}
-        if (lote.length == 0){msg.push(' Lote');}
-        if (turno.length == 1){msg.push(' Turno');}
-        
-        if (msg.length != 3 && msg.length != 0){
-            toastr["error"]("Ingrese los siguientes datos :"+msg, "!Atención!");
-            return;
-        }else if(msg.length == 3){
-            toastr["error"]("No existen datos para guardar", "!Atención!");
-            return;
-        }
-        $.ajax({
-                async: false,
-                url:"../ajax/inspeccion.ajax.php",
-                method: "POST",
-                data: {
-                    'accion':4,
-                    'id_insp' : $("#spnInspeccion" ).html(),
-                    'fecha' : $("#iptFechaInspeccion").val(),
-                    'id_area': id_area,
-                    'id_linea': id_linea,
-                    'id_item': id_item,
-                    'lote': lote,
-                    'turno': turno
-                },
-                dataType: "json",
-                success: function(respuesta){
-                    console.log("Agregar Producto ",respuesta);
-                    if (respuesta == 'ok'){
-                     
-                     
-                     
-                     
-                        limpiar();
-                        toastr["success"]("Ingreso de Información Correcta", "!Atención!");
-                        table_productos.ajax.reload();
-                    }else{
-                        toastr["error"]("Ingreso Incorrecto, entrada duplicada", "!Atención!");
-                    }
-
-                    // bloquearInputs();
-                    // limpiar();
-                    // $("#btnClose" ).prop( "hidden", true );
-                    // $("#btnSave" ).prop( "hidden", true );
-
-                }
-        });        
-
-    });
 
     //*******************************
     //-GUARDAR Zonificacion completa
@@ -996,11 +840,11 @@ $(document).ready(function(){
 function desBloquearInputs(){
     $("#iptFechaInspeccion").prop( "disabled", false );
     $("#iptArea").prop( "disabled", false );
-    // $("#iptLinea").prop( "disabled", false );
+    $("#iptLinea").prop( "disabled", false );
     $("#iptProducto").prop( "disabled", false );
-    // $("#iptCategoria").prop( "disabled", false );
-    // $("#iptPresentacion").prop( "disabled", false );
-    // $("#iptPrecio").prop( "disabled", false );
+    $("#iptCategoria").prop( "disabled", false );
+    $("#iptPresentacion").prop( "disabled", false );
+    $("#iptPrecio").prop( "disabled", false );
     $("#iptLote").prop( "disabled", false );
     $("#selTurno").prop( "disabled", false );
 
@@ -1009,16 +853,16 @@ function desBloquearInputs(){
 function bloquearInputs(){
     $("#iptFechaInspeccion").prop( "disabled", true );
     $("#iptArea").prop( "disabled", true );
-    // $("#iptLinea").prop( "disabled", true );
+    $("#iptLinea").prop( "disabled", true );
     $("#iptProducto").prop( "disabled", true );
-    // $("#iptCategoria").prop( "disabled", true );
-    // $("#iptPresentacion").prop( "disabled", true );
-    // $("#iptPrecio").prop( "disabled", true );
+    $("#iptCategoria").prop( "disabled", true );
+    $("#iptPresentacion").prop( "disabled", true );
+    $("#iptPrecio").prop( "disabled", true );
     $("#iptLote").prop( "disabled", true );
     $("#selTurno").prop( "disabled", true );
 }
 function limpiar(){
-    $("#iptFechaInspeccion").val(fechaActual);
+    $("#iptFechaInspeccion").val("");
     $("#iptArea").val("");
     $("#iptLinea").val("");
     $("#iptProducto").val("");
@@ -1070,9 +914,6 @@ function InciarInspeccion()
                 
                 $("#btnNew").prop( "hidden", true );
                 $("#btnCerrar").prop( "hidden", false );
-                $("#btnAgregar").prop( "disabled", false );
-
-                desBloquearInputs();
                 return;
             }else if (respuesta[0]['fecha'] != fechaActual){
                 console.log("Inspeccion abierta fecha dias anterires");

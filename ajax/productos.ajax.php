@@ -42,7 +42,18 @@ class AjaxProductos{
 		$productos3 = ProductosControlador::ctrBuscarProductos($data);
 
 		echo json_encode($productos3,JSON_UNESCAPED_UNICODE);
-	}    
+	} 
+
+    
+    /*===================================================
+	 BUSCAR PRODUCTOS AUTOCOMPLETE NUEVO VARIAS COLUMNAS # 6
+      ===================================================*/
+	public function ajaxBuscarProductos6()
+	{
+		$productos3 = ProductosControlador::ctrBuscarProductos6();
+
+		echo json_encode($productos3,JSON_UNESCAPED_UNICODE);
+	}     
 }
 
 if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR 
@@ -87,14 +98,11 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR
     $productos = new AjaxProductos();
     $productos-> ajaxBuscarProductos($retorno);
 
-}else if ( isset($_POST['searchTerm'])) { // AUTOCOMPLETE select 2
-    print_r($_POST);
+}else if ((isset($_POST['accion']) && $_POST['accion'] == 6) ) { // AUTOCOMPLETE NUEVO VARIAS COLUMNAS
+    // print_r($_POST);
         
-    $varBuscar= 'vacio-'.$_POST['searchTerm'][1];
-    $retorno = mb_convert_encoding( htmlspecialchars( $varBuscar, ENT_QUOTES, 'UTF-8' ), 'HTML-ENTITIES', 'UTF-8' );    
-  
     $productos = new AjaxProductos();
-    $productos-> ajaxBuscarProductos($retorno);
+    $productos-> ajaxBuscarProductos6();
 
 }
 
