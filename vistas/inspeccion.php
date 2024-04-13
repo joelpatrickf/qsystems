@@ -6,6 +6,11 @@
     $SolorFechaActual = date('Y-m-d');
 ?>
 <style>
+table.dataTable tbody  { white-space:normal; }
+    table.dataTable > tbody > tr > td {
+        white-space: normal!important;
+    }
+    
     table.dataTable.no-footer {border-bottom: 1px solid #ddd;}   
     
     .paging_full_numbers {width: 100%;}    
@@ -40,11 +45,11 @@
         background-color: #fae3cd !important;
         border: none !important;
     }    
-    /* @media only screen and (max-width: 800px) {
+     /* @media only screen and (max-width: 1000px) {
         .table-responsive {
             display: table!important;
         }
-    }     */
+    } */
 </style>
 
     <!-- page content -->
@@ -185,7 +190,9 @@
                 <div class="card-body pb-0 pt-3">
                     <div class="row">
                         <div class="col-lg-12">
-                        <table id="tbl_productos" class="table cell-border shadow display nowrap" width="100%">
+                        <table id="tbl_productos"  class="table table-striped cell-border " style="width:100%">
+
+                        <!-- <table id="tbl_productos" class="table cell-border shadow display nowrap" width="100%"> -->
                                 <thead class="bg-gray">
                                     <tr style="font-size: 15px;">
                                         <th class="text-center"></th>
@@ -257,17 +264,16 @@ $(document).ready(function(){
     
     /* - TABLA DE PRODUCTOS AGREGADOS-*/
     table_productos = $("#tbl_productos").DataTable({
+
         "bDestroy": true,
         "bPaginate": false,
+        "bAutoWidth": false,
         searching: false,
         select: true,
         info: false,
         ordering: false,
         responsive: true,
     
-        //paging: false,            
-        // dom: 'Bfrtilp',
-        // buttons: ['excel', 'pdf'],
 
         ajax:{
             url:"../ajax/inspeccion.ajax.php",
@@ -278,6 +284,11 @@ $(document).ready(function(){
                 'id_insp': $("#spnInspeccion" ).html()
             },
         },
+        // responsive: {
+        //         details: {
+        //             type: 'column'
+        //         }
+        // },
         columns: [
             { "data": "vacio" }, 
             { "data": "au_inc" }, 
@@ -294,18 +305,20 @@ $(document).ready(function(){
             { "data": "lote" },
             { "data": "turno" },
             { "data": "vacio" },
-        ],        
+        ],
+        
         columnDefs:[
 
             {"className": "dt-center", "targets": "_all"},
             {targets:0,orderable:false,className:'control'},
 
-            {targets:1,visible:false},
-            {targets:2,visible:false},
-            {targets:4,visible:false},
-            {targets:6,visible:false},
+            {targets:1,visible:false}, //au_inc
+            {targets:2,visible:false}, //id_insp
+            {targets:4,visible:false}, //id_area
+            {targets:6,visible:false}, //id_linea
             {targets:8,visible:false},
 
+            { responsivePriority: 1, targets: 9 },
             { responsivePriority: 1, targets: 14 },
             {
                 targets:14,
