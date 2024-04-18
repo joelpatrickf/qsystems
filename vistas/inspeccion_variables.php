@@ -69,6 +69,19 @@ if(isset($_SESSION)){ }else{ session_start(); }
                             </div>
                         </div>
 
+                       <!-- Columna TIPO DE PROVEEDOR -->
+                       <div class="col-4 col-lg-2">
+                            <div class="form-group mb-2">
+                                <label class="" for="selEstado"><i class="fas fa-user fs-6"></i>
+                                    <span class="small">Estado</span><span class="text-danger">*</span>
+                                </label>
+			                    <select class="form-control " aria-label=".form-select-sm example" id="selEstado" disabled >
+                                    <option value="0">Elija</option>
+                                        <option value="ACTIVO">ACTIVO</option>
+                                        <option value="INACTIVO">INACTIVO</option>
+			                    </select>
+                            </div>
+                        </div>                         
 
                     </div> <!-- ROW -->
                 </div>  <!-- END div 1º card body -->
@@ -87,6 +100,7 @@ if(isset($_SESSION)){ }else{ session_start(); }
                                         <th class="text-center">Variable</th> 
                                         <th class="text-center">Numero</th> 
                                         <th class="text-center">Usuario</th> 
+                                        <th class="text-center">Estado</th> 
                                         <th class="text-center">Opciones</th>
                                     </tr>
                                 </thead>
@@ -137,6 +151,7 @@ $(document).ready(function(){
             { "data": "variable" },
             { "data": "nmuestras" },
             { "data": "usuario" },
+            { "data": "estado" },
             { "data": "vacio" },
            ],             
          
@@ -153,10 +168,10 @@ $(document).ready(function(){
                 // {targets:2,visible:false,},
                 
                 { responsivePriority: 1, targets: 2 },
-                { responsivePriority: 1, targets: 5 },
+                { responsivePriority: 1, targets: 6 },
                 
                 {
-                    targets:5,
+                    targets:6,
                     orderable:false,
                     render: function(data, type, full, meta){
                         return "<center>"+
@@ -191,6 +206,7 @@ $(document).ready(function(){
         $("#iptVariables").val(data['variable']);
         $("#iptNumeroMuestras").val(data['nmuestras']);
 
+        $("#selEstado").val(data['estado']);
         
         
         $("#btnClose" ).prop( "hidden", false );
@@ -200,42 +216,8 @@ $(document).ready(function(){
     })
     
      $('#tbl_inspeccion tbody').on('click','.btnEliminar', function(){
-        alert("no se puede eliminar si ya existen datos");
+        toastr["error"]("No se puede eliminar, cambie de estado a INACTIVO", "!Atención!");
         return;
-
-        // controlar si ya exsiten datos con ese id
-
-
-        var data = table.row($(this).parents('tr')).data();
-        varEliminar = data['id_ins_var'];
-
-        $.ajax({
-                async: false,
-                url:"../ajax/inspeccion_variables.ajax.php",
-                method: "POST",
-                data: {
-                    'accion':4,
-                    'id_ins_var': varEliminar
-                },
-                dataType: "json",
-                success: function(respuesta){
-                    console.log(respuesta);
-                    if (respuesta == 'ok'){
-                        toastr["success"]("Eliminacion Correcta", "!Atención!");
-                        // limpiar();
-                        // bloquearInputs();
-
-                        table.ajax.reload();
-                    }else{
-                        toastr["error"]("No se pudo Eliminar", "!Atención!");
-                    }
-                    // bloquearInputs();
-                    // limpiar();
-                    // $("#btnClose" ).prop( "hidden", true );
-                    accion="";                    
-                }
-            });
-        
      })
 
      
@@ -264,13 +246,14 @@ $(document).ready(function(){
 
         if ($("#iptVariables").val() == ''){msg.push(' Variables');}
         if ($("#iptNumeroMuestras").val() == ''){msg.push(' Numero de Muestras a Inspeccionar');}
+        if ($("#selEstado").val() == 0){msg.push(' Estado');}
 
         //toastr["error"]("Ingrese los siguientes datos  :"+msg, "!Atención!");
 
-        if (msg.length != 2 && msg.length != 0){
+        if (msg.length != 3 && msg.length != 0){
             toastr["error"]("Ingrese los siguientes datos  :"+msg, "!Atención!");
             return;
-        }else if(msg.length == 2){
+        }else if(msg.length == 3){
             
             toastr["error"]("No existen datos para guardar", "!Atención!");
             bloquearInputs();
@@ -288,6 +271,7 @@ $(document).ready(function(){
                     'fecha': $("#iptFecha").val(),
                     'variables': $("#iptVariables").val(),
                     'numero_muestras': $("#iptNumeroMuestras").val(),
+                    'estado': $("#selEstado").val(),
                     'id_ins_var' : id_ins_var
                 },
                 dataType: "json",
@@ -317,16 +301,19 @@ function desBloquearInputs(){
     $("#iptFecha").prop( "disabled", false );
     $("#iptVariables").prop( "disabled", false );
     $("#iptNumeroMuestras").prop( "disabled", false );
+    $("#selEstado").prop( "disabled", false );
     $("#iptVariables").focus();
 }
 function bloquearInputs(){
     $("#iptFecha").prop( "disabled", true );
     $("#iptVariables").prop( "disabled", true );
     $("#iptNumeroMuestras").prop( "disabled", true );
+    $("#selEstado").prop( "disabled", true );
     $("#iptVariables").focus();
 }
 function limpiar(){
     $("#iptVariables").val('');
+    $("#selEstado").val(0);
     $("#iptNumeroMuestras").val("");
 }
 </script>

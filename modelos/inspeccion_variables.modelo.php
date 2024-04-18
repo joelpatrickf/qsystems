@@ -10,7 +10,7 @@ class InspeccionVariablesModelo{
 	**********************************/
 	static public function mdlListarInspeccionVariables()
 	{
-		$stmt = Conexion::conectar()->prepare("SELECT '' as vacio,id_ins_var,fecha, variable, nmuestras, usuario
+		$stmt = Conexion::conectar()->prepare("SELECT '' as vacio,id_ins_var,fecha, variable, nmuestras, usuario,estado
 												FROM insp_variables");
 
 		$stmt->execute();
@@ -34,13 +34,14 @@ class InspeccionVariablesModelo{
 			date_default_timezone_set("America/Guayaquil");
 			$fechaActual = date('Y-m-d H:i:s', time()); 
 
-	        $stmt = Conexion::conectar()->prepare("INSERT INTO insp_variables(fecha,variable,nmuestras, usuario)
-			 VALUES(:fecha,:variable,:nmuestras, :usuario)");
+	        $stmt = Conexion::conectar()->prepare("INSERT INTO insp_variables(fecha,variable,nmuestras, usuario,estado)
+			 VALUES(:fecha,:variable,:nmuestras, :usuario,:estado)");
 
 	        $stmt->bindParam(":fecha", $data['fecha']); 
 	        $stmt->bindParam(":variable", $data['variables']); 
 	        $stmt->bindParam(":nmuestras", $data['numero_muestras']); 
 	        $stmt->bindParam(":usuario", $usuario); 
+			$stmt->bindParam(":estado", $data['estado']);
 			$stmt->execute();
 			$resultado = 'ok';
 

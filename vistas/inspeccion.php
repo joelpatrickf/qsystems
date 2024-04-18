@@ -226,11 +226,43 @@ table.dataTable tbody  { white-space:normal; }
 
 
 		</div>
-
-
-       
-
 	</div>
+
+
+    <!-- INI Modal cambio de estado-->
+    <div class="modal fade bd-example-modal-lg" id="mdlMuestras" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Ingreso de muestras</h5>
+                </div>
+                <div class="modal-body" id="campos_dinamicos">
+
+
+                <form>
+                    ¿Cuantos Campos? <input type="text" name="cantidad" id="cantidad" value="" onkeyup="crearCampos(this.value);" />
+                    <input type="button" id="boton" value="Crear/Eliminar Campos" onclick="crearCampos(this.form.cantidad.value);" />
+                    <div id="campos_dinamicos"></div>
+                </form>
+
+
+
+
+
+
+
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnCerrarModalCambioEstado" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" id="btnGuardarCambioEstado"class="btn btn-primary">Save changes</button>
+                </div>
+        </div>
+      </div>
+    </div>
+    <!-- FIN Modal cambio de estado-->
 <!-- </div> -->
 <!-- page content -->
 
@@ -512,9 +544,13 @@ $(document).ready(function(){
                     bloquearInputs ();
                     
                     $("#btnNew").prop( "hidden", false );
+                    $("#btnNew").prop( "disabled", false );
                     $("#btnCerrar").prop( "hidden", true );                    
                     $("#spnInspeccion" ).html("");
                     $("#spnHoraInicio" ).html("");
+                    // table_productos.ajax.reload();
+                    
+                    table_productos.rows().remove().draw();
                     return false;
                 }
 
@@ -568,15 +604,12 @@ $(document).ready(function(){
                 },
                 dataType: "json",
                 success: function(respuesta){
-                    console.log("Agregar Producto ",respuesta);
                     if (respuesta == 'ok'){
-                     
-                     
-                     
+                        console.log("Producto agregado ",respuesta);
+                        table_productos.ajax.reload();
                      
                         limpiar();
                         toastr["success"]("Ingreso de Información Correcta", "!Atención!");
-                        table_productos.ajax.reload();
                     }else{
                         toastr["error"]("Ingreso Incorrecto, entrada duplicada", "!Atención!");
                     }
@@ -800,81 +833,84 @@ $(document).ready(function(){
     //********************************************* INICIO LINEA ACTIVITIES******************************************** */
 
 
-    $("#btnLinea").click(function() {
-        $("#mdlLinea").modal('show');    
+    // $("#btnLinea").click(function() {
+    //     $("#mdlLinea").modal('show');    
 
-        table_Linea = $("#tbl_mdlLinea").DataTable({
-            "bDestroy": true,
-            select: true,
-            info: false,
-            ordering: false,
-            responsive: true,
+    //     table_Linea = $("#tbl_mdlLinea").DataTable({
+    //         "bDestroy": true,
+    //         select: true,
+    //         info: false,
+    //         ordering: false,
+    //         responsive: true,
            
-            //paging: false,            
-            dom: 'Bfrtilp',
-            buttons: ['excel', 'pdf'],
+    //         //paging: false,            
+    //         dom: 'Bfrtilp',
+    //         buttons: ['excel', 'pdf'],
 
-            ajax:{
-                url:"../ajax/zonificacion.ajax.php",
-                dataSrc: '',
-                type:"POST",            
-                data: {
-                    'accion':1,
-                    'filtro': 'linea',
-                    'dato': null
-                },
-            },
-            columns: [
-                { "data": "id_linea" }, 
-                { "data": "linea" }, 
-                { "data": "fecha" },
-                { "data": "usuario" },
-                { "data": "observacion" },
-                { "data": "estado" },
-                { "data": "vacio" }
-            ],        
-            columnDefs:[
+    //         ajax:{
+    //             url:"../ajax/zonificacion.ajax.php",
+    //             dataSrc: '',
+    //             type:"POST",            
+    //             data: {
+    //                 'accion':1,
+    //                 'filtro': 'linea',
+    //                 'dato': null
+    //             },
+    //         },
+    //         columns: [
+    //             { "data": "id_linea" }, 
+    //             { "data": "linea" }, 
+    //             { "data": "fecha" },
+    //             { "data": "usuario" },
+    //             { "data": "observacion" },
+    //             { "data": "estado" },
+    //             { "data": "vacio" }
+    //         ],        
+    //         columnDefs:[
 
-                {"className": "dt-center", "targets": "_all"},
-                {targets:0,orderable:false,className:'control'},
+    //             {"className": "dt-center", "targets": "_all"},
+    //             {targets:0,orderable:false,className:'control'},
 
-                {targets:2,visible:false},
-                {targets:3,visible:false},
+    //             {targets:2,visible:false},
+    //             {targets:3,visible:false},
 
-                { responsivePriority: 1, targets: 6 },
-                {
-                    targets:6,
-                    orderable:false,
-                    render: function(data, type, full, meta){
-                        return "<center>"+
-                                        "<span class='btn_mdlEditarLinea text-primary px-1' style='cursor:pointer;'>"+"<i class='fas fa-pencil-alt fs-5'></i>"+"</span>"+
-                                "</center>"
-                    }
-                } ,    
-            ],
-            pageLength: 10,
-            language: 
-            {
-                url: "json/idioma.json"
-            },  
-        }); 
-    })
+    //             { responsivePriority: 1, targets: 6 },
+    //             {
+    //                 targets:6,
+    //                 orderable:false,
+    //                 render: function(data, type, full, meta){
+    //                     return "<center>"+
+    //                                     "<span class='btn_mdlEditarLinea text-primary px-1' style='cursor:pointer;'>"+"<i class='fas fa-pencil-alt fs-5'></i>"+"</span>"+
+    //                             "</center>"
+    //                 }
+    //             } ,    
+    //         ],
+    //         pageLength: 10,
+    //         language: 
+    //         {
+    //             url: "json/idioma.json"
+    //         },  
+    //     }); 
+    // })
 
     //*******************************
     //- LINEA EDITAR
     //*******************************
-    $('#tbl_mdlLinea tbody').on('click','.btn_mdlEditarLinea', function(){
-        var data = table_Linea.row($(this).parents('tr')).data();
-        //console.log(data);
+    $('#tbl_productos tbody').on('click','.btn_mdlEditarLinea', function(){
+        // alert("fer");
+        
+        $("#mdlMuestras").modal('show');
+        // var data = table_Linea.row($(this).parents('tr')).data();
+        // //console.log(data);
 
         
         
-        $("#ipt_mdlLinea").val(data['linea']);
-        $("#ipt_mdlObservacion").val(data['observacion']);
-        buscarSelect(data['estado'],'sel_mdlEstado');
+        // $("#ipt_mdlLinea").val(data['linea']);
+        // $("#ipt_mdlObservacion").val(data['observacion']);
+        // buscarSelect(data['estado'],'sel_mdlEstado');
 
-        id_mdlLinea = data['id_linea']
-        accion_mdlLinea = "mdlLinea_edit";
+        // id_mdlLinea = data['id_linea']
+        // accion_mdlLinea = "mdlLinea_edit";
         
     })
 
@@ -1116,9 +1152,25 @@ function CrearInspeccion(){
         dataType: "json",
         success: function(respuesta){
             console.log("guardar crear inspeccion",respuesta);
+            
 
         }
     });
 }
 
+function crearCampos(cantidad){
+var div = document.getElementById("campos_dinamicos");
+while(div.firstChild)div.removeChild(div.firstChild); // remover elementos;
+    for(var i = 1, cantidad = Number(cantidad); i <= cantidad; i++){
+    var salto = document.createElement("P");
+    var input = document.createElement("input");
+    var text = document.createTextNode("Muestra " + i + ": ");
+    input.setAttribute("name", "campo" + i);
+    input.setAttribute("size", "12");
+    input.className = "input";
+    salto.appendChild(text);
+    salto.appendChild(input);
+    div.appendChild(salto);
+    }
+}
 </script>
