@@ -34,15 +34,31 @@ class InspeccionControlador{
 					GUARDAR PRODUCTOS  #4 
 	**************************************************************/
 	static public function ctrlInspeccionSaveProductos($data){
-		$Categorias = InspeccionModelo::mdlInspeccionSaveProductos($data);
-		return $Categorias;
+		$inspeccion = InspeccionModelo::mdlInspeccionSaveProductos($data);
+		return $inspeccion;
 	}
 	/* ***********************************************************
 					GUARDAR PRODUCTOS  # 5 
 	**************************************************************/
 	static public function ctrlInspeccionListarProductos($id_insp){
-		$Categorias = InspeccionModelo::mdlInspeccionListarProductos($id_insp);
-		return $Categorias;
+		$inspeccion = InspeccionModelo::mdlInspeccionListarProductos($id_insp);
+		return $inspeccion;
+	}
+	
+	/* ***********************************************************
+					NUMERO DE MUESTRAS  # 6
+	**************************************************************/
+	static public function ctrlInspeccionNumeroMuestras(){
+		$inspeccion = InspeccionModelo::mdlInspeccionNumeroMuestras();
+		return $inspeccion;
+	}
+
+	/* ***********************************************************
+					GUARDAR VARIABLES Y MUESTRAS  # 7
+	**************************************************************/
+	static public function ctrlInspeccionSaveMuestrasVariables($muestras,$variables,$id_insp){
+		$inspeccion = InspeccionModelo::mdlInspeccionSaveMuestrasVariables($muestras,$variables,$id_insp);
+		return $inspeccion;
 	}	
 
 	// /* *********************************

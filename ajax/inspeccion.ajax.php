@@ -50,8 +50,25 @@ class AjaxInspeccion{
 		$respuesta1 = InspeccionControlador::ctrlInspeccionListarProductos($id_insp);
 		echo json_encode($respuesta1);
 	}	
+
+	/* *************************
+		NUMERO DE MUESTRAS  # 6
+	***************************/
+	public function ajaxInspeccionNumeroMuestras()
+	{
+		$respuesta1 = InspeccionControlador::ctrlInspeccionNumeroMuestras();
+		echo json_encode($respuesta1);
+	}		
 	
 	
+	/* ***********************************
+		GUARDAR VARIABLES Y MUESTRAS  # 7
+	*************************************/
+	public function ajaxInspeccionSaveMuestrasVariables	($muestras,$variables,$id_insp)
+	{
+		$respuesta1 = InspeccionControlador::ctrlInspeccionSaveMuestrasVariables($muestras,$variables,$id_insp);
+		echo json_encode($respuesta1);
+	}			
 }
 
 if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR 
@@ -88,6 +105,16 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR
     $inspeccion = new AjaxInspeccion();
     $inspeccion-> ajaxInspeccionListarProductos($_POST['id_insp']);
 
-} 
+} else if (isset($_POST['accion']) && $_POST['accion'] == 6) { // LISTAR NUMERO DE MUESTRAS
+	// print_r($_POST);
+    $inspeccion = new AjaxInspeccion();
+    $inspeccion-> ajaxInspeccionNumeroMuestras();
+
+} else if (isset($_POST['accion']) && $_POST['accion'] == 7) { // GUARDAR MUESTRAS Y VARIABLES DATOS
+	// print_r($_POST);
+    $inspeccion = new AjaxInspeccion();
+    $inspeccion-> ajaxInspeccionSaveMuestrasVariables($_POST['muestras'],$_POST['variables'],$_POST['id_insp']);
+
+}
 
 

@@ -58,14 +58,6 @@ table.dataTable tbody  { white-space:normal; }
     .card-title {
         font-size: 1.1rem;
         font-weight: 400;
-    } 
-    .cardInfo{
-        width: 75%;
-    }   
-    @media only screen and (max-width: 1070px) {
-        .cardInfo{
-            width: 100%;
-        }   
     }    
 
     /* .card-info:not(.card-outline)>.card-header .btn-tool {
@@ -205,7 +197,7 @@ table.dataTable tbody  { white-space:normal; }
                             </div>                            
                             <div class="col-12 col-lg-2 mt-3">
                                 <button type="button" id="btnAgregar" class="btn btn-primary " id="btnClose" style="float: right;" disabled>Agregar</button>
-                            </div>
+                            </div>                  
                         <!-- </div> -->
 				    </div>
 				</div>
@@ -270,12 +262,12 @@ table.dataTable tbody  { white-space:normal; }
             <!-- END div card body principal -->
                 
             <div class="row mt-3">
-             <div class="col-lg-12" style="display: grid;place-items: center;">
-                 <div class="card card-info cardInfo" >
+             <div class="col-lg-12">
+                 <div class="card card-info">
 
                      <div class="card-header cabeza" >
                          <!-- <h3 class="card-title" style="float: left!important;color: #fff!important;margin: 10px;">Ingreso de Muestras y Variables</h3> -->
-                         <span class="ml-2" style="color:white;font-size: 1.4rem; "> Ingreso de Muestras y Variables - </span>
+                         <span class="ml-2" style="color:white;font-size: 1.5rem; "> Ingreso de Muestras y Variables - </span>
                          <span  style="color:white;font-size: 1.2rem; " id="spnProducto" ></span>
                          
 
@@ -283,7 +275,7 @@ table.dataTable tbody  { white-space:normal; }
                      </div> <!-- ./ end card-header -->
 
                      
-                     <div class="card-body" style="background-color: #E1E0DC !important;">
+                     <div class="card-body">
                         <div class="row">
                             <div class="col-3">
                                 <form>
@@ -301,9 +293,6 @@ table.dataTable tbody  { white-space:normal; }
 
                      </div> 
                      <!-- ./ end card-body -->
-                    <div class="card-footer py-0">
-                        <button type="button" id="btnGuardarMuestra" class="btn btn-primary mt-1" style="float: right;" >Grabar</button>
-                    </div>                     
                  </div>
              </div>
 
@@ -311,6 +300,41 @@ table.dataTable tbody  { white-space:normal; }
 	</div>
 
 
+    <!-- INI Modal cambio de estado-->
+    <div class="modal fade bd-example-modal-lg" id="mdlMuestras" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Ingreso de muestras</h5>
+                </div>
+                <div class="modal-body" >
+
+                    <div class="row">
+                        <!-- <div class="col-3">
+                            <form>
+                                <div id="campos_dinamicos"></div>
+                            </form>
+                            
+                        </div>
+                        <div class="col-9">
+                            <form>
+                                <div id="campos_variables"></div>
+                            </form>
+                        </div> -->
+
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnCerrarModalCambioEstado" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" id="btnGuardarMuestra"class="btn btn-primary">Save changes</button>
+                    <button type="button" id="btnRecorrer"class="btn btn-primary">RECORRER</button>
+                </div>
+        </div>
+      </div>
+    </div>
+    <!-- FIN Modal cambio de estado-->
 <!-- </div> -->
 <!-- page content -->
 
@@ -369,7 +393,11 @@ $(document).ready(function(){
                 'id_insp': $("#spnInspeccion" ).html()
             },
         },
-
+        // responsive: {
+        //         details: {
+        //             type: 'column'
+        //         }
+        // },
         columns: [
             { "data": "vacio" }, 
             { "data": "au_inc" }, 
@@ -525,11 +553,23 @@ $(document).ready(function(){
                         $("#iptPresentacion").val(ui.item.presentacion);
                         $("#iptPrecio").val(ui.item.precio);
                         id_item = ui.item.id_item
+                        
+                        // console.log("ui  ",ui.item.value)
 
+                        // id_area = ui.item.id_area;
+                        // id_linea = ui.item.id_linea;
                         $("#iptLote").focus();
                     }
                 })
+                // .data("ui-autocomplete")._renderItem = function(ul, item) {
+                // var elemento = $("<a></a>");
+                // $("<span class='p-label'></span>").text(item.label).appendTo(elemento);
+                // $("<span class='p-id'></span>").text(item.linea).appendTo(elemento);
 
+                // // (i > 0)? '' : ul.prepend('<li class="ui-title"><span class="h-label">AREA</span><span class="h-linea">LINEA</span></li>'); 
+                // i++;
+                // return $("<li></li>").append(elemento).appendTo(ul);
+                // };
         }
     });     
 
@@ -600,6 +640,11 @@ $(document).ready(function(){
     *******************************/
     $("#btnAgregar").click(function() {
         
+
+        // alert(id_area);
+        // alert(id_linea);
+        // alert(id_item);
+        
         const msg = [];
         
         var area = $("#iptArea").val();
@@ -646,6 +691,11 @@ $(document).ready(function(){
                         toastr["error"]("Ingreso Incorrecto, entrada duplicada", "!Atención!");
                     }
 
+                    // bloquearInputs();
+                    // limpiar();
+                    // $("#btnClose" ).prop( "hidden", true );
+                    // $("#btnSave" ).prop( "hidden", true );
+
                 }
         });        
 
@@ -674,37 +724,59 @@ $(document).ready(function(){
             arrMuestras.push(iptName+" | "+iptValue);
         }
         console.log(arrMuestras);        
+
+
+        // if (( $("#iptArea").val().length == 0) || ($("#iptLinea").val().length == 0) || ($("#iptPuntos").val().length == 0)){
+        //     toastr["error"]("No existen datos para guardar", "!Atención!");
+        //     return;
+        // }
+
+        // const msg = [];
+        // var area =  flagValidarArea;
+        // var linea =  flagValidarLinea;
+        // var puntos =  $("#iptPuntos").val();
         
+        // if (area.length == 0){msg.push(' Area');}
+        // if (linea.length == 0){msg.push('Linea');}
+        // if (puntos.length == 0){msg.push(' Puntos');}
+        // if (msg.length != 3 && msg.length != 0){
+        //     toastr["error"]("Ingrese los siguientes datos :"+msg, "!Atención!");
+        //     return;
+        // }else if(msg.length == 3){
+        //     toastr["error"]("No existen datos para guardar", "!Atención!");
+        //     return;
+        // }
+        
+        // $.ajax({
+        //         async: false,
+        //         url:"../ajax/zonificacion.ajax.php",
+        //         method: "POST",
+        //         data: {
+        //             'accion':accion,
+        //             'id_area': area,
+        //             'id_linea': linea,
+        //             'punto': puntos.toUpperCase(),
+        //             'id': id_zonificacion,
+        //         },
+        //         dataType: "json",
+        //         success: function(respuesta){
+        //             console.log("guardar ",respuesta);
+        //             if (respuesta == 'ok'){
+        //                 limpiar();
+        //                 toastr["success"]("Ingreso de Información Correcta", "!Atención!");
+        //                 table.ajax.reload();
+        //             }else{
+        //                 toastr["error"]("Ingreso Incorrecto, entrada duplicada", "!Atención!");
+        //             }
+        //             bloquearInputs();
+        //             limpiar();
+        //             $("#btnClose" ).prop( "hidden", true );
+        //             $("#btnSave" ).prop( "hidden", true );
+        //             accion="";
 
-        $.ajax({
-                async: false,
-                url:"../ajax/inspeccion.ajax.php",
-                method: "POST",
-                data: {
-                    'accion':7,
-                    'muestras': arrMuestras,
-                    'variables': arrVariables,
-                    'id_insp': $("#spnInspeccion" ).html(),
-                },
-                dataType: "json",
-                success: function(respuesta){
-                    console.log("guardar ",respuesta);
-                    // if (respuesta == 'ok'){
-                    //     limpiar();
-                    //     toastr["success"]("Ingreso de Información Correcta", "!Atención!");
-                    //     table.ajax.reload();
-                    // }else{
-                    //     toastr["error"]("Ingreso Incorrecto, entrada duplicada", "!Atención!");
-                    // }
-                    // bloquearInputs();
-                    // limpiar();
-                    // $("#btnClose" ).prop( "hidden", true );
-                    // $("#btnSave" ).prop( "hidden", true );
-                    // accion="";
-
-                    // id_mdlArea = null;
-                }
-            });
+        //             id_mdlArea = null;
+        //         }
+        //     });
     });
 
     /*-- BOTON NUEVO ---*/
@@ -1178,7 +1250,7 @@ var varVariables;
             var salto = document.createElement("P");
             var input = document.createElement("input");
             var text = document.createTextNode("Muestra " + i + ": ");
-            input.setAttribute("name", "M" + i);
+            input.setAttribute("name", "muestra" + i);
             input.setAttribute("size", "12");
             input.setAttribute("style","max-width:120px");
             input.setAttribute("style","display:inline-block");
@@ -1213,7 +1285,6 @@ var varVariables;
             
 
             input.className = "input form-control w-25 variables";
-            salto.className = "mb-1";
             salto.appendChild(text);
             salto.appendChild(input);
             div.appendChild(salto);
