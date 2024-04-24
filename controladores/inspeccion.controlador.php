@@ -56,8 +56,16 @@ class InspeccionControlador{
 	/* ***********************************************************
 					GUARDAR VARIABLES Y MUESTRAS  # 7
 	**************************************************************/
-	static public function ctrlInspeccionSaveMuestrasVariables($muestras,$variables,$id_insp){
-		$inspeccion = InspeccionModelo::mdlInspeccionSaveMuestrasVariables($muestras,$variables,$id_insp);
+	static public function ctrlInspeccionSaveMuestrasVariables($muestras,$variables,$id_insp,$id_item,$id_item_contador){
+		$inspeccion = InspeccionModelo::mdlInspeccionSaveMuestrasVariables($muestras,$variables,$id_insp,$id_item,$id_item_contador);
+		return $inspeccion;
+	}
+
+	/* ***********************************************************
+					BUSCAR VARIABLES Y MUESTRAS  # 8
+	**************************************************************/
+	static public function ctrlInspeccionBuscarMuestrasVariables($id_ins,$id_item,$id_item_contador){
+		$inspeccion = InspeccionModelo::mdlInspeccionBuscarMuestrasVariables($id_ins,$id_item,$id_item_contador);
 		return $inspeccion;
 	}	
 

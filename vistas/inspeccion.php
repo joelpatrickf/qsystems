@@ -105,6 +105,9 @@ table.dataTable tbody  { white-space:normal; }
 				</div>
 				<div class="card-body pb-0 pt-3">
                     <div class="row ">
+                        
+
+                        
                         <!-- <div class="col-lg-12"> -->
 
                         
@@ -207,6 +210,7 @@ table.dataTable tbody  { white-space:normal; }
                                 <button type="button" id="btnAgregar" class="btn btn-primary " id="btnClose" style="float: right;" disabled>Agregar</button>
                             </div>
                         <!-- </div> -->
+
 				    </div>
 				</div>
 
@@ -235,6 +239,7 @@ table.dataTable tbody  { white-space:normal; }
                                         <th class="text-center">Precio</th>
                                         <th class="text-center">Lote</th>
                                         <th class="text-center">Turno</th>
+                                        <th class="text-center">Cont</th>
                                         <th class="text-center">Acción</th> 
                                     </tr>
                                 </thead>
@@ -269,45 +274,44 @@ table.dataTable tbody  { white-space:normal; }
 			</div> 
             <!-- END div card body principal -->
                 
-            <div class="row mt-3">
-             <div class="col-lg-12" style="display: grid;place-items: center;">
-                 <div class="card card-info cardInfo" >
+            <div class="row mt-3" id="div_muestras" >
+                <div class="col-lg-12" style="display: grid;place-items: center;">
+                    <div class="card card-info cardInfo" >
 
-                     <div class="card-header cabeza" >
-                         <!-- <h3 class="card-title" style="float: left!important;color: #fff!important;margin: 10px;">Ingreso de Muestras y Variables</h3> -->
-                         <span class="ml-2" style="color:white;font-size: 1.4rem; "> Ingreso de Muestras y Variables - </span>
-                         <span  style="color:white;font-size: 1.2rem; " id="spnProducto" ></span>
-                         
+                        <div class="card-header cabeza" >
+                            <!-- <h3 class="card-title" style="float: left!important;color: #fff!important;margin: 10px;">Ingreso de Muestras y Variables</h3> -->
+                            <span class="ml-2" style="color:white;font-size: 1.4rem; "> Ingreso de Muestras y Variables - </span>
+                            <span  style="color:white;font-size: 1.2rem; " id="spnProducto" ></span>
 
+                        </div> <!-- ./ end card-header -->
 
-                     </div> <!-- ./ end card-header -->
+                        
+                        <div class="card-body" style="background-color: #E1E0DC !important;">
+                            <div class="row">
+                                <div class="col-3">
+                                    <form>
+                                        <div id="campos_dinamicos"></div>
+                                    </form>
+                                    
+                                </div>
+                                <div class="col-9">
+                                    <form>
+                                        <div id="campos_variables"></div>
+                                    </form>
+                                </div>
 
-                     
-                     <div class="card-body" style="background-color: #E1E0DC !important;">
-                        <div class="row">
-                            <div class="col-3">
-                                <form>
-                                    <div id="campos_dinamicos"></div>
-                                </form>
-                                
                             </div>
-                            <div class="col-9">
-                                <form>
-                                    <div id="campos_variables"></div>
-                                </form>
-                            </div>
 
-                        </div>
+                        </div> 
+                        <!-- ./ end card-body -->
+                        <div class="card-footer py-0">
+                            <button type="button" id="btnCerrarMuestra" class="btn btn-primary mt-1" style="float: right;" >Cerrar</button>
+                            <button type="button" id="btnGuardarMuestra" class="btn btn-success mt-1" style="float: right;" >Grabar</button>
+                        </div>                     
+                    </div>
+                </div>
 
-                     </div> 
-                     <!-- ./ end card-body -->
-                    <div class="card-footer py-0">
-                        <button type="button" id="btnGuardarMuestra" class="btn btn-primary mt-1" style="float: right;" >Grabar</button>
-                    </div>                     
-                 </div>
-             </div>
-
-		</div>
+		    </div>
 	</div>
 
 
@@ -328,13 +332,16 @@ table.dataTable tbody  { white-space:normal; }
     var flagValidarArea =null;
     var flagValidarProducto =null;
     var id_item =null;
+    var id_item_muestra =null;
 
     let arrayMuestras = [];
     let arrayVariables = [];
 
     var varNombreProducto;
+    var id_item_contador;
 
 $(document).ready(function(){
+    $("#div_muestras" ).prop( "hidden", true );
     // Personalizamos el toast mensajes
     toastr.options.timeOut = 1500; // 1.5s
     toastr.options.closeButton = true;
@@ -385,6 +392,7 @@ $(document).ready(function(){
             { "data": "precio" },
             { "data": "lote" },
             { "data": "turno" },
+            { "data": "id_item_contador" },
             { "data": "vacio" },
         ],
         
@@ -400,9 +408,9 @@ $(document).ready(function(){
             {targets:8,visible:false},
 
             { responsivePriority: 1, targets: 9 },
-            { responsivePriority: 1, targets: 14 },
+            { responsivePriority: 1, targets: 15 },
             {
-                targets:14,
+                targets:15,
                 orderable:false,
                 render: function(data, type, full, meta){
                     return "<center>"+
@@ -651,10 +659,25 @@ $(document).ready(function(){
 
     });
 
+    
     //*******************************
     //-GUARDAR Zonificacion completa
     //*******************************
+    $("#btnCerrarMuestra").click(function(e) {
+        e.preventDefault();
+
+        removerMuestras();
+
+
+    });
+
+
+
+    //*******************************
+    //-GUARDAR MUESTRAS Y VARIABLES
+    //*******************************
     $("#btnGuardarMuestra").click(function() {
+
         var vVariables = document.getElementsByClassName("variables");
 
         var arrVariables = [];
@@ -674,7 +697,8 @@ $(document).ready(function(){
             arrMuestras.push(iptName+" | "+iptValue);
         }
         console.log(arrMuestras);        
-        
+        // alert(id_item_muestra);
+        // return;
 
         $.ajax({
                 async: false,
@@ -685,24 +709,19 @@ $(document).ready(function(){
                     'muestras': arrMuestras,
                     'variables': arrVariables,
                     'id_insp': $("#spnInspeccion" ).html(),
+                    'id_item': id_item_muestra,
+                    'id_item_contador':id_item_contador
                 },
                 dataType: "json",
                 success: function(respuesta){
                     console.log("guardar ",respuesta);
-                    // if (respuesta == 'ok'){
-                    //     limpiar();
-                    //     toastr["success"]("Ingreso de Información Correcta", "!Atención!");
-                    //     table.ajax.reload();
-                    // }else{
-                    //     toastr["error"]("Ingreso Incorrecto, entrada duplicada", "!Atención!");
-                    // }
-                    // bloquearInputs();
-                    // limpiar();
-                    // $("#btnClose" ).prop( "hidden", true );
-                    // $("#btnSave" ).prop( "hidden", true );
-                    // accion="";
-
-                    // id_mdlArea = null;
+                    if (respuesta == 'ok'){
+                        removerMuestras();
+                        toastr["success"]("Ingreso de Información Correcta", "!Atención!");
+                    }else{
+                        toastr["error"]("Ingreso Incorrecto, entrada duplicada", "!Atención!");
+                    }
+                    id_item_muestra = null;
                 }
             });
     });
@@ -863,26 +882,70 @@ $(document).ready(function(){
     //- LINEA EDITAR
     //*******************************
     $('#tbl_productos tbody').on('click','.btn_IngresarMuestras', function(){
-        // alert("fer");
+        $("#div_muestras" ).prop( "hidden", false );
+
+        // eliminados informacion anterior
+        // removerMuestras();
         
-        //$("#mdlMuestras").modal('show');
+
+
         var data = table_productos.row($(this).parents('tr')).data();
         varNombreProducto = data['nombre_producto'];
-        // alert(varNombreProducto);
+        id_item_muestra = data['id_item']
+        id_item_contador = data['id_item_contador']
+
         $("#spnProducto" ).html(varNombreProducto);
         
+        // alert(data['id_item']);
+        // return;
+
+
         crearCampos();
 
-        // //console.log(data);
+        // BUSCARMOS INFORMACION DEMUESTRAS Y VARIABLES DE LA INSPECCION //
+        $.ajax({
+                async: false,
+                url:"../ajax/inspeccion.ajax.php",
+                method: "POST",
+                data: {
+                    'accion':8,
+                    'id_insp': $("#spnInspeccion" ).html(),
+                    'id_item': id_item_muestra,
+                    'id_item_contador':id_item_contador
+                },
+                dataType: "json",
+                success: function(respuesta){
+                    console.log("VARIABLES Y MUESTRAS ",respuesta);
 
-        
-        
-        // $("#ipt_mdlLinea").val(data['linea']);
-        // $("#ipt_mdlObservacion").val(data['observacion']);
-        // buscarSelect(data['estado'],'sel_mdlEstado');
+                    for (var i = 0; i < respuesta.length; i++) {
+                        if (respuesta[i]['tipo'] == 'VARIABLES'){
+                            if (respuesta[i]['valor'] != null){
+                                $("#itpVariable_"+respuesta[i]['id']).val(Math.trunc(respuesta[i]['valor']));
+                            }else{
+                                $("#itpVariable_"+respuesta[i]['id']).val(respuesta[i]['valor']);
+                            }
 
-        // id_mdlLinea = data['id_linea']
-        // accion_mdlLinea = "mdlLinea_edit";
+                        }
+                        
+                        if (respuesta[i]['tipo'] == 'MUESTRAS'){
+                            // console.log(respuesta[i]['id']);
+                             $("#"+respuesta[i]['id']).val(respuesta[i]['valor']);
+                        }
+                    }
+
+
+                    // if (respuesta == 'ok'){
+                    //     $("#ipt_mdlLinea").val("")
+                    //     $("#ipt_mdlObservacion").val("")
+                    //     toastr["success"]("Ingreso de Información Correcta", "!Atención!");
+                    //     table_Linea.ajax.reload();
+                    // }else{
+                    //     toastr["error"]("Ingreso Incorrecto, entrada duplicada", "!Atención!");
+                    // }
+                    // accion_mdlArea = "mdlArea_new";
+                }
+            });        
+        
         
     })
 
@@ -934,7 +997,7 @@ $(document).ready(function(){
                     }
                     accion_mdlArea = "mdlArea_new";
                 }
-        });
+            });
     });    
 //********************************************* FIN AREA LINEA ******************************************** */
 
@@ -1179,9 +1242,10 @@ var varVariables;
             var input = document.createElement("input");
             var text = document.createTextNode("Muestra " + i + ": ");
             input.setAttribute("name", "M" + i);
+            input.setAttribute("id", "M" + i);
             input.setAttribute("size", "12");
             input.setAttribute("style","max-width:120px");
-            input.setAttribute("style","display:inline-block");
+            input.setAttribute("style","display:inline-block;;text-align:center");
             input.className = "input form-control w-50 muestras";
             
             salto.className = "mb-1";
@@ -1205,10 +1269,12 @@ var varVariables;
             var input = document.createElement("input");
             var text = document.createTextNode(varVariables[contador]['variable'] +":  ");
             input.setAttribute("name", "itpVariable_" + varVariables[contador]['id_ins_var']);
+            input.setAttribute("id", "itpVariable_" + varVariables[contador]['id_ins_var']);
             input.setAttribute("size", "12");
             input.setAttribute("style","max-width:120px");
-            input.setAttribute("style","display:inline-block");
+            input.setAttribute("style","display:inline-block;text-align:center");
             salto.setAttribute("style","text-align:right");
+            
             
             
 
@@ -1220,5 +1286,19 @@ var varVariables;
             
             contador = contador + 1;
         }    
+        
+}
+
+function removerMuestras(){
+    
+    var element = document.getElementById("campos_variables"); 
+    element.textContent = "";        
+
+    
+    var element1 = document.getElementById("campos_dinamicos"); 
+    element1.textContent = "";                
+    $("#spnProducto" ).html("");
+
+    $("#div_muestras" ).prop( "hidden", true );    
 }
 </script>

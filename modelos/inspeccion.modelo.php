@@ -117,6 +117,28 @@ class InspeccionModelo{
 		$resMuestrasVariables = self::mdlInspeccionNumeroMuestras();
 		$nRegMuestras = $resMuestrasVariables['nmuestras'][0]->nmuestras;
 		$nRegVariables = count($resMuestrasVariables['variables']);
+
+		// Proceso para incrementar el campo de numero de items 
+		$stmt55 = Conexion::conectar()->prepare("SELECT id_item, count(id_item) as Cuenta  
+							from insp_productos 
+							WHERE id_insp=:id_insp AND id_item = :id_item
+							group by id_item
+						");
+			$stmt55->bindParam(":id_insp",$data['id_insp']);
+			$stmt55->bindParam(":id_item",$data['id_item']);
+
+		$stmt55->execute();
+		$res_iditem_cuenta = $stmt55 ->fetchAll(PDO::FETCH_CLASS);
+		$res_count_idItem = count($res_iditem_cuenta);
+
+		if ($res_count_idItem == 0) {
+			$res_count_idItem = $res_count_idItem+1;
+			
+		}else if ($res_count_idItem > 0) {
+			$res_count_idItem = $res_iditem_cuenta[0]->Cuenta+1;
+		}
+
+
 		
 		// parametrizando VARIABLES EN LA TABLA
 		$tipoV = 'VARIABLES';
@@ -124,13 +146,14 @@ class InspeccionModelo{
 			$stmt=null;
 			$idV = $resMuestrasVariables['variables'][$i]->id_ins_var;
 
-	        $stmt = Conexion::conectar()->prepare("INSERT INTO insp_muestras_variables(id_insp, tipo, id, id_item)
-			 VALUES(:id_insp, :tipo, :id, :id_item)");
+	        $stmt = Conexion::conectar()->prepare("INSERT INTO insp_muestras_variables(id_insp, tipo, id, id_item,id_item_contador)
+			 VALUES(:id_insp, :tipo, :id, :id_item,:id_item_contador)");
 
 	        $stmt->bindParam(":id_insp", $data['id_insp']); 
 	        $stmt->bindParam(":tipo", $tipoV); 
 	        $stmt->bindParam(":id", $idV);
-	        $stmt->bindParam(":id_item", $data['id_item']); 
+	        $stmt->bindParam(":id_item", $data['id_item']);
+			$stmt->bindParam(":id_item_contador", $res_count_idItem); 
 			$stmt->execute();
 			$resultado = 'ok';
 		}
@@ -142,13 +165,14 @@ class InspeccionModelo{
 			$stmt=null;
 			$idM = 'M'.$i+1;
 
-	        $stmt = Conexion::conectar()->prepare("INSERT INTO insp_muestras_variables(id_insp, tipo, id, id_item)
-			 VALUES(:id_insp, :tipo, :id, :id_item)");
+	        $stmt = Conexion::conectar()->prepare("INSERT INTO insp_muestras_variables(id_insp, tipo, id, id_item, id_item_contador)
+			 VALUES(:id_insp, :tipo, :id, :id_item, :id_item_contador)");
 
 	        $stmt->bindParam(":id_insp", $data['id_insp']); 
 	        $stmt->bindParam(":tipo", $tipoM); 
 	        $stmt->bindParam(":id", $idM);
 	        $stmt->bindParam(":id_item", $data['id_item']); 
+	        $stmt->bindParam(":id_item_contador", $res_count_idItem); 
 			$stmt->execute();
 			$resultado = 'ok';
 		}
@@ -158,8 +182,8 @@ class InspeccionModelo{
 		try {
 	        $stmt=null;
 
-	        $stmt = Conexion::conectar()->prepare("INSERT INTO insp_productos(id_insp,  fecha,  id_area,  id_linea,  id_item,  lote, turno)
-			 VALUES(:id_insp,  :fecha,  :id_area,  :id_linea,  :id_item,  :lote, :turno)");
+	        $stmt = Conexion::conectar()->prepare("INSERT INTO insp_productos(id_insp,  fecha,  id_area,  id_linea,  id_item,  lote, turno,id_item_contador)
+			 VALUES(:id_insp,  :fecha,  :id_area,  :id_linea,  :id_item,  :lote, :turno,:id_item_contador)");
 
 	        $stmt->bindParam(":id_insp", $data['id_insp']); 
 	        $stmt->bindParam(":fecha", $data['fecha']); 
@@ -168,6 +192,7 @@ class InspeccionModelo{
 	        $stmt->bindParam(":id_item", $data['id_item']); 
 	        $stmt->bindParam(":lote", $data['lote']); 
 	        $stmt->bindParam(":turno", $data['turno']); 
+	        $stmt->bindParam(":id_item_contador", $res_count_idItem); 
 			$stmt->execute();
 			$resultado = 'ok';
 
@@ -183,7 +208,7 @@ class InspeccionModelo{
 	**********************************/
 	static public function mdlInspeccionListarProductos($id_insp)
 	{
-		$stmt = Conexion::conectar()->prepare("SELECT '' AS vacio, ip.au_inc, id_insp,  fecha,  v.id_area,v.area,  v.id_linea, v.linea,  prod.id_item, prod.nombre_producto,prod.categoria, prod.precio,lote, turno 
+		$stmt = Conexion::conectar()->prepare("SELECT '' AS vacio, ip.au_inc, id_insp,  fecha,  v.id_area,v.area,  v.id_linea, v.linea,  prod.id_item, prod.nombre_producto,prod.categoria, prod.precio,lote, turno, ip.id_item_contador
 								FROM insp_productos as ip
 								INNER JOIN v_areas_lineas v ON ip.id_area = v.id_area AND ip.id_linea = v.id_linea 
 								INNER JOIN productos prod ON ip.id_item =  prod.id_item 
@@ -191,7 +216,6 @@ class InspeccionModelo{
 		
 		");
 		$stmt->bindParam(":id_insp",$id_insp);
-		// $stmt->bindParam(":password",$password);
 		$stmt->execute();
 		return $stmt ->fetchAll(PDO::FETCH_CLASS);
 	}	
@@ -221,74 +245,112 @@ class InspeccionModelo{
 				GUARDAR VARIABLES Y MUESTRAS  # 7
 	**************************************************************/
 
-	static public function mdlInspeccionSaveMuestrasVariables($muestras,$variables,$id_insp)
+	static public function mdlInspeccionSaveMuestrasVariables($muestras,$variables,$id_insp,$id_item,$id_item_contador)
 	{
 		$resMuestrasVariables = self::mdlInspeccionNumeroMuestras();
-		$nRegMuestras = $resMuestrasVariables['nmuestras'][0]->nmuestras;
-		$nRegVariables = count($resMuestrasVariables['variables']);
-
-		// print_r($nRegVariables);
-		// echo "<BR>";
-		// print_r($nRegVariables);
-		// echo "<BR>";
-		// exit();
-
+		// $nRegMuestras = $resMuestrasVariables['nmuestras'][0]->nmuestras;
+		// $nRegVariables = count($resMuestrasVariables['variables']);
+// echo "<pre>";
+// print_r($muestras);
+// echo "<pre>";
+// exit();
 		$filasMuestras = count($muestras);
 		$filasVariables = count($variables);
 
+		
+		// GUARDANDO MUESTRAS
 		for ($i = 0; $i < $filasMuestras ; $i++) {
 			$data1 = explode(" | ", $muestras[$i]);
 			$muestrasId = $data1[0];
 			$muestrasValor = $data1[1];
+			if ($muestrasValor == ""){
+				$muestrasValor = null;
+			}
+			
 
-			// print_r($muestrasCampo);
-			// echo "<br>";
-			// print_r($muestrasValor);
-			// echo "<br>";
 
 			$stmt44 = Conexion::conectar()->prepare("UPDATE insp_muestras_variables
 					SET valor =:muestras_valor 
-					WHERE id_insp = :id_insp AND tipo = 'MUESTRAS' AND id = :muestras_id");
+					WHERE id_insp = :id_insp AND tipo = 'MUESTRAS' AND id = :muestras_id AND id_item=:id_item AND id_item_contador = :id_item_contador");
 
 			$stmt44->bindParam(":muestras_id", $muestrasId);
 			$stmt44->bindParam(":muestras_valor", $muestrasValor);
 			$stmt44->bindParam(":id_insp", $id_insp);
+			$stmt44->bindParam(":id_item", $id_item);
+			$stmt44->bindParam(":id_item_contador", $id_item_contador);
+			
 			$stmt44->execute(); 
 			$stmt44=null;
 		}
 
+		// GUARDANDO VARIABLES
+		for ($i = 0; $i < $filasVariables ; $i++) {
+			$data2 = explode(" | ", $variables[$i]);
+			$data3 = explode("_", $data2[0]);
+	
+			$variablesId = $data3[1];
+			$variablesValor = $data2[1];
 
+			if ($variablesValor == ""){
+				$variablesValor = null;
+			}
+
+			$stmt44 = Conexion::conectar()->prepare("UPDATE insp_muestras_variables
+					SET valor =:muestras_valor 
+					WHERE id_insp = :id_insp AND tipo = 'VARIABLES' AND id = :muestras_id AND id_item=:id_item AND id_item_contador = :id_item_contador");
+
+			$stmt44->bindParam(":muestras_id", $variablesId);
+			$stmt44->bindParam(":muestras_valor", $variablesValor);
+			$stmt44->bindParam(":id_insp", $id_insp);
+			$stmt44->bindParam(":id_item", $id_item);
+			$stmt44->bindParam(":id_item_contador", $id_item_contador);
+			$stmt44->execute(); 
+			$stmt44=null;
+		}
 
 		
 		
 		// try {
-	    //     $stmt=null;
+	        // $stmt=null;
 
-	    //     $stmt = Conexion::conectar()->prepare("INSERT INTO insp_productos(id_insp,  fecha,  id_area,  id_linea,  id_item,  lote, turno)
-		// 	 VALUES(:id_insp,  :fecha,  :id_area,  :id_linea,  :id_item,  :lote, :turno)");
+	        // $stmt = Conexion::conectar()->prepare("INSERT INTO insp_productos(id_insp,  fecha,  id_area,  id_linea,  id_item,  lote, turno)
+			//  VALUES(:id_insp,  :fecha,  :id_area,  :id_linea,  :id_item,  :lote, :turno)");
 
-	    //     $stmt->bindParam(":id_insp", $data['id_insp']); 
-	    //     $stmt->bindParam(":fecha", $data['fecha']); 
-	    //     $stmt->bindParam(":id_area", $data['id_area']); 
-	    //     $stmt->bindParam(":id_linea", $data['id_linea']); 
-	    //     $stmt->bindParam(":id_item", $data['id_item']); 
-	    //     $stmt->bindParam(":lote", $data['lote']); 
-	    //     $stmt->bindParam(":turno", $data['turno']); 
-		// 	$stmt->execute();
-		// 	$resultado = 'ok';
+	        // $stmt->bindParam(":id_insp", $data['id_insp']); 
+	        // $stmt->bindParam(":fecha", $data['fecha']); 
+	        // $stmt->bindParam(":id_area", $data['id_area']); 
+	        // $stmt->bindParam(":id_linea", $data['id_linea']); 
+	        // $stmt->bindParam(":id_item", $data['id_item']); 
+	        // $stmt->bindParam(":lote", $data['lote']); 
+	        // $stmt->bindParam(":turno", $data['turno']); 
+			// $stmt->execute();
+
+			
+			$resultado = 'ok';
 
 		// } catch (Exception $e) {
         //     $resultado='Exception Capturada'. $e->getMessage(). "\n";
              
         // }
-		// return $resultado;
+		return $resultado;
 	}		
 
 
 
 
 
+	/* *********************************
+	 	BUSCAR VARIABLES Y MUESTRAS  # 8
+	**********************************/
+	static public function mdlInspeccionBuscarMuestrasVariables($id_ins,$id_item,$id_item_contador)
+	{	
+		$stmt = Conexion::conectar()->prepare("SELECT * FROM insp_muestras_variables WHERE id_insp = '$id_ins' and id_item = '$id_item' AND id_item_contador = '$id_item_contador'");
+		$stmt->execute();
+		$res_nmuestras_variables = $stmt ->fetchAll(PDO::FETCH_CLASS);
 
+		
+		return $res_nmuestras_variables;	
+	}
 
 
 
