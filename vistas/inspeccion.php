@@ -283,6 +283,8 @@ table.dataTable tbody  { white-space:normal; }
                             <span class="ml-2" style="color:white;font-size: 1.4rem; "> Ingreso de Muestras y Variables - </span>
                             <span  style="color:white;font-size: 1.2rem; " id="spnProducto" ></span>
 
+                            <span class="mr-2" id="spnContadorProducto" style="float: right;color:white;font-size: 1.4rem;"  >fer</span>
+
                         </div> <!-- ./ end card-header -->
 
                         
@@ -414,7 +416,7 @@ $(document).ready(function(){
                 orderable:false,
                 render: function(data, type, full, meta){
                     return "<center>"+
-                                    "<span class='btn_IngresarMuestras text-primary px-1' style='cursor:pointer;'>"+"<i class='fas fa-pencil-alt fs-5'></i>"+"</span>"+
+                                    "<span class='btn_IngresarMuestras text-primary px-1' style='cursor:pointer;'>"+"<i class='fas fa-circle-plus fs-5'></i>"+"</span>"+
                             "</center>"
                 }
             } ,    
@@ -644,12 +646,16 @@ $(document).ready(function(){
                 },
                 dataType: "json",
                 success: function(respuesta){
+                    console.log("retorno existe", respuesta)
                     if (respuesta == 'ok'){
                         console.log("Producto agregado ",respuesta);
                         table_productos.ajax.reload();
                      
                         limpiar();
                         toastr["success"]("Ingreso de Información Correcta", "!Atención!");
+                    }else if (respuesta == 'existe'){
+                        toastr["error"]("PRODUCTO YA ESTA INGRESADO", "!Atención!");
+
                     }else{
                         toastr["error"]("Ingreso Incorrecto, entrada duplicada", "!Atención!");
                     }
@@ -677,29 +683,37 @@ $(document).ready(function(){
     //-GUARDAR MUESTRAS Y VARIABLES
     //*******************************
     $("#btnGuardarMuestra").click(function() {
-
+        var flagVacios = 0;
+        // array VARIABLES
         var vVariables = document.getElementsByClassName("variables");
-
         var arrVariables = [];
         for(i=0;i<vVariables.length;i++){
             var iptName = vVariables[i].name;
             var iptValue = vVariables[i].value;
             arrVariables.push(iptName+" | "+iptValue);
+            if (iptValue == "" ){
+                flagVacios ++;
+            }
         }
-        console.log(arrVariables);
-
+        console.log("array Variables ",arrVariables);
+        
+        // array MUESTRAS
         var vMuestras = document.getElementsByClassName("muestras");
-
         var arrMuestras = [];
         for(i=0;i<vMuestras.length;i++){
             var iptName = vMuestras[i].name;
             var iptValue = vMuestras[i].value;
             arrMuestras.push(iptName+" | "+iptValue);
+            if (iptValue == "" ){
+                flagVacios ++;
+            }            
         }
-        console.log(arrMuestras);        
-        // alert(id_item_muestra);
-        // return;
-
+        console.log("array Muestras ",arrMuestras);        
+        console.log("array Variables flag ",flagVacios);
+        if (flagVacios >0){
+            toastr["error"]("EXISTEN CAMPOS VACIOS, CANTIDAD "+flagVacios, "!Atención!");
+            return;
+        }
         $.ajax({
                 async: false,
                 url:"../ajax/inspeccion.ajax.php",
@@ -882,12 +896,7 @@ $(document).ready(function(){
     //- LINEA EDITAR
     //*******************************
     $('#tbl_productos tbody').on('click','.btn_IngresarMuestras', function(){
-        $("#div_muestras" ).prop( "hidden", false );
-
-        // eliminados informacion anterior
-        // removerMuestras();
         
-
 
         var data = table_productos.row($(this).parents('tr')).data();
         varNombreProducto = data['nombre_producto'];
@@ -896,11 +905,7 @@ $(document).ready(function(){
 
         $("#spnProducto" ).html(varNombreProducto);
         
-        // alert(data['id_item']);
-        // return;
-
-
-        crearCampos();
+        
 
         // BUSCARMOS INFORMACION DEMUESTRAS Y VARIABLES DE LA INSPECCION //
         $.ajax({
@@ -916,33 +921,62 @@ $(document).ready(function(){
                 dataType: "json",
                 success: function(respuesta){
                     console.log("VARIABLES Y MUESTRAS ",respuesta);
-
+                    var camposLlenos = 0;
+                    var n2 = 0;
                     for (var i = 0; i < respuesta.length; i++) {
-                        if (respuesta[i]['tipo'] == 'VARIABLES'){
-                            if (respuesta[i]['valor'] != null){
-                                $("#itpVariable_"+respuesta[i]['id']).val(Math.trunc(respuesta[i]['valor']));
-                            }else{
-                                $("#itpVariable_"+respuesta[i]['id']).val(respuesta[i]['valor']);
-                            }
+                        var valor = respuesta[i]['valor']
+                        if (valor != null){
+                            camposLlenos ++ ;
+                        }
+                        n2 ++ ;
+                    }     
 
-                        }
-                        
-                        if (respuesta[i]['tipo'] == 'MUESTRAS'){
-                            // console.log(respuesta[i]['id']);
-                             $("#"+respuesta[i]['id']).val(respuesta[i]['valor']);
-                        }
+                    console.log("camposLlenos != null",camposLlenos);
+                    console.log("n2 total",n2);
+
+
+                    if (camposLlenos == 0){
+                        $("#div_muestras" ).prop( "hidden", false );
+                        $("#spnContadorProducto" ).html("Numero Muestro: "+id_item_contador);
+                        crearCampos();
+                    }else{
+                        $("#div_muestras" ).prop( "hidden", true );
+                        Swal.fire({
+                            title: 'Datos ya estan registrados',
+                            text: "Desea Registrar Duplicado?",
+                            icon: 'error',
+                            showCancelButton:true,
+                            confirmButtonColor:'#3085d6',
+                            cancelButtonColor:'#d3',
+                            confirmButtonText:'Aceptar',
+                            cancelButtonText:'Cancelar',
+                        }).then((result) =>{
+                            if (result.value) {
+
+                                
+                            }
+                        }); // FIN then((result) => {
+
+                        // toastr["info"]("Datos ingresados", "!Atención!");
+                        return;
                     }
 
+                    
+                    // for (var i = 0; i < respuesta.length; i++) {
+                    //     if (respuesta[i]['tipo'] == 'VARIABLES'){
+                    //         if (respuesta[i]['valor'] != null){
+                    //             $("#itpVariable_"+respuesta[i]['id']).val(Math.trunc(respuesta[i]['valor']));
+                    //         }else{
+                    //             $("#itpVariable_"+respuesta[i]['id']).val(respuesta[i]['valor']);
+                    //         }
 
-                    // if (respuesta == 'ok'){
-                    //     $("#ipt_mdlLinea").val("")
-                    //     $("#ipt_mdlObservacion").val("")
-                    //     toastr["success"]("Ingreso de Información Correcta", "!Atención!");
-                    //     table_Linea.ajax.reload();
-                    // }else{
-                    //     toastr["error"]("Ingreso Incorrecto, entrada duplicada", "!Atención!");
+                    //     }
+                        
+                    //     if (respuesta[i]['tipo'] == 'MUESTRAS'){
+                    //         // console.log(respuesta[i]['id']);
+                    //          $("#"+respuesta[i]['id']).val(respuesta[i]['valor']);
+                    //     }
                     // }
-                    // accion_mdlArea = "mdlArea_new";
                 }
             });        
         
@@ -1246,6 +1280,7 @@ var varVariables;
             input.setAttribute("size", "12");
             input.setAttribute("style","max-width:120px");
             input.setAttribute("style","display:inline-block;;text-align:center");
+
             input.className = "input form-control w-50 muestras";
             
             salto.className = "mb-1";
@@ -1270,9 +1305,11 @@ var varVariables;
             var text = document.createTextNode(varVariables[contador]['variable'] +":  ");
             input.setAttribute("name", "itpVariable_" + varVariables[contador]['id_ins_var']);
             input.setAttribute("id", "itpVariable_" + varVariables[contador]['id_ins_var']);
-            input.setAttribute("size", "12");
+            input.setAttribute("size", "12" );
             input.setAttribute("style","max-width:120px");
             input.setAttribute("style","display:inline-block;text-align:center");
+            input.setAttribute("required", "" );
+            
             salto.setAttribute("style","text-align:right");
             
             
