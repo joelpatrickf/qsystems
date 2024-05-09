@@ -289,22 +289,21 @@ class InspeccionModelo{
 
 			$idV = $data3[1];
 
-			// print_r($id_insp." - ");
-			// print_r($tipoV." - ");
-			// print_r($idV." - ");
-			// print_r($valor." - ");
-			// print_r($id_item." - ");
-			// print_r($id_item_contador." - ");
+			print_r($id_insp." - ");
+			print_r($tipoV." - ");
+			print_r($idV." - ");
+			print_r($valor." - ");
+			print_r($id_item." - ");
+			print_r($id_item_contador." - ");
 
-			$stmt = Conexion::conectar()->prepare("INSERT INTO insp_muestras_variables(id_insp, tipo, id, valor, id_item,id_item_contador)
-			VALUES(:id_insp, :tipo, :id, :valor, :id_item,:id_item_contador)");
+			$stmt = Conexion::conectar()->prepare("INSERT INTO insp_muestras_variables(id_insp, tipo, id, id_item,id_item_contador)
+			VALUES(:id_insp, :tipo, :id, :id_item,:id_item_contador)");
 
-			$stmt->bindParam(":id_insp", $id_insp); 
+			$stmt->bindParam(":id_insp", $data['id_insp']); 
 			$stmt->bindParam(":tipo", $tipoV); 
 			$stmt->bindParam(":id", $idV);
-			$stmt->bindParam(":valor", $valor);
-			$stmt->bindParam(":id_item", $id_item);
-			$stmt->bindParam(":id_item_contador", $id_item_contador);
+			$stmt->bindParam(":id_item", $data['id_item']);
+			$stmt->bindParam(":id_item_contador", $res_count_idItem);
 			$stmt->execute();
 			$resultado = 'ok';
 		}

@@ -952,7 +952,10 @@ $(document).ready(function(){
                             cancelButtonText:'Cancelar',
                         }).then((result) =>{
                             if (result.value) {
-
+                                id_item_contador=id_item_contador+1;
+                                $("#div_muestras" ).prop( "hidden", false );
+                                $("#spnContadorProducto" ).html("Numero Muestro: "+id_item_contador);
+                                crearCampos();
                                 
                             }
                         }); // FIN then((result) => {
