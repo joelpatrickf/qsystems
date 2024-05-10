@@ -3,6 +3,7 @@
     // $fechaActual = date('YmdHis', time()); 
     date_default_timezone_set("America/Guayaquil");
     $fechaActual = date('Y-m-d H:i:s', time());     
+    $horaActual = date('H:i:s', time());
     $SolorFechaActual = date('Y-m-d');
 ?>
 <style>
@@ -685,6 +686,8 @@ $(document).ready(function(){
     $("#btnGuardarMuestra").click(function() {
         var flagVacios = 0;
         // array VARIABLES
+        
+        var horaActual = '<?php echo $horaActual; ?>'
         var vVariables = document.getElementsByClassName("variables");
         var arrVariables = [];
         for(i=0;i<vVariables.length;i++){
@@ -934,35 +937,38 @@ $(document).ready(function(){
                     console.log("camposLlenos != null",camposLlenos);
                     console.log("n2 total",n2);
 
+                    $("#div_muestras" ).prop( "hidden", false );
+                    $("#spnContadorProducto" ).html("Numero Muestro: "+id_item_contador);
+                    crearCampos();
 
-                    if (camposLlenos == 0){
-                        $("#div_muestras" ).prop( "hidden", false );
-                        $("#spnContadorProducto" ).html("Numero Muestro: "+id_item_contador);
-                        crearCampos();
-                    }else{
-                        $("#div_muestras" ).prop( "hidden", true );
-                        Swal.fire({
-                            title: 'Datos ya estan registrados',
-                            text: "Desea Registrar Duplicado?",
-                            icon: 'error',
-                            showCancelButton:true,
-                            confirmButtonColor:'#3085d6',
-                            cancelButtonColor:'#d3',
-                            confirmButtonText:'Aceptar',
-                            cancelButtonText:'Cancelar',
-                        }).then((result) =>{
-                            if (result.value) {
-                                id_item_contador=id_item_contador+1;
-                                $("#div_muestras" ).prop( "hidden", false );
-                                $("#spnContadorProducto" ).html("Numero Muestro: "+id_item_contador);
-                                crearCampos();
+                    // if (camposLlenos == 0){
+                    //     $("#div_muestras" ).prop( "hidden", false );
+                    //     $("#spnContadorProducto" ).html("Numero Muestro: "+id_item_contador);
+                    //     crearCampos();
+                    // }else{
+                    //     $("#div_muestras" ).prop( "hidden", true );
+                    //     Swal.fire({
+                    //         title: 'Datos ya estan registrados',
+                    //         text: "Desea Registrar Duplicado?",
+                    //         icon: 'error',
+                    //         showCancelButton:true,
+                    //         confirmButtonColor:'#3085d6',
+                    //         cancelButtonColor:'#d3',
+                    //         confirmButtonText:'Aceptar',
+                    //         cancelButtonText:'Cancelar',
+                    //     }).then((result) =>{
+                    //         if (result.value) {
+                    //             id_item_contador=id_item_contador+1;
+                    //             $("#div_muestras" ).prop( "hidden", false );
+                    //             $("#spnContadorProducto" ).html("Numero Muestro: "+id_item_contador);
+                    //             crearCampos();
                                 
-                            }
-                        }); // FIN then((result) => {
+                    //         }
+                    //     }); // FIN then((result) => {
 
-                        // toastr["info"]("Datos ingresados", "!Atención!");
-                        return;
-                    }
+                    //     // toastr["info"]("Datos ingresados", "!Atención!");
+                    //     return;
+                    // }
 
                     
                     // for (var i = 0; i < respuesta.length; i++) {
