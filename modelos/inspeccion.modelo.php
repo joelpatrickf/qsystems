@@ -54,7 +54,7 @@ class InspeccionModelo{
 	}
 
 	/* ***********************************************************
-		GUARDAR CREAR INSPECCION		
+		GUARDAR CREAR INSPECCION
 	**************************************************************/
 
 	static public function mdlInspeccionCrear()
@@ -88,7 +88,7 @@ class InspeccionModelo{
 	/* ******************************
 		CERRAR INSPECCION	# 3
 	********************************/
-	static public function mdlInspeccionCerrar($id_insp,$flag_cerrar)
+	static public function mdlInspeccionCerrar($id_insp,$flag_cerrar,$hora_fin,$observacion, $usuario)
 	{
 		date_default_timezone_set("America/Guayaquil");
 		$horaActual = date('H:i:s', time()); 
@@ -100,11 +100,24 @@ class InspeccionModelo{
 					WHERE usuario = :usuario AND id_insp = :id_insp");
 	
 			$stmt33->bindParam(":usuario", $user);
-			$stmt33->bindParam(":hora_fin", $horaActual);
 			$stmt33->bindParam(":id_insp", $id_insp);
+			$stmt33->bindParam(":hora_fin", $horaActual);
 			$stmt33->execute(); 
-			$stmt33=null;$sql3=null;
+			$stmt33=null;
 
+		}else if ($flag_cerrar == 2){ // cerrar inspeccion del dia por el ADMIN
+			$observacion = $observacion."     ". "Autorizado por: ".$user;
+			$stmt33 = Conexion::conectar()->prepare("UPDATE insp_cab 
+					SET hora_fin =:hora_fin , observacion =:observacion 
+					WHERE usuario = :usuario AND id_insp = :id_insp");
+	
+			$stmt33->bindParam(":hora_fin", $hora_fin);
+			$stmt33->bindParam(":observacion", $observacion);
+			$stmt33->bindParam(":usuario", $usuario);
+			$stmt33->bindParam(":id_insp", $id_insp);
+
+			$stmt33->execute(); 
+			$stmt33=null;
 		}
 
         return 'ok';
@@ -305,9 +318,9 @@ class InspeccionModelo{
 	/* ***********************************
 	 	MOSTRAR INSPECCIONES ABIERTAS  # 9
 	**************************************/
-	static public function mdlInspeccionaBIERTAS()
+	static public function mdlInspeccionAbierta()
 	{	
-		$stmt99 = Conexion::conectar()->prepare("SELECT * FROM insp_cab WHERE hora = null");
+		$stmt99 = Conexion::conectar()->prepare("SELECT '' as vacio,id_insp,fecha,hora_ini,hora_fin,usuario,observacion FROM insp_cab WHERE hora_fin IS NULL");
 		$stmt99->execute();
 		$insp_abiertas = $stmt99 ->fetchAll(PDO::FETCH_CLASS);
 

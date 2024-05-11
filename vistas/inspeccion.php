@@ -574,6 +574,8 @@ $(document).ready(function(){
 
     $("#btnCerrar").focus(function(){
         var flag_cerrar = 1; // cerrar inspeccion del dia por el usuario
+        var hora_fin = null;
+        var observacion = null;
         $.ajax({
             async: false,
             url:"../ajax/inspeccion.ajax.php",
@@ -581,7 +583,9 @@ $(document).ready(function(){
             data: {
                 'accion':3 ,
                 'id_insp':$("#spnInspeccion" ).html(),
-                'flag_cerrar':flag_cerrar
+                'flag_cerrar':flag_cerrar,
+                'hora_fin':hora_fin,
+                'observacion':observacion
 
             },
             dataType: "json",

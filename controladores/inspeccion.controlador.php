@@ -25,8 +25,8 @@ class InspeccionControlador{
 	/* ***********************************************************
 		GUARDAR CERRAR INSPECCION # 3
 	**************************************************************/
-	static public function ctrlInspeccionCerrar($id_insp,$flag_cerrar){
-		$Categorias = InspeccionModelo::mdlInspeccionCerrar($id_insp,$flag_cerrar);
+	static public function ctrlInspeccionCerrar($id_insp,$flag_cerrar,$hora_fin,$observacion, $usuario){
+		$Categorias = InspeccionModelo::mdlInspeccionCerrar($id_insp,$flag_cerrar,$hora_fin,$observacion, $usuario);
 		return $Categorias;
 	}
 	

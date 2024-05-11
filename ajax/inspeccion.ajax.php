@@ -26,9 +26,10 @@ class AjaxInspeccion{
 	/* ***********************************************************
 		GUARDAR CERRAR INSPECCION #3
 	**************************************************************/
-	public function ajaxInspeccionCerrar($id_insp,$flag_cerrar)
+
+	public function ajaxInspeccionCerrar($id_insp,$flag_cerrar,$hora_fin,$observacion, $usuario)
 	{
-		$respuesta1 = InspeccionControlador::ctrlInspeccionCerrar($id_insp,$flag_cerrar);
+		$respuesta1 = InspeccionControlador::ctrlInspeccionCerrar($id_insp,$flag_cerrar,$hora_fin,$observacion, $usuario);
 		echo json_encode($respuesta1);
 	}	
 
@@ -104,9 +105,18 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR
     $inspeccion-> ajaxInspeccionCrear();
 
 } else if (isset($_POST['accion']) && $_POST['accion'] == 3) { // GUARDAR CERRAR INSPECCION
+	// echo "<pre>";
 	// print_r($_POST);
+	// echo "<pre>";
+
     $inspeccion = new AjaxInspeccion();
-    $inspeccion-> ajaxInspeccionCerrar($_POST['id_insp'],$_POST['flag_cerrar']);
+    $inspeccion-> ajaxInspeccionCerrar(
+		$_POST['id_insp'],
+		$_POST['flag_cerrar'],
+		$_POST['hora_fin'],
+		$_POST['observacion'],
+		$_POST['usuario']
+	);
 
 } else if (isset($_POST['accion']) && $_POST['accion'] == 4) { // GUARDAR AGREGAR PRODUCTOS
 	// print_r($_POST);
@@ -142,6 +152,7 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR
     $inspeccion-> ajaxInspeccionBuscarMuestrasVariables($_POST['id_insp'],$_POST['id_item'],$_POST['id_item_contador']);
 
 } else if (isset($_POST['accion']) && $_POST['accion'] == 9) { //  INSPECCIONES ABIERTAS
+	// print_r($_POST);
     $inspeccion = new AjaxInspeccion();
     $inspeccion-> ajaxInspeccionAbierta();
 

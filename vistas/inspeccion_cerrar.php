@@ -1,6 +1,8 @@
 <?php 
     //include("modulos/header.php");  
+    date_default_timezone_set("America/Guayaquil");    
     $fechaActual = date('YmdHis', time()); 
+    $horaActual = date('H:i:s', time()); 
 ?>
 <style>
     table.dataTable.no-footer {border-bottom: 1px solid #ddd;}   
@@ -31,12 +33,12 @@
 
                     <div class="row">
                         <!-- Columna CodigoBarra -->
-                        <div class="col-12 col-lg-2">
+                        <div class="col-12 col-lg-3">
                             <div class="form-group mb-2">
-                                <label class="" for="iptHora"><i class="fas fa-signature fs-6"></i>
-                                    <span class="small">Hora</span><span class="text-danger">*</span>
+                                <label class="" for="iptHoraFin"><i class="fas fa-signature fs-6"></i>
+                                    <span class="small">Hora Fin</span><span class="text-danger">*</span>
                                 </label>
-                                <input type="time" class="form-control" id="iptHora" required autofocus disabled>
+                                <input type="time" class="form-control" id="iptHoraFin" required disabled  value="00:00:01">
                             </div>
                         </div>
 
@@ -46,7 +48,7 @@
                                 <label class="" for="iptObservacion"><i class="fas fa-file-signature fs-6"></i>
                                     <span class="small">Observación</span><span class="text-danger">*</span>
                                 </label>
-                                <input type="text" class="form-control " id="iptObservacion" required disabled >
+                                <input type="text" class="form-control " id="iptObservacion" required disabled placeholder="Motivo por el cual dejo abierta la inspeccion">
                             </div>
                         </div>
 
@@ -95,12 +97,14 @@
 
 <script type="text/javascript">
     var accion = '';
-    var id_proveedor = '';
+    var id_insp = '';
 
 $(document).ready(function(){
     // Personalizamos el toast mensajes
     toastr.options.timeOut = 1500; // 1.5s
     toastr.options.closeButton = true;
+    var usuario_inspeccion ='';
+    
 
     //********************************************************    
     //-CARGA DE USUARIOS EXISTENTES
@@ -110,28 +114,20 @@ $(document).ready(function(){
         select: true,
         info: false,
         ordering: false,
-        // pagingType: 'simple_numbers',
-        
-        //paging: false,            
-        dom: 'Bfrtilp',
-        buttons: ['excel', 'print','pdf'],
-
         ajax:{
-            url:"../ajax/proveedores.ajax.php",
+            url:"../ajax/inspeccion.ajax.php",
             dataSrc: '',
             type:"POST",            
-            data: {'accion' : 1}, // 1 para listar productos
+            data: {'accion' : 9}, // 1 para listar productos
         },
         columns: [
             { "data": "vacio" }, //Estas son las colunas del json
-            { "data": "id_proveedor" }, //Estas son las colunas del json
-            { "data": "razon_social" },
-            { "data": "rucc" },
-            { "data": "tipo_proveedor" },
-            { "data": "direccion" },
+            { "data": "id_insp" }, //Estas son las colunas del json
+            { "data": "fecha" },
+            { "data": "hora_ini" },
+            { "data": "hora_fin" },
             { "data": "usuario" },
-            { "data": "fecha_creacion" },
-            { "data": "estado" }
+            { "data": "observacion" }
            ],        
         responsive: {
             details: {
@@ -143,23 +139,15 @@ $(document).ready(function(){
         {"className": "dt-center", "targets": "_all"},
         {targets:0,orderable:false,className:'control'},
             {targets:0,visible:false},
-            // {targets:7,visible:false},
-            // {targets:8,visible:false},
 
-            { responsivePriority: 1, targets: 9 },
-            // { responsivePriority: 2, targets: 2 },
             {
-                targets:9,
+                targets:7,
                 orderable:false,
                 render: function(data, type, full, meta){
                     return "<center>"+
-                                    "<span class='btnEditar text-primary px-1' style='cursor:pointer;'>"+
+                                "<span class='btnEditar text-primary px-1' style='cursor:pointer;'>"+
                                     "<i class='fas fa-pencil-alt fs-5'></i>"+
-                                "</span>"+
-                                "<span class='btnEliminar text-danger px-1' style='cursor:pointer;'>"+
-                                    "<i class='fas fa-trash fs-5'></i>"+
                                 "</span>"+                                    
-
                             "</center>"
                 }
             }     
@@ -188,23 +176,18 @@ $(document).ready(function(){
     //******************//
 
     $('#tbl_cerrar tbody').on('click','.btnEditar', function(){
-        accion = 3; //-GUARDAR MODIFICACION
-
+        accion = 3; 
         //---------------------------------------
         var data = table.row($(this).parents('tr')).data();
+        
+        //document.getElementById("iptHoraFin").value='00:00:01';
         // console.log(data);
-
         // return;
-        id_proveedor = data[1];
-        $("#iptRazonSocial").val(data[2]);
-        $("#iptRucc").val(data[3]);
-        $("#iptDireccion").val(data[5]);
-        buscarSelect(data[4]);
-        
-        
 
-        $("#btnClose" ).prop( "hidden", false );
-        desBloquearInputs();        
+        id_insp = data['id_insp'];
+        usuario_inspeccion = data['usuario'];
+        //$("#iptHoraFin").val(data['hora']);
+        desBloquearInputs();
 
 
      })
@@ -268,49 +251,44 @@ $(document).ready(function(){
     //-GUARDAR 
     //********************************************************    
     $("#btnSave").click(function() {
-
-
+        var flag_cerrar = 2; // cerrar inspeccion del dia por el ADMINISTRADOR
+        if (id_insp == null || id_insp == '' ){
+            toastr["error"]("Seleccione una inspección a cerrar", "!Atención!");
+            return;
+        }
         const msg = [];
-        var razon_social =  $("#iptRazonSocial").val();
-        var rucc =  $("#iptRucc").val();
-        var tipo_proveedor =  $("#selTipoProveedor").val();
-        var direccion =  $("#iptDireccion").val();
-
-
-        if (razon_social.length == 0){msg.push('Razon Social');}
-        if (rucc.length == 0){msg.push('Rucc');}
-        if (tipo_proveedor.length == 1){msg.push(' Tipo de Proveedor');}
-        if (direccion.length == 0){msg.push(' Dirección');}
-
-        if (msg.length != 4 && msg.length != 0){
+        var hora_fin =  document.getElementById("iptHoraFin").value;
+        var observacion =  $("#iptObservacion").val();
+        if (hora_fin === '00:00:01'){msg.push('Hora Final');}
+        if (observacion.length == 0){msg.push('Observación');}
+        
+        if (msg.length != 2 && msg.length != 0){
             toastr["error"]("Ingrese los siguientes datos :"+msg, "!Atención!");
             return;
-        }else if(msg.length == 4){
+        }else if(msg.length == 2){
             toastr["error"]("No existen datos para guardar", "!Atención!");
             return;
         }
-
+        
 
 
         $.ajax({
                 async: false,
-                url:"../ajax/proveedores.ajax.php",
+                url:"../ajax/inspeccion.ajax.php",
                 method: "POST",
                 data: {
-                    'accion':accion,
-                    'razon_social': razon_social,
-                    'rucc': rucc,
-                    'tipo_proveedor': tipo_proveedor,
-                    'direccion': direccion,
-                    'id_proveedor': id_proveedor // para cuando se envie a guardar modificaciones
+                    'accion':3 ,
+                    'id_insp': id_insp,
+                    'flag_cerrar':flag_cerrar,
+                    'hora_fin':hora_fin,
+                    'observacion':observacion,
+                    'usuario': usuario_inspeccion
                 },
                 dataType: "json",
                 success: function(respuesta){
                     console.log(respuesta);
                     if (respuesta == 'ok'){
                         limpiar();
-
-
                         toastr["success"]("Ingreso de Información Correcta", "!Atención!");
                         table.ajax.reload();
                     }else{
@@ -328,23 +306,20 @@ $(document).ready(function(){
 });
 
 function desBloquearInputs(){
-    $("#iptRazonSocial").prop( "disabled", false );
-    $("#iptRucc").prop( "disabled", false );
-    $("#selTipoProveedor").prop( "disabled", false );
-    $("#iptDireccion").prop( "disabled", false );
-
+    $("#iptHoraFin").prop( "disabled", false );
+    $("#iptObservacion").prop( "disabled", false );
+    
+    $("#iptHoraFin").focus();
 }
 function bloquearInputs(){
-    $("#iptRazonSocial").prop( "disabled", true );
-    $("#iptRucc").prop( "disabled", true );
-    $("#selTipoProveedor").prop( "disabled", true );
-    $("#iptDireccion").prop( "disabled", true );
+    $("#iptHoraFin").prop( "disabled", true );
+    $("#iptObservacion").prop( "disabled", true );
+
 }
 function limpiar(){
-    $("#iptRazonSocial").val("");
-    $("#iptRucc").val("");
-    $("#selTipoProveedor").val(0);
-    $("#iptDireccion").val("");
+    $("#iptHoraFin").val("");
+    $("#iptObservacion").val("");
+    //$("#iptHoraFin").val("00:00");
 }
 
 function buscarSelect(abuscar)
