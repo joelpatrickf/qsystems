@@ -573,14 +573,15 @@ $(document).ready(function(){
     //*******************************    
 
     $("#btnCerrar").focus(function(){
-
+        var flag_cerrar = 1; // cerrar inspeccion del dia por el usuario
         $.ajax({
             async: false,
             url:"../ajax/inspeccion.ajax.php",
             method: "POST",
             data: {
                 'accion':3 ,
-                'id_insp':$("#spnInspeccion" ).html()
+                'id_insp':$("#spnInspeccion" ).html(),
+                'flag_cerrar':flag_cerrar
 
             },
             dataType: "json",
@@ -684,12 +685,13 @@ $(document).ready(function(){
     //-GUARDAR MUESTRAS Y VARIABLES
     //*******************************
     $("#btnGuardarMuestra").click(function() {
-        var flagVacios = 0;
-        // array VARIABLES
+        var flagVacios = 0; 
         
-        var horaActual = '<?php echo $horaActual; ?>'
+        var hora_actual = '<?php echo $horaActual; ?>'
         var vVariables = document.getElementsByClassName("variables");
         var arrVariables = [];
+        
+        // array VARIABLES (verificamos is existen campos vacios)
         for(i=0;i<vVariables.length;i++){
             var iptName = vVariables[i].name;
             var iptValue = vVariables[i].value;
@@ -698,9 +700,9 @@ $(document).ready(function(){
                 flagVacios ++;
             }
         }
-        console.log("array Variables ",arrVariables);
+        //console.log("array Variables ",arrVariables);
         
-        // array MUESTRAS
+        // array MUESTRAS (verificamos is existen campos vacios)
         var vMuestras = document.getElementsByClassName("muestras");
         var arrMuestras = [];
         for(i=0;i<vMuestras.length;i++){
@@ -711,12 +713,15 @@ $(document).ready(function(){
                 flagVacios ++;
             }            
         }
-        console.log("array Muestras ",arrMuestras);        
+        //console.log("array Muestras ",arrMuestras);        
         console.log("array Variables flag ",flagVacios);
+        
+        // si existe algun campo vacio abortamos y enviamos mensaje
         if (flagVacios >0){
             toastr["error"]("EXISTEN CAMPOS VACIOS, CANTIDAD "+flagVacios, "!Atención!");
             return;
         }
+
         $.ajax({
                 async: false,
                 url:"../ajax/inspeccion.ajax.php",
@@ -727,7 +732,8 @@ $(document).ready(function(){
                     'variables': arrVariables,
                     'id_insp': $("#spnInspeccion" ).html(),
                     'id_item': id_item_muestra,
-                    'id_item_contador':id_item_contador
+                    'id_item_contador':id_item_contador,
+                    'hora_actual':hora_actual
                 },
                 dataType: "json",
                 success: function(respuesta){
@@ -735,6 +741,7 @@ $(document).ready(function(){
                     if (respuesta == 'ok'){
                         removerMuestras();
                         toastr["success"]("Ingreso de Información Correcta", "!Atención!");
+                        table_productos.ajax.reload();
                     }else{
                         toastr["error"]("Ingreso Incorrecto, entrada duplicada", "!Atención!");
                     }
@@ -908,86 +915,88 @@ $(document).ready(function(){
 
         $("#spnProducto" ).html(varNombreProducto);
         
-        
+        $("#div_muestras" ).prop( "hidden", false );
+        $("#spnContadorProducto" ).html("Numero Muestro: "+id_item_contador);
+        crearCampos();        
 
-        // BUSCARMOS INFORMACION DEMUESTRAS Y VARIABLES DE LA INSPECCION //
-        $.ajax({
-                async: false,
-                url:"../ajax/inspeccion.ajax.php",
-                method: "POST",
-                data: {
-                    'accion':8,
-                    'id_insp': $("#spnInspeccion" ).html(),
-                    'id_item': id_item_muestra,
-                    'id_item_contador':id_item_contador
-                },
-                dataType: "json",
-                success: function(respuesta){
-                    console.log("VARIABLES Y MUESTRAS ",respuesta);
-                    var camposLlenos = 0;
-                    var n2 = 0;
-                    for (var i = 0; i < respuesta.length; i++) {
-                        var valor = respuesta[i]['valor']
-                        if (valor != null){
-                            camposLlenos ++ ;
-                        }
-                        n2 ++ ;
-                    }     
+        // BUSCARMOS INFORMACION DE MUESTRAS Y VARIABLES DE LA INSPECCION //
+        // $.ajax({
+        //         async: false,
+        //         url:"../ajax/inspeccion.ajax.php",
+        //         method: "POST",
+        //         data: {
+        //             'accion':8,
+        //             'id_insp': $("#spnInspeccion" ).html(),
+        //             'id_item': id_item_muestra,
+        //             'id_item_contador':id_item_contador
+        //         },
+        //         dataType: "json",
+        //         success: function(respuesta){
+        //             console.log("VARIABLES Y MUESTRAS ",respuesta);
+        //             var camposLlenos = 0;
+        //             var n2 = 0;
+        //             for (var i = 0; i < respuesta.length; i++) {
+        //                 var valor = respuesta[i]['valor']
+        //                 if (valor != null){
+        //                     camposLlenos ++ ;
+        //                 }
+        //                 n2 ++ ;
+        //             }     
 
-                    console.log("camposLlenos != null",camposLlenos);
-                    console.log("n2 total",n2);
+        //             console.log("camposLlenos != null",camposLlenos);
+        //             console.log("n2 total",n2);
 
-                    $("#div_muestras" ).prop( "hidden", false );
-                    $("#spnContadorProducto" ).html("Numero Muestro: "+id_item_contador);
-                    crearCampos();
+        //             $("#div_muestras" ).prop( "hidden", false );
+        //             $("#spnContadorProducto" ).html("Numero Muestro: "+id_item_contador);
+        //             crearCampos();
 
-                    // if (camposLlenos == 0){
-                    //     $("#div_muestras" ).prop( "hidden", false );
-                    //     $("#spnContadorProducto" ).html("Numero Muestro: "+id_item_contador);
-                    //     crearCampos();
-                    // }else{
-                    //     $("#div_muestras" ).prop( "hidden", true );
-                    //     Swal.fire({
-                    //         title: 'Datos ya estan registrados',
-                    //         text: "Desea Registrar Duplicado?",
-                    //         icon: 'error',
-                    //         showCancelButton:true,
-                    //         confirmButtonColor:'#3085d6',
-                    //         cancelButtonColor:'#d3',
-                    //         confirmButtonText:'Aceptar',
-                    //         cancelButtonText:'Cancelar',
-                    //     }).then((result) =>{
-                    //         if (result.value) {
-                    //             id_item_contador=id_item_contador+1;
-                    //             $("#div_muestras" ).prop( "hidden", false );
-                    //             $("#spnContadorProducto" ).html("Numero Muestro: "+id_item_contador);
-                    //             crearCampos();
+        //             // if (camposLlenos == 0){
+        //             //     $("#div_muestras" ).prop( "hidden", false );
+        //             //     $("#spnContadorProducto" ).html("Numero Muestro: "+id_item_contador);
+        //             //     crearCampos();
+        //             // }else{
+        //             //     $("#div_muestras" ).prop( "hidden", true );
+        //             //     Swal.fire({
+        //             //         title: 'Datos ya estan registrados',
+        //             //         text: "Desea Registrar Duplicado?",
+        //             //         icon: 'error',
+        //             //         showCancelButton:true,
+        //             //         confirmButtonColor:'#3085d6',
+        //             //         cancelButtonColor:'#d3',
+        //             //         confirmButtonText:'Aceptar',
+        //             //         cancelButtonText:'Cancelar',
+        //             //     }).then((result) =>{
+        //             //         if (result.value) {
+        //             //             id_item_contador=id_item_contador+1;
+        //             //             $("#div_muestras" ).prop( "hidden", false );
+        //             //             $("#spnContadorProducto" ).html("Numero Muestro: "+id_item_contador);
+        //             //             crearCampos();
                                 
-                    //         }
-                    //     }); // FIN then((result) => {
+        //             //         }
+        //             //     }); // FIN then((result) => {
 
-                    //     // toastr["info"]("Datos ingresados", "!Atención!");
-                    //     return;
-                    // }
+        //             //     // toastr["info"]("Datos ingresados", "!Atención!");
+        //             //     return;
+        //             // }
 
                     
-                    // for (var i = 0; i < respuesta.length; i++) {
-                    //     if (respuesta[i]['tipo'] == 'VARIABLES'){
-                    //         if (respuesta[i]['valor'] != null){
-                    //             $("#itpVariable_"+respuesta[i]['id']).val(Math.trunc(respuesta[i]['valor']));
-                    //         }else{
-                    //             $("#itpVariable_"+respuesta[i]['id']).val(respuesta[i]['valor']);
-                    //         }
+        //             // for (var i = 0; i < respuesta.length; i++) {
+        //             //     if (respuesta[i]['tipo'] == 'VARIABLES'){
+        //             //         if (respuesta[i]['valor'] != null){
+        //             //             $("#itpVariable_"+respuesta[i]['id']).val(Math.trunc(respuesta[i]['valor']));
+        //             //         }else{
+        //             //             $("#itpVariable_"+respuesta[i]['id']).val(respuesta[i]['valor']);
+        //             //         }
 
-                    //     }
+        //             //     }
                         
-                    //     if (respuesta[i]['tipo'] == 'MUESTRAS'){
-                    //         // console.log(respuesta[i]['id']);
-                    //          $("#"+respuesta[i]['id']).val(respuesta[i]['valor']);
-                    //     }
-                    // }
-                }
-            });        
+        //             //     if (respuesta[i]['tipo'] == 'MUESTRAS'){
+        //             //         // console.log(respuesta[i]['id']);
+        //             //          $("#"+respuesta[i]['id']).val(respuesta[i]['valor']);
+        //             //     }
+        //             // }
+        //         }
+        //     });        
         
         
     })
@@ -1276,7 +1285,7 @@ var varVariables;
     });     
     //console.log(varVariables);
 
-    // carga los inputs de numero de muestras registrados en variables
+    // carga los inputs de numero de muestras registrados en MUESTRAS
     cantidad = numero_muestras;
     var div = document.getElementById("campos_dinamicos");
     while(div.firstChild)div.removeChild(div.firstChild); // remover elementos;
@@ -1288,7 +1297,8 @@ var varVariables;
             input.setAttribute("id", "M" + i);
             input.setAttribute("size", "12");
             input.setAttribute("style","max-width:120px");
-            input.setAttribute("style","display:inline-block;;text-align:center");
+            input.setAttribute("style","display:inline-block;text-align:center");
+            
 
             input.className = "input form-control w-50 muestras";
             
@@ -1306,9 +1316,7 @@ var varVariables;
     var contador = 0;
     while(div.firstChild)div.removeChild(div.firstChild); // remover elementos;
 
-    // console.log(varVariables);
         for(var i = 1, numero_variables = Number(numero_variables); i <= numero_variables; i++){
-            // console.log(varVariables[contador]['variable']);
             var salto = document.createElement("P");
             var input = document.createElement("input");
             var text = document.createTextNode(varVariables[contador]['variable'] +":  ");
@@ -1318,6 +1326,7 @@ var varVariables;
             input.setAttribute("style","max-width:120px");
             input.setAttribute("style","display:inline-block;text-align:center");
             input.setAttribute("required", "" );
+            input.setAttribute("autocomplete", "off" );
             
             salto.setAttribute("style","text-align:right");
             

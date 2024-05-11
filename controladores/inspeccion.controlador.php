@@ -23,10 +23,10 @@ class InspeccionControlador{
 	}
 	
 	/* ***********************************************************
-		GUARDAR CERRAR INSPECCION		
+		GUARDAR CERRAR INSPECCION # 3
 	**************************************************************/
-	static public function ctrlInspeccionCerrar($id_insp){
-		$Categorias = InspeccionModelo::mdlInspeccionCerrar($id_insp);
+	static public function ctrlInspeccionCerrar($id_insp,$flag_cerrar){
+		$Categorias = InspeccionModelo::mdlInspeccionCerrar($id_insp,$flag_cerrar);
 		return $Categorias;
 	}
 	
@@ -56,8 +56,8 @@ class InspeccionControlador{
 	/* ***********************************************************
 					GUARDAR VARIABLES Y MUESTRAS  # 7
 	**************************************************************/
-	static public function ctrlInspeccionSaveMuestrasVariables($muestras,$variables,$id_insp,$id_item,$id_item_contador){
-		$inspeccion = InspeccionModelo::mdlInspeccionSaveMuestrasVariables($muestras,$variables,$id_insp,$id_item,$id_item_contador);
+	static public function ctrlInspeccionSaveMuestrasVariables($muestras,$variables,$id_insp,$id_item,$id_item_contador,$hora_actual){
+		$inspeccion = InspeccionModelo::mdlInspeccionSaveMuestrasVariables($muestras,$variables,$id_insp,$id_item,$id_item_contador,$hora_actual);
 		return $inspeccion;
 	}
 
@@ -69,6 +69,15 @@ class InspeccionControlador{
 		return $inspeccion;
 	}	
 
+	/* ***********************************************************
+					BUSCAR VARIABLES Y MUESTRAS  # 9
+	**************************************************************/
+	static public function ctrlInspeccionAbierta(){
+		$inspeccion = InspeccionModelo::mdlInspeccionAbierta();
+		return $inspeccion;
+	}
+	
+	
 	// /* *********************************
 	// 		GUARDAR NUEVOS REGISTROS
 	// **********************************/
