@@ -329,8 +329,13 @@ table.dataTable tbody  { white-space:normal; }
     var fechaActual= '<?php echo $SolorFechaActual?>';
     var estatus;
 
-    var id_area=null;
-    var id_linea=null;
+    var id_area=null; // para llamar los selects
+    var id_linea=null; // para llamar los selects
+
+    var id_area_validar=null; // para validar al momento de incrementar cantidad de veces
+    var id_linea_validar=null; // para validar al momento de incrementar cantidad de veces
+    var lote_validar=null; // para validar al momento de incrementar cantidad de veces
+
 
     var flagValidarArea =null;
     var flagValidarProducto =null;
@@ -455,8 +460,8 @@ $(document).ready(function(){
                     source: respuesta,
                     minLength: 1,
                     select: function(event, ui) {
-                        console.log("id_area null",id_area)
-                        console.log("id_linea null",id_linea)
+                        // console.log("id_area null",id_area)
+                        // console.log("id_linea null",id_linea)
 
                         flagValidarArea="";
                         flagValidarArea = ui.item.id_area;
@@ -464,7 +469,7 @@ $(document).ready(function(){
                         // console.log("value  ",ui.item.value)
                         $("#iptLinea").val(ui.item.linea);
                         
-                        console.log("ui  ",ui.item.value)
+                        // console.log("ui  ",ui.item.value)
 
                         id_area = ui.item.id_area;
                         id_linea = ui.item.id_linea;
@@ -690,12 +695,34 @@ $(document).ready(function(){
     //*******************************
     $("#btnGuardarMuestra").click(function() {
         var flagVacios = 0; 
-        
+
+
         var hora_actual = '<?php echo $horaActual; ?>'
         var vVariables = document.getElementsByClassName("variables");
         var arrVariables = [];
         
+        // array MUESTRAS 
+        //verificamos is existen campos vacios
+
+        var vMuestras = document.getElementsByClassName("muestras");
+        var arrMuestras = [];
+        
+        
+        for(i=0;i<vMuestras.length;i++){
+            var iptName = vMuestras[i].name;
+            var iptValue = vMuestras[i].value;
+            arrMuestras.push(iptName+" | "+iptValue);
+            if (iptValue == "" ){
+                flagVacios ++;
+            }    
+        }
+        //console.log("array Muestras ",arrMuestras);        
+        //console.log("array Variables flag ",flagVacios);
+
+
+        // ARRAY VARIABLES
         // array VARIABLES (verificamos is existen campos vacios)
+        const msgVariable = [];
         for(i=0;i<vVariables.length;i++){
             var iptName = vVariables[i].name;
             var iptValue = vVariables[i].value;
@@ -703,28 +730,25 @@ $(document).ready(function(){
             if (iptValue == "" ){
                 flagVacios ++;
             }
+            if (iptValue > vMuestras.length){
+                msgVariable.push(iptValue);
+            }
         }
-        //console.log("array Variables ",arrVariables);
+        if (msgVariable.length>0){
+            toastr["error"]("Ha ingresado valores superiores a la cantidad de muestra determinada  =>"+msgVariable, "!Atención!");
+            flagVacios=1;
+            return;
+        }
+        console.log("array Variables ",arrVariables);
         
-        // array MUESTRAS (verificamos is existen campos vacios)
-        var vMuestras = document.getElementsByClassName("muestras");
-        var arrMuestras = [];
-        for(i=0;i<vMuestras.length;i++){
-            var iptName = vMuestras[i].name;
-            var iptValue = vMuestras[i].value;
-            arrMuestras.push(iptName+" | "+iptValue);
-            if (iptValue == "" ){
-                flagVacios ++;
-            }            
-        }
-        //console.log("array Muestras ",arrMuestras);        
-        console.log("array Variables flag ",flagVacios);
         
         // si existe algun campo vacio abortamos y enviamos mensaje
         if (flagVacios >0){
             toastr["error"]("EXISTEN CAMPOS VACIOS, CANTIDAD "+flagVacios, "!Atención!");
             return;
         }
+
+//aqui
 
         $.ajax({
                 async: false,
@@ -737,7 +761,10 @@ $(document).ready(function(){
                     'id_insp': $("#spnInspeccion" ).html(),
                     'id_item': id_item_muestra,
                     'id_item_contador':id_item_contador,
-                    'hora_actual':hora_actual
+                    'hora_actual':hora_actual,
+                    'id_area_validar': id_area_validar,
+                    'id_linea_validar': id_linea_validar,
+                    'lote_validar':lote_validar 
                 },
                 dataType: "json",
                 success: function(respuesta){
@@ -763,135 +790,13 @@ $(document).ready(function(){
         CrearInspeccion(); // Guardamos la creacion de la inspeccion
         InciarInspeccion(); // revisamos la creacion de la inspeccion
 
-        // $("#btnClose" ).prop( "hidden", false );
-        
-        // $("#btnSave" ).prop( "hidden", false );
-        // $("#iptCodigoBarra").focus();
+
 
     })
     
-    /*-- BOTON EDITAR ---*/
-    $('#tbl_zonificacion tbody').on('click','.btnEditar', function(){
-        accion = 4; //-GUARDAR MODIFICACION
-
-        var data = table.row($(this).parents('tr')).data();
-        console.log("editar ",data);
-
-        $("#iptArea").val(data['area']);
-        $("#iptLinea").val(data['linea']);
-        $("#iptPuntos").val(data['punto_insp']);
-
-        flagValidarArea = data['id_area'];
-        flagValidarLinea = data['id_linea'];
-        id_zonificacion = data['id_zonificacion'];
-        
-        $("#btnClose" ).prop( "hidden", false );
-        $("#btnSave" ).prop( "hidden", false );
-        desBloquearInputs();        
-        $("#selArea").focus();
-     })    
+   
     
     
-    /*--BOTON ELIMINAR -*/
-    
-    // $('#tbl_zonificacion tbody').on('click','.btnEliminar', function(){
-    //     accion = 4;
-
-    //     var data = table.row($(this).parents('tr')).data();
-    //     id_proveedor = data[1];
-    //     estado = data[8];
-
-    //     $.ajax({
-    //         async: false,
-    //         url:"../ajax/proveedores.ajax.php",
-    //         method: "POST",
-    //         data: {
-    //             'accion':4,
-    //             'estado':estado,
-    //             'id_proveedor': id_proveedor
-    //         },
-    //         dataType: "json",
-    //         success: function(respuesta){
-    //             //console.log(respuesta);
-    //             if (respuesta == 'ok'){
-    //                 toastr["success"]("Cambio de estado Correcto", "!Atención!");
-    //                 // limpiar();
-    //                 // bloquearInputs();
-
-    //                 table.ajax.reload();
-    //             }else{
-    //                 toastr["error"]("No se pudo cambiar de estado ", "!Atención!");
-    //             }
-    //             // bloquearInputs();
-    //             // limpiar();
-    //             // $("#btnClose" ).prop( "hidden", true );
-    //             accion="";                    
-    //         }
-    //     });        
-
-    // })
-
-    /*============================
-        activar el modal de area
-    ============================*/
-
-    $("#btnArea").click(function() {
-        $("#mdlArea").modal('show');
-            
-        table_Area = $("#tbl_mdlArea").DataTable({
-            "bDestroy": true,
-            select: true,
-            info: false,
-            ordering: false,
-            responsive: true,
-            dom: 'Bfrtilp',
-            buttons: ['excel', 'pdf'],
-
-            ajax:{
-                url:"../ajax/zonificacion.ajax.php",
-                dataSrc: '',
-                type:"POST",            
-                data: {
-                    'accion':1,
-                    'filtro': 'area',
-                    'dato': null
-                },
-            },
-            columns: [
-                { "data": "id_area" }, 
-                { "data": "area" }, 
-                { "data": "fecha" },
-                { "data": "usuario" },
-                { "data": "observacion" },
-                { "data": "estado" },
-                { "data": "vacio" }
-            ],        
-            columnDefs:[
-
-                {"className": "dt-center", "targets": "_all"},
-                {targets:0,orderable:false,className:'control'},
-
-                {targets:2,visible:false},
-                {targets:3,visible:false},
-
-                { responsivePriority: 1, targets: 6 },
-                {
-                    targets:6,
-                    orderable:false,
-                    render: function(data, type, full, meta){
-                        return "<center>"+
-                                        "<span class='btn_mdlEditarArea text-primary px-1' style='cursor:pointer;'>"+"<i class='fas fa-pencil-alt fs-5'></i>"+"</span>"+                                    
-                                "</center>"
-                    }
-                } ,    
-            ],
-            pageLength: 10,
-            language: 
-            {
-                url: "json/idioma.json"
-            }, 
-        });        
-    })
 
     $("#btnClose").click(function() {
         bloquearInputs();
@@ -902,7 +807,6 @@ $(document).ready(function(){
     })
 
 
-    //********************************************* INICIO LINEA ACTIVITIES******************************************** */
 
 
 
@@ -914,8 +818,14 @@ $(document).ready(function(){
 
         var data = table_productos.row($(this).parents('tr')).data();
         varNombreProducto = data['nombre_producto'];
-        id_item_muestra = data['id_item']
-        id_item_contador = data['id_item_contador']
+        id_item_muestra = data['id_item'];
+        id_item_contador = data['id_item_contador'];
+        
+        id_area_validar = data['id_area'];
+        id_linea_validar = data['id_linea'];
+        lote_validar = data['lote'];
+//aqui
+        console.log(data);
 
         $("#spnProducto" ).html(varNombreProducto);
         
@@ -923,226 +833,9 @@ $(document).ready(function(){
         $("#spnContadorProducto" ).html("Numero Muestro: "+id_item_contador);
         crearCampos();        
 
-        // BUSCARMOS INFORMACION DE MUESTRAS Y VARIABLES DE LA INSPECCION //
-        // $.ajax({
-        //         async: false,
-        //         url:"../ajax/inspeccion.ajax.php",
-        //         method: "POST",
-        //         data: {
-        //             'accion':8,
-        //             'id_insp': $("#spnInspeccion" ).html(),
-        //             'id_item': id_item_muestra,
-        //             'id_item_contador':id_item_contador
-        //         },
-        //         dataType: "json",
-        //         success: function(respuesta){
-        //             console.log("VARIABLES Y MUESTRAS ",respuesta);
-        //             var camposLlenos = 0;
-        //             var n2 = 0;
-        //             for (var i = 0; i < respuesta.length; i++) {
-        //                 var valor = respuesta[i]['valor']
-        //                 if (valor != null){
-        //                     camposLlenos ++ ;
-        //                 }
-        //                 n2 ++ ;
-        //             }     
-
-        //             console.log("camposLlenos != null",camposLlenos);
-        //             console.log("n2 total",n2);
-
-        //             $("#div_muestras" ).prop( "hidden", false );
-        //             $("#spnContadorProducto" ).html("Numero Muestro: "+id_item_contador);
-        //             crearCampos();
-
-        //             // if (camposLlenos == 0){
-        //             //     $("#div_muestras" ).prop( "hidden", false );
-        //             //     $("#spnContadorProducto" ).html("Numero Muestro: "+id_item_contador);
-        //             //     crearCampos();
-        //             // }else{
-        //             //     $("#div_muestras" ).prop( "hidden", true );
-        //             //     Swal.fire({
-        //             //         title: 'Datos ya estan registrados',
-        //             //         text: "Desea Registrar Duplicado?",
-        //             //         icon: 'error',
-        //             //         showCancelButton:true,
-        //             //         confirmButtonColor:'#3085d6',
-        //             //         cancelButtonColor:'#d3',
-        //             //         confirmButtonText:'Aceptar',
-        //             //         cancelButtonText:'Cancelar',
-        //             //     }).then((result) =>{
-        //             //         if (result.value) {
-        //             //             id_item_contador=id_item_contador+1;
-        //             //             $("#div_muestras" ).prop( "hidden", false );
-        //             //             $("#spnContadorProducto" ).html("Numero Muestro: "+id_item_contador);
-        //             //             crearCampos();
-                                
-        //             //         }
-        //             //     }); // FIN then((result) => {
-
-        //             //     // toastr["info"]("Datos ingresados", "!Atención!");
-        //             //     return;
-        //             // }
-
-                    
-        //             // for (var i = 0; i < respuesta.length; i++) {
-        //             //     if (respuesta[i]['tipo'] == 'VARIABLES'){
-        //             //         if (respuesta[i]['valor'] != null){
-        //             //             $("#itpVariable_"+respuesta[i]['id']).val(Math.trunc(respuesta[i]['valor']));
-        //             //         }else{
-        //             //             $("#itpVariable_"+respuesta[i]['id']).val(respuesta[i]['valor']);
-        //             //         }
-
-        //             //     }
-                        
-        //             //     if (respuesta[i]['tipo'] == 'MUESTRAS'){
-        //             //         // console.log(respuesta[i]['id']);
-        //             //          $("#"+respuesta[i]['id']).val(respuesta[i]['valor']);
-        //             //     }
-        //             // }
-        //         }
-        //     });        
-        
         
     })
 
-    //*******************************
-    //-GUARDAR LINEA 
-    //*******************************
-    $("#btnMdlLineaSave").click(function() {
-        //var accion_mdlArea = "mdlArea_new";
-        var sel_mdlEstado = document.getElementById("sel_mdlEstado");
-        var mdlLineaEstado = sel_mdlEstado.options[sel_mdlEstado.selectedIndex].text;
-        
-        const msg = [];
-        var mdlLinea =  $("#ipt_mdlLinea").val();
-        var mdlLineaObservacion =  $("#ipt_mdlObservacion").val();
-        
-        if (mdlLinea.length == 0){msg.push(' Linea');}
-        if (mdlLineaObservacion.length == 0){msg.push(' Observacion');}
-        if ($("#sel_mdlEstado").val() == 0){msg.push(' Estado');}
-
-        if (msg.length != 3 && msg.length != 0){
-            toastr["error"]("Ingrese los siguientes datos :"+msg, "!Atención!");
-            return;
-        }else if(msg.length == 3){
-            toastr["error"]("No existen datos para guardar", "!Atención!");
-            return;
-        }
-        
-        $.ajax({
-                async: false,
-                url:"../ajax/zonificacion.ajax.php",
-                method: "POST",
-                data: {
-                    'accion':accion_mdlLinea,
-                    'linea': mdlLinea,
-                    'observacion': mdlLineaObservacion,
-                    'id': id_mdlLinea,
-                    'estado': mdlLineaEstado,
-                },
-                dataType: "json",
-                success: function(respuesta){
-                    console.log("guardar modal area ",respuesta);
-                    if (respuesta == 'ok'){
-                        $("#ipt_mdlLinea").val("")
-                        $("#ipt_mdlObservacion").val("")
-                        toastr["success"]("Ingreso de Información Correcta", "!Atención!");
-                        table_Linea.ajax.reload();
-                    }else{
-                        toastr["error"]("Ingreso Incorrecto, entrada duplicada", "!Atención!");
-                    }
-                    accion_mdlArea = "mdlArea_new";
-                }
-            });
-    });    
-//********************************************* FIN AREA LINEA ******************************************** */
-
-
-//********************************************* INICIO AREA ZONIFICACION ******************************************** */
-
-//********************************************* FIN AREA ZONIFICACION ******************************************** */    
-
-    $("#btnRecorrer").click(function() {
-        // var chkAsientos = document.getElementsByClassName("variables");
-
-        // var asientos = [];
-        // for(i=0;i<chkAsientos.length;i++){
-        //     var iptName = chkAsientos[i].name;
-        //     var iptValue = chkAsientos[i].value;
-        //     asientos.push(iptName+" | "+iptValue);
-        // }
-        
-        // alert(asientos);
-    });
-
-
-
-
-    //*******************************
-    //-GUARDAR Area 
-    //*******************************
-    $("#btnMdlAreaSave").click(function() {
-        //var accion_mdlLinea = "mdlArea_new";
-        var selEstado = document.getElementById("selModalEstado");
-        var mdlAreaEstado = selEstado.options[selEstado.selectedIndex].text;
-        
-        const msg = [];
-        var mdlArea =  $("#iptModalArea").val();
-        var mdlAreaObservacion =  $("#iptModalObservacion").val();
-        
-        if (mdlArea.length == 0){msg.push(' Area');}
-        if (mdlAreaObservacion.length == 0){msg.push(' Observacion');}
-        if ($("#selModalEstado").val() == 0){msg.push(' Estado');}
-
-        if (msg.length != 3 && msg.length != 0){
-            toastr["error"]("Ingrese los siguientes datos :"+msg, "!Atención!");
-            return;
-        }else if(msg.length == 3){
-            toastr["error"]("No existen datos para guardar", "!Atención!");
-            return;
-        }
-        
-        $.ajax({
-                async: false,
-                url:"../ajax/zonificacion.ajax.php",
-                method: "POST",
-                data: {
-                    'accion':accion_mdlArea,
-                    'area': mdlArea,
-                    'observacion': mdlAreaObservacion,
-                    'id': id_mdlArea,
-                    'estado': mdlAreaEstado,
-                },
-                dataType: "json",
-                success: function(respuesta){
-                    console.log("guardar modal area ",respuesta);
-                    if (respuesta == 'ok'){
-                        $("#iptModalArea").val("")
-                        $("#iptModalObservacion").val("")
-                        toastr["success"]("Ingreso de Información Correcta", "!Atención!");
-                        table_Area.ajax.reload();
-                    }else{
-                        toastr["error"]("Ingreso Incorrecto, entrada duplicada", "!Atención!");
-                    }
-                    accion_mdlArea = "mdlArea_new";
-                }
-        });
-    });
-
-    //*******************************
-    //- AREA EDITAR
-    //*******************************
-    $('#tbl_mdlArea tbody').on('click','.btn_mdlEditarArea', function(){
-        var data = table_Area.row($(this).parents('tr')).data();
-        //console.log(data);
-        $("#iptModalArea").val(data['area']);
-        $("#iptModalObservacion").val(data['observacion']);
-        buscarSelect(data['estado'],'selModalEstado');
-
-        id_mdlArea = data['id_area']
-        accion_mdlArea = "mdlArea_edit";
-        
-    })
 
     
 

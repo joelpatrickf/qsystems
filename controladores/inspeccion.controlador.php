@@ -56,8 +56,8 @@ class InspeccionControlador{
 	/* ***********************************************************
 					GUARDAR VARIABLES Y MUESTRAS  # 7
 	**************************************************************/
-	static public function ctrlInspeccionSaveMuestrasVariables($muestras,$variables,$id_insp,$id_item,$id_item_contador,$hora_actual){
-		$inspeccion = InspeccionModelo::mdlInspeccionSaveMuestrasVariables($muestras,$variables,$id_insp,$id_item,$id_item_contador,$hora_actual);
+	static public function ctrlInspeccionSaveMuestrasVariables($muestras,$variables,$id_insp,$id_item,$id_item_contador,$hora_actual,$id_area_validar,$id_linea_validar,$lote_validar){
+		$inspeccion = InspeccionModelo::mdlInspeccionSaveMuestrasVariables($muestras,$variables,$id_insp,$id_item,$id_item_contador,$hora_actual,$id_area_validar,$id_linea_validar,$lote_validar);
 		return $inspeccion;
 	}
 
@@ -76,7 +76,14 @@ class InspeccionControlador{
 		$inspeccion = InspeccionModelo::mdlInspeccionAbierta();
 		return $inspeccion;
 	}
-	
+
+	/* ************************************
+		INSPECCIONES REPORTE DE M&V  # 10
+	**************************************/	
+	static public function ctrlInspeccionReporte1(){
+		$inspeccion = InspeccionModelo::mdlInspeccionReporte1();
+		return $inspeccion;
+	}	
 	
 	// /* *********************************
 	// 		GUARDAR NUEVOS REGISTROS

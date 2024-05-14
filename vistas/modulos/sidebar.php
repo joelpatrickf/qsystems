@@ -103,7 +103,8 @@ if(isset($_SESSION)){ }else{ session_start(); }
                         <a onclick="CargarContenido('resultados_visualizacion.php','right_col')"></i>Visualizacion de Resultados</a>
                       </li>
                       
-                      <li><a onclick="CargarContenido('inspeccion_cerrar.php','right_col')">Cerrar Inspeccion</a></li>                      
+                      <li><a onclick="CargarContenido('inspeccion_cerrar.php','right_col')">Cerrar Inspeccion</a></li>
+                      <li><a onclick="CargarContenido('inspeccion_reporte.php','right_col')">Reporte Inspeccion</a></li>
                     </ul>
                   </li> 
 

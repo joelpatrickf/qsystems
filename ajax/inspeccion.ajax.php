@@ -65,9 +65,10 @@ class AjaxInspeccion{
 	/* ***********************************
 		GUARDAR VARIABLES Y MUESTRAS  # 7
 	*************************************/
-	public function ajaxInspeccionSaveMuestrasVariables	($muestras,$variables,$id_insp,$id_item,$id_item_contador,$hora_actual)
+	
+	public function ajaxInspeccionSaveMuestrasVariables	($muestras,$variables,$id_insp,$id_item,$id_item_contador,$hora_actual,$id_area_validar,$id_linea_validar,$lote_validar)
 	{
-		$respuesta1 = InspeccionControlador::ctrlInspeccionSaveMuestrasVariables($muestras,$variables,$id_insp,$id_item,$id_item_contador,$hora_actual);
+		$respuesta1 = InspeccionControlador::ctrlInspeccionSaveMuestrasVariables($muestras,$variables,$id_insp,$id_item,$id_item_contador,$hora_actual,$id_area_validar,$id_linea_validar,$lote_validar);
 		echo json_encode($respuesta1);
 	}
 
@@ -91,7 +92,17 @@ class AjaxInspeccion{
 	{
 		$respuesta1 = InspeccionControlador::ctrlInspeccionAbierta();
 		echo json_encode($respuesta1);
-	}		
+	}
+
+	
+	/* ************************************
+		INSPECCIONES REPORTE DE M&V  # 10
+	**************************************/
+	public function ajaxInspeccionReporte1()
+	{
+		$respuesta1 = InspeccionControlador::ctrlInspeccionReporte1();
+		echo json_encode($respuesta1);
+	}
 }
 
 if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR 
@@ -145,7 +156,8 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR
 	// print_r($_POST);
 	// echo "<pre>";
     $inspeccion = new AjaxInspeccion();
-    $inspeccion-> ajaxInspeccionSaveMuestrasVariables($_POST['muestras'],$_POST['variables'],$_POST['id_insp'],$_POST['id_item'],$_POST['id_item_contador'],$_POST['hora_actual']);
+    $inspeccion-> ajaxInspeccionSaveMuestrasVariables($_POST['muestras'],$_POST['variables'],$_POST['id_insp'],$_POST['id_item'],$_POST['id_item_contador'],$_POST['hora_actual'], $_POST['id_area_validar'],$_POST['id_linea_validar'],$_POST['lote_validar']
+);
 
 } else if (isset($_POST['accion']) && $_POST['accion'] == 8) { // BUSQUEDA MUESTRAS Y VARIABLES DE PRODUCTOS
     $inspeccion = new AjaxInspeccion();
@@ -155,5 +167,10 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR
 	// print_r($_POST);
     $inspeccion = new AjaxInspeccion();
     $inspeccion-> ajaxInspeccionAbierta();
+
+} else if (isset($_POST['accion']) && $_POST['accion'] == 10) { //  INSPECCIONES REPORTE DE INGRESO DE M&V
+	// print_r($_POST);
+    $inspeccion = new AjaxInspeccion();
+    $inspeccion-> ajaxInspeccionReporte1();
 
 }

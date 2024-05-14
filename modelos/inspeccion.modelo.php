@@ -152,10 +152,13 @@ class InspeccionModelo{
 		}
 		
 		try {
+			$num_muestras=0;
+			$num_variables=0;
 	        $stmt=null;
 			$res_count_idItem=0; // iniciamos el contador demuestras/variables a 0 
 
-	        $stmt = Conexion::conectar()->prepare("INSERT INTO insp_productos(id_insp,  fecha,  id_area,  id_linea,  id_item,  lote, turno,id_item_contador) VALUES(:id_insp,  :fecha,  :id_area,  :id_linea,  :id_item,  :lote, :turno,:id_item_contador)");
+	        $stmt = Conexion::conectar()->prepare("INSERT INTO insp_productos(id_insp,  fecha,  id_area,  id_linea,  id_item,  lote, turno,id_item_contador, num_muestras, num_variables) 
+			VALUES(:id_insp,  :fecha,  :id_area,  :id_linea,  :id_item,  :lote, :turno,:id_item_contador, :num_muestras, :num_variables)");
 
 	        $stmt->bindParam(":id_insp", $data['id_insp']); 
 	        $stmt->bindParam(":fecha", $data['fecha']); 
@@ -165,6 +168,8 @@ class InspeccionModelo{
 	        $stmt->bindParam(":lote", $data['lote']); 
 	        $stmt->bindParam(":turno", $data['turno']); 
 	        $stmt->bindParam(":id_item_contador", $res_count_idItem); 
+	        $stmt->bindParam(":num_muestras", $num_muestras); 
+	        $stmt->bindParam(":num_variables", $num_variables); 
 			$stmt->execute();
 			$resultado = 'ok';
 
@@ -217,25 +222,32 @@ class InspeccionModelo{
 				GUARDAR VARIABLES Y MUESTRAS  # 7
 	**************************************************************/
 
-	static public function mdlInspeccionSaveMuestrasVariables($muestras,$variables,$id_insp,$id_item,$id_item_contador,$hora_actual)
+	static public function mdlInspeccionSaveMuestrasVariables($muestras,$variables,$id_insp,$id_item,$id_item_contador,$hora_actual,$id_area_validar,$id_linea_validar,$lote_validar)
 	{
 		$resMuestrasVariables = self::mdlInspeccionNumeroMuestras();
 		date_default_timezone_set("America/Guayaquil");
 		 $hora = date('H:i:s', time());
 
-		// exit();
+		$sumVariables=0;
 		
 		// parametrizando VARIABLES EN LA TABLA
 		$tipoV = 'VARIABLES';
 		$nRegVariables = count($variables);
 		$nRegMuestras = count($muestras);
 		
-		$id_item_contador = $id_item_contador+1; // incrementamos el contador de ingreso de muestras/variables
+		// print_r($nRegMuestras);
+		// echo "<br>";
+		// print_r($nRegVariables);
+		// exit();
 
+		$id_item_contador = $id_item_contador+1; // incrementamos el contador de ingreso de muestras/variables
+		
+		// VARIABLES
 		for ($i = 0; $i < $nRegVariables ; $i++) {
 			$data2 = explode(" | ", $variables[$i]);
 			$data3 = explode("_", $data2[0]);
 			$valor = $data2[1];
+			$sumVariables=$sumVariables+$valor;
 
 			$idV = $data3[1];
 
@@ -250,6 +262,7 @@ class InspeccionModelo{
 			$stmt->execute();
 			$stmt=null;
 			$resultado = 'ok';
+
 		}
 
 
@@ -282,19 +295,36 @@ class InspeccionModelo{
 			$stmt=null;
 			$resultado = 'ok';
 		}
-
+		
+		
+		
+		//,$id_area_validar,$id_linea_validar,$lote_validar
 		// incrementar el id_item_contador en productos (contador de ingresos de muestras/variables)
 		$stmt44 = Conexion::conectar()->prepare("UPDATE insp_productos
-				SET id_item_contador =:id_item_contador 
-				WHERE id_insp = :id_insp AND id_item=:id_item ");
+				SET id_item_contador =:id_item_contador, 
+				num_muestras = num_muestras+$nRegMuestras,
+				sum_variables = sum_variables+$sumVariables
+				WHERE id_insp = :id_insp 
+				AND id_item=:id_item 
+				AND id_area = :id_area_validar
+				AND id_linea = :id_linea_validar
+				AND lote = :lote_validar
+
+				");
 
 		$stmt44->bindParam(":id_insp", $id_insp);
 		$stmt44->bindParam(":id_item", $id_item);
 		$stmt44->bindParam(":id_item_contador", $id_item_contador);
 		
+		$stmt44->bindParam(":id_area_validar", $id_area_validar);
+		$stmt44->bindParam(":id_linea_validar", $id_linea_validar);
+		$stmt44->bindParam(":lote_validar", $lote_validar);
+
 		$stmt44->execute(); 
 		$stmt44=null;
 		
+		
+
 		return $resultado;
 	}		
 
@@ -328,7 +358,26 @@ class InspeccionModelo{
 		return $insp_abiertas;	
 	}
 
+	/* ************************************
+		INSPECCIONES REPORTE DE M&V  # 10
+	**************************************/
+	static public function mdlInspeccionReporte1()
+	{	
+		$stmt = Conexion::conectar()->prepare("SELECT '' as vacio, ip.id_insp, ip.fecha,ip.id_item, nombre_producto,categoria,ip.id_area,area,ip.id_linea, linea, cab.usuario, ip.num_muestras, ip.sum_variables,ip.id_item_contador as cuenta
+			FROM insp_productos ip
+			inner join productos prod ON ip.id_item= prod.id_item
+			inner join v_areas_lineas al ON ip.id_area= al.id_area AND ip.id_linea= al.id_linea
+			inner join insp_cab cab ON ip.id_insp= cab.id_insp
+			inner join insp_muestras_variables imv ON prod.id_item= imv.id_item
+			where imv.id_item=prod.id_item
+			group by ip.id_insp, ip.fecha, nombre_producto,categoria,ip.id_area,area,ip.id_linea, linea, cab.usuario,imv.id_item, ip.num_muestras, ip.sum_variables,ip.id_item_contador		
+		");
+		$stmt->execute();
+		$resReporte1 = $stmt ->fetchAll(PDO::FETCH_CLASS);
 
+		
+		return $resReporte1;	
+	}
 	
 }
 
