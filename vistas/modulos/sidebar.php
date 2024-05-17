@@ -90,7 +90,7 @@ if(isset($_SESSION)){ }else{ session_start(); }
                       </li>                                        
                     </ul>
                   </li>                  
-                  <li><a><i class="fa fa-codepen"></i>Inspección<span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-codepen"></i>Inspección PT<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li>
                         <a onclick="CargarContenido('inspeccion_variables.php','right_col')">Ingreso de variables a inspeccionar</a>

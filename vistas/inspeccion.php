@@ -87,7 +87,7 @@ table.dataTable tbody  { white-space:normal; }
 				<div class="card-header pb-0 mb-0" >
                     <div class="row">
                         <div class="col-4">
-					       <h4> Administrar Inspección </h4>
+					       <h4> Inspección de Producto Terminado </h4>
                         </div>
                         <div class="col-4">
                             <h5 id="lblBloqueo" style=" color:red;" hidden>ACCESO BLOQUEADO, Comuniquese con el Administrador</h5>

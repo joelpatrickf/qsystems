@@ -23,7 +23,7 @@ if(isset($_SESSION)){ }else{ session_start(); }
                 <div class="card-header pb-0 mb-0" >
                     <div class="row">
                         <div class="col-6">
-                           <h4> Inspección Administrar Ingresos de variables </h4>
+                           <h4> Variables de inspección de producto terminado </h4>
                         </div>
                         <div class="col-6 text-" >
                             <button type="button" class="btn btn-warning mx-1" id="btnClose" style="float: right;" hidden>close</button>
@@ -69,7 +69,7 @@ if(isset($_SESSION)){ }else{ session_start(); }
                             </div>
                         </div>
 
-                       <!-- Columna TIPO DE PROVEEDOR -->
+                       <!-- Columna TIPO DE estado -->
                        <div class="col-4 col-lg-2">
                             <div class="form-group mb-2">
                                 <label class="" for="selEstado"><i class="fas fa-user fs-6"></i>
@@ -81,7 +81,18 @@ if(isset($_SESSION)){ }else{ session_start(); }
                                         <option value="INACTIVO">INACTIVO</option>
 			                    </select>
                             </div>
-                        </div>                         
+                        </div>
+                        <!-- Columna etapa - proceso -->
+                        <div class="col-12 col-lg-3">
+                            <div class="form-group mb-2">
+                                <label class="" for="iptEtapaProceso"><i class="fas fa-user fs-6"></i>
+                                    <span class="small">Etapa Proceso</span><span class="text-danger">*</span>
+                                </label>
+                                <input type="text" class="form-control " id="iptEtapaProceso"
+                                 placeholder="Ingrese etapa Proceso" required disabled>                               
+                            </div>
+                        </div>
+
 
                     </div> <!-- ROW -->
                 </div>  <!-- END div 1º card body -->
@@ -98,6 +109,7 @@ if(isset($_SESSION)){ }else{ session_start(); }
                                         <th class="text-center">id</th> 
                                         <th class="text-center">Fecha</th> 
                                         <th class="text-center">Variable</th> 
+                                        <th class="text-center">Etapa de proceso</th> 
                                         <th class="text-center">Numero</th> 
                                         <th class="text-center">Usuario</th> 
                                         <th class="text-center">Estado</th> 
@@ -149,6 +161,7 @@ $(document).ready(function(){
             { "data": "id_ins_var" },
             { "data": "fecha" },
             { "data": "variable" },
+            { "data": "etapa_proceso" },
             { "data": "nmuestras" },
             { "data": "usuario" },
             { "data": "estado" },
@@ -168,10 +181,10 @@ $(document).ready(function(){
                 // {targets:2,visible:false,},
                 
                 { responsivePriority: 1, targets: 2 },
-                { responsivePriority: 1, targets: 6 },
+                { responsivePriority: 1, targets: 7 },
                 
                 {
-                    targets:6,
+                    targets:7,
                     orderable:false,
                     render: function(data, type, full, meta){
                         return "<center>"+
@@ -205,6 +218,7 @@ $(document).ready(function(){
         $("#iptFecha").val(data['fecha']);
         $("#iptVariables").val(data['variable']);
         $("#iptNumeroMuestras").val(data['nmuestras']);
+        $("#iptEtapaProceso").val(data['etapa_proceso']);
 
         $("#selEstado").val(data['estado']);
         
@@ -270,6 +284,7 @@ $(document).ready(function(){
                     'accion':accion,
                     'fecha': $("#iptFecha").val(),
                     'variables': $("#iptVariables").val(),
+                    'etapa_proceso': $("#iptEtapaProceso").val(),
                     'numero_muestras': $("#iptNumeroMuestras").val(),
                     'estado': $("#selEstado").val(),
                     'id_ins_var' : id_ins_var
@@ -300,6 +315,7 @@ function desBloquearInputs(){
 
     $("#iptFecha").prop( "disabled", false );
     $("#iptVariables").prop( "disabled", false );
+    $("#iptEtapaProceso").prop( "disabled", false );
     $("#iptNumeroMuestras").prop( "disabled", false );
     $("#selEstado").prop( "disabled", false );
     $("#iptVariables").focus();
@@ -307,12 +323,14 @@ function desBloquearInputs(){
 function bloquearInputs(){
     $("#iptFecha").prop( "disabled", true );
     $("#iptVariables").prop( "disabled", true );
+    $("#iptEtapaProceso").prop( "disabled", true );
     $("#iptNumeroMuestras").prop( "disabled", true );
     $("#selEstado").prop( "disabled", true );
     $("#iptVariables").focus();
 }
 function limpiar(){
     $("#iptVariables").val('');
+    $("#iptEtapaProceso").val('');
     $("#selEstado").val(0);
     $("#iptNumeroMuestras").val("");
 }
