@@ -581,6 +581,7 @@ $(document).ready(function(){
         var flag_cerrar = 1; // cerrar inspeccion del dia por el usuario
         var hora_fin = null;
         var observacion = null;
+        var vusuario=null;
         $.ajax({
             async: false,
             url:"../ajax/inspeccion.ajax.php",
@@ -590,7 +591,8 @@ $(document).ready(function(){
                 'id_insp':$("#spnInspeccion" ).html(),
                 'flag_cerrar':flag_cerrar,
                 'hora_fin':hora_fin,
-                'observacion':observacion
+                'observacion':observacion,
+                'usuario':vusuario
 
             },
             dataType: "json",

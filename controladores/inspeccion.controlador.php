@@ -3,6 +3,7 @@ if(isset($_SESSION)){ }else{ session_start(); }
 require_once "../modelos/inspeccion.modelo.php";
 
 
+
 class InspeccionControlador{
 
 	/* ***********************************************************
@@ -84,29 +85,13 @@ class InspeccionControlador{
 		$inspeccion = InspeccionModelo::mdlInspeccionReporte1();
 		return $inspeccion;
 	}	
-	
-	// /* *********************************
-	// 		GUARDAR NUEVOS REGISTROS
-	// **********************************/
-	// static public function ctrlInspeccionRegistrar($data){
-	// 	$Usuario1 = InspeccionModelo::mdlInspeccionRegistrar($data);
-	// 	return $Usuario1;
-	// }
 
-	// /* *********************************
-	// 		ACTUALIZAR
-	// **********************************/
-	// static public function ctrlInspeccionActualizar($table,$data, $id, $nameId){
-	// 	$Usuario1 = InspeccionModelo::mdlInspeccionActuaizar($table,$data, $id, $nameId);
-	// 	return $Usuario1;
-	// }
+	/* ************************************
+		INSPECCIONES REPORTE EXCEL # 11
+	**************************************/
+	static public function ctrlInspeccionReporteExcel($id_insp,$id_item,$id_area,$id_linea,$usuario){
+		$inspeccion = InspeccionModelo::mdlInspeccionReporteExcel($id_insp,$id_item,$id_area,$id_linea,$usuario);
+		return $inspeccion;
+	}		
 	
-	// /* *********************************
-	// 		ELIMINA
-	// **********************************/
-	// static public function ctrInspeccionEliminar($id_ins_var){
-	// 	$Usuario1 = InspeccionModelo::mdlInspeccionEliminar($id_ins_var);
-	// 	return $Usuario1;
-	// }	
-
 }

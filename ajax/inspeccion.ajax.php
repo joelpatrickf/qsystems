@@ -103,6 +103,16 @@ class AjaxInspeccion{
 		$respuesta1 = InspeccionControlador::ctrlInspeccionReporte1();
 		echo json_encode($respuesta1);
 	}
+
+	
+	/* ************************************
+		INSPECCIONES REPORTE EXCEL # 11
+	**************************************/
+	public function ajaxInspeccionReporteExcel($id_insp,$id_item,$id_area,$id_linea,$usuario)
+	{
+		$respuesta1 = InspeccionControlador::ctrlInspeccionReporteExcel($id_insp,$id_item,$id_area,$id_linea,$usuario);
+		echo json_encode($respuesta1);
+	}	
 }
 
 if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR 
@@ -172,5 +182,13 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR
 	// print_r($_POST);
     $inspeccion = new AjaxInspeccion();
     $inspeccion-> ajaxInspeccionReporte1();
+
+} else if (isset($_POST['accion']) && $_POST['accion'] == 11) { //  INSPECCIONES REPORTE send to EXCEL
+	//print_r($_POST);
+    $inspeccion = new AjaxInspeccion();
+    $inspeccion-> ajaxInspeccionReporteExcel(
+		$_POST['id_insp'],$_POST['id_item'],$_POST['id_area'],$_POST['id_linea'],$_POST['usuario_']
+		
+	);
 
 }
