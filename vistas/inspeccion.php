@@ -326,6 +326,7 @@ table.dataTable tbody  { white-space:normal; }
     var accion = '';
     var id_proveedor = '';
     var verInspecAbierta=0;
+    var varIdInspeccion=null;
     var fechaActual= '<?php echo $SolorFechaActual?>';
     var estatus;
 
@@ -357,82 +358,20 @@ $(document).ready(function(){
     /* -REVISAR SI EXISTE INSPECCION ABIERTA-*/
     InciarInspeccion();
     
+    
     if (verInspecAbierta == 1){
         return;
         verInspecAbierta=0;
     }
-    
-    /* - TABLA DE PRODUCTOS AGREGADOS-*/
-    table_productos = $("#tbl_productos").DataTable({
 
-        "bDestroy": true,
-        "bPaginate": false,
-        "bAutoWidth": false,
-        searching: false,
-        select: true,
-        info: false,
-        ordering: false,
-        responsive: true,
-    
 
-        ajax:{
-            url:"../ajax/inspeccion.ajax.php",
-            dataSrc: '',
-            type:"POST",
-            data: {
-                'accion':5,
-                'id_insp': $("#spnInspeccion" ).html()
-            },
-        },
+    var varidInsp=$("#spnInspeccion" ).html();
+    if(varidInsp.length > 0){
+        cargarTabla();
+    }
+  
 
-        columns: [
-            { "data": "vacio" }, 
-            { "data": "au_inc" }, 
-            { "data": "id_insp" }, 
-            { "data": "fecha" },
-            { "data": "id_area" },
-            { "data": "area" },
-            { "data": "id_linea" },
-            { "data": "linea" },
-            { "data": "id_item" },
-            { "data": "nombre_producto" },
-            { "data": "categoria" },
-            { "data": "precio" },
-            { "data": "lote" },
-            { "data": "turno" },
-            { "data": "id_item_contador" },
-            { "data": "vacio" },
-        ],
-        
-        columnDefs:[
 
-            {"className": "dt-center", "targets": "_all"},
-            {targets:0,orderable:false,className:'control'},
-
-            {targets:1,visible:false}, //au_inc
-            {targets:2,visible:false}, //id_insp
-            {targets:4,visible:false}, //id_area
-            {targets:6,visible:false}, //id_linea
-            {targets:8,visible:false},
-
-            { responsivePriority: 1, targets: 9 },
-            { responsivePriority: 1, targets: 15 },
-            {
-                targets:15,
-                orderable:false,
-                render: function(data, type, full, meta){
-                    return "<center>"+
-                                    "<span class='btn_IngresarMuestras text-primary px-1' style='cursor:pointer;'>"+"<i class='fas fa-circle-plus fs-5'></i>"+"</span>"+
-                            "</center>"
-                }
-            } ,    
-        ],
-        pageLength: 10,
-        language: 
-        {
-            url: "json/idioma.json"
-        },  
-    });
     
 
     //****************************
@@ -608,7 +547,6 @@ $(document).ready(function(){
                     $("#btnCerrar").prop( "hidden", true );                    
                     $("#spnInspeccion" ).html("");
                     $("#spnHoraInicio" ).html("");
-                    // table_productos.ajax.reload();
                     
                     table_productos.rows().remove().draw();
                     return false;
@@ -622,7 +560,10 @@ $(document).ready(function(){
           AGREGAR PRODUCTOS
     *******************************/
     $("#btnAgregar").click(function() {
-        
+        // alert(varIdInspeccion);
+        // return;
+
+
         const msg = [];
         
         var area = $("#iptArea").val();
@@ -643,6 +584,21 @@ $(document).ready(function(){
             toastr["error"]("No existen datos para guardar", "!Atención!");
             return;
         }
+        
+        cargarTabla();
+        /* INI Validamos que el turno sea 1 solo*/        
+        var oTable = $('#tbl_productos').DataTable();
+        var info = oTable.page.info();
+        var count = info.recordsTotal;
+        if (count >0){
+            var data = oTable.row(0).data();
+            vTurno = data['turno']; 
+            if ($("#selTurno").val() != vTurno){
+                toastr["error"]("Turno Erroneo", "!Atención!");
+                return;
+            }
+        }
+        /* FIN Validamos que el turno sea 1 solo*/        
         $.ajax({
                 async: false,
                 url:"../ajax/inspeccion.ajax.php",
@@ -662,10 +618,14 @@ $(document).ready(function(){
                     console.log("retorno existe", respuesta)
                     if (respuesta == 'ok'){
                         console.log("Producto agregado ",respuesta);
-                        table_productos.ajax.reload();
-                     
+                        
                         limpiar();
                         toastr["success"]("Ingreso de Información Correcta", "!Atención!");
+                        varIdInspeccion=$("#spnInspeccion" ).html();
+        
+                        // table_productos.ajax.reload();
+
+ 
                     }else if (respuesta == 'existe'){
                         toastr["error"]("PRODUCTO YA ESTA INGRESADO", "!Atención!");
 
@@ -716,7 +676,10 @@ $(document).ready(function(){
             arrMuestras.push(iptName+" | "+iptValue);
             if (iptValue == "" ){
                 flagVacios ++;
-            }    
+            }
+            if (iptValue <= 0 ){
+                flagVacios ++;
+            }            
         }
         //console.log("array Muestras ",arrMuestras);        
         //console.log("array Variables flag ",flagVacios);
@@ -791,7 +754,8 @@ $(document).ready(function(){
         $("#btnCerrar").prop( "hidden", false );
         CrearInspeccion(); // Guardamos la creacion de la inspeccion
         InciarInspeccion(); // revisamos la creacion de la inspeccion
-
+        
+        // table_productos = $("#tbl_productos").DataTable();
 
 
     })
@@ -924,6 +888,8 @@ function InciarInspeccion()
                 $("#btnAgregar").prop( "disabled", false );
 
                 desBloquearInputs();
+                varIdInspeccion = respuesta[0]['id_insp'];
+                
                 return;
             }else if (respuesta[0]['fecha'] != fechaActual){
                 console.log("Inspeccion abierta fecha dias anterires");
@@ -995,6 +961,8 @@ var varVariables;
             input.setAttribute("name", "M" + i);
             input.setAttribute("id", "M" + i);
             input.setAttribute("size", "12");
+            input.setAttribute("min", "1");
+            input.setAttribute("type", "number");
             input.setAttribute("style","max-width:120px");
             input.setAttribute("style","display:inline-block;text-align:center");
             
@@ -1022,6 +990,8 @@ var varVariables;
             input.setAttribute("name", "itpVariable_" + varVariables[contador]['id_ins_var']);
             input.setAttribute("id", "itpVariable_" + varVariables[contador]['id_ins_var']);
             input.setAttribute("size", "12" );
+            input.setAttribute("min", "1" );
+            input.setAttribute("type", "number" );
             input.setAttribute("style","max-width:120px");
             input.setAttribute("style","display:inline-block;text-align:center");
             input.setAttribute("required", "" );
@@ -1054,5 +1024,80 @@ function removerMuestras(){
     $("#spnProducto" ).html("");
 
     $("#div_muestras" ).prop( "hidden", true );    
+}
+
+
+function cargarTabla(){
+        /* - TABLA DE PRODUCTOS AGREGADOS-*/
+        table_productos = $("#tbl_productos").DataTable({
+
+            "bDestroy": true,
+            "bPaginate": false,
+            "bAutoWidth": false,
+            searching: false,
+            select: true,
+            info: false,
+            ordering: false,
+            responsive: true,
+
+            //varIdInspeccion
+            ajax:{
+                url:"../ajax/inspeccion.ajax.php",
+                dataSrc: '',
+                type:"POST",
+                data: {
+                    'accion':5,
+                    'id_insp': $("#spnInspeccion" ).html()
+                },
+            },
+
+            columns: [
+                { "data": "vacio" }, 
+                { "data": "au_inc" }, 
+                { "data": "id_insp" }, 
+                { "data": "fecha" },
+                { "data": "id_area" },
+                { "data": "area" },
+                { "data": "id_linea" },
+                { "data": "linea" },
+                { "data": "id_item" },
+                { "data": "nombre_producto" },
+                { "data": "categoria" },
+                { "data": "precio" },
+                { "data": "lote" },
+                { "data": "turno" },
+                { "data": "id_item_contador" },
+                { "data": "vacio" },
+            ],
+
+            columnDefs:[
+
+                {"className": "dt-center", "targets": "_all"},
+                {targets:0,orderable:false,className:'control'},
+
+                {targets:1,visible:false}, //au_inc
+                {targets:2,visible:false}, //id_insp
+                {targets:4,visible:false}, //id_area
+                {targets:6,visible:false}, //id_linea
+                {targets:8,visible:false},
+
+                { responsivePriority: 1, targets: 9 },
+                { responsivePriority: 1, targets: 15 },
+                {
+                    targets:15,
+                    orderable:false,
+                    render: function(data, type, full, meta){
+                        return "<center>"+
+                                        "<span class='btn_IngresarMuestras text-primary px-1' style='cursor:pointer;'>"+"<i class='fas fa-circle-plus fs-5'></i>"+"</span>"+
+                                "</center>"
+                    }
+                } ,    
+            ],
+            pageLength: 10,
+            language: 
+            {
+                url: "json/idioma.json"
+            },  
+        });      
 }
 </script>

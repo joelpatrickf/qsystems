@@ -154,6 +154,7 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR
     $inspeccion-> ajaxInspeccionSaveProductos($data);
 
 } else if (isset($_POST['accion']) && $_POST['accion'] == 5) { // LISTAR PRODUCTOS
+	// print_r($_POST);
     $inspeccion = new AjaxInspeccion();
     $inspeccion-> ajaxInspeccionListarProductos($_POST['id_insp']);
 

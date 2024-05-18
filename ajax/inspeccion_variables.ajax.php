@@ -47,7 +47,6 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR
     $data = array(
             "fecha" => $_POST["fecha"],
             "variables" => $_POST["variables"],
-            "etapa_proceso" => $_POST["etapa_proceso"],
             "numero_muestras" => $_POST["numero_muestras"],
             "estado" => $_POST["estado"]
     );
@@ -58,7 +57,6 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR
     $dataModificar = array(
 		"fecha" => $_POST["fecha"],
 		"variable" => $_POST["variables"],
-		"etapa_proceso" => $_POST["etapa_proceso"],
 		"nmuestras" => $_POST["numero_muestras"],
 		"estado" => $_POST["estado"],
 		"id_ins_var" => $_POST["id_ins_var"]
