@@ -654,6 +654,14 @@ $(document).ready(function(){
     //-GUARDAR MUESTRAS Y VARIABLES
     //*******************************
     $("#btnGuardarMuestra").click(function() {
+        
+        
+        const myProducto = varNombreProducto.split("|");
+        let ContenidoNeto = myProducto[1];
+        
+        // alert(ContenidoNeto);
+        // return;
+
         var flagVacios = 0; 
         var flagMenorCero = 0; 
 
@@ -667,6 +675,8 @@ $(document).ready(function(){
 
         var vMuestras = document.getElementsByClassName("muestras");
         var arrMuestras = [];
+        var arrPesoNeto = [];
+        var arrPesoNetoFlag = 0;
         
         
         for(i=0;i<vMuestras.length;i++){
@@ -678,12 +688,46 @@ $(document).ready(function(){
             }
             if (iptValue <= 0 ){
                 flagMenorCero ++;
-            }       
+            }  
+            var maxContenidoNeto = (ContenidoNeto*1)+(ContenidoNeto*0.15);
+            var minContenidoNeto = (ContenidoNeto*1)-(ContenidoNeto*0.15)
+            
+            //console.log(ContenidoNeto+"  "+maxContenidoNeto+"  "+minContenidoNeto);
+            
+            if (iptValue > maxContenidoNeto || iptValue < minContenidoNeto ){
+                arrPesoNeto.push(iptName+" = "+iptValue+" | ");
+                arrPesoNetoFlag++;
+            }              
+            
+        }
+        if (arrPesoNetoFlag>0){
+            Swal.fire({
+                    icon: "error",
+                    title: "Existen inconsistrencias con el peso neto <br>"+arrPesoNeto,
+                    showDenyButton: false,
+                    showCancelButton: true,
+                    confirmButtonText: "Aceptar",
+                    denyButtonText: `Cancelar`
+                    }).then((result) => {
+                    
+                    if (result.isConfirmed) {
+                        //Swal.fire("Saved!", "", "success");
+                        // guardarProductos();
+                        // table_productos.ajax.reload();
+                        // limpiar();
+
+                    //save here                           
+                    }
+                });             
+            
+                //toastr["error"]("Existen inconsistrencias con el peso neto <br>"+arrPesoNeto, "!Atención!");
+            return;                
         }
         if (flagMenorCero>0){
             toastr["error"]("Existen valores de MUESTRAS menores a 0", "!Atención!");
             return;
         }
+        return;
         //console.log("array Muestras ",arrMuestras);        
         //console.log("array Variables flag ",flagVacios);
 
@@ -803,7 +847,7 @@ $(document).ready(function(){
         id_linea_validar = data['id_linea'];
         lote_validar = data['lote'];
 //aqui
-        console.log(data);
+        //console.log(data);
 
         $("#spnProducto" ).html(varNombreProducto);
         
