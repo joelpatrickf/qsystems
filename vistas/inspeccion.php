@@ -600,6 +600,7 @@ $(document).ready(function(){
                 Swal.fire({
                     icon: "error",
                     title: "El turno seleccionado no es consistente con el turno actual",
+                    
                     showDenyButton: false,
                     showCancelButton: true,
                     confirmButtonText: "Aceptar",
@@ -695,15 +696,21 @@ $(document).ready(function(){
             //console.log(ContenidoNeto+"  "+maxContenidoNeto+"  "+minContenidoNeto);
             
             if (iptValue > maxContenidoNeto || iptValue < minContenidoNeto ){
-                arrPesoNeto.push(iptName+" = "+iptValue+" | ");
+                arrPesoNeto.push(iptName);
                 arrPesoNetoFlag++;
             }              
             
         }
+        alert(flagMenorCero);
+        if (flagMenorCero>0){
+            toastr["error"]("Existen valores de MUESTRAS menores a 0", "!Atención!");
+            return;
+        }        
         if (arrPesoNetoFlag>0){
             Swal.fire({
                     icon: "error",
-                    title: "Existen inconsistrencias con el peso neto <br>"+arrPesoNeto,
+                    title: "Existen inconsistrencias con el peso neto <br>",
+                    text: arrPesoNeto,
                     showDenyButton: false,
                     showCancelButton: true,
                     confirmButtonText: "Aceptar",
@@ -721,12 +728,9 @@ $(document).ready(function(){
                 });             
             
                 //toastr["error"]("Existen inconsistrencias con el peso neto <br>"+arrPesoNeto, "!Atención!");
-            return;                
+            //return;                
         }
-        if (flagMenorCero>0){
-            toastr["error"]("Existen valores de MUESTRAS menores a 0", "!Atención!");
-            return;
-        }
+
         return;
         //console.log("array Muestras ",arrMuestras);        
         //console.log("array Variables flag ",flagVacios);
