@@ -35,6 +35,15 @@ class AjaxInspeccion{
 
 	
 	/* *************************
+		GUARDAR PRODUCTOS  #44
+	***************************/
+	public function ajaxInspeccionVerificarProductos($data)
+	{
+		$respuesta1 = InspeccionControlador::ctrlInspeccionVerificarProductos($data);
+		echo json_encode($respuesta1);
+	}
+	
+	/* *************************
 		GUARDAR PRODUCTOS  #4 
 	***************************/
 	public function ajaxInspeccionSaveProductos($data)
@@ -138,6 +147,21 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR
 		$_POST['observacion'],
 		$_POST['usuario']
 	);
+
+} else if (isset($_POST['accion']) && $_POST['accion'] == 44) { // GUARDAR AGREGAR PRODUCTOS
+	// print_r($_POST);
+    $inspeccion = new AjaxInspeccion();
+    $data = array(
+            "id_insp" => $_POST["id_insp"],
+            "fecha" => $_POST["fecha"],
+            "id_area" => $_POST["id_area"],
+            "id_linea" => $_POST["id_linea"],
+            "id_item" => $_POST["id_item"],
+            "lote" => $_POST["lote"],
+            "turno" => $_POST["turno"]
+    );	
+    $inspeccion-> ajaxInspeccionVerificarProductos($data);
+
 
 } else if (isset($_POST['accion']) && $_POST['accion'] == 4) { // GUARDAR AGREGAR PRODUCTOS
 	// print_r($_POST);

@@ -32,6 +32,13 @@ class InspeccionControlador{
 	}
 	
 	/* ***********************************************************
+					GUARDAR PRODUCTOS  #44
+	**************************************************************/
+	static public function ctrlInspeccionVerificarProductos($data){
+		$inspeccion = InspeccionModelo::mdlInspeccionVerificarProductos($data);
+		return $inspeccion;
+	}	
+	/* ***********************************************************
 					GUARDAR PRODUCTOS  #4 
 	**************************************************************/
 	static public function ctrlInspeccionSaveProductos($data){

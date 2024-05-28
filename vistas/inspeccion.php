@@ -170,7 +170,7 @@ table.dataTable tbody  { white-space:normal; }
                             <div class="col-12 col-lg-3">
                                 <div class="form-group mb-2">
                                     <label class="" for="iptPresentacion"><i class="fas fa-signature fs-6"></i>
-                                        <span class="">Cantenido Nominal</span><span class="text-danger">*</span>
+                                        <span class="">Contenido Nominal</span><span class="text-danger">*</span>
                                     </label>
                                     <input type="text" class="form-control" id="iptPresentacion" required  autocomplete="off" disabled >
                                 </div>
@@ -436,7 +436,7 @@ $(document).ready(function(){
 
     /*- AL PERDER EL FOCO DEL INPUT AREA -*/
     $( "#iptArea" ).on( "blur", function() {
-        console.log("ID AREA ",flagValidarArea);
+        //console.log("ID AREA ",flagValidarArea);
         if ((flagValidarArea == undefined) || (flagValidarArea == "") || (flagValidarArea == null)){
             toastr["error"]("Seleccione Correctamente Area de Producción", "!Atención!");
             $( "#iptArea" ).val("");
@@ -589,14 +589,16 @@ $(document).ready(function(){
         var oTable = $('#tbl_productos').DataTable();
         var info = oTable.page.info();
         var count = info.recordsTotal;
-        // alert(count);
-        // return;
+
         if (count >0){
             var data = oTable.row(0).data();
             vTurno = data['turno']; 
             if ($("#selTurno").val() != vTurno){
-                // toastr["error"]("Seleccion de Turno fuera de horario", "!Atención!");
+                //toastr["error"]("Seleccion de Turno fuera de horario", "!Atención!");
+                // alert("turno incosistente");
+                // return;
                 Swal.fire({
+                    icon: "error",
                     title: "El turno seleccionado no es consistente con el turno actual",
                     showDenyButton: false,
                     showCancelButton: true,
@@ -608,15 +610,21 @@ $(document).ready(function(){
                         //Swal.fire("Saved!", "", "success");
                         guardarProductos();
                         table_productos.ajax.reload();
+                        limpiar();
 
                     //save here                           
                     }
                 });                
                 
+            }else{
+                guardarProductos();
+                table_productos.ajax.reload();
+                limpiar();
             }
         }else{
         guardarProductos();
-        cargarTabla();                
+        cargarTabla();
+        limpiar();            
         // table_productos.ajax.reload();
 
 
@@ -683,6 +691,7 @@ $(document).ready(function(){
         // ARRAY VARIABLES
         // array VARIABLES (verificamos is existen campos vacios)
         const msgVariable = [];
+        //flagMenorCero=0:
         for(i=0;i<vVariables.length;i++){
             var iptName = vVariables[i].name;
             var iptValue = vVariables[i].value;
@@ -693,7 +702,7 @@ $(document).ready(function(){
             if (iptValue > vMuestras.length){
                 msgVariable.push(iptValue);
             }
-            if (iptValue <= 0 ){
+            if (iptValue = 0 ){
                 flagMenorCero ++;
             }            
         }
@@ -1113,7 +1122,7 @@ function guardarProductos(){
         url:"../ajax/inspeccion.ajax.php",
         method: "POST",
         data: {
-            'accion':4,
+            'accion':44,
             'id_insp' : $("#spnInspeccion" ).html(),
             'fecha' : $("#iptFechaInspeccion").val(),
             'id_area': id_area,
@@ -1125,25 +1134,37 @@ function guardarProductos(){
         dataType: "json",
         success: function(respuesta){
             console.log("retorno existe", respuesta)
-            if (respuesta == 'ok'){
-                console.log("Producto agregado ",respuesta);
-                
-                limpiar();
-                toastr["success"]("Ingreso de Información Correcta", "!Atención!");
-                varIdInspeccion=$("#spnInspeccion" ).html();
+            if (respuesta == null){
+                $.ajax({
+                    async: false,
+                    url:"../ajax/inspeccion.ajax.php",
+                    method: "POST",
+                    data: {
+                        'accion':4,
+                        'id_insp' : $("#spnInspeccion" ).html(),
+                        'fecha' : $("#iptFechaInspeccion").val(),
+                        'id_area': id_area,
+                        'id_linea': id_linea,
+                        'id_item': id_item,
+                        'lote': $("#iptLote").val(),
+                        'turno': $("#selTurno").val()
+                    },
+                    dataType: "json",
+                    success: function(respuesta){
+                        console.log("retorno existe", respuesta)
+                        if (respuesta == null){
 
-                // table_productos.ajax.reload();
-                //cargarTabla();
+                        }
 
-
-            }else if (respuesta == 'existe'){
-                toastr["error"]("PRODUCTO YA ESTA INGRESADO", "!Atención!");
+                    }
+                });
 
             }else{
-                toastr["error"]("Ingreso Incorrecto, entrada duplicada", "!Atención!");
+                toastr["error"]("Producto ya esta creado", "!Atención!");
+                return;
             }
 
         }
-    });    
+    });   
 }
 </script>

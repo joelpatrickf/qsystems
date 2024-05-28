@@ -349,7 +349,7 @@ $(document).ready(function(){
                             return searchString.length? "Search: " + searchString : "Reporte General de Muestras y Variables "
                           },
                         exportOptions: {
-                            columns: [ 1, 2, 3, 4, 5, 6, 7, 8,9],
+                            columns: [ 1, 2,  4, 5, 6, 7, 8,9],
                             format: {
                                 body: function ( data, row, column, node ) {
                                     return column === 1 ?

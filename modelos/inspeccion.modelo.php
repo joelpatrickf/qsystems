@@ -127,32 +127,63 @@ class InspeccionModelo{
 	}
 
 	/* ***********************************************************
-				GUARDAR PRODUCTOS  # 4 
+				BUSCAR PRODUCTOS  # 44
 	**************************************************************/
-
-	static public function mdlInspeccionSaveProductos($data)
+	static public function mdlInspeccionVerificarProductos($data)
 	{
-
-		$resMuestrasVariables = self::mdlInspeccionNumeroMuestras();
-		$nRegMuestras = $resMuestrasVariables['nmuestras'][0]->nmuestras;
-		$nRegVariables = count($resMuestrasVariables['variables']);
-
-		// buscamos si existe el producto/id_insp/area/linea/LOTE
+		// buscamos si existe el producto/id_insp/area/linea/LOTE/turno
 		$stmt66 = Conexion::conectar()->prepare("SELECT id_item, count(id_item) as Cuenta from insp_productos 
-							WHERE id_insp = :id_insp AND id_item = :id_item AND id_area = :id_area AND id_linea = :id_linea AND lote = :lote ");
+							WHERE id_insp = :id_insp AND id_item = :id_item AND id_area = :id_area AND id_linea = :id_linea AND lote = :lote AND turno = :turno ");
 
 			$stmt66->bindParam(":id_insp",$data['id_insp']);
 			$stmt66->bindParam(":id_item",$data['id_item']);
 			$stmt66->bindParam(":id_area",$data['id_area']);
 			$stmt66->bindParam(":id_linea",$data['id_linea']);
 			$stmt66->bindParam(":lote",$data['lote']);
+			$stmt66->bindParam(":turno",$data['turno']);
 		
 		$stmt66->execute();
 		$existeProducto = $stmt66 ->fetchAll(PDO::FETCH_CLASS);
+		
+
 		$existeProductoCuenta = $existeProducto[0]->Cuenta;
 		if ($existeProductoCuenta >0){
 			return "existe";
 		}
+	}
+
+	/* ***********************************************************
+				GUARDAR PRODUCTOS  # 4 
+	**************************************************************/
+
+	static public function mdlInspeccionSaveProductos($data)
+	{
+		// print_r($data);
+		// exit();
+
+		$resMuestrasVariables = self::mdlInspeccionNumeroMuestras();
+		$nRegMuestras = $resMuestrasVariables['nmuestras'][0]->nmuestras;
+		$nRegVariables = count($resMuestrasVariables['variables']);
+
+		// buscamos si existe el producto/id_insp/area/linea/LOTE
+		// $stmt66 = Conexion::conectar()->prepare("SELECT id_item, count(id_item) as Cuenta from insp_productos 
+		// 					WHERE id_insp = :id_insp AND id_item = :id_item AND id_area = :id_area AND id_linea = :id_linea AND lote = :lote AND turno = :turno ");
+
+		// 	$stmt66->bindParam(":id_insp",$data['id_insp']);
+		// 	$stmt66->bindParam(":id_item",$data['id_item']);
+		// 	$stmt66->bindParam(":id_area",$data['id_area']);
+		// 	$stmt66->bindParam(":id_linea",$data['id_linea']);
+		// 	$stmt66->bindParam(":lote",$data['lote']);
+		// 	$stmt66->bindParam(":turno",$data['turno']);
+		
+		// $stmt66->execute();
+		// $existeProducto = $stmt66 ->fetchAll(PDO::FETCH_CLASS);
+		
+
+		// $existeProductoCuenta = $existeProducto[0]->Cuenta;
+		// if ($existeProductoCuenta >0){
+		// 	return "existe";
+		// }
 		
 		try {
 			$num_muestras=0;
