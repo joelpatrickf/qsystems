@@ -407,14 +407,14 @@ class InspeccionModelo{
 
 		$user=$_SESSION['login'][0]->usuario;
 		
-		$sql= "SELECT '' as vacio, ip.id_insp, ip.fecha,ip.id_item, nombre_producto,categoria,ip.id_area,area,ip.id_linea, linea, cab.usuario, ip.num_muestras, ip.sum_variables,ip.id_item_contador as cuenta
+		$sql= "SELECT '' as vacio, ip.id_insp, ip.fecha,ip.id_item, nombre_producto,categoria,ip.id_area,area,ip.id_linea, linea, cab.usuario, ip.num_muestras, ip.sum_variables,ip.id_item_contador as cuenta, ip.lote
 		FROM insp_productos ip
 		inner join productos prod ON ip.id_item= prod.id_item
 		inner join v_areas_lineas al ON ip.id_area= al.id_area AND ip.id_linea= al.id_linea
 		inner join insp_cab cab ON ip.id_insp= cab.id_insp and cab.usuario = '$user'
 		inner join insp_muestras_variables imv ON prod.id_item= imv.id_item
 		where imv.id_item=prod.id_item $sqlFecha
-		group by ip.id_insp, ip.fecha, nombre_producto,categoria,ip.id_area,area,ip.id_linea, linea, cab.usuario,imv.id_item, ip.num_muestras, ip.sum_variables,ip.id_item_contador	 
+		group by ip.id_insp, ip.fecha, nombre_producto,categoria,ip.id_area,area,ip.id_linea, linea, cab.usuario,imv.id_item, ip.num_muestras, ip.sum_variables,ip.id_item_contador,ip.lote
 		order by ip.id_insp desc
 		limit 7";
 
@@ -440,13 +440,13 @@ class InspeccionModelo{
 		// print_r($user);
 		$stmt = Conexion::conectar()->prepare("SELECT '' as vacio,imv.id_insp, tipo, id, 
 			(IF ((tipo='MUESTRAS'),(id),(var.variable))) as concepto,
-			valor, imv.id_item,prod.nombre_producto,imv.id_item_contador,hora
+			valor, imv.id_item,prod.nombre_producto,imv.id_item_contador,hora,ìnsp_p.lote
 			FROM insp_muestras_variables imv
 			left join insp_variables var ON imv.id= var.id_ins_var
 			left join productos prod ON imv.id_item= prod.id_item
 			left join insp_productos ìnsp_p ON imv.id_insp = ìnsp_p.id_insp
 			where imv.id_insp='$id_insp' and imv.id_item='$id_item' and ìnsp_p.id_area='$id_area'  and ìnsp_p.id_linea='$id_linea'
-			group by imv.id_insp, tipo, id,valor, imv.id_item,prod.nombre_producto,imv.id_item_contador,hora
+			group by imv.id_insp, tipo, id,valor, imv.id_item,prod.nombre_producto,imv.id_item_contador,hora,ìnsp_p.lote
 
 
 		");

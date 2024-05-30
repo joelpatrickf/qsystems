@@ -176,6 +176,7 @@ table.dataTable tbody  { white-space:normal; }
                                         <th class="text-center">Fecha</th>
                                         <th class="text-center">IdItem</th>
                                         <th class="text-center">Producto</th>
+                                        <th class="text-center">Lote</th>
                                         <th class="text-center">Categoria</th>
                                         <th class="text-center">idArea</th>
                                         <th class="text-center">Area</th>
@@ -210,6 +211,7 @@ table.dataTable tbody  { white-space:normal; }
                                         <th class="text-center">Valor</th>
                                         <th class="text-center">IdItem</th>
                                         <th class="text-center">Producto</th>
+                                        <th class="text-center">Lote</th>
                                         <th class="text-center">Contador</th>
                                         <th class="text-center">Hora</th>
                                     </tr>
@@ -272,6 +274,7 @@ $(document).ready(function(){
             { "data": "fecha" },
             { "data": "id_item" },
             { "data": "nombre_producto" },
+            { "data": "lote" },
             { "data": "categoria" },
             { "data": "id_area" },
             { "data": "area" },
@@ -290,13 +293,14 @@ $(document).ready(function(){
             {targets:0,orderable:false,className:'control'},
 
             //{targets:2,visible:false}, //fecha
-            {targets:6,visible:false}, //id_area
-            {targets:8,visible:false}, //id_linea
-            {targets:12,visible:false}, //id_linea
-            {responsivePriority: 1, targets: 14 },            
+            {targets:7,visible:false}, //id_area
+            {targets:9,visible:false}, //id_linea
+            {targets:12,visible:false}, //sum_variables
+            {targets:13,visible:false}, //
+            {responsivePriority: 1, targets: 15 },
 
             {
-                targets:14,
+                targets:15,
                 orderable:false,
                 render: function(data, type, full, meta){
                     return "<center>"+
@@ -351,7 +355,7 @@ $(document).ready(function(){
                             return searchString.length? "Search: " + searchString : "Reporte General de Muestras y Variables "
                           },
                         exportOptions: {
-                            columns: [ 1, 2,  4, 5, 6, 7, 8,9],
+                            columns: [ 1, 2,  4, 5, 6, 7, 8,9,10],
                             format: {
                                 body: function ( data, row, column, node ) {
                                     return column === 1 ?
@@ -390,6 +394,7 @@ $(document).ready(function(){
                 { "data": "valor" },
                 { "data": "id_item" },
                 { "data": "nombre_producto" },
+                { "data": "lote" },
                 { "data": "id_item_contador" },
                 { "data": "hora" }
             ],
@@ -409,12 +414,6 @@ $(document).ready(function(){
             },  
         });
 
-
-        
-        
-        
-        //window.open('../ajax/Downloader.php?accion=11&id_insp='+id_insp+'&id_item='+id_item+'&id_area='+id_area+'&id_linea='+id_linea+'&usuario='+usuario)
-        // tbl_reporteMuestras        
     });
     
     $("#btnBuscar").click(function() {
