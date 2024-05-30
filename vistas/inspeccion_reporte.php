@@ -7,10 +7,10 @@
     $horaActual = date('H:i:s', time());
     $SolorFechaActual = date('Y-m-d');
 
-    if (isset($_POST)){
-        print_r($_POST);
+    // if (isset($_POST)){
+    //     print_r($_POST);
 
-    }
+    // }
 ?>
 <style>
 table.dataTable tbody  { white-space:normal; }
@@ -260,7 +260,8 @@ $(document).ready(function(){
             dataSrc: '',
             type:"POST",
             data: {
-                'accion':10
+                'accion':10,
+                'fecha':null
 
             },
         },
@@ -288,10 +289,11 @@ $(document).ready(function(){
             {"className": "dt-center", "targets": "_all"},
             {targets:0,orderable:false,className:'control'},
 
-            {targets:2,visible:false}, //id_item
+            //{targets:2,visible:false}, //fecha
             {targets:6,visible:false}, //id_area
             {targets:8,visible:false}, //id_linea
             {targets:12,visible:false}, //id_linea
+            {responsivePriority: 1, targets: 14 },            
 
             {
                 targets:14,
@@ -408,16 +410,35 @@ $(document).ready(function(){
         });
 
 
-
-
-
-
-
+        
+        
+        
         //window.open('../ajax/Downloader.php?accion=11&id_insp='+id_insp+'&id_item='+id_item+'&id_area='+id_area+'&id_linea='+id_linea+'&usuario='+usuario)
         // tbl_reporteMuestras        
-    });        
+    });
     
-        
+    $("#btnBuscar").click(function() {
+
+        $.ajax({
+            async: false,
+            url:"../ajax/inspeccion.ajax.php",
+            method: "POST",
+            data: {
+                'accion':10,
+                'fecha': $("#iptFechaInspeccion").val()
+            },
+            dataType: "json",
+            success: function(respuesta){
+                console.log("busqueda",respuesta);
+                // table_productos.ajax.reload();
+                $('#tbl_reporteInspeccion').DataTable().clear().draw();
+                $('#tbl_reporteInspeccion').DataTable().rows.add(respuesta).draw();                    
+
+
+            }
+        });
+    });
+    
     // const btnExcel = document.getElementById('btnExcel')
     // btnExcel.onclick = () =>{
     //     alert("fer");

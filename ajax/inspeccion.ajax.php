@@ -107,9 +107,9 @@ class AjaxInspeccion{
 	/* ************************************
 		INSPECCIONES REPORTE DE M&V  # 10
 	**************************************/
-	public function ajaxInspeccionReporte1()
+	public function ajaxInspeccionReporte1($fecha)
 	{
-		$respuesta1 = InspeccionControlador::ctrlInspeccionReporte1();
+		$respuesta1 = InspeccionControlador::ctrlInspeccionReporte1($fecha);
 		echo json_encode($respuesta1);
 	}
 
@@ -206,7 +206,7 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR
 } else if (isset($_POST['accion']) && $_POST['accion'] == 10) { //  INSPECCIONES REPORTE DE INGRESO DE M&V
 	// print_r($_POST);
     $inspeccion = new AjaxInspeccion();
-    $inspeccion-> ajaxInspeccionReporte1();
+    $inspeccion-> ajaxInspeccionReporte1($_POST['fecha']);
 
 } else if (isset($_POST['accion']) && $_POST['accion'] == 11) { //  INSPECCIONES REPORTE send to EXCEL
 	//print_r($_POST);

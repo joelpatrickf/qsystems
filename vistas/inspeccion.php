@@ -349,6 +349,11 @@ table.dataTable tbody  { white-space:normal; }
     var varNombreProducto;
     var id_item_contador;
 
+    var arrMuestras = [];
+    var arrVariables = [];
+    var hora_actual = '<?php echo $horaActual; ?>'    
+
+
 $(document).ready(function(){
     $("#div_muestras" ).prop( "hidden", true );
     // Personalizamos el toast mensajes
@@ -643,7 +648,7 @@ $(document).ready(function(){
     //*******************************
     $("#btnCerrarMuestra").click(function(e) {
         e.preventDefault();
-
+        $("#btnCerrar").prop( "disabled", false ); // desactivamos el boton mientras se ingresan las M1/VARIABLES
         removerMuestras();
 
 
@@ -665,17 +670,18 @@ $(document).ready(function(){
 
         var flagVacios = 0; 
         var flagMenorCero = 0; 
+        arrMuestras = [];  // enceramos los array
+        arrVariables = []; // enceramos los array
 
-
-        var hora_actual = '<?php echo $horaActual; ?>'
-        var vVariables = document.getElementsByClassName("variables");
-        var arrVariables = [];
         
-        // array MUESTRAS 
+        var vVariables = document.getElementsByClassName("variables");
+
+        
+        // array MUESTRAS ----------------------------------------------------------------//
         //verificamos is existen campos vacios
 
         var vMuestras = document.getElementsByClassName("muestras");
-        var arrMuestras = [];
+
         var arrPesoNeto = [];
         var arrPesoNetoFlag = 0;
         
@@ -701,45 +707,23 @@ $(document).ready(function(){
             }              
             
         }
-        alert(flagMenorCero);
         if (flagMenorCero>0){
             toastr["error"]("Existen valores de MUESTRAS menores a 0", "!Atención!");
             return;
         }        
-        if (arrPesoNetoFlag>0){
-            Swal.fire({
-                    icon: "error",
-                    title: "Existen inconsistrencias con el peso neto <br>",
-                    text: arrPesoNeto,
-                    showDenyButton: false,
-                    showCancelButton: true,
-                    confirmButtonText: "Aceptar",
-                    denyButtonText: `Cancelar`
-                    }).then((result) => {
-                    
-                    if (result.isConfirmed) {
-                        //Swal.fire("Saved!", "", "success");
-                        // guardarProductos();
-                        // table_productos.ajax.reload();
-                        // limpiar();
 
-                    //save here                           
-                    }
-                });             
-            
-                //toastr["error"]("Existen inconsistrencias con el peso neto <br>"+arrPesoNeto, "!Atención!");
-            //return;                
-        }
 
-        return;
+
         //console.log("array Muestras ",arrMuestras);        
         //console.log("array Variables flag ",flagVacios);
 
-
-        // ARRAY VARIABLES
+        //----------------------------------------------------------------//
+        // ARRAY VARIABLES 
+        //----------------------------------------------------------------//
         // array VARIABLES (verificamos is existen campos vacios)
         const msgVariable = [];
         //flagMenorCero=0:
+        
         for(i=0;i<vVariables.length;i++){
             var iptName = vVariables[i].name;
             var iptValue = vVariables[i].value;
@@ -750,17 +734,19 @@ $(document).ready(function(){
             if (iptValue > vMuestras.length){
                 msgVariable.push(iptValue);
             }
-            if (iptValue = 0 ){
+            if (iptValue <= 0 ){
                 flagMenorCero ++;
             }            
         }
+        // alert(flagMenorCero);
+
         if (flagMenorCero>0){
-            toastr["error"]("Existen valores de VARIABLES menores a 0", "!Atención!");
+            toastr["error"]("Existen conteos de inspección menores a 0", "!Atención!");
             return;
         }
 
         if (msgVariable.length>0){
-            toastr["error"]("Ha ingresado valores superiores a la cantidad de muestra determinada  =>"+msgVariable, "!Atención!");
+            toastr["error"]("Ha ingresado valores superiores a la cantidad de muestra determinada  "+msgVariable, "!Atención!");
             flagVacios=1;
             return;
         }
@@ -772,38 +758,69 @@ $(document).ready(function(){
             toastr["error"]("EXISTEN CAMPOS VACIOS, CANTIDAD "+flagVacios, "!Atención!");
             return;
         }
+        var vSalir=0;
+        if (arrPesoNetoFlag>0){
+            Swal.fire({
+                    icon: "error",
+                    title: "Existen inconsistrencias con el peso neto, desea continuar <br>",
+                    text: arrPesoNeto,
+                    showDenyButton: false,
+                    showCancelButton: true,
+                    confirmButtonText: "Aceptar",
+                    denyButtonText: `Cancelar`
+                    }).then((result) => {
+                    
+                        if (result.isConfirmed) {
+                            guardarMuestras();
+                            $("#btnCerrar").prop( "disabled", false ); // desactivamos el boton mientras se ingresan las M1/VARIABLES
 
+                            return
+                        }
+
+                    });  
+            
+                //toastr["error"]("Existen inconsistrencias con el peso neto <br>"+arrPesoNeto, "!Atención!");
+            //return;
+        }else{
+            guardarMuestras();
+            $("#btnCerrar").prop( "disabled", false ); // desactivamos el boton mientras se ingresan las M1/VARIABLES
+            
+        }
+
+        
+        
+        return;
 //aqui
 
-        $.ajax({
-                async: false,
-                url:"../ajax/inspeccion.ajax.php",
-                method: "POST",
-                data: {
-                    'accion':7,
-                    'muestras': arrMuestras,
-                    'variables': arrVariables,
-                    'id_insp': $("#spnInspeccion" ).html(),
-                    'id_item': id_item_muestra,
-                    'id_item_contador':id_item_contador,
-                    'hora_actual':hora_actual,
-                    'id_area_validar': id_area_validar,
-                    'id_linea_validar': id_linea_validar,
-                    'lote_validar':lote_validar 
-                },
-                dataType: "json",
-                success: function(respuesta){
-                    console.log("guardar ",respuesta);
-                    if (respuesta == 'ok'){
-                        removerMuestras();
-                        toastr["success"]("Ingreso de Información Correcta", "!Atención!");
-                        table_productos.ajax.reload();
-                    }else{
-                        toastr["error"]("Ingreso Incorrecto, entrada duplicada", "!Atención!");
-                    }
-                    id_item_muestra = null;
-                }
-            });
+        // $.ajax({
+        //         async: false,
+        //         url:"../ajax/inspeccion.ajax.php",
+        //         method: "POST",
+        //         data: {
+        //             'accion':7,
+        //             'muestras': arrMuestras,
+        //             'variables': arrVariables,
+        //             'id_insp': $("#spnInspeccion" ).html(),
+        //             'id_item': id_item_muestra,
+        //             'id_item_contador':id_item_contador,
+        //             'hora_actual':hora_actual,
+        //             'id_area_validar': id_area_validar,
+        //             'id_linea_validar': id_linea_validar,
+        //             'lote_validar':lote_validar 
+        //         },
+        //         dataType: "json",
+        //         success: function(respuesta){
+        //             console.log("guardar ",respuesta);
+        //             if (respuesta == 'ok'){
+        //                 removerMuestras();
+        //                 toastr["success"]("Ingreso de Información Correcta", "!Atención!");
+        //                 table_productos.ajax.reload();
+        //             }else{
+        //                 toastr["error"]("Ingreso Incorrecto, entrada duplicada", "!Atención!");
+        //             }
+        //             id_item_muestra = null;
+        //         }
+        //     });
     });
 
     /*-- BOTON NUEVO ---*/
@@ -841,6 +858,7 @@ $(document).ready(function(){
     //*******************************
     $('#tbl_productos tbody').on('click','.btn_IngresarMuestras', function(){
         
+        $("#btnCerrar").prop( "disabled", true ); // desactivamos el boton mientras se ingresan las M1/VARIABLES
 
         var data = table_productos.row($(this).parents('tr')).data();
         varNombreProducto = data['nombre_producto'];
@@ -856,7 +874,7 @@ $(document).ready(function(){
         $("#spnProducto" ).html(varNombreProducto);
         
         $("#div_muestras" ).prop( "hidden", false );
-        $("#spnContadorProducto" ).html("Numero Muestro: "+id_item_contador);
+        $("#spnContadorProducto" ).html("Numero Muestreo: "+id_item_contador);
         crearCampos();        
 
         
@@ -1214,5 +1232,38 @@ function guardarProductos(){
 
         }
     });   
+}
+
+
+function guardarMuestras(){
+    $.ajax({
+        async: false,
+        url:"../ajax/inspeccion.ajax.php",
+        method: "POST",
+        data: {
+            'accion':7,
+            'muestras': arrMuestras,
+            'variables': arrVariables,
+            'id_insp': $("#spnInspeccion" ).html(),
+            'id_item': id_item_muestra,
+            'id_item_contador':id_item_contador,
+            'hora_actual':hora_actual,
+            'id_area_validar': id_area_validar,
+            'id_linea_validar': id_linea_validar,
+            'lote_validar':lote_validar 
+        },
+        dataType: "json",
+        success: function(respuesta){
+            console.log("guardar ",respuesta);
+            if (respuesta == 'ok'){
+                removerMuestras();
+                toastr["success"]("Ingreso de Información Correcta", "!Atención!");
+                table_productos.ajax.reload();
+            }else{
+                toastr["error"]("Ingreso Incorrecto, entrada duplicada", "!Atención!");
+            }
+            id_item_muestra = null;
+        }
+    });    
 }
 </script>

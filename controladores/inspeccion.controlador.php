@@ -88,8 +88,8 @@ class InspeccionControlador{
 	/* ************************************
 		INSPECCIONES REPORTE DE M&V  # 10
 	**************************************/	
-	static public function ctrlInspeccionReporte1(){
-		$inspeccion = InspeccionModelo::mdlInspeccionReporte1();
+	static public function ctrlInspeccionReporte1($fecha){
+		$inspeccion = InspeccionModelo::mdlInspeccionReporte1($fecha);
 		return $inspeccion;
 	}	
 

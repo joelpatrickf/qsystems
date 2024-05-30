@@ -395,21 +395,37 @@ class InspeccionModelo{
 	/* ************************************
 		INSPECCIONES REPORTE DE M&V  # 10
 	**************************************/
-	static public function mdlInspeccionReporte1()
+	static public function mdlInspeccionReporte1($fecha)
 	{	
+
+		if ($fecha == null){
+			$sqlFecha="";
+		}else{
+			$sqlFecha=" AND cab.fecha="."'$fecha'";
+		}
+		
+
 		$user=$_SESSION['login'][0]->usuario;
-		// print_r($user);
-		$stmt = Conexion::conectar()->prepare("SELECT '' as vacio, ip.id_insp, ip.fecha,ip.id_item, nombre_producto,categoria,ip.id_area,area,ip.id_linea, linea, cab.usuario, ip.num_muestras, ip.sum_variables,ip.id_item_contador as cuenta
-			FROM insp_productos ip
-			inner join productos prod ON ip.id_item= prod.id_item
-			inner join v_areas_lineas al ON ip.id_area= al.id_area AND ip.id_linea= al.id_linea
-			inner join insp_cab cab ON ip.id_insp= cab.id_insp and cab.usuario = '$user'
-			inner join insp_muestras_variables imv ON prod.id_item= imv.id_item
-			where imv.id_item=prod.id_item 
-			group by ip.id_insp, ip.fecha, nombre_producto,categoria,ip.id_area,area,ip.id_linea, linea, cab.usuario,imv.id_item, ip.num_muestras, ip.sum_variables,ip.id_item_contador		
-		");
+		
+		$sql= "SELECT '' as vacio, ip.id_insp, ip.fecha,ip.id_item, nombre_producto,categoria,ip.id_area,area,ip.id_linea, linea, cab.usuario, ip.num_muestras, ip.sum_variables,ip.id_item_contador as cuenta
+		FROM insp_productos ip
+		inner join productos prod ON ip.id_item= prod.id_item
+		inner join v_areas_lineas al ON ip.id_area= al.id_area AND ip.id_linea= al.id_linea
+		inner join insp_cab cab ON ip.id_insp= cab.id_insp and cab.usuario = '$user'
+		inner join insp_muestras_variables imv ON prod.id_item= imv.id_item
+		where imv.id_item=prod.id_item $sqlFecha
+		group by ip.id_insp, ip.fecha, nombre_producto,categoria,ip.id_area,area,ip.id_linea, linea, cab.usuario,imv.id_item, ip.num_muestras, ip.sum_variables,ip.id_item_contador	 
+		order by ip.id_insp desc
+		limit 7";
+
+// print_R($sql);
+// exit();		
+		$stmt = Conexion::conectar()->prepare($sql);
+		// and cab.fecha='2024-05-15'
 		$stmt->execute();
 		$resReporte1 = $stmt ->fetchAll(PDO::FETCH_CLASS);
+
+
 
 		
 		return $resReporte1;	
