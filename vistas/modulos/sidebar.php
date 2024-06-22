@@ -108,6 +108,20 @@ if(isset($_SESSION)){ }else{ session_start(); }
                     </ul>
                   </li> 
 
+                  <li><a><i class="fa fa-codepen"></i>Ambiente<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu">
+                      <li>
+                        <a onclick="CargarContenido('planificacion.php','right_col')">Planificación</a>
+                      </li>
+                      <li>
+                        <a onclick="CargarContenido('planificacion_ingreso_resultados.php','right_col')"></i>Ingreso de Resultados</a>
+                      </li> 
+                      <li>
+                        <a onclick="CargarContenido('planificacion_visualizacion.php','right_col')"></i>Visualizacion de Resultados</a>
+                      </li>
+                      <li><a onclick="CargarContenido('planificacion_reporte.php','right_col')">Reporte Planificación</a></li>
+                    </ul>
+                  </li> 
                 </ul>
               </div>
 
@@ -139,10 +153,12 @@ if(isset($_SESSION)){ }else{ session_start(); }
           <div class="nav_menu">
 
               <div class="nav toggle">  <!-- hamburguesa -->
-                <a id="menu_toggle"><i class="fa fa-bars"></i></a>
+                <a id="menu_toggle"><i class="fa fa-bars"></i> </a>
               </div>
+
+       
               <nav class="nav navbar-nav">
-                <ul class=" navbar-right">
+                <ul class=" navbar-right"  style="padding: 0px;" >
                   <li class="nav-item dropdown open" style="padding-left: 15px;">
                     <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
                       <img src="images/img.jpg" alt=""> <?php echo $_SESSION['login'][0]->usuario;?>
@@ -151,7 +167,13 @@ if(isset($_SESSION)){ }else{ session_start(); }
                       <a class="dropdown-item"  href="../logout.php"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
                     </div>
                   </li>
+                  <button type="button" class="btn btn-light" onclick="CargarContenido('planificacion.php','right_col')">Planificación</button>
+                  <!-- <li>
+                        <a onclick="CargarContenido('planificacion.php','right_col')">Planificación</a>
+                  </li> -->
+
               </ul>
+              
             </nav>
           </div>
         </div>
