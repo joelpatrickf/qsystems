@@ -60,7 +60,29 @@ class ZonificacionControlador{
 	static public function ctrlZonificacionListarArea_Linea(){
 		$res = ZonificacionModelo::mdlZonificacionListarArea_Linea();
 		return $res;
-	}		
+	}
+	/* ******************************************
+	 		 LISTAR AREA PARA PLANIFICACION # 6
+	 ********************************************/
+	static public function ctrlZonificacionListarArea(){
+		$res = ZonificacionModelo::mdlZonificacionListarArea();
+		return $res;
+	}			
 
+	/* ******************************************
+	 		 LISTAR AREA PARA PLANIFICACION # 6_1
+	 ********************************************/
+	static public function ctrlZonificacionListarLinea($area){
+		$res = ZonificacionModelo::mdlZonificacionListarLinea($area);
+		return $res;
+	}
+
+	/* *****************************************************
+	 		 LISTAR PUNTO INSPECCION PARA PANIFICACION # 6_2
+	 ********************************************************/
+	static public function ctrlZonificacionListarPI($id_linea){
+		$res = ZonificacionModelo::mdlZonificacionListarPI($id_linea);
+		return $res;
+	}
 }
 

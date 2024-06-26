@@ -5,22 +5,30 @@ require_once "../modelos/planificacion.modelo.php";
 class AjaxPlanificacion{
     
 	/* *********************************
-			LISTAR LISTAR PLANIFICACION
+			LISTAR LISTAR PLANIFICACION # 1
 	**********************************/	
 	public function ajaxPlanificacionListar()
 	{
-		$Ubicacion = PlanificacionControlador::ctrlPlanificacionListar();
-		echo json_encode($Ubicacion);
+		$respuesta = PlanificacionControlador::ctrlPlanificacionListar();
+		echo json_encode($respuesta);
 	}
 
 	/* *********************************
-			LISTAR LISTAR AREA  & LINEA
+		GUARDAR EDICION PLANIFICACION # 2
 	**********************************/	
-	public function ajaxPlanificacionListarAreasLineas()
+	public function ajaxPlanificacionSave($data)
 	{
-		$Ubicacion = PlanificacionControlador::ctrlPlanificacionListarAreasLineas();
-		echo json_encode($Ubicacion);
+		$respuesta = PlanificacionControlador::ctrlPlanificacionSave($data);
+		echo json_encode($respuesta);
 	}
+    public function ajaxPlanificacionSaveEdit($data){
+        $table= "planificacion";
+        $id= $data['id_planificacion']; 
+        $nameId = "id_planificacion";
+
+        $respuesta = PlanificacionControlador::ctrlPlanificacionSaveEdit($table,$data, $id, $nameId);
+        echo json_encode($respuesta);
+    }	
 }
 
 
@@ -31,9 +39,34 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR
 	$res = new AjaxPlanificacion();
     $res-> ajaxPlanificacionListar();
 
-}else if (isset($_POST['accion']) && $_POST['accion'] == 2) { // area/linea/punto 
-    // print_r($_POST);
+}else if (isset($_POST['accion']) && $_POST['accion'] == 2) { // save
+
+	$data = array(
+		"id_area" => $_POST["id_area"],
+		"id_linea" => $_POST["id_linea"],
+		"punto_inspeccion" => $_POST["punto_inspeccion"],
+		"cantidad" => $_POST["cantidad"],
+		"frecuencia" => $_POST["frecuencia"],
+	);	
+
 	$res = new AjaxPlanificacion();
-    $res-> ajaxPlanificacionListarAreasLineas();
+    $res-> ajaxPlanificacionSave($data);
+
+}else if (isset($_POST['accion']) && $_POST['accion'] == 3) { // save
+    // echo "<pre>";
+	// print_r($_POST);
+    // echo "<pre>";
+
+	$data = array(
+		"id_area" => $_POST["id_area"],
+		"id_linea" => $_POST["id_linea"],
+		"punto_inspeccion" => $_POST["punto_inspeccion"],
+		"cantidad" => $_POST["cantidad"],
+		"frecuencia" => $_POST["frecuencia"],
+		"id_planificacion" => $_POST["id_planificacion"],
+	);	
+
+	$res = new AjaxPlanificacion();
+    $res-> ajaxPlanificacionSaveEdit($data);
 
 }

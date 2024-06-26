@@ -69,7 +69,31 @@ class AjaxZonificacion{
 	{
 		$res1 = ZonificacionControlador::ctrlZonificacionListarArea_Linea();
 		echo json_encode($res1);
-	}		
+	}	
+	/* ****************************************
+	 		 LISTAR AREA PARA PANIFICACION # 6
+	 *******************************************/
+	public function ajaxZonificacionListarArea()
+	{
+		$res1 = ZonificacionControlador::ctrlZonificacionListarArea();
+		echo json_encode($res1);
+	}	
+	/* ****************************************
+	 		 LISTAR AREA PARA PANIFICACION # 6_1
+	 *******************************************/
+	public function ajaxZonificacionListarLinea($area)
+	{
+		$res1 = ZonificacionControlador::ctrlZonificacionListarLinea($area);
+		echo json_encode($res1);
+	}
+	/* *****************************************************
+	 		 LISTAR PUNTO INSPECCION PARA PANIFICACION # 6_2
+	 ********************************************************/
+	public function ajaxZonificacionListarPI($id_linea)
+	{
+		$res1 = ZonificacionControlador::ctrlZonificacionListarPI($id_linea);
+		echo json_encode($res1);
+	}				
 }
 
 
@@ -126,5 +150,19 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR
 }else if (isset($_POST['accion']) && $_POST['accion'] == 5) { // LISTAR AREA-LINEA
     $res = new AjaxZonificacion();
     $res-> ajaxZonificacionListarArea_Linea();
+
+}else if (isset($_POST['accion']) && $_POST['accion'] == 6) { // LISTAR SOLO AREA PARA PLANIFICACION
+    $res = new AjaxZonificacion();
+    $res-> ajaxZonificacionListarArea();
+
+}else if (isset($_POST['accion']) && $_POST['accion'] == 6_1) { // LISTAR SOLO AREA PARA PLANIFICACION
+	// print_r($_POST);
+    $res = new AjaxZonificacion();
+    $res-> ajaxZonificacionListarLinea($_POST['id_area']);
+
+}else if (isset($_POST['accion']) && $_POST['accion'] == 6_2) { // LISTAR SOLO AREA PARA PLANIFICACION
+	// print_r($_POST);
+    $res = new AjaxZonificacion();
+    $res-> ajaxZonificacionListarPI($_POST['id_linea']);
 
 }

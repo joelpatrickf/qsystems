@@ -6,7 +6,7 @@ require_once "../modelos/planificacion.modelo.php";
 class PlanificacionControlador{
 
 	/* *********************************
-			LISTAR LISTAR PLANIFICACION
+			LISTAR LISTAR PLANIFICACION # 1
 	**********************************/	
 	static public function ctrlPlanificacionListar(){
 		$res = PlanifcacionModelo::mdlPlanificacionListar();
@@ -14,12 +14,19 @@ class PlanificacionControlador{
 	}
 	
 	/* *********************************
-			LISTAR SELECT AREA  & LINEA
-	**********************************/
-	static public function ctrlPlanificacionListarAreasLineas(){
-		$res = PlanifcacionModelo::mdlPlanificacionListarAreasLineas();
+			GUARDAR PLANIFICACION # 2
+	**********************************/	
+	static public function ctrlPlanificacionSave($data){
+		$res = PlanifcacionModelo::mdlPlanificacionSave($data);
 		return $res;
 	}
+	/* *********************************
+		GUARDAR EDICION PLANIFICACION # 3
+	**********************************/	
+	static public function ctrlPlanificacionSaveEdit($table,$data, $id, $nameId){
+		$res = PlanifcacionModelo::mdlPlanificacionSaveEdit($table,$data, $id, $nameId);
+		return $res;
+	}	
 
 }
 

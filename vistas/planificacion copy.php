@@ -8,23 +8,51 @@ if(isset($_SESSION)){ }else{ session_start(); }
     /* table.dataTable.no-footer {border-bottom: 1px solid #ddd;}    */
     
     .paging_full_numbers {width: 100%;}    
-    .p-label, .p-id {
+
+
+    .ui-widget {
+        font-size: 0.7em;
+    }    
+    .p-codigo, .p-tipo_producto {
     	color: white;
     	border-radius: 2px;
-    	padding: 0.1em;
+    	padding: 0.2em;
     }
-    .ui-autocomplete .p-label {
-        float: none;
+    .ui-autocomplete .p-codigo {
+        /* float: left; */
         font-size: smaller;
         background: #16a765;
+        font-size: 10px!important;
     }
-
-    .ui-autocomplete .p-id {
-        margin-left: -1em;
-        float: right;
+    .ui-autocomplete .p-nombre {
+        margin-left: 0.5em;
+        background-color: #F9CE48!important;
+    }
+    .ui-autocomplete .p-tipo_producto {
+        margin-left: 0.5em;
+        /* float: right; */
         font-size: smaller;
         background: #428bca;
-    }    
+    }
+    .ui-title{
+        background-color:#ccc;
+        height: 2em;
+        font-size: smaller;
+        font-weight: bold;
+        border-radius: 2px;
+        padding-top: 0.4em;
+    }
+    .ui-title .h-codigo{
+        padding-left: 0.7em; 
+    }
+    .ui-title .h-nombre {
+    	margin-left: 1em;
+    }
+    .ui-title .h-tipo_producto {
+    	margin-right: 0.6em;
+        float: right;
+    }
+
 </style>
 
 <!-- page content -->
@@ -182,42 +210,32 @@ $(document).ready(function(){
         },
         dataType: "json",
         success: function(respuesta){
-            // console.log("autocomplete AREA 1",respuesta);
+             console.log("autocomplete AREA/linea/punto ",respuesta);
             
-                $("#iptArea").bind( "keydown", function( event ) {
+            var i = 0;
+            $("#iptArea").bind( "keydown", function( event ) {
                 i = 0;
-                }).autocomplete({
-                    source: respuesta,
-                    minLength: 1,
-                    select: function(event, ui) {
-                        // console.log("id_area null",id_area)
-                        // console.log("id_linea null",id_linea)
-                        
-                        flagValidarArea="";
-                        flagValidarArea = ui.item.id_area;
-                        // console.log(ui.item.linea);
-                        // console.log("value  ",ui.item.value)
-                        $("#iptLinea").val(ui.item.linea);
-                        
-                        // console.log("ui  ",ui.item.value)
-                        
-                        id_area = ui.item.id_area;
-                        id_linea = ui.item.id_linea;
-                        punto_insp = ui.item.punto_insp;
-                        //$("#iptProducto").focus();
-                        console.log(ui.item.punto_insp);
-                        console.log(ui);
-                    }
-                }).data("ui-autocomplete")._renderItem = function(ul, item) {
+            }).autocomplete({
+                //source: "../../funciones/funciones_ajax.php",
+                source: respuesta,
+                minLength: 1,
+                select: function(event, ui) {
+                $("#producto").val(ui.item.value);
+                console.log(ui);
+                //$("#costo").val(ui.item.costo);
+                //$("#producto_id").val(ui.item.producto_id);
+                //$("#cantidad").val("");
+                //$("#cantidad").focus();
+                }
+            }).data("ui-autocomplete")._renderItem = function(ul, item) {
                 var elemento = $("<a></a>");
-                $("<span class='p-label'></span>").text(item.label).appendTo(elemento);
-                $("<span class='p-id'></span>").text(item.linea).appendTo(elemento);
-                $("<span class='p-id'></span>").text(item.linea).appendTo(elemento);
-
-                // (i > 0)? '' : ul.prepend('<li class="ui-title"><span class="h-label">AREA</span><span class="h-linea">LINEA</span></li>'); 
+                $("<span class='p-codigo'></span>").text(item.area).appendTo(elemento);
+                $("<span class='p-nombre'></span>").text(item.linea).appendTo(elemento);
+                $("<span class='p-tipo_producto'></span>").text(item.linea).appendTo(elemento);
+                // (i > 0)? '' : ul.prepend('<li class="ui-title" role="presentation"><span class="h-codigo">Codigo</span><span class="h-nombre">Nombre del producto</span><span class="h-tipo_producto">Categoria</span></li>'); 
                 i++;
                 return $("<li></li>").append(elemento).appendTo(ul);
-                };
+            };
         }
     }); 
     

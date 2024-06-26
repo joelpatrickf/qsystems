@@ -6,11 +6,11 @@ require_once "conexion.php";
 class PlanifcacionModelo{
 	
 	/* *********************************
-			LISTAR LISTAR PLANIFICACION
+			LISTAR LISTAR PLANIFICACION  # 1
 	**********************************/	
 	static public function mdlPlanificacionListar()
 	{
-		$stmt = Conexion::conectar()->prepare("SELECT '' as vacio,id_planificacion,  p.id_area,a.area,  l.id_linea,l.linea,  punto_inspeccion,  frecuencia,  p.fecha,  p.usuario 
+		$stmt = Conexion::conectar()->prepare("SELECT '' as vacio,id_planificacion,  p.id_area,a.area,  l.id_linea,l.linea,  punto_inspeccion, cantidad, frecuencia,  p.fecha,  p.usuario 
 			FROM planificacion p
 			INNER JOIN area a ON p.id_area = a.id_area 
 			INNER JOIN linea l ON p.id_area = l.id_linea
@@ -20,71 +20,55 @@ class PlanifcacionModelo{
 	}
 
 	/* *********************************
-			LISTAR  AREA  & LINEA
-	**********************************/
-	static public function mdlPlanificacionListarAreasLineas()
+			GUARDAR PLANIFICACION # 2
+	**********************************/	
+
+	static public function mdlPlanificacionSave($data)
 	{
-		$stmt = Conexion::conectar()->prepare("SELECT DISTINCT a.id_area AS id_area, l.id_linea AS id_linea, a.area AS area, l.linea AS linea, z.punto_insp
-			FROM zonificacion z
-			JOIN area a  ON z.id_area = a.id_area
-			JOIN linea l ON z.id_linea = l.id_linea
-		");
-		$stmt->execute();
-		$resArea = $stmt-> fetchAll(PDO::FETCH_CLASS);
-		return $resArea;
+		$id_area =$data['id_area'];
+		$id_linea =$data['id_linea'];
+		$id_PI =$data['punto_inspeccion'];
 
-	}
 
-	/* *********************************
-			LISTAR ALL GRID PRINCIPAL
-	**********************************/
-	static public function mdlZonificacionListarAll()
-	{
-		//$stmt = Conexion::conectar()->prepare("SELECT '' as vacio, id, area_p, linea_p, puntos_insp, fecha, usuario FROM zonificacion");
-			$stmt = Conexion::conectar()->prepare("SELECT '' as vacio, z.id_zonificacion, a.id_area, a.area, l.id_linea, l.linea,z.punto_insp, z.fecha, z.usuario
-													FROM zonificacion z
-													INNER JOIN area a ON z.id_area= a.id_area
-													INNER JOIN linea l ON z.id_linea= l.id_linea");
-		$stmt->execute();
-		return $stmt-> fetchAll(PDO::FETCH_CLASS);
-	}	
+		$stmt1 = Conexion::conectar()->prepare("SELECT * FROM planificacion WHERE id_area = '$id_area'  AND id_linea = $id_linea AND punto_inspeccion='$id_PI' ");
+		$stmt1->execute();
+		$res = $stmt1-> fetchAll(PDO::FETCH_CLASS);
+		$nReg = count($res);
 
-	/* *********************************
-			GUARDAR NUEVOS REGISTROS # 2
-	**********************************/
-
-	static public function mdlZonificacionGuardar($id_area,$id_linea,$puntos)
-	{
-		// print_r($data);
-		// exit();
-
-		try {
+		if ($nReg == 0){
 	        $stmt=null;
 			date_default_timezone_set("America/Guayaquil");
-			$fechaActual = date('Y-m-d H:i:s', time()); 
+			$fechaActual = date('Y-m-d'); 
 			$user=$_SESSION['login'][0]->usuario;
 
-	        $stmt = Conexion::conectar()->prepare("INSERT INTO zonificacion(id_area,id_linea,punto_insp, fecha, usuario)
-			 VALUES(:id_area, :id_linea, :punto_insp, :fecha, :usuario)");
+	        $stmt = Conexion::conectar()->prepare("INSERT INTO planificacion(id_area,id_linea,punto_inspeccion, fecha, usuario,frecuencia, cantidad)
+			 VALUES(:id_area, :id_linea, :punto_inspeccion, :fecha, :usuario,:frecuencia, :cantidad)");
 
-	        $stmt->bindParam(":id_area", $id_area); 
-	        $stmt->bindParam(":id_linea", $id_linea); 
-	        $stmt->bindParam(":punto_insp", $puntos); 
+	        $stmt->bindParam(":id_area", $data['id_area']); 
+	        $stmt->bindParam(":id_linea", $data['id_linea']); 
+	        $stmt->bindParam(":cantidad", $data['cantidad']); 
+	        $stmt->bindParam(":punto_inspeccion", $data['punto_inspeccion']); 
+	        $stmt->bindParam(":frecuencia", $data['frecuencia']); 
 	        $stmt->bindParam(":fecha", $fechaActual); 
 	        $stmt->bindParam(":usuario", $user); 
-			$stmt->execute();
-			$resultado = 'ok';
+			if($stmt->execute()){
+				return "ok";
+			}else{
+				return Conexion::conectar()->errorInfo();
+			}
+		}else{
+			return 'existe';
+		}
 
-		} catch (Exception $e) {
-            $resultado='Exception Capturada'. $e->getMessage(). "\n";
-             
-        }
-		return $resultado;
+
+		
+
+
 	}
 
 	
    // ACTUALIZAR REGISTROS
-   static public function mdlZonificacionEditar($table,$data, $id, $nameId){
+   static public function mdlPlanificacionSaveEdit($table,$data, $id, $nameId){
 		//$user=$_SESSION['login'][0]->usuario;
 				
 		$set = "";

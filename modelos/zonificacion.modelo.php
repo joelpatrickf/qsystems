@@ -226,6 +226,45 @@ class ZonificacionModelo{
 		return $stmt-> fetchAll(PDO::FETCH_CLASS);
 	}
 
+	
+	/* *****************************************
+	 		 LISTAR AREA PARA PLANIFICACION # 6
+	 *******************************************/
+	static public function mdlZonificacionListarArea()
+	{
+		//$stmt = Conexion::conectar()->prepare("SELECT '' as vacio, id, area_p, linea_p, puntos_insp, fecha, usuario FROM zonificacion");
+			$stmt = Conexion::conectar()->prepare("SELECT distinct z.id_area,  a.area,  a.area as label FROM zonificacion z INNER JOIN area a ON z.id_area = a.id_area");
+		$stmt->execute();
+		return $stmt-> fetchAll(PDO::FETCH_CLASS);
+	}
+
+	/* *****************************************
+	 		 LISTAR AREA PARA PLANIFICACION # 6_1
+	 *******************************************/
+	static public function mdlZonificacionListarLinea($area)
+	{
+		// print_r("fer");
+		// exit();
+			$stmt = Conexion::conectar()->prepare("SELECT DISTINCT l.id_linea, l.linea AS linea, l.linea AS label FROM zonificacion z JOIN linea l ON z.id_linea = l.id_linea where z.id_area='$area'");
+		$stmt->execute();
+		$res = $stmt-> fetchAll(PDO::FETCH_ASSOC);
+		//print_r($res);
+		return $res;
+	}
+
+	/* *****************************************************
+	 		 LISTAR PUNTO INSPECCION PARA PANIFICACION # 6_2
+	 ********************************************************/
+	static public function mdlZonificacionListarPI($id_linea)
+	{
+		// print_r("fer");
+		// exit();
+			$stmt = Conexion::conectar()->prepare("SELECT DISTINCT z.punto_insp as label FROM zonificacion z JOIN linea l ON z.id_linea = l.id_linea where z.id_area='$id_linea'");
+		$stmt->execute();
+		$res = $stmt-> fetchAll(PDO::FETCH_ASSOC);
+		//print_r($res);
+		return $res;
+	}	
 }
 
 

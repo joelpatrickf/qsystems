@@ -8,51 +8,6 @@ if(isset($_SESSION)){ }else{ session_start(); }
     /* table.dataTable.no-footer {border-bottom: 1px solid #ddd;}    */
     
     .paging_full_numbers {width: 100%;}    
-
-
-    .ui-widget {
-        font-size: 0.7em;
-    }    
-    .p-codigo, .p-tipo_producto {
-    	color: white;
-    	border-radius: 2px;
-    	padding: 0.2em;
-    }
-    .ui-autocomplete .p-codigo {
-        /* float: left; */
-        font-size: smaller;
-        background: #16a765;
-        font-size: 10px!important;
-    }
-    .ui-autocomplete .p-nombre {
-        margin-left: 0.5em;
-        background-color: red!important;
-    }
-    .ui-autocomplete .p-tipo_producto {
-        margin-left: 0.5em;
-        float: right;
-        font-size: smaller;
-        background: #428bca;
-    }
-    .ui-title{
-        background-color:#ccc;
-        height: 2em;
-        font-size: smaller;
-        font-weight: bold;
-        border-radius: 2px;
-        padding-top: 0.4em;
-    }
-    .ui-title .h-codigo{
-        padding-left: 0.7em; 
-    }
-    .ui-title .h-nombre {
-    	margin-left: 1em;
-    }
-    .ui-title .h-tipo_producto {
-    	margin-right: 0.6em;
-        float: right;
-    }
-
 </style>
 
 <!-- page content -->
@@ -68,7 +23,7 @@ if(isset($_SESSION)){ }else{ session_start(); }
                         </div>
                         <div class="col-6 text-" >
                             <button type="button" class="btn btn-warning mx-1" id="btnClose" style="float: right;" hidden>close</button>
-                            <button type="button" class="btn btn-success" id="btnSave" style="float: right;"> Save </button>
+                            <button type="button" class="btn btn-success" id="btnSave" style="float: right;" hidden> Save </button>
                             <button type="button" class="btn btn-dark mx-1" id="btnNew" style="float: right;"> New </button>
 
                         </div>                    
@@ -79,27 +34,17 @@ if(isset($_SESSION)){ }else{ session_start(); }
 
                        <!-- Columna AREA -->
 
-                            <div class="col-12 col-lg-3">
+                            <div class="col-12 col-lg-4">
                                 <div class="form-group mb-2">
                                     <label class="" for="iptArea"><i class="fas fa-file-signature fs-6"></i>
                                         <span class="">Area de Producción</span><span class="text-danger">*</span>
                                     </label>
                                     <div class="input-group">
-                                        <input id="iptArea" type="text" style="width:20px;" class="form-control" autocomplete="off" >
+                                        <input id="iptArea" type="text" style="width:20px;" class="form-control" autocomplete="off" disabled>
                                     </div>                                
                                 </div>                                
                             </div>
 
-                       <!-- <div class="col-4 col-lg-2">
-                            <div class="form-group mb-2">
-                                <label class="" for="selArea"><i class="fas fa-user fs-6"></i>
-                                    <span class="small">Area</span><span class="text-danger">*</span>
-                                </label>
-                                <select class="form-control " aria-label=".form-select-sm example" id="selArea" disabled>
-                                    <option value="0">Seleccione Area</option>
-                                </select>
-                            </div>
-                        </div>   -->
 
                        <!-- Columna LINEA -->
                        <div class="col-12 col-lg-4">
@@ -108,43 +53,52 @@ if(isset($_SESSION)){ }else{ session_start(); }
                                         <span class="">Línea de Producción</span><span class="text-danger">*</span>
                                     </label>
                                     <div class="input-group">
-                                        <input id="iptLinea" type="text" style="width:20px;" class="form-control" autocomplete="off" disabled >
+                                        <input id="iptLinea" type="text" style="width:20px;" class="form-control" autocomplete="off" disabled>
                                     </div>                                
                                 </div>                                
                             </div>                       
-                       <!-- <div class="col-4 col-lg-2">
-                            <div class="form-group mb-2">
-                                <label class="" for="selLinea"><i class="fas fa-user fs-6"></i>
-                                    <span class="">Linea</span><span class="text-danger">*</span>
-                                </label>
-                                <select class="form-control " aria-label=".form-select-sm example" id="selLinea" disabled>
-                                    <option value="0">Seleccione Linea</option>
-                                </select>
-                            </div>
-                        </div>   -->
-
                        <!-- Columna PUNTO -->
-                        <div class="col-4 col-lg-3">
+                       <div class="col-12 col-lg-4">
                             <div class="form-group mb-2">
-                                <label class="" for="selPuntoInspeccion"><i class="fas fa-user fs-6"></i>
-                                    <span class="">Punto Inspección</span><span class="text-danger">*</span>
+                                <label class="" for="iptPuntoInspeccion"><i class="fas fa-file-signature fs-6"></i>
+                                    <span class="">Punto Inspeccion</span><span class="text-danger">*</span>
                                 </label>
-                                <select class="form-control " aria-label=".form-select-sm example" id="selPuntoInspeccion" disabled>
-                                    <option value="0">Seleccione Punto</option>
-                                </select>
-                            </div>
-                        </div>  
+                                <div class="input-group">
+                                    <input id="iptPuntoInspeccion" type="text" style="width:20px;" class="form-control" autocomplete="off" disabled>
+                                </div>                                
+                            </div>                                
+                        </div>    
                         
-                        <!-- Columna FRECUENCIA -->
+                        <!-- Columna CANTIDAD -->
                         <div class="col-12 col-lg-2">
                             <div class="form-group mb-2">
-                                <label class="" for="iptFrecuencia"><i class="fas fa-id-card fs-6"></i>
+                                <label class="" for="iptCantidad"><i class="fas fa-id-card fs-6"></i>
+                                    <span class="">Cantidad</span><span class="text-danger">*</span>
+                                </label>
+                                <input type="number" class="form-control " id="iptCantidad" name="iptCargo" required disabled>
+                            </div>
+                        </div>     
+
+                       <!-- Columna FRECUENCIA -->
+                       <div class="col-4 col-lg-3">
+                            <div class="form-group mb-2">
+                                <label class="" for="selFrecuencia"><i class="fas fa-user fs-6"></i>
                                     <span class="">Frecuencia</span><span class="text-danger">*</span>
                                 </label>
-                                <input type="text" class="form-control " id="iptFrecuencia"
-                                    name="iptCargo" required disabled>
+                                <select class="form-control " aria-label=".form-select-sm example" id="selFrecuencia" disabled>
+                                    <option value="Diario">Diario</option>
+                                    <option value="Semanal ">Semanal </option>
+                                    <option value="Quincenal">Quincenal</option>
+                                    <option value="Mensual">Mensual</option>
+                                    <option value="Bimestral">Bimestral</option>
+                                    <option value="Trimestral">Trimestral</option>
+                                    <option value="Quimestral">Quimestral</option>
+                                    <option value="Semestral">Semestral</option>
+                                    <option value="Anual">Anual</option>
+                                </select>
                             </div>
-                        </div>                                              
+                        </div> 
+                        
                     </div> <!-- ROW -->
                 </div>  <!-- END div 1º card body -->
             
@@ -163,6 +117,7 @@ if(isset($_SESSION)){ }else{ session_start(); }
                                         <th class="text-center">id_Linea</th>
                                         <th class="text-center">Linea</th>
                                         <th class="text-center">Punto Inspección</th> 
+                                        <th class="text-center">Cantidad</th> 
                                         <th class="text-center">Frecuencia</th>
                                         <th class="text-center">Fecha</th>
                                         <th class="text-center">Usuario</th>
@@ -194,53 +149,98 @@ $(document).ready(function(){
     toastr.options.closeButton = true;
 
    //******************************
-    // AREAS/LINEAS
+    // AREAS
     //******************************
-    id_area = null;
-    id_linea = null;
+    _id_area = null;
+    _id_linea = null;
+    _punto_inspeccion = null;
+    _id_planificacion = null;
+
 
     $.ajax({
         async: false,
         url:"../ajax/zonificacion.ajax.php",
         method: "POST",
         data: {
-            'accion':5,
-            'filtro': 'area',
-            'dato': null
+            'accion':6,
         },
         dataType: "json",
         success: function(respuesta){
-             console.log("autocomplete AREA/linea/punto ",respuesta);
-            
-            var i = 0;
+
             $("#iptArea").bind( "keydown", function( event ) {
-                i = 0;
             }).autocomplete({
-                //source: "../../funciones/funciones_ajax.php",
                 source: respuesta,
                 minLength: 1,
                 select: function(event, ui) {
-                $("#producto").val(ui.item.value);
-                console.log(ui);
-                //$("#costo").val(ui.item.costo);
-                //$("#producto_id").val(ui.item.producto_id);
-                //$("#cantidad").val("");
-                //$("#cantidad").focus();
+                    console.log(ui);
+                    _id_area=ui.item.id_area;
+                    console.log(_id_area);
+                    
+                    // buscamos la linea
+                    $.ajax({
+                    async: false,
+                    url:"../ajax/zonificacion.ajax.php",
+                    method: "POST",
+                    data: {
+                        'accion':6_1,
+                        'id_area':_id_area
+                    },
+                    dataType: "json",
+                    success: function(respuesta){
+
+                        $("#iptLinea").bind( "keydown", function( event ) {
+                        }).autocomplete({
+                            source: respuesta,
+                            minLength: 1,
+                            select: function(event, ui) {
+                                console.log(ui);
+                                _id_linea=ui.item.id_linea;
+                                   
+                                
+                                // buscamos PUNTO DE Inspeccion
+                                    $.ajax({
+                                    async: false,
+                                    url:"../ajax/zonificacion.ajax.php",
+                                    method: "POST",
+                                    data: {
+                                        'accion':6_2,
+                                        'id_linea':_id_linea
+                                    },
+                                    dataType: "json",
+                                    success: function(respuesta){
+                                        console.log(respuesta);
+                                        $("#iptPuntoInspeccion").bind( "keydown", function( event ) {
+                                        }).autocomplete({
+                                            source: respuesta,
+                                            minLength: 1,
+                                            select: function(event, ui) {
+                                                console.log(ui);
+                                                _punto_inspeccion=ui.item.value;
+                                                // alert(id_linea);
+
+                                            }
+                                        })
+
+                                    }
+                                });                                
+
+                            }
+                        })
+
+                    }
+                }); 
+
                 }
-            }).data("ui-autocomplete")._renderItem = function(ul, item) {
-                var elemento = $("<a></a>");
-                $("<span class='p-codigo'></span>").text(item.area).appendTo(elemento);
-                $("<span class='p-nombre'></span>").text(item.linea).appendTo(elemento);
-                $("<span class='p-tipo_producto'></span>").text(item.linea).appendTo(elemento);
-                // (i > 0)? '' : ul.prepend('<li class="ui-title" role="presentation"><span class="h-codigo">Codigo</span><span class="h-nombre">Nombre del producto</span><span class="h-tipo_producto">Categoria</span></li>'); 
-                i++;
-                return $("<li></li>").append(elemento).appendTo(ul);
-            };
+            })
+
         }
     }); 
     
 
 
+    // $("#iptArea").change(function() {
+        
+    // }); 
     //********************************************************    
     //-CARGA DE PLANIFICACIONES EXISTENTES
     //********************************************************    
@@ -270,6 +270,7 @@ $(document).ready(function(){
             {"data":"id_linea"},
             {"data":"linea"},
             {"data":"punto_inspeccion"},
+            {"data":"cantidad"},
             {"data":"frecuencia"},
             {"data":"fecha"},
             {"data":"usuario"},
@@ -283,7 +284,7 @@ $(document).ready(function(){
             // {targets:0,visible:false},
             {targets:2,visible:false},
             {targets:4,visible:false},
-            {targets:8,visible:false},
+            // {targets:8,visible:false},
             {targets:9,visible:false},
 
             { responsivePriority: 6, targets: 1 },
@@ -291,9 +292,9 @@ $(document).ready(function(){
             { responsivePriority: 400, targets: 5 },
             { responsivePriority: 3, targets: 6 },
             { responsivePriority: 200, targets: 7 },
-            { responsivePriority: 1, targets: 10 },
+            { responsivePriority: 1, targets: 11 },
             {
-                targets:10,
+                targets:11,
                 orderable:false,
                 render: function(data, type, full, meta){
                     return "<center>"+
@@ -322,25 +323,25 @@ $(document).ready(function(){
 
     $('#tbl_usuarios tbody').on('click','.btnEditar', function(){
         accion = 3; //-GUARDAR MODIFICACION
-
+        desBloquearInputs();
         var data = table.row($(this).parents('tr')).data();
-        $("#iptUsuario").val(data[1]);
-        $("#iptPassword").val(data[2]);
-        $("#iptCedula").val(data[3]);
-        $("#iptNombres").val(data[4]);
-        $("#iptCargo").val(data[8]);
+        console.log(data);
 
+        $("#iptArea").val(data['area'])
+        $("#iptLinea").val(data['linea'])
+        $("#iptPuntoInspeccion").val(data['punto_inspeccion'])
+        $("#iptCantidad").val(data['cantidad'])
+        $("#selFrecuencia").val(data['frecuencia'])
+
+        _id_area = data['id_area'];
+        _id_linea = data['id_linea'];
+        _id_planificacion = data['id_planificacion'];
         
 
-        if (data[5] == 'ADMIN'){
-            $("#selPerfil").val(1) ;
-        }else if (data[5] == 'NORMAL'){
-            $("#selPerfil").val(2) ;
-        }
         $("#btnClose" ).prop( "hidden", false );
-        desBloquearInputs();        
-        $("#iptUsuario").prop( "disabled", true );
-        $("#iptPassword").focus();
+        $("#btnSave" ).prop( "hidden", false );
+        $("#btnNew" ).prop( "hidden", true );
+
      })
     
      $('#tbl_usuarios tbody').on('click','.btnEliminar', function(){
@@ -348,7 +349,7 @@ $(document).ready(function(){
         varUsuarioEliminar = data[1];
         $.ajax({
                 async: false,
-                url:"../ajax/usuarios.ajax.php",
+                url:"../ajax/planificacion.ajax.php",
                 method: "POST",
                 data: {
                     'accion':4,
@@ -372,64 +373,45 @@ $(document).ready(function(){
                     accion="";                    
                 }
             });
-        
      })
 
      
-     $("#btnClose").click(function() {
-        bloquearInputs();
-        limpiar();
-        $("#btnClose" ).prop( "hidden", true );
-        accion="";
-        $("#selPerfil").val(0);
 
-    })     
-     $("#btnNew").click(function() {
-        accion=2;
-        $("#btnClose" ).prop( "hidden", false );
-        desBloquearInputs();
-        limpiar();
-        $("#selPerfil").val(0);
-    })
      
     //********************************************************    
     //-GUARDAR 
     //********************************************************    
     $("#btnSave").click(function() {
-
+        
         const msg = [];
-        if ($("#iptUsuario").val() == ''){msg.push('Usuario');}
-        if ($("#iptPassword").val() == ''){msg.push('Password');}
-        if ($("#iptCedula").val() == ''){msg.push('Cedula');}
-        if ($("#iptNombres").val() == ''){msg.push('Apellidos y Nombres');}
-        if ($("#selPerfil").val() == 0){msg.push('Perfil');}
-        if ($("#iptCargo").val() == ''){msg.push('Cargo');}
-        //toastr["error"]("Ingrese los siguientes datos  :"+msg, "!Atención!");
-
-        if (msg.length != 6 && msg.length != 0){
+        if ($("#iptArea").val() == ''){msg.push(' Area');}
+        if ($("#iptLinea").val() == ''){msg.push(' Linea');}
+        if ($("#iptPuntoInspeccion").val() == ''){msg.push(' Punto de Inspeccion');}
+        if ($("#iptCantidad").val() == ''){msg.push(' Cantidad');}
+              
+        if (msg.length != 4 && msg.length != 0){
             toastr["error"]("Ingrese los siguientes datos  :"+msg, "!Atención!");
             return;
-        }else if(msg.length == 6){
+        }else if(msg.length == 4){
             
             toastr["error"]("No existen datos para guardar", "!Atención!");
             bloquearInputs();
             return;
         }
-
-
         
         $.ajax({
                 async: false,
-                url:"../ajax/usuarios.ajax.php",
+                url:"../ajax/planificacion.ajax.php",
                 method: "POST",
                 data: {
                     'accion':accion,
-                    'usuario': $("#iptUsuario").val(),
-                    'clave': $("#iptPassword").val(),
-                    'cedula': $("#iptCedula").val(),
-                    'nombres': $("#iptNombres").val(),
-                    'perfil': $("#selPerfil").val(),
-                    'cargo': $("#iptCargo").val()
+                    'id_area': _id_area,
+                    'id_linea': _id_linea,
+                    'punto_inspeccion': $("#iptPuntoInspeccion").val(),
+                    'cantidad': $("#iptCantidad").val(),
+                    'frecuencia': $("#selFrecuencia").val(),
+                    'id_planificacion': _id_planificacion
+                    
                 },
                 dataType: "json",
                 success: function(respuesta){
@@ -440,44 +422,68 @@ $(document).ready(function(){
                         bloquearInputs();
 
                         table.ajax.reload();
+                    }else if (respuesta == 'existe'){
+                        toastr["error"]("Ingreso Incorrecto, entrada ya existe", "!Atención!");
+                        return;
                     }else{
                         toastr["error"]("Ingreso Incorrecto, entrada duplicada", "!Atención!");
+                        return;
                     }
                     bloquearInputs();
                     limpiar();
                     $("#btnClose" ).prop( "hidden", true );
+                    $("#btnSave" ).prop( "hidden", true );
+                    $("#btnNew" ).prop( "hidden", false );
                     accion="";
                 }
             });
     });
+    $("#btnClose").click(function() {
+        bloquearInputs();
+        limpiar();
+        
+        $("#btnClose" ).prop( "hidden", true );
+        $("#btnNew" ).prop( "hidden", false );
+        $("#btnSave" ).prop( "hidden", true );
+        accion="";
+        $("#selPerfil").val(0);
 
-});
+    })     
+     $("#btnNew").click(function() {
+        accion=2;
+        $("#btnClose" ).prop( "hidden", false );
+        $("#btnSave" ).prop( "hidden", false );
+        $("#btnNew" ).prop( "hidden", true );
+
+        desBloquearInputs();
+        limpiar();
+        $("#selPerfil").val(0);
+    })
+
+}); // FINAL document READY
 
 function desBloquearInputs(){
-    $("#iptUsuario").prop( "disabled", false );
-    $("#iptPassword").prop( "disabled", false );
-    $("#iptCedula").prop( "disabled", false );
-    $("#iptNombres").prop( "disabled", false );
-    $("#selPerfil").prop( "disabled", false );
-    $("#iptCargo").prop( "disabled", false );
+    $("#iptArea").prop("disabled", false);
+    $("#iptLinea").prop("disabled", false);
+    $("#iptPuntoInspeccion").prop("disabled", false);
+    $("#iptCantidad").prop("disabled", false);
+    $("#selFrecuencia").prop("disabled", false);
+    $("#iptArea").focus();
+
     
     $("#iptUsuario").focus();
 }
 function bloquearInputs(){
-    $("#iptUsuario").prop( "disabled", true );
-    $("#iptPassword").prop( "disabled", true );
-    $("#iptCedula").prop( "disabled", true );
-    $("#iptNombres").prop( "disabled", true );
-    $("#selPerfil").prop( "disabled", true );
-    $("#iptCargo").prop( "disabled", true );
-    $("#iptUsuario").focus();
+    $("#iptArea").prop("disabled", true);
+    $("#iptLinea").prop("disabled", true);
+    $("#iptPuntoInspeccion").prop("disabled", true);
+    $("#iptCantidad").prop("disabled", true);
+    $("#selFrecuencia").prop("disabled", true);
 }
 function limpiar(){
-    $("#iptUsuario").val('');
-    $("#iptPassword").val('');
-    $("#iptCedula").val('');
-    $("#iptNombres").val('');
-    $("#iptCargo").val('');
-    $("#selPerfil").val(0);
+    $("#iptArea").val("");
+    $("#iptLinea").val("");
+    $("#iptPuntoInspeccion").val("");
+    $("#iptCantidad").val("");
 }
 </script>
