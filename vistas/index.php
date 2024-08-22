@@ -3,9 +3,9 @@ session_start();
 // print_r($_SESSION);
 // exit();
 if(!isset($_SESSION['login']) ){
-    echo '<script> window.location = "http://localhost/qsystems/"</script>';
-    // echo '<script> window.location = "https://qanalytics.farmagreenscc.com/"</script>';
-    
+    require_once "constantes/constantes.php";
+    echo '<script> var ruta = <?php RUTA; ?>; window.location = ruta</script>';
+  
     session_unset();
     session_destroy();
 }

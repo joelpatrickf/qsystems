@@ -1,9 +1,7 @@
 <?php 
 if(isset($_SESSION)){ }else{ session_start(); }
-
+require_once "constantes/constantes.php";
     session_unset();
     session_destroy();
-    // header('Location: index.php');
-    echo '<script> window.location = "http://localhost/qsystems/"</script>';
-    //echo '<script> window.location = "https://qanalytics.farmagreenscc.com/"</script>';
+    header('Location:'.RUTA);
     

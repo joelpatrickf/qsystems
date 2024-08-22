@@ -1,7 +1,8 @@
 <?php 
 session_start();
 if(isset($_GET['cerrar_sesion']) && $_GET['cerrar_sesion'] == 1){
-    echo '<script> window.location = "http://localhost/RsWeb/"</script>';
+    require_once "constantes/constantes.php";
+    echo '<script> var ruta = <?php RUTA; ?>; window.location = ruta</script>';
     session_unset();
     session_destroy();        
     //echo '<script> window.location = "https://ragdepruebas.farmagreenscc.com/"</script>';
