@@ -30,7 +30,6 @@ class Conexion{
         catch (PDOException $e) {
             echo 'Falló la conexión: ' . $e->getMessage();
         }
-
     }    
 
 
