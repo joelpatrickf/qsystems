@@ -77,7 +77,7 @@ if(isset($_SESSION)){ }else{ session_start(); }
 
                     </ul>
                   </li>
-                  <li><a><i class="fa fa-codepen"></i>Analisis de Productos <span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-codepen"></i>Analisis de Materiales y         Productos <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li>
                         <a onclick="CargarContenido('orden_trabajo.php','right_col')">Orden de Trabajo</a>
@@ -108,7 +108,7 @@ if(isset($_SESSION)){ }else{ session_start(); }
                     </ul>
                   </li> 
 
-                  <li><a><i class="fa fa-codepen"></i>Ambiente<span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-codepen"></i>Análisis Higienicos-        Sanitarios<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li>
                         <a onclick="CargarContenido('planificacion.php','right_col')">Planificación</a>
