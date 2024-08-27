@@ -10,8 +10,8 @@ class UbicacionControlador{
 			LISTAR 
 	**********************************/
 	static public function ctrlListarUbicacion(){
-		$Categorias = UbicacionModelo::mdlListarUbicacion();
-		return $Categorias;
+		$res = UbicacionModelo::mdlListarUbicacion();
+		return $res;
 	}
 
 	

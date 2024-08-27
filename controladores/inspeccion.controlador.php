@@ -11,24 +11,24 @@ class InspeccionControlador{
 		fecha/usuario/ hora_fin=null
 	**************************************************************/
 	static public function ctrlInspeccionListar($filtro){
-		$Categorias = InspeccionModelo::mdlInspeccionListar($filtro);
-		return $Categorias;
+		$res = InspeccionModelo::mdlInspeccionListar($filtro);
+		return $res;
 	}
 
 	/* ***********************************************************
 		GUARDAR CREAR INSPECCION		
 	**************************************************************/
 	static public function ctrlInspeccionCrear(){
-		$Categorias = InspeccionModelo::mdlInspeccionCrear();
-		return $Categorias;
+		$res = InspeccionModelo::mdlInspeccionCrear();
+		return $res;
 	}
 	
 	/* ***********************************************************
 		GUARDAR CERRAR INSPECCION # 3
 	**************************************************************/
 	static public function ctrlInspeccionCerrar($id_insp,$flag_cerrar,$hora_fin,$observacion, $usuario){
-		$Categorias = InspeccionModelo::mdlInspeccionCerrar($id_insp,$flag_cerrar,$hora_fin,$observacion, $usuario);
-		return $Categorias;
+		$res = InspeccionModelo::mdlInspeccionCerrar($id_insp,$flag_cerrar,$hora_fin,$observacion, $usuario);
+		return $res;
 	}
 	
 	/* ***********************************************************

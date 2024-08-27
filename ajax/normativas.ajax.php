@@ -16,8 +16,8 @@ class AjaxNormativas{
 
 	public function ajaxRegistrarNormativas($normativa,$categoria,$tipo_analisis,$analisis,$limite_minimo,$limite_maximo,$unidad_medida)
 	{
-		$categorias = NormativasControlador::ctrlNormativasRegistrar($normativa,$categoria,$tipo_analisis,$analisis,$limite_minimo,$limite_maximo,$unidad_medida);
-		echo json_encode($categorias,JSON_UNESCAPED_UNICODE);
+		$res = NormativasControlador::ctrlNormativasRegistrar($normativa,$categoria,$tipo_analisis,$analisis,$limite_minimo,$limite_maximo,$unidad_medida);
+		echo json_encode($res,JSON_UNESCAPED_UNICODE);
 	}	
     
 	// *********************************

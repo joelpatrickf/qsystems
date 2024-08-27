@@ -9,8 +9,8 @@ class InspeccionVariablesControlador{
 			LISTAR PRODUCTOS
 	**********************************/
 	static public function ctrlListarInspeccionVariables(){
-		$Categorias = InspeccionVariablesModelo::mdlListarInspeccionVariables();
-		return $Categorias;
+		$res = InspeccionVariablesModelo::mdlListarInspeccionVariables();
+		return $res;
 	}
 
 	/* *********************************
