@@ -157,13 +157,13 @@ $(document).ready(function(){
 
 
         //*******************autocomplete*************************    
-        //-TRAER LISTADO DE PRODUCTOS PARA INPUT DE AUTOCOMPLETADO
+        //- LISTADO DE NORMATIVAS INPUT DE AUTOCOMPLETADO
         //********************************************************    
         $.ajax({
                 async: false,
                 url:"../ajax/normativas.ajax.php",
                 type: "POST",
-                data: {'accion': 4}, // 1  lista DISTINCT
+                data: {'accion': 4}, //   lista DISTINCT
                 dataType: 'json',
                 success: function(respuesta){
                     console.log("autocomplete 1",respuesta);
@@ -175,8 +175,6 @@ $(document).ready(function(){
                         select: function(event, ui){
                             
                             const myArray = ui.item.value.split(" | ");
-                            // varProducto = myArray[0];
-                            // varProducto = myArray[1];
                             $("#iptNormativa_hidden").val(myArray[0]);
                             $("#iptCategoria").val(myArray[1]);
                             $("#iptPresentacion").focus();
@@ -189,7 +187,7 @@ $(document).ready(function(){
 
 
     //********************************************************    
-    //-CARGA DE USUARIOS EXISTENTES
+    //-CARGA PRODUCTOS
     //********************************************************    
 
     table = $("#tbl_usuarios").DataTable({

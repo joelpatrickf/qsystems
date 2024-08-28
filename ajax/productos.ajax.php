@@ -28,7 +28,7 @@ class AjaxProductos{
         echo json_encode($respuesta);
     }
 
-	// REGISTRAR 
+	// 
 	public function ajaxAutocomplete()
 	{
 		$productos2 = ProductosControlador::ctrlAutocomplete();
@@ -86,7 +86,7 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR
     
     $modificar -> ajaxModificarProductos($dataModificar);
 
-}else if (isset($_POST['accion']) && $_POST['accion'] == 4) { // AUTOCOMPLETE 1
+}else if (isset($_POST['accion']) && $_POST['accion'] == 4) { // AUTOCOMPLETE 1 - Normativa
     $productos = new AjaxProductos();
     $productos-> ajaxAutocomplete();
 

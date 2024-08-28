@@ -6,12 +6,17 @@ require_once "conexion.php";
 
 class NormativasModelo{
 	
-	/* *********************************
-			LISTAR USUARIOS
-	**********************************/
+	/* ========================
+			LISTAR NORMATIVAS # 1
+		======================== */
 	static public function mdlListarNormativas()
 	{
-		$stmt = Conexion::conectar()->prepare("SELECT '' as vacio,id_normativa, normativa,categoria,tipo_analisis,analisis,limite_min,limite_max,fecha_creacion,usuario, unidad_medida FROM normativas");
+		//$stmt = Conexion::conectar()->prepare("SELECT '' as vacio,id_normativa, normativa,categoria,tipo_analisis,analisis,limite_min,limite_max,fecha_creacion,usuario, unidad_medida FROM normativas");
+		
+		$stmt = Conexion::conectar()->prepare("SELECT '' as vacio,n.id_normativa, n.normativa, cat.categoria as categoria_general,n.categoria,n.tipo_analisis,n.analisis,n.limite_min,n.limite_max,n.fecha_creacion,n.usuario, n.unidad_medida
+			FROM normativas n
+			inner join categorias cat ON n.id_categoria_general=cat.id_categoria
+			");
 		$stmt->execute();
 		return $stmt-> fetchAll();
 
@@ -77,9 +82,9 @@ class NormativasModelo{
 		}
 	}		
 
-	// *********************************
-	// 		LISTAR DISCTINT NORMATIVA
-	// *********************************/
+    /* *********************************
+       AUTOCOMPLETE NORMATIVA # 4
+     ********************************** */ 
 	static public function mdlNormativasListarDisctint()
 	{
 		$stmt4 = Conexion::conectar()->prepare("SELECT DISTINCT normativa,categoria FROM normativas");

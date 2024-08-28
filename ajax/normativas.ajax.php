@@ -32,7 +32,9 @@ class AjaxNormativas{
         echo json_encode($respuesta);
     }
 
-	// // // ACTUALIAR 
+    /* *********************************
+       AUTOCOMPLETE NORMATIVA # 4
+     ********************************** */ 
     public function ajaxNormativasListarDisctint(){
 
         $respuesta2 = NormativasControlador::ctrlNormativasListarDisctint();

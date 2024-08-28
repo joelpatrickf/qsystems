@@ -31,9 +31,9 @@ class NormativasControlador{
 	}		
 
 
-	// /* *********************************
-	// 		LISTAR DISCTINT NORMATIVA
-	// **********************************/
+    /* *********************************
+       AUTOCOMPLETE NORMATIVA # 4
+     ********************************** */ 
 	static public function ctrlNormativasListarDisctint(){
 		$normativa4 = NormativasModelo::mdlNormativasListarDisctint();
 		return $normativa4;

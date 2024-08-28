@@ -34,25 +34,38 @@
                        <!-- Columna NORMATIVA -->
                        <div class="col-12 col-lg-4">
                             <div class="form-group mb-2">
-                                <label class="" for="iptNormativa"><i class="fas fa-user fs-6"></i>
+                                <label class="" for="iptNormativa"><i class="fas fa-lastfm fs-6"></i>
                                     <span class="small">Normativa</span><span class="text-danger">*</span>
                                 </label>
                                 <input type="text" class="form-control" id="iptNormativa" placeholder="Ingrese la Normativa" required autofocus disabled>
                             </div>
-                        </div>                       
+                        </div>
+                        
+                        <!-- CATERGORIA GENERAL -->
+                        <div class="col-12 col-lg-3">
+                            <div class="form-group mb-2">
+                                <label class="" for="selCategoriaGeneral"><i class="fas fa-list fs-6"></i>
+                                    <span class="small">Categoria</span><span class="text-danger">*</span>
+                                </label>
+                                <select class="form-control " aria-label=".form-select-sm example" id="selCategoriaGeneral" disabled >
+                                </select>
+                            </div>
+                        </div>
+
                        <!-- Columna CATEGORIA -->
                        <div class="col-12 col-lg-4">
                             <div class="form-group mb-2">
-                                <label class="" for="iptCategoria"><i class="fas fa-user fs-6"></i>
-                                    <span class="small">Categoria</span><span class="text-danger">*</span>
+                                <label class="" for="iptCategoria"><i class="fas fa-bars fs-6"></i>
+                                    <span class="small">Sub Categoria</span><span class="text-danger">*</span>
                                 </label>
                                 <input type="text" class="form-control" id="iptCategoria" placeholder="Ingrese la Categoria" required autofocus disabled>
                             </div>
-                        </div> 
+                        </div>
+
                         <!-- Columna tipo analisis -->
                         <div class="col-12 col-lg-3">
                             <div class="form-group mb-2">
-                                <label class="" for="iptTipoAnalisis"><i class="fas fa-user fs-6"></i>
+                                <label class="" for="iptTipoAnalisis"><i class="fas fa-layer-group fs-6"></i>
                                     <span class="small">Tipo Analisis</span><span class="text-danger">*</span>
                                 </label>
                                 <!-- <input type="text" class="form-control" id="iptTipoAnalisis" placeholder="Ingrese Tipo Analisis" required  disabled> -->
@@ -74,7 +87,7 @@
                         </div>
 
                         <!-- Columna ANALISIS -->
-                        <div class="col-12 col-lg-5">
+                        <div class="col-12 col-lg-3">
                             <div class="form-group mb-2">
                                 <label class="" for="iptAnalisis"><i class="fas fa-users fs-6"></i>
                                     <span class="small">Analisis</span><span class="text-danger">*</span>
@@ -105,10 +118,10 @@
                        <!-- Columna UNIDAD DE MEDIDA -->
                        <div class="col-12 col-lg-2">
                             <div class="form-group mb-2">
-                                <label class="" for="iptUnidadMedida"><i class="fas fa-users fs-6"></i>
+                                <label class="" for="iptUnidadMedida"><i class="fas fa-layer-group fs-6"></i>
                                 <span class="small">Unidad de Medida</span><span class="text-danger">*</span>
                                 </label>
-                                <input type="text" class="form-control " id="iptUnidadMedida" placeholder="Ingrese la Unidad de Medida" required disabled >
+                                <input type="text" class="form-control " id="iptUnidadMedida" placeholder="Ingrese Unidad de Medida" required disabled >
                             </div>
                         </div>                                             
 					</div>                        
@@ -127,6 +140,7 @@
                                         <th class="text-center">Id</th> <!-- 1 -->
                                         <th class="text-center">Normativa</th> <!-- 2 -->
                                         <th class="text-center">Categoria</th> <!-- 2 -->
+                                        <th class="text-center">Sub Categoria</th> <!-- 2 -->
                                         <th class="text-center">Tipo Analisis</th> <!-- 2 -->
                                         <th class="text-center">Analisis</th> <!-- 5 -->
                                         <th class="text-center">Min</th> <!-- 5 -->
@@ -161,6 +175,29 @@ $(document).ready(function(){
     toastr.options.timeOut = 1500; // 1.5s
     toastr.options.closeButton = true;
 
+
+
+    /*====================================
+        Carga Categorias
+      ====================================*/
+    $.ajax({
+        url:"../ajax/categorias.ajax.php",
+        type: "POST",
+        data: {'accion': 1}, 
+        dataType: 'json',
+        success: function(respuesta){
+            //console.log("CATEGORIAS ",respuesta);
+            var options = '<option selected value="0">Categorias</option>';
+            for (let index = 0; index < respuesta.length;index++){
+                options = options + '<option value='+respuesta[index]['id_categoria']+'>'+respuesta[index]['categoria']+'</option>';
+
+            }
+            $("#selCategoriaGeneral").html(options);
+
+
+        }
+    }); 
+
     //********************************************************    
     //-CARGA DE CATEGORIAS EXISTENTES
     //********************************************************    
@@ -173,15 +210,13 @@ $(document).ready(function(){
             // paging: false, 
            
             dom: 'Bfrtip',
-            buttons: [
-                'excel', 'pdf','print'
-            ],
+            buttons: ['excel', 'pdf','print'],
 
             ajax:{
                 url:"../ajax/normativas.ajax.php",
                 dataSrc: '',
                 type:"POST",            
-                data: {'accion' : 1}, // 1 para listar productos
+                data: {'accion' : 1}, //  listar
             },
 
             responsive: {
@@ -200,9 +235,9 @@ $(document).ready(function(){
                 {targets:8,visible:false,},
                 {targets:9,visible:false,},
                 { responsivePriority: 1, targets: 11 },
-                { responsivePriority: 1, targets: 10 },
+                { responsivePriority: 1, targets: 12 },
                 {
-                    targets:11,
+                    targets:12,
                     orderable:false,
                     render: function(data, type, full, meta){
                         return "<center>"+
@@ -245,7 +280,7 @@ $(document).ready(function(){
     $('#tbl_normativas tbody').on('click','.btnEditar', function(){
         accion = 3; //-GUARDAR MODIFICACION
         var data = table.row($(this).parents('tr')).data();
-        console.log(data);
+        console.log("editar ",data);
         id_normativa = data[1];
 
 
@@ -257,6 +292,7 @@ $(document).ready(function(){
         $("#iptUnidadMedida").val(data[10]);
         
         buscarEnSelect(data[4],'iptTipoAnalisis')
+        buscarEnSelect(data['categoria_general'],'selCategoriaGeneral')
 
         $("#btnClose" ).prop( "hidden", false );
         desBloquearInputs();        
@@ -376,6 +412,7 @@ function desBloquearInputs(){
     $("#iptLimiteMaximo").prop( "disabled", false );
     $("#iptCategoria").prop( "disabled", false );
     $("#iptUnidadMedida").prop( "disabled", false );
+    $("#selCategoriaGeneral").prop( "disabled", false );
     
     $("#iptNormativa").focus();
 }
@@ -387,6 +424,7 @@ function bloquearInputs(){
     $("#iptLimiteMaximo").prop( "disabled", true );
     $("#iptCategoria").prop( "disabled", true );
     $("#iptUnidadMedida").prop( "disabled", true );
+    $("#selCategoriaGeneral").prop( "disabled", true );
 }
 function limpiar(){
     $("#iptNormativa").val('');
@@ -396,6 +434,7 @@ function limpiar(){
     $("#iptLimiteMaximo").val('');
     $("#iptCategoria").val('');
     $("#iptUnidadMedida").val("");
+    $("#selCategoriaGeneral").val("");
     
     
 }
