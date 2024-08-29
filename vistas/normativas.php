@@ -285,13 +285,13 @@ $(document).ready(function(){
 
 
         $("#iptNormativa").val(data[2]);
-        $("#iptCategoria").val(data[3]);
-        $("#iptAnalisis").val(data[5]);
-        $("#iptLimiteMinimo").val(data[6]);
-        $("#iptLimiteMaximo").val(data[7]);
-        $("#iptUnidadMedida").val(data[10]);
+        $("#iptCategoria").val(data['categoria']);
+        $("#iptAnalisis").val(data['analisis']);
+        $("#iptLimiteMinimo").val(data['limite_min']);
+        $("#iptLimiteMaximo").val(data['limite_max']);
+        $("#iptUnidadMedida").val(data['unidad_medida']);
         
-        buscarEnSelect(data[4],'iptTipoAnalisis')
+        buscarEnSelect(data['tipo_analisis'],'iptTipoAnalisis')
         buscarEnSelect(data['categoria_general'],'selCategoriaGeneral')
 
         $("#btnClose" ).prop( "hidden", false );
@@ -321,11 +321,12 @@ $(document).ready(function(){
         if ($("#iptLimiteMinimo").val() == ''){msg.push(' Limite Minimo');}
         if ($("#iptLimiteMaximo").val() == ''){msg.push(' Limite Maximo');}
         if ($("#iptUnidadMedida").val() == ''){msg.push(' Unidad de Medida');}
+        if ($("#selCategoriaGeneral").val() == 0){msg.push(' Categoria');}
         
-        if (msg.length != 7 && msg.length != 0){
+        if (msg.length != 8 && msg.length != 0){
             toastr["error"]("Ingrese los siguientes datos  :"+msg, "!Atención!");
             return;
-        }else if(msg.length == 7){
+        }else if(msg.length == 8){
             
             toastr["error"]("No existen datos para guardar", "!Atención!");
             bloquearInputs();
@@ -372,7 +373,8 @@ $(document).ready(function(){
                     'limite_minimo': varMinimo,
                     'limite_maximo': varMaximo,
                     'id_normativa': id_normativa,
-                    'unidad_medida': $("#iptUnidadMedida").val()
+                    'unidad_medida': $("#iptUnidadMedida").val(),
+                    'categoria_general': $("#selCategoriaGeneral").val()
                 },
                 dataType: "json",
                 success: function(respuesta){

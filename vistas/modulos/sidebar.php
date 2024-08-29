@@ -77,11 +77,12 @@ if(isset($_SESSION)){ }else{ session_start(); }
 
                     </ul>
                   </li>
-                  <li><a><i class="fa fa-codepen"></i>Analisis de Materiales y         Productos <span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-codepen"></i>Materiales y Productos<span class="fa fa-chevron-down"></span></a>
+                  <!-- <li><a><i class="fa fa-codepen"></i>Analisis de Materiales y         Productos <span class="fa fa-chevron-down"></span></a> -->
                     <ul class="nav child_menu">
                       <li>
                         <a onclick="CargarContenido('orden_trabajo.php','right_col')">Orden de Trabajo</a>
-                      </li>                  
+                      </li>
                       <li>
                         <a onclick="CargarContenido('resultados_ingreso.php','right_col')"></i>Ingreso de Resultados</a>
                       </li> 
@@ -108,7 +109,7 @@ if(isset($_SESSION)){ }else{ session_start(); }
                     </ul>
                   </li> 
 
-                  <li><a><i class="fa fa-codepen"></i>Análisis Higienicos-        Sanitarios<span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-codepen"></i>Higienicos-Sanitario<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li>
                         <a onclick="CargarContenido('planificacion.php','right_col')">Planificación</a>

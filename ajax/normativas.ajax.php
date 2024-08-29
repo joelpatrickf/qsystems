@@ -11,12 +11,12 @@ class AjaxNormativas{
 	}
 
 	// /* *********************************
-	// 		GUARDAR NUEVOS REGISTROS
+	// 		GUARDAR NUEVOS REGISTROS # 2
 	// **********************************/
 
-	public function ajaxRegistrarNormativas($normativa,$categoria,$tipo_analisis,$analisis,$limite_minimo,$limite_maximo,$unidad_medida)
+	public function ajaxRegistrarNormativas($normativa,$categoria,$tipo_analisis,$analisis,$limite_minimo,$limite_maximo,$unidad_medida,$categoria_general)
 	{
-		$res = NormativasControlador::ctrlNormativasRegistrar($normativa,$categoria,$tipo_analisis,$analisis,$limite_minimo,$limite_maximo,$unidad_medida);
+		$res = NormativasControlador::ctrlNormativasRegistrar($normativa,$categoria,$tipo_analisis,$analisis,$limite_minimo,$limite_maximo,$unidad_medida,$categoria_general);
 		echo json_encode($res,JSON_UNESCAPED_UNICODE);
 	}	
     
@@ -63,7 +63,7 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR REGISTROS
     $normativas-> ajaxListarNormativas();
 
 } else if (isset($_POST['accion']) && $_POST['accion'] == 2) { //  GUARDAR REGISTROS NUEVOS
-    // print_r($_POST);
+    //print_r($_POST);
     $Normativasregistrar = new AjaxNormativas();
 
 	$Normativasregistrar -> ajaxRegistrarNormativas(
@@ -73,7 +73,8 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR REGISTROS
         $_POST["analisis"],
         $_POST["limite_minimo"],
         $_POST["limite_maximo"],
-        $_POST["unidad_medida"]
+        $_POST["unidad_medida"],
+        $_POST["categoria_general"]
     );
 
 } else if (isset($_POST['accion']) && $_POST['accion'] == 3) { // GUARDAR MODIFICACION
@@ -86,7 +87,9 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR REGISTROS
             "limite_min" => $_POST["limite_minimo"],
             "limite_max" => $_POST["limite_maximo"],
             "id_normativa" => $_POST["id_normativa"],
-            "unidad_medida" => $_POST["unidad_medida"]
+            "unidad_medida" => $_POST["unidad_medida"],
+            "id_categoria_general" => $_POST["categoria_general"]
+            
     );
 
     $NormativasActualizar -> ajaxNormativasActualizar($data);

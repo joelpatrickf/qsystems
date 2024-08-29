@@ -23,10 +23,10 @@ class NormativasModelo{
 	}
 
 	/* *********************************
-			GUARDAR NUEVOS REGISTROS
+			GUARDAR NUEVOS REGISTROS # 2
 	**********************************/
 
-	static public function mdlNormativasRegistrar($normativa,$categoria,$tipo_analisis,$analisis,$limite_minimo,$limite_maximo,$unidad_medida)
+	static public function mdlNormativasRegistrar($normativa,$categoria,$tipo_analisis,$analisis,$limite_minimo,$limite_maximo,$unidad_medida,$categoria_general)
 	{
 		// print_r($data);
 		// exit();
@@ -37,8 +37,8 @@ class NormativasModelo{
 			$fechaActual = date('Y-m-d H:i:s', time()); 
 			$usuario=$_SESSION['login'][0]->usuario;
 
-	        $stmt = Conexion::conectar()->prepare("INSERT INTO normativas(normativa,categoria,tipo_analisis,analisis,limite_min,limite_max,fecha_creacion,usuario,unidad_medida)
-			 VALUES(:normativa,:categoria,:tipo_analisis,:analisis,:limite_minimo,:limite_maximo,:fecha_creacion,:usuario,:unidad_medida)");
+	        $stmt = Conexion::conectar()->prepare("INSERT INTO normativas(normativa,categoria,tipo_analisis,analisis,limite_min,limite_max,fecha_creacion,usuario,unidad_medida,id_categoria_general)
+			 VALUES(:normativa,:categoria,:tipo_analisis,:analisis,:limite_minimo,:limite_maximo,:fecha_creacion,:usuario,:unidad_medida,:id_categoria_general)");
 
 	        $stmt->bindParam(":normativa", $normativa); 
 	        $stmt->bindParam(":categoria", $categoria); 
@@ -49,6 +49,7 @@ class NormativasModelo{
 	        $stmt->bindParam(":fecha_creacion", $fechaActual); 
 	        $stmt->bindParam(":usuario", $usuario); 
 	        $stmt->bindParam(":unidad_medida", $unidad_medida); 
+	        $stmt->bindParam(":id_categoria_general", $id_categoria_general); 
 			$stmt->execute();
 			$resultado = 'ok';
 

@@ -15,10 +15,10 @@ class NormativasControlador{
 	}
 
 	// /* *********************************
-	// 		GUARDAR NUEVOS REGISTROS
+	// 		GUARDAR NUEVOS REGISTROS # 2
 	// **********************************/
-	static public function ctrlNormativasRegistrar($normativa,$categoria,$tipo_analisis,$analisis,$limite_minimo,$limite_maximo,$unidad_medida){
-		$Usuario1 = NormativasModelo::mdlNormativasRegistrar($normativa,$categoria,$tipo_analisis,$analisis,$limite_minimo,$limite_maximo,$unidad_medida);
+	static public function ctrlNormativasRegistrar($normativa,$categoria,$tipo_analisis,$analisis,$limite_minimo,$limite_maximo,$unidad_medida,$categoria_general){
+		$Usuario1 = NormativasModelo::mdlNormativasRegistrar($normativa,$categoria,$tipo_analisis,$analisis,$limite_minimo,$limite_maximo,$unidad_medida,$categoria_general);
 		return $Usuario1;
 	}
 
