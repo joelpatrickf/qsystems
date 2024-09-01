@@ -12,7 +12,7 @@ class Conexion{
 
     static public function conectar(){
         try {
-            //$conn = new PDO("mysql:host=92.38.150.132;dbname=hosteria_qanalytics","hosteria_casper","AlfaomegaCasper@12abx_",array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8 "));
+            //$conn = new PDO("mysql:host=195.250.27.29;dbname=hosteria_qanalytics","hosteria_casper","AlfaomegaCasper@12abx_",array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8 "));
 
             $conn = new PDO("mysql:host=localhost;dbname=casper_system","rsplusex","Alfaomega@123",array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8 "));
             return $conn;

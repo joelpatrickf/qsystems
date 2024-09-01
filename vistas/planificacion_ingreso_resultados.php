@@ -6,72 +6,40 @@
     
     .paging_full_numbers {width: 100%;}    
 
+    /*quitamos el borde al item*/
+    .ui-menu-item-wrapper:hover {
+      border: 0;
+    }
 
-ul.ui-widget {
-  font-size: 13px;
-  border: 0;
-}
-
-.mcacAnchor ui-menu-item-wrapper{
-    background-color: red;
-}
-li.ui-menu-item:hover {
-    background-color: black;
-}
-ul.ui-widget 
-li.ui-menu-item {
-  list-style-image: none;
-  font-family: "Helvetica Neue",HelveticaNeue,helvetica,arial,sans-serif;
-  font-size: 92%;
-  font-weight: 300;
-  font-style: normal;
-  font-size-adjust: none;
-  
-  margin: 0;
-  padding: 1.8px 4.55px;
-  
-  white-space: nowrap;
-
-  color: darkred!important;
-}
-.ui-widget-content a {
-  color: #444444;
-
-}
-
-/*ul.ui-widget {
-    background-color: mediumvioletred;
-}*/
-
-ul.ui-widget 
-li.ui-menu-item b {
-  font-weight: 700;
-
-}
-#search {
-  height: 25px;
- }
-
-.ui-widget-content .ui-state-focus
-{
-  background-color: #D6F7FF;
-  background-image: none;
-  border: 0;
-  
-}
+    /* Llenamos de color azul toda la linea */
+    li.ui-menu-item:hover {
+        background-color: #007bff;
+    }
 
 
-.ui-widget-content .ui-state-focus {
-  background-color: #D6F7FF; /* Cambia este color por el que desees */
-  background-image: none;
-  border: 0;
-}
 
-/* Si quieres que sea negro como los otros elementos en hover */
-.ui-widget-content .ui-state-focus {
-  background-color: black !important; /* Aplica el fondo negro */
-  color: white !important; /* Texto blanco */
-}
+    ul.ui-widget 
+    li.ui-menu-item {
+      list-style-image: none;
+      font-family: "Helvetica Neue",HelveticaNeue,helvetica,arial,sans-serif;
+      font-size: 92%;
+      font-weight: 300;
+      font-style: normal;
+      font-size-adjust: none;
+      
+      margin: 0;
+      padding: 1.8px 4.55px;
+      
+      white-space: nowrap;
+
+      color: darkred!important;
+    }
+    .ui-widget-content a {
+      color: #444444;
+
+    }
+
+
 
     
 </style>
@@ -102,6 +70,7 @@ li.ui-menu-item b {
                                     <span class="small">Área</span><span class="text-danger">*</span>
                                 </label>
                                 <input type="text" class="form-control" id="iptArea" autofocus autocomplete="off">
+                                <input type="hidden" class="form-control" id="iptIdPlanificacion" >
                             </div>
                         </div>
 
@@ -111,7 +80,7 @@ li.ui-menu-item b {
                                 <label class="" for="iptLinea"><i class="fas fa-file-signature fs-6"></i>
                                     <span class="small">Línea</span><span class="text-danger">*</span>
                                 </label>
-                                <input type="text" class="form-control " id="iptLinea" autocomplete="off">
+                                <input type="text" class="form-control " id="iptLinea" disabled>
                             </div>
                         </div>
 
@@ -120,7 +89,7 @@ li.ui-menu-item b {
                                 <label class="" for="iptPuntoInspeccion"><i class="fas fa-user fs-6"></i>
                                     <span class="small">Punto de Inspección</span><span class="text-danger">*</span>
                                 </label>
-                                <input type="text" class="form-control" id="iptPuntoInspeccion" required disabled autocomplete="off">
+                                <input type="text" class="form-control" id="iptPuntoInspeccion" disabled >
                                 <input type="hidden" id="iptNormativa_hidden" >
                             </div>
                         </div>    
@@ -131,23 +100,13 @@ li.ui-menu-item b {
                                 <label class="" for="selTipo"><i class="fas fa-user fs-6"></i>
                                     <span class="small">Categoria de Análisis</span><span class="text-danger">*</span>
                                 </label>
-                                <select class="form-control " aria-label=".form-select-sm example" id="selTipo" disabled >
+                                <select class="form-control " aria-label=".form-select-sm example" id="selCategoriaAnalisis" >
                                 </select>
                             </div>
                         </div>
 
                     </div>                        
-<div id="div-container" style="margin:10px 10px;padding:8px;width:400px;" class="ui-widget ui-widget-content ui-corner-all">
 
-    <div style="margin:0 0 4px 4px;">Enter Area:</div>
-
-    <input id="search" type="text" style="padding:2px;font-size:.8em;width:300px;" />
-    
-    <div style="margin:20px 0 0 0;">
-      <span id="results" style="color:#68a;"></span>
-    </div>
-
-</div>
                 </div> <!-- END div 1º card body -->
                 <div class="card-body pb-0 pt-3">
                     <!-- row para tabla  -->
@@ -197,6 +156,31 @@ $(document).ready(function(){
     var items = []; // SE USA PARA EL INPUT DE AUTOCOMPLETE
 
 
+
+    /*===========================================
+        Carga Categorias de Planificacion flag 1
+      ===========================================*/
+    $.ajax({
+        url:"../ajax/categorias.ajax.php",
+        type: "POST",
+        data: {'accion': 2}, // solo HIGIENICO-SANITARIO
+        dataType: 'json',
+        success: function(respuesta){
+            console.log("CATEGORIAS ",respuesta);
+            var options = '<option selected value="0">Categorias</option>';
+            for (let index = 0; index < respuesta.length;index++){
+                options = options + '<option value='+respuesta[index]['id_categoria']+'>'+respuesta[index]['categoria']+'</option>';
+
+            }
+            $("#selCategoriaAnalisis").html(options);
+
+
+        }
+    });
+
+    /*====================================
+        Autocomplete Planificación
+      ====================================*/    
     $.widget('custom.mcautocomplete', $.ui.autocomplete, {
         _create: function () {
             this._super();
@@ -217,31 +201,31 @@ $(document).ready(function(){
                 self._renderItem(ul, item);
             });
         },
-      _renderItem: function (ul, item) {
-    var result = $('<li></li>').data('ui-autocomplete-item', item);
-    var t = '';
+        _renderItem: function (ul, item) {
+            var result = $('<li></li>').data('ui-autocomplete-item', item);
+            var t = '';
 
-    $.each(this.options.columns, function (index, column) {
-        var whole_word = item[column.valueField ? column.valueField : index];
-        var current_search_string = document.getElementById("search").value.trim();
+        $.each(this.options.columns, function (index, column) { 
+            var whole_word = item[column.valueField ? column.valueField : index];
+            var current_search_string = document.getElementById("iptArea").value.trim();
 
-        // Escapar caracteres especiales en la cadena de búsqueda
-        var escaped_search_string = current_search_string.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+            // Escapar caracteres especiales en la cadena de búsqueda
+            var escaped_search_string = current_search_string.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
 
-        // Resaltar la cadena de búsqueda actual
-        var regex = new RegExp('(' + escaped_search_string + ')', 'gi');
-        whole_word = whole_word.replace(regex, "<b>$1</b>");
+            // Resaltar la cadena de búsqueda actual
+            var regex = new RegExp('(' + escaped_search_string + ')', 'gi');
+            whole_word = whole_word.replace(regex, "<b>$1</b>");
 
-        // Crear el contenido HTML con Flexbox para evitar la separación de palabras
-        t += '<span style="display:flex; align-items:center; padding:0 4px; width:' + column.width + ';">' + whole_word + '</span>';
-    });
+            // Crear el contenido HTML con Flexbox para evitar la separación de palabras
+            t += '<span style="display:flex; align-items:center; padding:0 4px; width:' + column.width + ';">' + whole_word + '</span>';
+        });
 
-    // Agregar el resultado al contenedor UL
-    result.append('<a class="mcacAnchor" style="display: flex; align-items: center;">' + t + '<div style="clear: both;"></div></a>')
-          .appendTo(ul);
+        // Agregar el resultado al contenedor UL
+        result.append('<a class="mcacAnchor" style="display: flex; align-items: center;">' + t + '<div style="clear: both;"></div></a>')
+              .appendTo(ul);
 
-    return result;
-}
+        return result;
+    }
 
 
 
@@ -268,7 +252,7 @@ $(document).ready(function(){
         dataType: 'json',
         success: function(respuesta){
             console.log("autocomplete 1",respuesta);
-            $("#search").mcautocomplete({
+            $("#iptArea").mcautocomplete({
                 showHeader: false,
                 columns: columns,
                 source: respuesta,
@@ -281,6 +265,11 @@ $(document).ready(function(){
                     // Asignar el valor al input actual
                     this.value = (ui.item ? ui.item[1] : '');
                     
+                    $("#iptLinea").val(ui.item[2]);
+                    $("#iptPuntoInspeccion").val(ui.item[3]);
+                    $("#iptIdPlanificacion").val(ui.item[0]);
+
+
                     // Reemplazar el HTML sin procesar en el texto de resultados
                     $('#results').html(ui.item ? 'Selected: ' + 
                         $('<div/>').text(ui.item[0]).html() + ', ' + 
@@ -301,7 +290,16 @@ $(document).ready(function(){
         }
     }); 
 
-});
 
+    $("#iptArea").keydown(function(e){
+        if((e.which == 8) || (e.which == 46)){
+            $("#iptArea").val("");
+            $("#iptLinea").val("");
+            $("#iptPuntoInspeccion").val("");
+            $("#iptIdPlanificacion").val("");
+        }
+    }); 
+
+}); // fin document ready
 
 </script>

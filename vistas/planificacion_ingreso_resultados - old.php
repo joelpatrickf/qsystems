@@ -60,30 +60,17 @@ li.ui-menu-item b {
   
 }
 
-
-.ui-widget-content .ui-state-focus {
-  background-color: #D6F7FF; /* Cambia este color por el que desees */
-  background-image: none;
-  border: 0;
-}
-
-/* Si quieres que sea negro como los otros elementos en hover */
-.ui-widget-content .ui-state-focus {
-  background-color: black !important; /* Aplica el fondo negro */
-  color: white !important; /* Texto blanco */
-}
-
     
 </style>
 
 <!-- page content -->
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header pb-0 mb-0" >
+	<div class="row">
+		<div class="col-md-12">
+			<div class="card">
+				<div class="card-header pb-0 mb-0" >
                     <div class="row">
                         <div class="col-6">
-                           <h4> Ingresos de Resultados </h4>
+					       <h4> Ingresos de Resultados </h4>
                         </div>
                         <div class="col-6 text-" >
                             <button type="button" class="btn btn-warning mx-1" id="btnClose" style="float: right;" hidden >Close</button>
@@ -92,7 +79,7 @@ li.ui-menu-item b {
 
                         </div>                    
                     </div>
-                </div>
+				</div>
                 <div class="card-body pb-0 pt-1">
                     <div class="row">
 
@@ -129,14 +116,14 @@ li.ui-menu-item b {
                        <div class="col-4 col-lg-3">
                             <div class="form-group mb-2">
                                 <label class="" for="selTipo"><i class="fas fa-user fs-6"></i>
-                                    <span class="small">Categoria de Análisis</span><span class="text-danger">*</span>
+                                    <span class="small">Tipo</span><span class="text-danger">*</span>
                                 </label>
-                                <select class="form-control " aria-label=".form-select-sm example" id="selTipo" disabled >
-                                </select>
+			                    <select class="form-control " aria-label=".form-select-sm example" id="selTipo" disabled >
+			                    </select>
                             </div>
                         </div>
 
-                    </div>                        
+					</div>                        
 <div id="div-container" style="margin:10px 10px;padding:8px;width:400px;" class="ui-widget ui-widget-content ui-corner-all">
 
     <div style="margin:0 0 4px 4px;">Enter Area:</div>
@@ -148,7 +135,7 @@ li.ui-menu-item b {
     </div>
 
 </div>
-                </div> <!-- END div 1º card body -->
+				</div> <!-- END div 1º card body -->
                 <div class="card-body pb-0 pt-3">
                     <!-- row para tabla  -->
                     <div class="row">
@@ -176,12 +163,12 @@ li.ui-menu-item b {
                     </div>                    
                 </div> <!-- END 2º card-body      -->
 
-            </div> <!-- END div card principal -->
+			</div> <!-- END div card principal -->
                 
 
 
-        </div>
-    </div>
+		</div>
+	</div>
 
 
 
@@ -210,7 +197,7 @@ $(document).ready(function(){
                 $.each(this.options.columns, function (index, item) {
                     table.append('<span style="padding:0 4px;float:left;width:' + item.width + ';">' + item.name + '</span>');
                 });
-                // table.append('<div style="clear: both;"></div>');
+                table.append('<div style="clear: both;"></div>');
                 ul.append(table);
             }
             $.each(items, function (index, item) {
@@ -218,88 +205,73 @@ $(document).ready(function(){
             });
         },
         _renderItem: function (ul, item) {
-            var result = $('<li></li>').data('ui-autocomplete-item', item);
-            var t = '';
+            var t = '',
+                result = '';
+            $.each(this.options.columns, function (index, column) {
+                var whole_word = item[column.valueField ? column.valueField : index];
+                var current_search_string = document.getElementById("search").value;
+     
+                // Highlight current search term.
+                var regex = new RegExp( '(' + current_search_string + ')', 'gi' );
+                whole_word = whole_word.replace(regex, "<b>$1</b>" );
 
-        $.each(this.options.columns, function (index, column) { 
-            var whole_word = item[column.valueField ? column.valueField : index];
-            var current_search_string = document.getElementById("search").value.trim();
+                t += '<span style="padding:0 4px;float:left;width:' + column.width + ';">' + whole_word + '</span>';
+            });
 
-            // Escapar caracteres especiales en la cadena de búsqueda
-            var escaped_search_string = current_search_string.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
-
-            // Resaltar la cadena de búsqueda actual
-            var regex = new RegExp('(' + escaped_search_string + ')', 'gi');
-            whole_word = whole_word.replace(regex, "<b>$1</b>");
-
-            // Crear el contenido HTML con Flexbox para evitar la separación de palabras
-            t += '<span style="display:flex; align-items:center; padding:0 4px; width:' + column.width + ';">' + whole_word + '</span>';
-        });
-
-        // Agregar el resultado al contenedor UL
-        result.append('<a class="mcacAnchor" style="display: flex; align-items: center;">' + t + '<div style="clear: both;"></div></a>')
-              .appendTo(ul);
-
-        return result;
-    }
-
-
-
+            result = $('<li></li>')
+                .data('ui-autocomplete-item', item)
+                .append('<a class="mcacAnchor">' + t + '<div style="clear: both;"></div></a>')
+                .appendTo(ul);
+            return result;
+        }
     });
 
-    var columns = [
-      {name: 'id_are', width: '2.5em'},
-      {name: 'area', width: '20em'},
-      {name: 'linea', width: '20em'},
-      {name: 'punto_insp', minWidth: '20px'}
-    ];
+var columns = [
+  {name: 'id_are', width: '2.5em'},
+  {name: 'area', width: '20em'},
+  {name: 'linea', width: '20em'},
+  {name: 'punto_insp', minWidth: '20px'}
+];
 
 
-    // Sets up the multicolumn autocomplete widget.
+// Sets up the multicolumn autocomplete widget.
 
     /*===============================================
         LISTADO PLANIFICACIONES AUTOCOMPLETADO
       ===============================================*/
     $.ajax({
-        async: false,
-        url:"../ajax/planificacion.ajax.php",
-        type: "POST",
-        data: {'accion': 11}, //   lista 
-        dataType: 'json',
-        success: function(respuesta){
-            console.log("autocomplete 1",respuesta);
-            $("#search").mcautocomplete({
-                showHeader: false,
-                columns: columns,
-                source: respuesta,
+            async: false,
+            url:"../ajax/planificacion.ajax.php",
+            type: "POST",
+            data: {'accion': 11}, //   lista 
+            dataType: 'json',
+            success: function(respuesta){
+                console.log("autocomplete 1",respuesta);
+                $("#search").mcautocomplete({
+                    showHeader: false,
+                    columns: columns,
+                        source: respuesta,
 
-                select: 
-                  function (event, ui) {
-                    // Construir el texto del resultado si hay un ítem seleccionado
-                    var result_text = (ui.item) ? ui.item[0] + ', ' + ui.item[1] + ', ' + ui.item[2] + ', ' + ui.item[3] : '';
-                    
-                    // Asignar el valor al input actual
-                    this.value = (ui.item ? ui.item[1] : '');
-                    
-                    // Reemplazar el HTML sin procesar en el texto de resultados
-                    $('#results').html(ui.item ? 'Selected: ' + 
-                        $('<div/>').text(ui.item[0]).html() + ', ' + 
-                        $('<div/>').text(ui.item[1]).html() + ', ' + 
-                        $('<div/>').text(ui.item[2]).html() + ', ' + 
-                        $('<div/>').text(ui.item[3]).html() 
-                        : 'No hay nada seleccionado ' + this.value
-                    );
+                    select: 
+                      function (event, ui) {
 
-                    return false;
-                }
+                       var result_text = (ui.item)? ui.item[0] + ', ' + ui.item[1] + ', ' + ui.item[2] + ', ' + ui.item[3]: '';
+                       this.value = (ui.item ? ui.item[0] : '');
+
+                       $('#results').text(ui.item ? 'Selected: ' + ui.item[0] + ', ' + ui.item[1] + ', ' + ui.item[2] + ', ' + ui.item[3] : 'Nothing selected, input was ' + this.value);
+
+                        return false;
+                      },
+
+                    minLength: 1
+
+                });                
+                               
+            }
+        }); 
 
 
-                //minLength: 1
 
-            });                
-                           
-        }
-    }); 
 
 });
 

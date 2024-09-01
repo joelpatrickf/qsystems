@@ -13,6 +13,15 @@ class AjaxCategorias{
 		echo json_encode($res);
 	}
 
+	/* =======================================================
+        CATEGORIAS solo HIGIENICO-SANITARIO, Planificacion # 2
+       ======================================================= */	
+    public function ajaxCategoriasPlanificacionFlag1()
+	{
+		$res = CategoriasControlador::ctrlCategoriasPlanificacionFlag1();
+		echo json_encode($res);
+	}	
+
 }
 
 
@@ -23,5 +32,9 @@ class AjaxCategorias{
 if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR REGISTROS
     $res = new AjaxCategorias();
     $res-> ajaxCategoriasListar();
+
+}else if (isset($_POST['accion']) && $_POST['accion'] == 2) { // solo HIGIENICO-SANITARIO
+    $res = new AjaxCategorias();
+    $res-> ajaxCategoriasPlanificacionFlag1();
 
 }

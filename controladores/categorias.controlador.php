@@ -10,9 +10,19 @@ class CategoriasControlador{
        =========================== */
 
 	static public function ctrlCategoriasListar(){
-		$RES = CategoriasModelo::mdlCategoriasListar();
-		return $RES;
+		$res = CategoriasModelo::mdlCategoriasListar();
+		return $res;
 	}
+
+
+	/* =======================================================
+        CATEGORIAS solo HIGIENICO-SANITARIO, Planificacion # 2
+       ======================================================= */		
+	static public function ctrlCategoriasPlanificacionFlag1(){
+		$res = CategoriasModelo::mdlCategoriasPlanificacionFlag1();
+		return $res;
+	}
+
 	
 
 }
