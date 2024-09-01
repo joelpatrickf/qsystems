@@ -129,7 +129,7 @@ li.ui-menu-item b {
                        <div class="col-4 col-lg-3">
                             <div class="form-group mb-2">
                                 <label class="" for="selTipo"><i class="fas fa-user fs-6"></i>
-                                    <span class="small">Tipo</span><span class="text-danger">*</span>
+                                    <span class="small">Categoria de Análisis</span><span class="text-danger">*</span>
                                 </label>
                                 <select class="form-control " aria-label=".form-select-sm example" id="selTipo" disabled >
                                 </select>
