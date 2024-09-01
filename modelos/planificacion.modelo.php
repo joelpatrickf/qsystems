@@ -19,6 +19,26 @@ class PlanifcacionModelo{
 		return $stmt-> fetchAll(PDO::FETCH_CLASS);
 	}
 
+	/* *****************************************
+			LISTAR PLANIFICACION 4 Columnas # 11
+	********************************************/	
+	static public function mdlPlanificacionListar4Columnas()
+	{
+		$sql = 'SELECT id_planificacion, a.area,  l.linea,  punto_inspeccion FROM planificacion p INNER JOIN area a ON p.id_area = a.id_area INNER JOIN linea l ON p.id_area = l.id_linea';
+	    $stmt = Conexion::conectar()->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
+	    $stmt->execute();
+
+
+
+	    $data = array();
+	    while ($row = $stmt->fetch(PDO::FETCH_NUM, PDO::FETCH_ORI_NEXT)) {
+	        $data[] = $row;
+	    }
+	    //echo json_encode($data);
+	    return $data;
+	
+	}	
+
 	/* *********************************
 			GUARDAR PLANIFICACION # 2
 	**********************************/	

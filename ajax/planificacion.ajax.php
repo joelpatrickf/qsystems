@@ -13,6 +13,15 @@ class AjaxPlanificacion{
 		echo json_encode($respuesta);
 	}
 
+	/* *****************************************
+			LISTAR PLANIFICACION 4 Columnas # 11
+	********************************************/	
+	public function ajaxPlanificacionListar4Columnas()
+	{
+		$respuesta = PlanificacionControlador::ctrlPlanificacionListar4Columnas();
+		echo json_encode($respuesta);
+	}	
+
 	/* *********************************
 		GUARDAR EDICION PLANIFICACION # 2
 	**********************************/	
@@ -39,6 +48,9 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR
 	$res = new AjaxPlanificacion();
     $res-> ajaxPlanificacionListar();
 
+}else if (isset($_POST['accion']) && $_POST['accion'] == 11) { // autocomplete 4 columnas
+	$res = new AjaxPlanificacion();
+    $res-> ajaxPlanificacionListar4Columnas();
 }else if (isset($_POST['accion']) && $_POST['accion'] == 2) { // save
 
 	$data = array(

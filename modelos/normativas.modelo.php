@@ -11,7 +11,6 @@ class NormativasModelo{
 		======================== */
 	static public function mdlListarNormativas()
 	{
-		//$stmt = Conexion::conectar()->prepare("SELECT '' as vacio,id_normativa, normativa,categoria,tipo_analisis,analisis,limite_min,limite_max,fecha_creacion,usuario, unidad_medida FROM normativas");
 		
 		$stmt = Conexion::conectar()->prepare("SELECT '' as vacio,n.id_normativa, n.normativa, cat.categoria as categoria_general,n.categoria,n.tipo_analisis,n.analisis,n.limite_min,n.limite_max,n.fecha_creacion,n.usuario, n.unidad_medida
 			FROM normativas n
@@ -28,8 +27,6 @@ class NormativasModelo{
 
 	static public function mdlNormativasRegistrar($normativa,$categoria,$tipo_analisis,$analisis,$limite_minimo,$limite_maximo,$unidad_medida,$categoria_general)
 	{
-		// print_r($data);
-		// exit();
 
 		try {
 	        $stmt=null;
@@ -49,7 +46,7 @@ class NormativasModelo{
 	        $stmt->bindParam(":fecha_creacion", $fechaActual); 
 	        $stmt->bindParam(":usuario", $usuario); 
 	        $stmt->bindParam(":unidad_medida", $unidad_medida); 
-	        $stmt->bindParam(":id_categoria_general", $id_categoria_general); 
+	        $stmt->bindParam(":id_categoria_general", $categoria_general); 
 			$stmt->execute();
 			$resultado = 'ok';
 

@@ -109,7 +109,7 @@ if(isset($_SESSION)){ }else{ session_start(); }
                     </ul>
                   </li> 
 
-                  <li><a><i class="fa fa-codepen"></i>Higienicos-Sanitario<span class="fa fa-chevron-down"></span></a>
+                  <li><a><i class="fa fa-codepen"></i>Higienico-Sanitario<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li>
                         <a onclick="CargarContenido('planificacion.php','right_col')">Planificación</a>

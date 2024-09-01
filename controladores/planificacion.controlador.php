@@ -13,6 +13,14 @@ class PlanificacionControlador{
 		return $res;
 	}
 	
+	/* *****************************************
+			LISTAR PLANIFICACION 4 Columnas # 11
+	********************************************/	
+	static public function ctrlPlanificacionListar4Columnas(){
+		$res = PlanifcacionModelo::mdlPlanificacionListar4Columnas();
+		return $res;
+	}	
+	
 	/* *********************************
 			GUARDAR PLANIFICACION # 2
 	**********************************/	

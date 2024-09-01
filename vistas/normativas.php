@@ -232,7 +232,7 @@ $(document).ready(function(){
                 // { width: '20%', targets: 5},
 
                 {targets:0,visible:false,},
-                {targets:8,visible:false,},
+                //{targets:8,visible:false,},
                 {targets:9,visible:false,},
                 { responsivePriority: 1, targets: 11 },
                 { responsivePriority: 1, targets: 12 },

@@ -49,25 +49,3 @@ class NormativasControlador{
 	}	
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// if (isset($_POST['accion']) && $_POST['accion'] == 1) { // verificar login
-// 	$horarios1 = new UsuarioControlador();
-// 	$horarios1-> login($_POST['usuario'],$_POST['clave']);
-
-// } 
