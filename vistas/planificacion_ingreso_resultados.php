@@ -110,7 +110,7 @@
                 </div> <!-- END div 1º card body -->
                 <div class="card-body pb-0 pt-3">
                     <!-- row para tabla  -->
-                    <div class="row">
+                <!--     <div class="row">
                         <div class="col-lg-12">
                         <table id="tbl_usuarios" class="table table-striped cell-border w-100 shadow  " width="100%">
                                 <thead class="bg-gray">
@@ -132,7 +132,7 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>                    
+                    </div>     -->                
                 </div> <!-- END 2º card-body      -->
 
             </div> <!-- END div card principal -->
