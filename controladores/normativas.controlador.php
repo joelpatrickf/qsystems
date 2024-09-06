@@ -47,5 +47,14 @@ class NormativasControlador{
 		$normativa5 = NormativasModelo::mdlNormativasBuscarAnalisis($orden_trabajo);
 		return $normativa5;
 	}	
+
+    /*===========================================
+        Buscar Normativas x filtro de Categoria # 6
+      ===========================================*/
+	static public function ctrlNormativasIngresoResultados($id_categoria_general){
+		$normativa5 = NormativasModelo::mdlNormativasIngresoResultados($id_categoria_general);
+		return $normativa5;
+	}	
+
 }
 

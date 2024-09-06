@@ -48,8 +48,17 @@ class AjaxNormativas{
 
         $respuesta3 = NormativasControlador::ctrlNormativasBuscarAnalisis($orden_trabajo);
         echo json_encode($respuesta3);
-    }        
-    
+    }
+
+
+    /*===========================================
+        Buscar Normativas x filtro de Categoria # 6
+      ===========================================*/
+    public function ajaxNormativasIngresoResultados($id_categoria_general){
+        $respuesta4 = NormativasControlador::ctrlNormativasIngresoResultados($id_categoria_general);
+        echo json_encode($respuesta4);
+    }    
+
 
 }
 
@@ -101,6 +110,10 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR REGISTROS
 }else if (isset($_POST['accion']) && $_POST['accion'] == 5) { // BUSCAR ANALISIS
     $normativas = new AjaxNormativas();
     $normativas-> ajaxNormativasBuscarAnalisis($_POST['orden_trabajo']);
+
+}else if (isset($_POST['accion']) && $_POST['accion'] == 6) { // Normativas pa Planificacion
+    $normativas = new AjaxNormativas();
+    $normativas-> ajaxNormativasIngresoResultados($_POST['id_categoria_general']);
 
 } 
 

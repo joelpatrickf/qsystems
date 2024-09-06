@@ -106,6 +106,21 @@ class NormativasModelo{
 		return $stmt5-> fetchAll();
 
 	}		
+
+    /*===========================================
+        Buscar Normativas x filtro de Categoria # 6
+      ===========================================*/	
+	static public function mdlNormativasIngresoResultados($id_categoria_general)	{
+		
+		$stmt = Conexion::conectar()->prepare("SELECT '' as vacio,n.id_normativa, cat.categoria as categoria_general,n.categoria,n.tipo_analisis,n.analisis,n.limite_min,n.limite_max,n.unidad_medida,id_categoria_general
+			FROM normativas n
+			inner join categorias cat ON n.id_categoria_general=cat.id_categoria
+         WHERE id_categoria_general = '$id_categoria_general'
+			");
+		$stmt->execute();
+		return $stmt-> fetchAll(PDO::FETCH_ASSOC);
+
+	}	
 }
 
 

@@ -53,12 +53,6 @@
                         <div class="col-6">
                            <h4> Ingresos de Resultados </h4>
                         </div>
-                        <div class="col-6 text-" >
-                            <button type="button" class="btn btn-warning mx-1" id="btnClose" style="float: right;" hidden >Close</button>
-                            <button type="button" class="btn btn-success" id="btnSave" style="float: right;"> Save </button>
-                            <button type="button" class="btn btn-dark mx-1" id="btnNew" style="float: right;"> New </button>
-
-                        </div>                    
                     </div>
                 </div>
                 <div class="card-body pb-0 pt-1">
@@ -95,44 +89,69 @@
                         </div>    
               
 
-                       <div class="col-4 col-lg-3">
+                       <div class="col-4 col-lg-3" >
                             <div class="form-group mb-2">
                                 <label class="" for="selTipo"><i class="fas fa-user fs-6"></i>
                                     <span class="small">Categoria de Análisis</span><span class="text-danger">*</span>
                                 </label>
-                                <select class="form-control " aria-label=".form-select-sm example" id="selCategoriaAnalisis" >
+                                <select class="form-control " aria-label=".form-select-sm example" id="selCategoriaAnalisis" disabled>
                                 </select>
                             </div>
                         </div>
 
                     </div>                        
+                    <!-- Parte del ingreso de datos OCULTA -->
+                    <div class="col-sm-6"></div>
+                    <div class="col-4 col-sm-6 mt-2 " id="div_resultados" style="background-color:#d1d1d1;" hidden>
+                                
+                        <div class="form-group col-md-3">
+                            <label for="inputEmail4" class="mb-0">Resultado</label>
+                            <input type="text" class="form-control" id="iptResultados" placeholder="Resultados" pattern="^[A-Za-z]+$" autocomplete="off" >
+
+                        </div>
+
+                        <div class="form-group col-md-3">
+                            <label  class="mb-0" for="iptFechaResultados">Fecha</label>
+                            <input type="date" class="form-control" id="iptFechaResultados" >
+                        </div>
+                        <div class="form-group  col-md-6">
+                            <label  class="mb-0" for="iptObservacion">Observacion</label>
+                            <input type="text" class="form-control" id="iptObservacion" >
+                        </div>
+                            <button type="button" class="btn btn-warning mx-1" id="btnClose" style="float: right;" >Close</button>
+                            <button type="button" class="btn btn-success" id="btnSave" style="float: right;"> Save </button>
+                    </div>
+
 
                 </div> <!-- END div 1º card body -->
-                <div class="card-body pb-0 pt-3">
+                <div class="card-body pb-0 pt-1">
                     <!-- row para tabla  -->
-                <!--     <div class="row">
-                        <div class="col-lg-12">
-                        <table id="tbl_usuarios" class="table table-striped cell-border w-100 shadow  " width="100%">
+                    <div class="row">
+                        <div class="col-lg-12" id="div_table" hidden>
+
+                            <table id="tbl_normativas" class="table table-striped cell-border w-100 shadow  " width="100%">
                                 <thead class="bg-gray">
                                     <tr style="font-size: 15px;">
-                                        <th class="text-center">Item</th> <!-- 1 -->
-                                        <th class="text-center">Cod-Barra</th> <!-- 2 -->
-                                        <th class="text-center">Producto</th> <!-- 5 -->
-                                        <th class="text-center">Precio</th> <!-- 6 -->
-                                        <th class="text-center">Presentacion</th> <!-- 5 -->
-                                        <th class="text-center">Normativa</th> <!-- 4 -->
-                                        <th class="text-center">Categoria</th> <!-- 4 -->
-                                        <th class="text-center">Fecha_Creacion</th> <!-- 6 -->
-                                        <th class="text-center">Estado</th> <!-- 6 -->
-                                        <th class="text-center">Usuario</th> <!-- 6 -->
-                                        <th class="text-center">Opciones</th> <!-- 12 -->
+                                        <th></th>
+                                        <th>Id_Norma</th>
+                                        <th>id_categoria_general</th>
+                                        <th>Categoria</th>
+                                        <th>Sub categoria</th>
+                                        <th>Tipo Analisis</th>
+                                        <th>Analisis</th>
+                                        <th>Lim_Min</th>
+                                        <th>Lim_Max</th>
+                                        <th>Unidad de Medida</th>
+                                        <th>Acción</th>
+
                                     </tr>
                                 </thead>
                                 <tbody class="text-small">
                                 </tbody>
                             </table>
+
                         </div>
-                    </div>     -->                
+                    </div>
                 </div> <!-- END 2º card-body      -->
 
             </div> <!-- END div card principal -->
@@ -154,6 +173,7 @@ $(document).ready(function(){
     toastr.options.timeOut = 1500; // 1.5s
     toastr.options.closeButton = true;
     var items = []; // SE USA PARA EL INPUT DE AUTOCOMPLETE
+    var _id_normativa='';
 
 
 
@@ -226,9 +246,6 @@ $(document).ready(function(){
 
         return result;
     }
-
-
-
     });
 
     var columns = [
@@ -237,9 +254,6 @@ $(document).ready(function(){
       {name: 'linea', width: '20em'},
       {name: 'punto_insp', minWidth: '20px'}
     ];
-
-
-    // Sets up the multicolumn autocomplete widget.
 
     /*===============================================
         LISTADO PLANIFICACIONES AUTOCOMPLETADO
@@ -259,7 +273,6 @@ $(document).ready(function(){
 
                 select: 
                   function (event, ui) {
-                    // Construir el texto del resultado si hay un ítem seleccionado
                     var result_text = (ui.item) ? ui.item[0] + ', ' + ui.item[1] + ', ' + ui.item[2] + ', ' + ui.item[3] : '';
                     
                     // Asignar el valor al input actual
@@ -268,7 +281,9 @@ $(document).ready(function(){
                     $("#iptLinea").val(ui.item[2]);
                     $("#iptPuntoInspeccion").val(ui.item[3]);
                     $("#iptIdPlanificacion").val(ui.item[0]);
-
+                    
+                    $("#selCategoriaAnalisis" ).prop( "disabled", false );
+        
 
                     // Reemplazar el HTML sin procesar en el texto de resultados
                     $('#results').html(ui.item ? 'Selected: ' + 
@@ -282,23 +297,156 @@ $(document).ready(function(){
                     return false;
                 }
 
-
-                //minLength: 1
-
             });                
                            
         }
     }); 
 
+    /************************************    
+            btnSabe BOTON GUARDAR
+    ************************************/
 
+    $("#btnSave").click(function() {
+        
+        
+
+        $.ajax({
+            url:"../ajax/planificacion_ingreso.ajax.php",
+            type: "POST",
+            data: {
+                'accion': 1,
+                'id_planificacion':$("#iptIdPlanificacion").val(),
+                'id_categoria_general':$("#selCategoriaAnalisis").val(),
+                'id_normativa':_id_normativa,
+                'resultados':$("#iptResultados").val(),
+                'fecha_resultados':$("#iptFechaResultados").val(),
+                'observacion':$("#iptObservacion").val(),
+            }, 
+            dataType: 'json',
+            success: function(respuesta){
+                //console.log("CATEGORIAS ",respuesta);
+            }
+        }); 
+    });
+
+    /************************************    
+        CANCELAR
+    ************************************/
+    $("#btnClose").click(function(e){
+        _id_normativa='';
+        $("#iptResultados").val("");
+        $("#iptFechaResultados").val("");
+        $("#iptObservacion").val("");
+        $("#div_resultados" ).prop( "hidden", true );
+
+    }); 
+
+
+    /************************************    
+        AREA BORRAR
+    ************************************/
+
+    $('#tbl_normativas tbody').on('click','.btnEditar', function(){
+        _id_normativa='';
+        $("#div_resultados" ).prop( "hidden", false );
+        $("#iptResultados").focus();
+
+        //accion = 3; //-GUARDAR MODIFICACION
+        var data = table.row($(this).parents('tr')).data();
+        _id_normativa = data['id_normativa'];
+    }); 
+
+
+
+    /************************************    
+        AREA BORRAR
+    ************************************/
     $("#iptArea").keydown(function(e){
         if((e.which == 8) || (e.which == 46)){
             $("#iptArea").val("");
             $("#iptLinea").val("");
             $("#iptPuntoInspeccion").val("");
             $("#iptIdPlanificacion").val("");
+            $("#selCategoriaAnalisis" ).prop( "disabled", true );
         }
     }); 
+
+    
+
+    $("#selCategoriaAnalisis").change(function(e){
+        var categoriaAnalisis = $("#selCategoriaAnalisis").val();
+        $("#div_table" ).prop( "hidden", false );
+
+        /************************************    
+            CARGA DE CATEGORIAS EXISTENTES
+        ************************************/
+        table = $("#tbl_normativas").DataTable({
+            bDestroy: true,
+            bPaginate: false,
+            bAutoWidth: false,
+            searching: false,
+            select: true,
+            info: false,
+            ordering: false,
+            responsive: true,
+           
+            ajax:{
+                url:"../ajax/normativas.ajax.php",
+                dataSrc: '',
+                type:"POST",            
+                data: {
+                    'accion' : 6,
+                    'id_categoria_general' : categoriaAnalisis
+                },
+            },
+            columns: [
+                { "data": "vacio" }, 
+                { "data": "id_normativa" }, 
+                { "data": "id_categoria_general" },
+                { "data": "categoria_general" },
+                { "data": "categoria" },
+                { "data": "tipo_analisis" },
+                { "data": "analisis" },
+                { "data": "limite_min" },
+                { "data": "limite_max" },
+                { "data": "unidad_medida" },
+                { "data": "vacio" },                 
+            ],
+            responsive: {
+                details: {
+                    type: 'column'
+                }
+            },
+            
+            columnDefs:[
+
+                {"className": "dt-center", "targets": "_all"},
+                {targets:0,orderable:false,className:'control'},
+                // // { width: '20%', targets: 5},
+
+                 {targets:2,visible:false,},
+                { responsivePriority: 1, targets: 10 },
+
+                {
+                    targets:10,
+                    orderable:false,
+                    render: function(data, type, full, meta){
+                        return "<center>"+
+                                      "<span class='btnEditar text-primary px-1' style='cursor:pointer;'>"+
+                                        "<i class='fas fa-pencil-alt fs-5'></i>"+
+                                    "</span>"+
+                                "</center>"
+                    }
+
+                }     
+
+
+            ],
+            pageLength: 10,
+            // language: { }, 
+        });        
+
+    });     
 
 }); // fin document ready
 
