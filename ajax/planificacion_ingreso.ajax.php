@@ -19,7 +19,10 @@ class AjaxPlanificacionIngresos{
 
 
 if (isset($_POST['accion']) && $_POST['accion'] == 1) { // guardar ingreso de resultados
+    echo "<pre>";
     print_r($_POST);
+    echo "<pre>";
+
 	// $res = new AjaxPlanificacionIngresos();
     // $res-> ajaxPIGuardar();
 

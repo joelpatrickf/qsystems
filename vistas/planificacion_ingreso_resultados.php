@@ -51,7 +51,7 @@
                 <div class="card-header pb-0 mb-0" >
                     <div class="row">
                         <div class="col-6">
-                           <h4> Ingresos de Resultados </h4>
+                           <h4> Ingresos de Resultados 2</h4>
                         </div>
                     </div>
                 </div>
@@ -102,12 +102,14 @@
                     </div>                        
                     <!-- Parte del ingreso de datos OCULTA -->
                     <div class="col-sm-6"></div>
+                    
                     <div class="col-4 col-sm-6 mt-2 " id="div_resultados" style="background-color:#d1d1d1;" hidden>
                                 
                         <div class="form-group col-md-3">
                             <label for="inputEmail4" class="mb-0">Resultado</label>
                             <input type="text" class="form-control" id="iptResultados" placeholder="Resultados" pattern="^[A-Za-z]+$" autocomplete="off" >
-
+                            <select class="form-control " aria-label=".form-select-sm example" id="selResultados"  >
+                            </select>
                         </div>
 
                         <div class="form-group col-md-3">
@@ -167,6 +169,12 @@
     var accion = '';
     var Id_Item = '';
     var varNormativas;
+    var _max='';
+    var _min='';
+
+    var validarMax = '';
+    var validarMin = '';
+
 
 $(document).ready(function(){
     // Personalizamos el toast mensajes
@@ -176,7 +184,8 @@ $(document).ready(function(){
     var _id_normativa='';
 
 
-
+    $("#iptResultados" ).prop( "hidden", true );
+    $("#selResultados" ).prop( "hidden", true );
     /*===========================================
         Carga Categorias de Planificacion flag 1
       ===========================================*/
@@ -186,7 +195,7 @@ $(document).ready(function(){
         data: {'accion': 2}, // solo HIGIENICO-SANITARIO
         dataType: 'json',
         success: function(respuesta){
-            console.log("CATEGORIAS ",respuesta);
+            //console.log("CATEGORIAS ",respuesta);
             var options = '<option selected value="0">Categorias</option>';
             for (let index = 0; index < respuesta.length;index++){
                 options = options + '<option value='+respuesta[index]['id_categoria']+'>'+respuesta[index]['categoria']+'</option>';
@@ -273,11 +282,12 @@ $(document).ready(function(){
 
                 select: 
                   function (event, ui) {
+                    console.log("id_planificacion :",ui.item[0]);
+
                     var result_text = (ui.item) ? ui.item[0] + ', ' + ui.item[1] + ', ' + ui.item[2] + ', ' + ui.item[3] : '';
                     
                     // Asignar el valor al input actual
                     this.value = (ui.item ? ui.item[1] : '');
-                    
                     $("#iptLinea").val(ui.item[2]);
                     $("#iptPuntoInspeccion").val(ui.item[3]);
                     $("#iptIdPlanificacion").val(ui.item[0]);
@@ -308,25 +318,37 @@ $(document).ready(function(){
 
     $("#btnSave").click(function() {
         
-        
+        // Si es texto contenido del select si es numero contenido del input
+        if ((validarMin == 'NUMERO') && (validarMax == 'NUMERO')) {
+            varResultados = $("#iptResultados").val();
+            varResultados = varResultados.replace(/,/g, '.');
 
-        $.ajax({
-            url:"../ajax/planificacion_ingreso.ajax.php",
-            type: "POST",
-            data: {
-                'accion': 1,
-                'id_planificacion':$("#iptIdPlanificacion").val(),
-                'id_categoria_general':$("#selCategoriaAnalisis").val(),
-                'id_normativa':_id_normativa,
-                'resultados':$("#iptResultados").val(),
-                'fecha_resultados':$("#iptFechaResultados").val(),
-                'observacion':$("#iptObservacion").val(),
-            }, 
-            dataType: 'json',
-            success: function(respuesta){
-                //console.log("CATEGORIAS ",respuesta);
-            }
-        }); 
+        }else if ((validarMin == 'TEXTO') && (validarMax == 'TEXTO')){
+            var selResultado = document.getElementById("selResultados");
+            var selResultados = selResultado.options[selResultado.selectedIndex].text;
+            varResultados = selResultados;
+        }
+        alert(varResultados);
+
+        // $.ajax({
+        //     url:"../ajax/planificacion_ingreso.ajax.php",
+        //     type: "POST",
+        //     data: {
+        //         'accion': 1,
+        //         'id_planificacion':$("#iptIdPlanificacion").val(),
+        //         'id_categoria_general':$("#selCategoriaAnalisis").val(),
+        //         'id_normativa':_id_normativa,
+        //         'limite_min':_min,
+        //         'limite_max':_max,
+        //         'resultados':$("#iptResultados").val(),
+        //         'fecha_resultados':$("#iptFechaResultados").val(),
+        //         'observacion':$("#iptObservacion").val(),
+        //     }, 
+        //     dataType: 'json',
+        //     success: function(respuesta){
+        //         //console.log("CATEGORIAS ",respuesta);
+        //     }
+        // }); 
     });
 
     /************************************    
@@ -343,17 +365,63 @@ $(document).ready(function(){
 
 
     /************************************    
-        AREA BORRAR
+        NUEVO ANALISIS
     ************************************/
 
-    $('#tbl_normativas tbody').on('click','.btnEditar', function(){
+    $('#tbl_normativas tbody').on('click','.btnNewAnalisis', function(){
         _id_normativa='';
+        
         $("#div_resultados" ).prop( "hidden", false );
+        //$('#div_resultados').removeAttr('hidden');        
         $("#iptResultados").focus();
 
         //accion = 3; //-GUARDAR MODIFICACION
         var data = table.row($(this).parents('tr')).data();
         _id_normativa = data['id_normativa'];
+        
+        _max=data['limite_max'];
+        _min=data['limite_min'];
+        varUnidadMedida = data['unidad_medida'];
+
+        validarMax = validarTexto(_max);
+        validarMin = validarTexto(_min);
+
+        if ((validarMin == "TEXTO") && validarMax == "TEXTO"){
+            
+            $("#selResultados" ).prop( "hidden", false );
+            $("#iptResultados" ).prop( "hidden", true );
+
+            const arrUM = varUnidadMedida.split("/");
+            //var options = '<option selected value="0">Seleccione</option>';
+            var options = '';
+            for (let index = 0; index < arrUM.length;index++){
+                options = options + '<option value='+arrUM[index]+'>'+arrUM[index]+'</option>';
+            }
+            $("#selResultados").html(options);
+        }else{
+            
+            $("#selResultados" ).prop( "hidden", true );
+            $("#iptResultados" ).prop( "hidden", false );
+            $("#iptResultados").focus();
+        }
+        $("#iptResultados").val("");
+
+
+
+
+
+
+
+        var f = new Date();
+        var mes1 =  (f.getMonth() +1);
+        var mes='';
+        if (mes1 < 10){mes="0"+mes1;
+        }else{mes=mes1;
+        }
+        var f_actual = f.getFullYear()+ "-" + mes + "-" + f.getDate()  ;
+        
+        $("#iptFechaResultados").val(f_actual);
+        
     }); 
 
 
@@ -432,7 +500,7 @@ $(document).ready(function(){
                     orderable:false,
                     render: function(data, type, full, meta){
                         return "<center>"+
-                                      "<span class='btnEditar text-primary px-1' style='cursor:pointer;'>"+
+                                      "<span class='btnNewAnalisis text-primary px-1' style='cursor:pointer;'>"+
                                         "<i class='fas fa-pencil-alt fs-5'></i>"+
                                     "</span>"+
                                 "</center>"
@@ -450,4 +518,14 @@ $(document).ready(function(){
 
 }); // fin document ready
 
+function validarTexto(valor) {
+    contar_numeros = valor.replace(/[^0-9]/g,"").length;
+    if ( contar_numeros == 0){
+        resultado = 'TEXTO';
+    }else{
+        resultado ='NUMERO';
+    }
+    //console.log("# "+contar_numeros+"  resultado->"+resultado);
+    return resultado;
+}
 </script>

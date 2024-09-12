@@ -82,7 +82,7 @@ if(isset($_SESSION)){ }else{ session_start(); }
                                                 <input type="text" class="form-control" id="iptResultados" placeholder="Resultados" pattern="^[A-Za-z]+$" autocomplete="off" >
 
                                                 <select class="form-control " aria-label=".form-select-sm example" id="selResultados"  >
-                                                </select>           
+                                                </select>
                                             </div>
 
                                             <div class="form-group col-md-6">
@@ -570,7 +570,7 @@ $(document).ready(function(){
     $('#tbl_Analisis tbody').on('click','.btnNewAnalisis', function(){
         accion = 3; //-GUARDAR MODIFICACION
 
-        $('#div_resultados').removeAttr('hidden');                
+        $('#div_resultados').removeAttr('hidden');
         //---------------------------------------
 
         var data = table2.row($(this).parents('tr')).data();
