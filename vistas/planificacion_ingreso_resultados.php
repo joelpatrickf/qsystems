@@ -318,6 +318,13 @@ $(document).ready(function(){
 
     $("#btnSave").click(function() {
         
+        var estado = '';
+        var validacion ='';
+        var validarResultadoLetras = '';
+        var varResultados='';
+        var varLimiteMaxSinEspacios='';
+        var varResultadosSinEspacios='';
+        
         // Si es texto contenido del select si es numero contenido del input
         if ((validarMin == 'NUMERO') && (validarMax == 'NUMERO')) {
             varResultados = $("#iptResultados").val();
@@ -328,7 +335,72 @@ $(document).ready(function(){
             var selResultados = selResultado.options[selResultado.selectedIndex].text;
             varResultados = selResultados;
         }
-        alert(varResultados);
+
+        if (typeof varAnalisis == "undefined" || varAnalisis == null){toastr["error"]("No existen datos para guardar", "!Atención!");return;}
+        if (varResultados.length == 0){toastr["error"]("Faltan datos para guardar", "!Atención!");return;}
+
+        validarResultadoLetras = validarTexto(varResultados);
+        
+        varLimiteMaxSinEspacios = varLimiteMax.replace(/ /g, "");
+        varResultadosSinEspacios = varResultados.replace(/ /g, "");
+        
+        if (validarMin == 'TEXTO') {
+            if (varLimiteMaxSinEspacios == varResultadosSinEspacios ) {
+                resCondicionMin = true;
+                resCondicionMax = true;
+            }else if (varLimiteMaxSinEspacios != varResultadosSinEspacios ) {
+                resCondicionMin = true;
+                resCondicionMax = false;
+            }
+
+        } else{ // CASO CONTRARIO ES NUMERO
+            if (validarResultadoLetras != 'NUMERO') {
+                toastr["error"]("El resultado no coinside con el tipo de Ingreso de Datos", "!Atención!");
+                return false;
+            }
+
+            //Validamos el limite Maximo
+            if (varLimiteMax.includes('<')) {
+                valorMax = varLimiteMax.replace("<", "");
+                valorMax = parseFloat(valorMax);
+                resCondicionMax = varResultados < valorMax ? true:false;
+
+            } else if (varLimiteMax.includes('<=')) {
+                valorMax = varLimiteMax.replace("<=", "");
+                valorMax = parseFloat(valorMax);
+                resCondicionMax = varResultados <= valorMax ? true:false;
+            }else{
+                valorMax = varLimiteMax;
+                valorMax = parseFloat(valorMax);
+                resCondicionMax = varResultados <= valorMax ? true:false;
+            }
+
+            //Validamos el limite Minimo
+            if (varLimiteMin.includes('>')) {
+                valorMin = varLimiteMin.replace(">", "");
+                valorMin = parseFloat(valorMin);
+                resCondicionMin = varResultados > valorMin ? true:false;
+            } else if (varLimiteMin.includes('>=')) {
+                valorMin = varLimiteMin.replace(">=", "");
+                resCondicionMin = varResultados >= valorMin ? true:false;
+                valorMin = parseFloat(valorMin);
+            }else{
+                valorMin = varLimiteMin;
+                valorMin = parseFloat(valorMin);
+                resCondicionMin = varResultados >= valorMin ? true:false;
+            }
+        }
+        
+        if ((resCondicionMin == true) && (resCondicionMax == true) ){
+            validacion = 'CONFORME';
+            estado = 'Liberado';
+            
+        }else{
+            validacion = 'NO CONFORME';
+            estado = 'Retenido';
+        }
+
+        console.log("resCondicionMin-> "+resCondicionMin+"    resCondicionMax->"+resCondicionMax);
 
         // $.ajax({
         //     url:"../ajax/planificacion_ingreso.ajax.php",
@@ -383,8 +455,12 @@ $(document).ready(function(){
         _min=data['limite_min'];
         varUnidadMedida = data['unidad_medida'];
 
+        varAnalisis = data['analisis'];
+
         validarMax = validarTexto(_max);
         validarMin = validarTexto(_min);
+        varLimiteMax = data['limite_max'];
+        varLimiteMin = data['limite_min'];        
 
         if ((validarMin == "TEXTO") && validarMax == "TEXTO"){
             
