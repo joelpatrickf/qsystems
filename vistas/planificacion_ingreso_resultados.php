@@ -400,7 +400,7 @@ $(document).ready(function(){
             estado = 'Retenido';
         }
 
-        console.log("resCondicionMin-> "+resCondicionMin+"    resCondicionMax->"+resCondicionMax);
+        console.log("resCondicionMin-> "+resCondicionMin+"    resCondicionMax-> "+resCondicionMax);
 
         // $.ajax({
         //     url:"../ajax/planificacion_ingreso.ajax.php",
