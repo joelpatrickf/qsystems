@@ -218,6 +218,34 @@ $(document).ready(function(){
 
     $("#iptResultados" ).prop( "hidden", true );
     $("#selResultados" ).prop( "hidden", true );
+
+
+
+        /************************************    
+            CARGA PLANIFICACIONES
+        ************************************/
+
+    $.ajax({
+        url:"../ajax/planificacion_ingreso.ajax.php",
+        type: "POST",
+        data: {'accion': 2}, // 
+        dataType: 'json',
+        success: function(respuesta){
+            //console.log("CATEGORIAS ",respuesta);
+
+
+        }
+    });
+
+
+
+
+
+
+
+
+
+
     /*===========================================
         Carga Categorias de Planificacion flag 1
       ===========================================*/

@@ -13,6 +13,16 @@ class AjaxPlanificacionIngresos{
 		echo json_encode($respuesta);
 	}
 	
+
+
+	/*===================================================
+		Listar Ingresos de resultados Planificación # 2
+	  ===================================================*/
+	public function ajaxPIListar()
+	{
+		$respuesta = PlanificacionIngresoControlador::ctrPIListar();
+		echo json_encode($respuesta);
+	}
 } /* End class*/
 
 
@@ -35,6 +45,12 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // guardar ingreso de re
 
 	$res = new AjaxPlanificacionIngresos();
     $res-> ajaxPIGuardar($data);
+
+}else if (isset($_POST['accion']) && $_POST['accion'] == 2) { // mostrar planificaciones
+    echo "<pre>";print_r($_POST);echo "<pre>";
+
+	$res = new AjaxPlanificacionIngresos();
+    $res-> ajaxPIListar();
 
 }
 

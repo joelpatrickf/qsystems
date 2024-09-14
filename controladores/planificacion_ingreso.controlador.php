@@ -13,6 +13,12 @@ class PlanificacionIngresoControlador{
 		return $res;
 	}
 
-
+	/*===================================================
+		Listar Ingresos de resultados Planificación # 2
+	  ===================================================*/
+	static public function ctrPIListar(){
+		$res = PlanificacionIngresoModelo::mdlPIListar();
+		return $res;
+	}
 }
 

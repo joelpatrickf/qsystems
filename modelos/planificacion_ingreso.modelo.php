@@ -57,19 +57,19 @@ class PlanificacionIngresoModelo{
 	}
 
 	
-	/* *********************************
-			LISTAR LISTAR PLANIFICACION  # 1
-	**********************************/	
-	// static public function mdlPlanificacionListar()
-	// {
-	// 	$stmt = Conexion::conectar()->prepare("SELECT '' as vacio,id_planificacion,  p.id_area,a.area,  l.id_linea,l.linea,  punto_inspeccion, cantidad, frecuencia,  p.fecha,  p.usuario 
-	// 		FROM planificacion p
-	// 		INNER JOIN area a ON p.id_area = a.id_area 
-	// 		INNER JOIN linea l ON p.id_area = l.id_linea
-	// 	");
-	// 	$stmt->execute();
-	// 	return $stmt-> fetchAll(PDO::FETCH_CLASS);
-	// }
+	/*===================================================
+		Listar Ingresos de resultados Planificación # 2
+	  ===================================================*/
+	static public function mdlPIListar()
+	{
+		$stmt = Conexion::conectar()->prepare("SELECT '' as vacio,id_planificacion,  p.id_area,a.area,  l.id_linea,l.linea,  punto_inspeccion, cantidad, frecuencia,  p.fecha,  p.usuario 
+			FROM planificacion p
+			INNER JOIN area a ON p.id_area = a.id_area 
+			INNER JOIN linea l ON p.id_area = l.id_linea
+		");
+		$stmt->execute();
+		return $stmt-> fetchAll(PDO::FETCH_CLASS);
+	}
 
 	/* *****************************************
 			LISTAR PLANIFICACION 4 Columnas # 11
