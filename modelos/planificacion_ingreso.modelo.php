@@ -62,10 +62,18 @@ class PlanificacionIngresoModelo{
 	  ===================================================*/
 	static public function mdlPIListar()
 	{
-		$stmt = Conexion::conectar()->prepare("SELECT '' as vacio,id_planificacion,  p.id_area,a.area,  l.id_linea,l.linea,  punto_inspeccion, cantidad, frecuencia,  p.fecha,  p.usuario 
-			FROM planificacion p
-			INNER JOIN area a ON p.id_area = a.id_area 
-			INNER JOIN linea l ON p.id_area = l.id_linea
+
+		date_default_timezone_set("America/Guayaquil");
+		$fechaActual = date('Y-m-d');
+
+		$stmt = Conexion::conectar()->prepare(" SELECT area,linea,punto_inspeccion, cat.categoria,
+			nor.normativa, nor.categoria as subcategoria,nor.tipo_analisis, nor.analisis,
+			rp.limite_min, rp.limite_max,resultados, fecha_resultado,validacion, rp.usuario
+			from resultados_planificacion rp
+			inner join v_area_planificiacion va ON rp.id_planificacion = va.id_planificacion
+			inner join normativas nor ON rp.id_normativa=nor.id_normativa
+			inner join categorias cat on rp.id_categoria_general=cat.id_categoria
+			where fecha_resultado='$fechaActual'
 		");
 		$stmt->execute();
 		return $stmt-> fetchAll(PDO::FETCH_CLASS);

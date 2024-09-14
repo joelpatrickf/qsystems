@@ -231,7 +231,7 @@ $(document).ready(function(){
         data: {'accion': 2}, // 
         dataType: 'json',
         success: function(respuesta){
-            //console.log("CATEGORIAS ",respuesta);
+            console.log("resultados ingresados ",respuesta);
 
 
         }

@@ -47,7 +47,7 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // guardar ingreso de re
     $res-> ajaxPIGuardar($data);
 
 }else if (isset($_POST['accion']) && $_POST['accion'] == 2) { // mostrar planificaciones
-    echo "<pre>";print_r($_POST);echo "<pre>";
+    //echo "<pre>";print_r($_POST);echo "<pre>";
 
 	$res = new AjaxPlanificacionIngresos();
     $res-> ajaxPIListar();
