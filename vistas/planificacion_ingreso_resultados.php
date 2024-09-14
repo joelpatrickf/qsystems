@@ -16,7 +16,9 @@
         background-color: #007bff;
     }
 
-
+    .colorHead{
+        background-color: #358db7!important;
+    }
 
     ul.ui-widget 
     li.ui-menu-item {
@@ -155,6 +157,36 @@
                         </div>
                     </div>
                 </div> <!-- END 2º card-body      -->
+
+                <!-- 2ª tabla  -->
+                <div class="card-body pb-0 pt-1">
+                    <div class="row">
+                        <div class="col-lg-12">
+                        <table id="tbl_resultados" class="table table-striped cell-border w-100 shadow  " width="100%">
+                                <thead class="bg-gray">
+                                    <tr>
+                                        <th class="text-center colorHead" >Id Res</th>
+                                        <th class="text-center colorHead">OT</th>
+                                        <th class="text-center colorHead">Id Nor</th>
+                                        <th class="text-center colorHead">Fecha creacion</th>
+                                        <th class="text-center colorHead">Usuario</th>
+                                        <th class="text-center colorHead">Normativa</th>
+                                        <th class="text-center colorHead">Categoria</th>
+                                        <th class="text-center colorHead">Tipo_analisis</th>
+                                        <th class="text-center colorHead">Analisis</th>
+                                        <th class="text-center colorHead">Resultado</th>
+                                        <th class="text-center colorHead">Validacion</th>
+                                        <th class="text-center colorHead">Estado</th>
+                                        <!-- <th class="text-center">Opciones</th> -->
+                                    </tr>
+                                </thead>
+                                <tbody class="text-small">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>                    
+                </div> <!-- END 3º card-body      -->
+
 
             </div> <!-- END div card principal -->
                 
@@ -392,35 +424,36 @@ $(document).ready(function(){
         }
         
         if ((resCondicionMin == true) && (resCondicionMax == true) ){
-            validacion = 'LIBERADO';
-            estado = 'Liberado';
+            validacion = 'CONFORME';
+            //estado = 'Liberado';
             
         }else{
-            validacion = 'CUARENTENA';
-            estado = 'Retenido';
+            validacion = 'NO CONFORME';
+            //estado = 'Retenido';
         }
 
         console.log("resCondicionMin-> "+resCondicionMin+"    resCondicionMax-> "+resCondicionMax);
 
-        // $.ajax({
-        //     url:"../ajax/planificacion_ingreso.ajax.php",
-        //     type: "POST",
-        //     data: {
-        //         'accion': 1,
-        //         'id_planificacion':$("#iptIdPlanificacion").val(),
-        //         'id_categoria_general':$("#selCategoriaAnalisis").val(),
-        //         'id_normativa':_id_normativa,
-        //         'limite_min':_min,
-        //         'limite_max':_max,
-        //         'resultados':$("#iptResultados").val(),
-        //         'fecha_resultados':$("#iptFechaResultados").val(),
-        //         'observacion':$("#iptObservacion").val(),
-        //     }, 
-        //     dataType: 'json',
-        //     success: function(respuesta){
-        //         //console.log("CATEGORIAS ",respuesta);
-        //     }
-        // }); 
+        $.ajax({
+            url:"../ajax/planificacion_ingreso.ajax.php",
+            type: "POST",
+            data: {
+                'accion': 1,
+                'id_planificacion':$("#iptIdPlanificacion").val(),
+                'id_categoria_general':$("#selCategoriaAnalisis").val(),
+                'id_normativa':_id_normativa,
+                'limite_min':_min,
+                'limite_max':_max,
+                'resultados':$("#iptResultados").val(),
+                'fecha_resultados':$("#iptFechaResultados").val(),
+                'observacion':$("#iptObservacion").val(),
+                'validacion':validacion,
+            }, 
+            dataType: 'json',
+            success: function(respuesta){
+                //console.log("CATEGORIAS ",respuesta);
+            }
+        }); 
     });
 
     /************************************    
