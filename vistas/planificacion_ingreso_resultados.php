@@ -392,11 +392,11 @@ $(document).ready(function(){
         }
         
         if ((resCondicionMin == true) && (resCondicionMax == true) ){
-            validacion = 'CONFORME';
+            validacion = 'LIBERADO';
             estado = 'Liberado';
             
         }else{
-            validacion = 'NO CONFORME';
+            validacion = 'CUARENTENA';
             estado = 'Retenido';
         }
 
