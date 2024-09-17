@@ -12,6 +12,12 @@ class PlanificacionIngresoModelo{
 	static public function mdlPIGuardar($data)
 	{
 		//echo "<pre>";print_r($data);echo "<pre>";
+		date_default_timezone_set("America/Guayaquil");
+		$fechaActual = date('Y-m-d'); 
+		$user=$_SESSION['login'][0]->usuario;
+
+
+
 
 		$id_ingreso_planificacion=null;
 		$id_planificacion = $data['id_planificacion'];
@@ -26,10 +32,11 @@ class PlanificacionIngresoModelo{
 		$estado = null;
 		$usuario=$_SESSION['login'][0]->usuario;
 
+
+
+
         $stmt=null;
-		date_default_timezone_set("America/Guayaquil");
-		$fechaActual = date('Y-m-d'); 
-		$user=$_SESSION['login'][0]->usuario;
+
 
         $stmt = Conexion::conectar()->prepare("INSERT resultados_planificacion (id_ingreso_planificacion,id_planificacion,id_categoria_general,id_normativa,limite_min,limite_max,resultados,fecha_resultado,observacion,validacion,estado,usuario)
 		 VALUES(:id_ingreso_planificacion,:id_planificacion,:id_categoria_general,:id_normativa,:limite_min,:limite_max,:resultados,:fecha_resultado,:observacion,:validacion,:estado,:usuario)");
@@ -76,28 +83,38 @@ class PlanificacionIngresoModelo{
 			where fecha_resultado='$fechaActual'
 		");
 		$stmt->execute();
-		return $stmt-> fetchAll(PDO::FETCH_CLASS);
+		$res = $stmt-> fetchAll(PDO::FETCH_ASSOC);
+		return $res;
 	}
 
-	/* *****************************************
-			LISTAR PLANIFICACION 4 Columnas # 11
-	********************************************/	
-	// static public function mdlPlanificacionListar4Columnas()
-	// {
-	// 	$sql = 'SELECT id_planificacion, a.area,  l.linea,  punto_inspeccion FROM planificacion p INNER JOIN area a ON p.id_area = a.id_area INNER JOIN linea l ON p.id_area = l.id_linea';
-	//     $stmt = Conexion::conectar()->prepare($sql, array(PDO::ATTR_CURSOR => PDO::CURSOR_SCROLL));
-	//     $stmt->execute();
-
-
-
-	//     $data = array();
-	//     while ($row = $stmt->fetch(PDO::FETCH_NUM, PDO::FETCH_ORI_NEXT)) {
-	//         $data[] = $row;
-	//     }
-	//     //echo json_encode($data);
-	//     return $data;
 	
-	// }	
+	/*===================================================
+		Buscar Ingresos de resultados Planificación # 3
+	  ===================================================*/
+	static public function mdlPIBuscar($id_planificacion,$id_categoria_general,$id_normativa)
+	{
+		date_default_timezone_set("America/Guayaquil");
+		$fechaActual = date('Y-m-d'); 
+		$user=$_SESSION['login'][0]->usuario;
+
+
+		$stmt = Conexion::conectar()->prepare(" SELECT *
+			from resultados_planificacion
+			where id_planificacion='$id_planificacion' AND id_categoria_general='$id_categoria_general' AND id_normativa = '$id_normativa' AND fecha_resultado='$fechaActual'
+		");
+		$stmt->execute();
+		$res = $stmt-> fetchAll(PDO::FETCH_ASSOC);
+
+		// echo "<pre>";
+		// print_r($data);
+		// echo "<pre>";
+		//echo "<br><br>";
+
+		return count($res);
+
+
+	
+	}	
 
 
 

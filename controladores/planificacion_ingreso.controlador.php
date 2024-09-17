@@ -20,5 +20,13 @@ class PlanificacionIngresoControlador{
 		$res = PlanificacionIngresoModelo::mdlPIListar();
 		return $res;
 	}
+
+	/*===================================================
+		Buscar Ingresos de resultados Planificación # 3
+	  ===================================================*/
+	static public function ctrPIBuscar($id_planificacion,$id_categoria_general,$id_normativa){
+		$res = PlanificacionIngresoModelo::mdlPIBuscar($id_planificacion,$id_categoria_general,$id_normativa);
+		return $res;
+	}
 }
 

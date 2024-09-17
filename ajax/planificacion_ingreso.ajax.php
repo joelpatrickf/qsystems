@@ -23,6 +23,17 @@ class AjaxPlanificacionIngresos{
 		$respuesta = PlanificacionIngresoControlador::ctrPIListar();
 		echo json_encode($respuesta);
 	}
+
+	/*===================================================
+		Buscar Ingresos de resultados Planificación # 3
+	  ===================================================*/
+	public function ajaxPIBuscar($id_planificacion,$id_categoria_general,$id_normativa)
+	{
+		$respuesta = PlanificacionIngresoControlador::ctrPIBuscar($id_planificacion,$id_categoria_general,$id_normativa);
+		echo json_encode($respuesta);
+	}
+
+
 } /* End class*/
 
 
@@ -47,11 +58,14 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // guardar ingreso de re
     $res-> ajaxPIGuardar($data);
 
 }else if (isset($_POST['accion']) && $_POST['accion'] == 2) { // mostrar planificaciones
-    //echo "<pre>";print_r($_POST);echo "<pre>";
-
 	$res = new AjaxPlanificacionIngresos();
     $res-> ajaxPIListar();
 
-}
+}else if (isset($_POST['accion']) && $_POST['accion'] == 3) { // buscar si existe
+    //echo "<pre>";print_r($_POST);echo "<pre>";
 
-    
+	$res = new AjaxPlanificacionIngresos();
+    $res-> ajaxPIBuscar($_POST['id_planificacion'],$_POST['id_categoria_general'],$_POST['id_normativa']);
+
+   	
+}

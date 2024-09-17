@@ -66,7 +66,7 @@
                                     <span class="small">Área</span><span class="text-danger">*</span>
                                 </label>
                                 <input type="text" class="form-control" id="iptArea" autofocus autocomplete="off">
-                                <input type="hidden" class="form-control" id="iptIdPlanificacion" >
+                                <input type="text" class="form-control" id="iptIdPlanificacion" >
                             </div>
                         </div>
 
@@ -165,19 +165,18 @@
                         <table id="tbl_resultados" class="table table-striped cell-border w-100 shadow  " width="100%">
                                 <thead class="bg-gray">
                                     <tr>
-                                        <th class="text-center colorHead" >Id Res</th>
-                                        <th class="text-center colorHead">OT</th>
-                                        <th class="text-center colorHead">Id Nor</th>
-                                        <th class="text-center colorHead">Fecha creacion</th>
-                                        <th class="text-center colorHead">Usuario</th>
-                                        <th class="text-center colorHead">Normativa</th>
+                                        <th class="text-center colorHead">Fecha</th>
+                                        <th class="text-center colorHead">Area</th>
+                                        <th class="text-center colorHead">Linea</th>
+                                        <th class="text-center colorHead">Punto_inspeccion</th>
                                         <th class="text-center colorHead">Categoria</th>
-                                        <th class="text-center colorHead">Tipo_analisis</th>
+                                        <th class="text-center colorHead">Normativa</th>
+                                        <th class="text-center colorHead">Subcategoria</th>
+                                        <th class="text-center colorHead">Tipo analisis</th>
                                         <th class="text-center colorHead">Analisis</th>
-                                        <th class="text-center colorHead">Resultado</th>
-                                        <th class="text-center colorHead">Validacion</th>
-                                        <th class="text-center colorHead">Estado</th>
-                                        <!-- <th class="text-center">Opciones</th> -->
+                                        <th class="text-center colorHead">Resultados</th>
+                                        <th class="text-center colorHead">Usuario</th>
+                                        <th class="text-center colorHead">Validacio</th>
                                     </tr>
                                 </thead>
                                 <tbody class="text-small">
@@ -207,6 +206,116 @@
     var validarMax = '';
     var validarMin = '';
 
+        table2 = $("#tbl_resultados").DataTable({
+            select: true,
+            info: false,
+            ordering: false,
+            
+            paging: false,            
+            dom: 'Bfrtilp',
+            buttons: 
+                [
+                 //'print',
+                    {
+                        extend:    'excelHtml5',
+                        text:      '<i class="fas fa-file-excel"></i> ',
+                        titleAttr: 'Exportar a Excel',
+                        className: 'btn btn-success',
+
+                        excelStyles: {template: "blue_medium",},
+
+                        filename: function() {
+                            return 'rpIngresoPlanificacion_'+<?php echo $fechaActual; ?>
+                          },
+                        title: function() {
+                            var searchString = table.search(); 
+                            return searchString.length? "Search: " + searchString : "Reporte Ingreso de Planificaciones "
+                          },
+                        exportOptions: {
+                            //columns: [ 1, 3, 4, 5, 6, 7,8],
+                            format: {
+                                body: function ( data, row, column, node ) {
+                                    return column === 1 ?data.replace( /[$,]/g, '' ) :data;
+                                }
+                            }
+                        }
+                    }, //fin del BUTTON excel
+
+
+               
+
+                ],
+
+            ajax:{
+                url:"../ajax/planificacion_ingreso.ajax.php",
+                dataSrc: '',
+                type:"POST",            
+                data: {'accion' : 2}, // 1 para listar 
+                dataType: "json",
+            },
+            columns: [
+                { "data": "fecha_resultado" },
+                { "data": "area" },
+                { "data": "linea" },
+                { "data": "punto_inspeccion" },
+                { "data": "categoria" },
+                { "data": "normativa" },
+                { "data": "subcategoria" },
+                { "data": "tipo_analisis" },
+                { "data": "analisis" },
+                { "data": "resultados" },
+                { "data": "usuario" },
+                { "data": "validacion" },
+            ],          
+            responsive: {
+                details: {
+                    type: 'column'
+                }
+            },
+            // rowReorder: {
+            //     selector: 'td:nth-child(2)'
+            // },
+            columnDefs:[
+               {"className": "dt-center", "targets": "_all"},
+                {targets:0,orderable:false,className:'control'},
+                { responsivePriority: 1, targets: 11 },
+            ],
+            pageLength: 10,
+            language: {
+                "lengthMenu": "",
+                "zeroRecords": "No se encontraron resultados",
+                "info": "",
+                "infoEmpty": "",
+        
+                "infoFiltered": "",
+                "sSearch": "Buscar:",
+                "oPaginate": {
+                    "sFirst": "<",
+                    "sLast":">>",
+                    "sNext":">",
+                    "sPrevious": "<<"
+                },
+                "sProcessing":"Procesando...",
+            },
+
+            rowCallback:function(row,data){
+                console.log("estado",data['validacion']);
+                if (data['validacion'] == 'CONFORME'){
+                    $($(row).find("td")[11]).css("background-color","#09f558");
+                }else if (data['validacion'] == 'NO CONFORME'){
+                    $($(row).find("td")[11]).css("background-color","#f6a074");
+                }
+
+                // if ((data['estado'] == "Rechazado") || (data['estado'] == "Cuarentena") || (data['estado'] == "Recall") || (data['estado'] == "Producto Retirado")) {
+                //     $($(row).find("td")[11]).css("background-color","#ECBFB6 ");
+                // } else if ((data['estado'] == "Liberado") || (data['estado'] == "Liberado reproceso") || (data['estado'] == "Liberado reacondicionado") ) {
+                //         $($(row).find("td")[11]).css("background-color","#DAF7A6");
+                //     } else if ((data['estado'] == "Retenido") || (data['estado'] == "En espera de análisis") || (data['estado'] == "En proceso de retiro") || (data['estado'] == "En Espera de Revisión de Calidad") ) {
+                //     $($(row).find("td")[11]).css("background-color","#FFEA8E");
+                // }
+
+            },
+        });
 
 $(document).ready(function(){
     // Personalizamos el toast mensajes
@@ -214,6 +323,7 @@ $(document).ready(function(){
     toastr.options.closeButton = true;
     var items = []; // SE USA PARA EL INPUT DE AUTOCOMPLETE
     var _id_normativa='';
+    var validarExiste=0;
 
 
     $("#iptResultados" ).prop( "hidden", true );
@@ -225,17 +335,17 @@ $(document).ready(function(){
             CARGA PLANIFICACIONES
         ************************************/
 
-    $.ajax({
-        url:"../ajax/planificacion_ingreso.ajax.php",
-        type: "POST",
-        data: {'accion': 2}, // 
-        dataType: 'json',
-        success: function(respuesta){
-            console.log("resultados ingresados ",respuesta);
+    // $.ajax({
+    //     url:"../ajax/planificacion_ingreso.ajax.php",
+    //     type: "POST",
+    //     data: {'accion': 2}, // 
+
+    //     success: function(respuesta){
+    //         //console.log("resultados ingresados ",respuesta);
 
 
-        }
-    });
+    //     }
+    // });
 
 
 
@@ -462,6 +572,8 @@ $(document).ready(function(){
 
         console.log("resCondicionMin-> "+resCondicionMin+"    resCondicionMax-> "+resCondicionMax);
 
+ 
+
         $.ajax({
             url:"../ajax/planificacion_ingreso.ajax.php",
             type: "POST",
@@ -480,6 +592,22 @@ $(document).ready(function(){
             dataType: 'json',
             success: function(respuesta){
                 //console.log("CATEGORIAS ",respuesta);
+                table2.ajax.reload();
+
+                /* Ocultamos cuadro de ingreso de datos*/
+                _id_normativa='';
+                $("#iptResultados").val("");
+                $("#iptFechaResultados").val("");
+                $("#iptObservacion").val("");
+                $("#div_resultados" ).prop( "hidden", true );
+
+                /* Pimpiamos las inputs*/
+                $("#iptArea").val("");
+                $("#iptLinea").val("");
+                $("#iptPuntoInspeccion").val("");
+                $("#iptIdPlanificacion").val("");
+                $("#selCategoriaAnalisis" ).prop( "disabled", true );                
+
             }
         }); 
     });
@@ -503,10 +631,9 @@ $(document).ready(function(){
 
     $('#tbl_normativas tbody').on('click','.btnNewAnalisis', function(){
         _id_normativa='';
+
         
-        $("#div_resultados" ).prop( "hidden", false );
-        //$('#div_resultados').removeAttr('hidden');        
-        $("#iptResultados").focus();
+
 
         //accion = 3; //-GUARDAR MODIFICACION
         var data = table.row($(this).parents('tr')).data();
@@ -523,41 +650,53 @@ $(document).ready(function(){
         varLimiteMax = data['limite_max'];
         varLimiteMin = data['limite_min'];        
 
-        if ((validarMin == "TEXTO") && validarMax == "TEXTO"){
-            
-            $("#selResultados" ).prop( "hidden", false );
-            $("#iptResultados" ).prop( "hidden", true );
 
-            const arrUM = varUnidadMedida.split("/");
-            //var options = '<option selected value="0">Seleccione</option>';
-            var options = '';
-            for (let index = 0; index < arrUM.length;index++){
-                options = options + '<option value='+arrUM[index]+'>'+arrUM[index]+'</option>';
+        $.ajax({ // verificamos si existe la entrada en la base de datos
+            url:"../ajax/planificacion_ingreso.ajax.php",
+            type: "POST",
+            data: {
+                'accion': 3, // buscamos si existe
+                'id_planificacion':$("#iptIdPlanificacion").val(),
+                'id_categoria_general':$("#selCategoriaAnalisis").val(),
+                'id_normativa':_id_normativa,
+            }, 
+            dataType: 'json',
+            success: function(respuesta){
+                console.log("EXISTE ",respuesta);
+                if (respuesta == 1){ // si existe preguntamos si aun asi desea registrarla
+                    Swal.fire({
+                        title: 'Entrada existente, desea registrarla',
+                        icon: 'warning',
+                        showCancelButton:true,
+                        confirmButtonColor:'#3085d6',
+                        cancelButtonColor:'#d3',
+                        confirmButtonText:'Si, desea Registrarla!',
+                        cancelButtonText:'Cancelar',
+                    }).then((result) =>{
+                        if (result.isConfirmed){
+
+                            //toastr["success"]("Registro Exitoso", "!Atención!");
+                            validarExiste = 1;
+                            fnValidarExiste(validarExiste);
+                            return;
+                        }else{
+                            //toastr["warning"]("Registro Cancelado", "!Atención!");
+                            validarExiste = 0;
+                            return;
+                        }
+                    }) 
+                    return;                     
+
+                
+                }else{
+                    validarExiste = 1;
+                }
+           
+
             }
-            $("#selResultados").html(options);
-        }else{
-            
-            $("#selResultados" ).prop( "hidden", true );
-            $("#iptResultados" ).prop( "hidden", false );
-            $("#iptResultados").focus();
-        }
-        $("#iptResultados").val("");
+        }); //FIN AJAX
 
-
-
-
-
-
-
-        var f = new Date();
-        var mes1 =  (f.getMonth() +1);
-        var mes='';
-        if (mes1 < 10){mes="0"+mes1;
-        }else{mes=mes1;
-        }
-        var f_actual = f.getFullYear()+ "-" + mes + "-" + f.getDate()  ;
-        
-        $("#iptFechaResultados").val(f_actual);
+fnValidarExiste(validarExiste);
         
     }); 
 
@@ -664,5 +803,47 @@ function validarTexto(valor) {
     }
     //console.log("# "+contar_numeros+"  resultado->"+resultado);
     return resultado;
+}
+
+function fnValidarExiste(validarExiste){
+        if (validarExiste == 1){
+        $("#div_resultados" ).prop( "hidden", false );
+        //$('#div_resultados').removeAttr('hidden');        
+        $("#iptResultados").focus();
+
+
+            console.log("validarExiste  "+validarExiste);
+            if ((validarMin == "TEXTO") && validarMax == "TEXTO"){
+                
+                $("#selResultados" ).prop( "hidden", false );
+                $("#iptResultados" ).prop( "hidden", true );
+
+                const arrUM = varUnidadMedida.split("/");
+                //var options = '<option selected value="0">Seleccione</option>';
+                var options = '';
+                for (let index = 0; index < arrUM.length;index++){
+                    options = options + '<option value='+arrUM[index]+'>'+arrUM[index]+'</option>';
+                }
+                $("#selResultados").html(options);
+            }else{
+
+                
+                $("#selResultados" ).prop( "hidden", true );
+                $("#iptResultados" ).prop( "hidden", false );
+                $("#iptResultados").focus();
+            }
+            $("#iptResultados").val("");
+
+
+            var f = new Date();
+            var mes1 =  (f.getMonth() +1);
+            var mes='';
+            if (mes1 < 10){mes="0"+mes1;
+            }else{mes=mes1;
+            }
+            var f_actual = f.getFullYear()+ "-" + mes + "-" + f.getDate()  ;
+            
+            $("#iptFechaResultados").val(f_actual);    
+        }    
 }
 </script>
