@@ -98,7 +98,7 @@ require_once "constantes/constantes.php";
 
         </div>
       </div>
-        </div>
+      </div>
 
         <!-- jQuery -->
         <script src="vistas/vendors/jquery/dist/jquery.min.js"></script>
@@ -234,6 +234,7 @@ require_once "constantes/constantes.php";
     </html>
 
 
+<?php if( (isset($_SESSION['login'])) && (!empty($_SESSION['login']))  ): ?>
 
 <script>
     function CargarContenido(pagina_php){
