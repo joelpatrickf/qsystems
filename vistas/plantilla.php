@@ -3,6 +3,26 @@ if(isset($_SESSION)){ }else{ session_start(); }
 require_once "constantes/constantes.php";
 
 
+if (isset($_SESSION['login'])){
+
+    print_r( "SI");
+}else{
+
+    print_r( "no");
+    include "vistas/login.php";
+    //session_start();
+print_r($_SESSION);
+}
+
+  // if( (isset($_SESSION['login'])) && (!empty($_SESSION['login'])) 
+  // {
+  //   print_r( "SI");
+  // } else{
+  //   print_r( "no");
+  // } 
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -234,7 +254,7 @@ require_once "constantes/constantes.php";
     </html>
 
 
-<?php if( (isset($_SESSION['login'])) && (!empty($_SESSION['login']))  ): ?>
+
 
 <script>
     function CargarContenido(pagina_php){
