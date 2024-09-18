@@ -10,17 +10,26 @@
    <link rel="shortcut icon" href="vistas/images/favicon.ico" type="image/x-icon">
    
 	<!--Bootsrap 4 CDN-->
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+	<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"> -->
     
     <!--Fontawesome CDN-->
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+	<!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous"> -->
 
 	<!--Custom styles-->
 		<link rel="stylesheet" type="text/css" href="styles.css">
 
 
-	<script src="cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> 
+	<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>  -->
+	<script src="vistas/vendors/jquery/dist/jquery.min.js"></script>
 
+<style>
+.form-control {
+     border-radius: 3px !important; 
+    padding: 0.15rem 0.75rem !important;
+    height: 2.8em !important;
+    font-size: 13px !important;
+}	
+</style>
 </head>
 <body>
 <div class="container">
@@ -39,14 +48,16 @@
 					<div class="input-group-prepend">
 						<span class="input-group-text"><i class="fas fa-user"></i></span>
 					</div>
-					<input type="text" id="iptUser" class="form-control" placeholder="username">
+					<input type="text" id="iptUser" class="form-control" placeholder="username" 
+					style="height: 2.8em !important;border-radius: 2px !important;">
 					
 				</div>
 				<div class="input-group form-group">
 					<div class="input-group-prepend">
 						<span class="input-group-text"><i class="fas fa-key"></i></span>
 					</div>
-					<input type="password" id="iptPassword" class="form-control" placeholder="password">
+					<input type="password" id="iptPassword" class="form-control" placeholder="password"
+					style="height: 2.8em !important;border-radius: 2px !important;">
 				</div>
 				<div class="row align-items-center remember">
 					<br>
@@ -96,9 +107,9 @@
             console.log(respuesta);
 
             if (respuesta.length >0){
-              //Swal.fire({title: "!Atención!",text: "Credenciales Correctas, ingresando al sistema",icon: "info"});
-			//   alert("Credenciales CORRECTAS!");
-              window.location = "vistas/";
+			  			//alert("Credenciales CORRECTAS!");
+              //window.location = "vistas/";
+              window.location = '<?php echo RUTA ?>';
 				
             }else{
               //Swal.fire({icon: "error",title: "!Atención!",text: "Credenciales Incorrectas!",});

@@ -260,7 +260,7 @@ $(document).ready(function(){
                 ],
 
             ajax:{
-                url:"../ajax/usuarios.ajax.php",
+                url:"ajax/usuarios.ajax.php",
                 dataSrc: '',
                 type:"POST",            
                 data: {'accion' : 1}, // 1 para listar 
@@ -365,7 +365,7 @@ $(document).ready(function(){
         varUsuarioEliminar = data[1];
         $.ajax({
                 async: false,
-                url:"../ajax/usuarios.ajax.php",
+                url:"ajax/usuarios.ajax.php",
                 method: "POST",
                 data: {
                     'accion':4,
@@ -437,7 +437,7 @@ $(document).ready(function(){
         
         $.ajax({
                 async: false,
-                url:"../ajax/usuarios.ajax.php",
+                url:"ajax/usuarios.ajax.php",
                 method: "POST",
                 data: {
                     'accion':accion,

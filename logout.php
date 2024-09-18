@@ -8,7 +8,5 @@ require_once "constantes/constantes.php";
 // exit();
     session_unset();
     session_destroy();
-    print_r(RUTA);
-    exit;
     header('Location:'.RUTA);
     

@@ -181,7 +181,7 @@ $(document).ready(function(){
         Carga Categorias
       ====================================*/
     $.ajax({
-        url:"../ajax/categorias.ajax.php",
+        url:"ajax/categorias.ajax.php",
         type: "POST",
         data: {'accion': 1}, 
         dataType: 'json',
@@ -213,7 +213,7 @@ $(document).ready(function(){
             buttons: ['excel', 'pdf','print'],
 
             ajax:{
-                url:"../ajax/normativas.ajax.php",
+                url:"ajax/normativas.ajax.php",
                 dataSrc: '',
                 type:"POST",            
                 data: {'accion' : 1}, //  listar
@@ -362,7 +362,7 @@ $(document).ready(function(){
 
         $.ajax({
                 async: false,
-                url:"../ajax/normativas.ajax.php",
+                url:"ajax/normativas.ajax.php",
                 method: "POST",
                 data: {
                     'accion': accion,

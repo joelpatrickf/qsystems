@@ -161,7 +161,7 @@ $(document).ready(function(){
         //********************************************************    
         $.ajax({
                 async: false,
-                url:"../ajax/normativas.ajax.php",
+                url:"ajax/normativas.ajax.php",
                 type: "POST",
                 data: {'accion': 4}, //   lista DISTINCT
                 dataType: 'json',
@@ -201,7 +201,7 @@ $(document).ready(function(){
         buttons: ['excel', 'print','pdf'],
 
         ajax:{
-            url:"../ajax/productos.ajax.php",
+            url:"ajax/productos.ajax.php",
             dataSrc: '',
             type:"POST",            
             data: {'accion' : 1}, // 1 para listar productos
@@ -391,7 +391,7 @@ $(document).ready(function(){
 
         $.ajax({
                 async: false,
-                url:"../ajax/productos.ajax.php",
+                url:"ajax/productos.ajax.php",
                 method: "POST",
                 data: {
                     'accion':accion,

@@ -371,7 +371,7 @@ $(document).ready(function(){
     
 
         ajax:{
-            url:"../ajax/inspeccion.ajax.php",
+            url:"ajax/inspeccion.ajax.php",
             dataSrc: '',
             type:"POST",
             data: {
@@ -425,7 +425,7 @@ $(document).ready(function(){
         pageLength: 10,
         language: 
         {
-            url: "json/idioma.json"
+            url: "vistas/json/idioma.json"
         },  
     });
     
@@ -438,7 +438,7 @@ $(document).ready(function(){
 
     $.ajax({
         async: false,
-        url:"../ajax/zonificacion.ajax.php",
+        url:"ajax/zonificacion.ajax.php",
         method: "POST",
         data: {
             'accion':5,
@@ -508,7 +508,7 @@ $(document).ready(function(){
 
     $.ajax({
         async: false,
-        url:"../ajax/productos.ajax.php",
+        url:"ajax/productos.ajax.php",
         method: "POST",
         data: {
             'accion':6
@@ -578,7 +578,7 @@ $(document).ready(function(){
         var observacion = null;
         $.ajax({
             async: false,
-            url:"../ajax/inspeccion.ajax.php",
+            url:"ajax/inspeccion.ajax.php",
             method: "POST",
             data: {
                 'accion':3 ,
@@ -638,7 +638,7 @@ $(document).ready(function(){
         }
         $.ajax({
                 async: false,
-                url:"../ajax/inspeccion.ajax.php",
+                url:"ajax/inspeccion.ajax.php",
                 method: "POST",
                 data: {
                     'accion':4,
@@ -729,7 +729,7 @@ $(document).ready(function(){
 
         $.ajax({
                 async: false,
-                url:"../ajax/inspeccion.ajax.php",
+                url:"ajax/inspeccion.ajax.php",
                 method: "POST",
                 data: {
                     'accion':7,
@@ -804,7 +804,7 @@ $(document).ready(function(){
 
     //     $.ajax({
     //         async: false,
-    //         url:"../ajax/proveedores.ajax.php",
+    //         url:"ajax/proveedores.ajax.php",
     //         method: "POST",
     //         data: {
     //             'accion':4,
@@ -849,7 +849,7 @@ $(document).ready(function(){
             buttons: ['excel', 'pdf'],
 
             ajax:{
-                url:"../ajax/zonificacion.ajax.php",
+                url:"ajax/zonificacion.ajax.php",
                 dataSrc: '',
                 type:"POST",            
                 data: {
@@ -889,7 +889,7 @@ $(document).ready(function(){
             pageLength: 10,
             language: 
             {
-                url: "json/idioma.json"
+                url: "vistas/json/idioma.json"
             }, 
         });        
     })
@@ -954,7 +954,7 @@ $(document).ready(function(){
         
         $.ajax({
                 async: false,
-                url:"../ajax/zonificacion.ajax.php",
+                url:"ajax/zonificacion.ajax.php",
                 method: "POST",
                 data: {
                     'accion':accion_mdlLinea,
@@ -1027,7 +1027,7 @@ $(document).ready(function(){
         
         $.ajax({
                 async: false,
-                url:"../ajax/zonificacion.ajax.php",
+                url:"ajax/zonificacion.ajax.php",
                 method: "POST",
                 data: {
                     'accion':accion_mdlArea,
@@ -1127,7 +1127,7 @@ function InciarInspeccion()
     // alert(fechaHoy);
     $.ajax({
         async: false,
-        url:"../ajax/inspeccion.ajax.php",
+        url:"ajax/inspeccion.ajax.php",
         method: "POST",
         data: {
             'accion':1,
@@ -1174,7 +1174,7 @@ function InciarInspeccion()
 function CrearInspeccion(){
     $.ajax({
         async: false,
-        url:"../ajax/inspeccion.ajax.php",
+        url:"ajax/inspeccion.ajax.php",
         method: "POST",
         data: {
             'accion':2
@@ -1197,7 +1197,7 @@ var varVariables;
 
     $.ajax({
         async: false,
-        url:"../ajax/inspeccion.ajax.php",
+        url:"ajax/inspeccion.ajax.php",
         method: "POST",
         data: {
             'accion':6

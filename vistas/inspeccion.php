@@ -387,7 +387,7 @@ $(document).ready(function(){
 
     $.ajax({
         async: false,
-        url:"../ajax/zonificacion.ajax.php",
+        url:"ajax/zonificacion.ajax.php",
         method: "POST",
         data: {
             'accion':5,
@@ -457,7 +457,7 @@ $(document).ready(function(){
 
     $.ajax({
         async: false,
-        url:"../ajax/productos.ajax.php",
+        url:"ajax/productos.ajax.php",
         method: "POST",
         data: {
             'accion':6
@@ -528,7 +528,7 @@ $(document).ready(function(){
         var vusuario=null;
         $.ajax({
             async: false,
-            url:"../ajax/inspeccion.ajax.php",
+            url:"ajax/inspeccion.ajax.php",
             method: "POST",
             data: {
                 'accion':3 ,
@@ -794,7 +794,7 @@ $(document).ready(function(){
 
         // $.ajax({
         //         async: false,
-        //         url:"../ajax/inspeccion.ajax.php",
+        //         url:"ajax/inspeccion.ajax.php",
         //         method: "POST",
         //         data: {
         //             'accion':7,
@@ -941,7 +941,7 @@ function InciarInspeccion()
     // alert(fechaHoy);
     $.ajax({
         async: false,
-        url:"../ajax/inspeccion.ajax.php",
+        url:"ajax/inspeccion.ajax.php",
         method: "POST",
         data: {
             'accion':1,
@@ -990,7 +990,7 @@ function InciarInspeccion()
 function CrearInspeccion(){
     $.ajax({
         async: false,
-        url:"../ajax/inspeccion.ajax.php",
+        url:"ajax/inspeccion.ajax.php",
         method: "POST",
         data: {
             'accion':2
@@ -1013,7 +1013,7 @@ var varVariables;
 
     $.ajax({
         async: false,
-        url:"../ajax/inspeccion.ajax.php",
+        url:"ajax/inspeccion.ajax.php",
         method: "POST",
         data: {
             'accion':6
@@ -1121,7 +1121,7 @@ function cargarTabla(){
 
             //varIdInspeccion
             ajax:{
-                url:"../ajax/inspeccion.ajax.php",
+                url:"ajax/inspeccion.ajax.php",
                 dataSrc: '',
                 type:"POST",
                 data: {
@@ -1175,7 +1175,7 @@ function cargarTabla(){
             pageLength: 10,
             language: 
             {
-                url: "json/idioma.json"
+                url: "vistas/json/idioma.json"
             },  
         });      
 }
@@ -1185,7 +1185,7 @@ function cargarTabla(){
 function guardarProductos(){
     $.ajax({
         async: false,
-        url:"../ajax/inspeccion.ajax.php",
+        url:"ajax/inspeccion.ajax.php",
         method: "POST",
         data: {
             'accion':44,
@@ -1203,7 +1203,7 @@ function guardarProductos(){
             if (respuesta == null){
                 $.ajax({
                     async: false,
-                    url:"../ajax/inspeccion.ajax.php",
+                    url:"ajax/inspeccion.ajax.php",
                     method: "POST",
                     data: {
                         'accion':4,
@@ -1238,7 +1238,7 @@ function guardarProductos(){
 function guardarMuestras(){
     $.ajax({
         async: false,
-        url:"../ajax/inspeccion.ajax.php",
+        url:"ajax/inspeccion.ajax.php",
         method: "POST",
         data: {
             'accion':7,

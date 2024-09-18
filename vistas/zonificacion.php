@@ -343,7 +343,7 @@ $(document).ready(function(){
         buttons: ['excel','pdf'],
 
         ajax:{
-            url:"../ajax/zonificacion.ajax.php",
+            url:"ajax/zonificacion.ajax.php",
             dataSrc: '',
             type:"POST",            
             data: {'accion' : 3}, // LISTAR ALL
@@ -384,7 +384,7 @@ $(document).ready(function(){
         pageLength: 10,
         language: 
         {
-            url: "json/idioma.json"
+            url: "vistas/json/idioma.json"
         }, 
     });
 
@@ -392,7 +392,7 @@ $(document).ready(function(){
     /* -TRAER LISTADO DE AREAS-*/
     $.ajax({
         async: false,
-        url:"../ajax/zonificacion.ajax.php",
+        url:"ajax/zonificacion.ajax.php",
         method: "POST",
         data: {
             'accion':1,
@@ -439,7 +439,7 @@ $(document).ready(function(){
     
     $.ajax({
         async: false,
-        url:"../ajax/zonificacion.ajax.php",
+        url:"ajax/zonificacion.ajax.php",
         method: "POST",
         data: {
             'accion':1,
@@ -507,7 +507,7 @@ $(document).ready(function(){
         
         $.ajax({
                 async: false,
-                url:"../ajax/zonificacion.ajax.php",
+                url:"ajax/zonificacion.ajax.php",
                 method: "POST",
                 data: {
                     'accion':accion,
@@ -582,7 +582,7 @@ $(document).ready(function(){
 
     //     $.ajax({
     //         async: false,
-    //         url:"../ajax/proveedores.ajax.php",
+    //         url:"ajax/proveedores.ajax.php",
     //         method: "POST",
     //         data: {
     //             'accion':4,
@@ -627,7 +627,7 @@ $(document).ready(function(){
             buttons: ['excel', 'pdf'],
 
             ajax:{
-                url:"../ajax/zonificacion.ajax.php",
+                url:"ajax/zonificacion.ajax.php",
                 dataSrc: '',
                 type:"POST",            
                 data: {
@@ -667,7 +667,7 @@ $(document).ready(function(){
             pageLength: 10,
             language: 
             {
-                url: "json/idioma.json"
+                url: "vistas/json/idioma.json"
             }, 
         });        
     })
@@ -699,7 +699,7 @@ $(document).ready(function(){
             buttons: ['excel', 'pdf'],
 
             ajax:{
-                url:"../ajax/zonificacion.ajax.php",
+                url:"ajax/zonificacion.ajax.php",
                 dataSrc: '',
                 type:"POST",            
                 data: {
@@ -739,7 +739,7 @@ $(document).ready(function(){
             pageLength: 10,
             language: 
             {
-                url: "json/idioma.json"
+                url: "vistas/json/idioma.json"
             },  
         }); 
     })
@@ -788,7 +788,7 @@ $(document).ready(function(){
         
         $.ajax({
                 async: false,
-                url:"../ajax/zonificacion.ajax.php",
+                url:"ajax/zonificacion.ajax.php",
                 method: "POST",
                 data: {
                     'accion':accion_mdlLinea,
@@ -845,7 +845,7 @@ $(document).ready(function(){
         
         $.ajax({
                 async: false,
-                url:"../ajax/zonificacion.ajax.php",
+                url:"ajax/zonificacion.ajax.php",
                 method: "POST",
                 data: {
                     'accion':accion_mdlArea,

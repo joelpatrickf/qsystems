@@ -63,7 +63,7 @@ div.dt-container .dt-paging .dt-paging-button {
 					       <h4> Visualizacion de Resultados </h4>
                         </div>
                         <div class="col-6 text-" >
-                            <button type="button" class="btn btn-success" id="btnSave" style="float: right;"> Save </button>
+                            <!-- <button type="button" class="btn btn-success" id="btnSave" style="float: right;"> Save </button> -->
 
                         </div>                    
                     </div>
@@ -77,7 +77,7 @@ div.dt-container .dt-paging .dt-paging-button {
                                     
                                         <div class="col-12" >
                                             <label class="" for="iptLote"><i class="fas fa-barcode fs-6"></i>
-                                                    <span class="">Lote</span><span class="text-danger">*</span>
+                                                    <span class="">Muestra</span><span class="text-danger">*</span>
                                             </label>
                                             <input type="text" class="form-control" id="iptLote" value="N/A" placeholder="# Orden"style="max-width:120px;display:inline-block"/>
                                             <button type="submit" id="btnBuscar" class="btn btn-secondary px-0 py-0" style="margin-left:-1px; width: 40px; height: 23px; margin: 0px 0px 0px 0px;">+</button>
@@ -210,7 +210,7 @@ $(document).ready(function(){
                     
 
         $.ajax({ //----BUSCAR ORDEN TRABAJO
-            url:"../ajax/orden_trabajo.ajax.php",
+            url:"ajax/orden_trabajo.ajax.php",
             type: "POST",
             data: {
                 'accion': 6,
@@ -250,7 +250,7 @@ $(document).ready(function(){
                         searching: false,
                         // responsive:true,                        
                         ajax:{
-                            url:"../ajax/resultados_visualizacion.ajax.php",
+                            url:"ajax/resultados_visualizacion.ajax.php",
                             dataSrc: '',
                             type:"POST",            
                             data: {
@@ -365,7 +365,7 @@ $(document).ready(function(){
 
         $.ajax({
                 async: false,
-                url:"../ajax/resultados_visualizacion.ajax.php",
+                url:"ajax/resultados_visualizacion.ajax.php",
                 method: "POST",
                 data: {
                     'accion':3, // GUARDAR
@@ -422,7 +422,7 @@ $(document).ready(function(){
         $("#ModalEstado").modal("show");
         
 
-		$.getJSON('json/estados.json', function(data) {
+		$.getJSON('vistas/json/estados.json', function(data) {
 			$.each(data, function(key, value) {
 				$("#selCambioEstado").append('<option name="' + key + '">' + value + '</option>');
 			}); // close each()

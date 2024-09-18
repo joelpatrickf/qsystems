@@ -1,6 +1,7 @@
 <?php 
 if(isset($_SESSION)){ }else{ session_start(); } 
 require_once "constantes/constantes.php";
+
 //$_SESSION['login'] = 'clorsa sda sdas';
     // session_unset();
     // session_destroy();
@@ -24,6 +25,7 @@ require_once "constantes/constantes.php";
 
     $page= substr($_SERVER['SCRIPT_NAME'],strrpos($_SERVER['SCRIPT_NAME'],"/")+1);    
 ?>
+
 
 <style>
   /* Invisible texto */
@@ -56,7 +58,7 @@ require_once "constantes/constantes.php";
               <div class="profile_info">
                 <!-- <span>Bienvenido</span> -->
                 <!-- <h2>ragde Figueroa Pinargote</h2> -->
-                <h2><?php //echo ucwords(strtolower($_SESSION['login'][0]->nombres));?></h2>
+                <h2><?php echo ucwords(strtolower($_SESSION['login'][0]->nombres));?></h2>
               </div>
             </div>
             <!-- /menu profile quick info -->
@@ -70,7 +72,7 @@ require_once "constantes/constantes.php";
                 <ul class="nav side-menu">
                   <li>
 
-                    <a onclick="CargarContenido('dashboard.php','right_col')"><i class="fa fa-home"></i>Dashboard</a>
+                    <a onclick="CargarContenido('vistas/dashboard.php','right_col')"><i class="fa fa-home"></i>Dashboard</a>
                   </li>                  
                   <li><a><i class="fa fa-handshake"></i> Administracion <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
@@ -78,12 +80,12 @@ require_once "constantes/constantes.php";
                       <li>
                         <a id="pageUsuarios" onclick="CargarContenido('vistas/usuarios.php','right_col')">Usuarios</a>
                       </li>
-                      <li><a onclick="CargarContenido('proveedores.php','right_col')">Proveedores</a></li>
+                      <li><a onclick="CargarContenido('vistas/proveedores.php','right_col')">Proveedores</a></li>
                       
-                      <li><a onclick="CargarContenido('normativas.php','right_col')">Normativas</a></li>
+                      <li><a onclick="CargarContenido('vistas/normativas.php','right_col')">Normativas</a></li>
 
-                      <li><a onclick="CargarContenido('productos.php','right_col')">Productos</a></li>
-                      <li><a onclick="CargarContenido('zonificacion.php','right_col')">Zonificacion</a></li>
+                      <li><a onclick="CargarContenido('vistas/productos.php','right_col')">Productos</a></li>
+                      <li><a onclick="CargarContenido('vistas/zonificacion.php','right_col')">Zonificacion</a></li>
 
                       
                       <!-- <li><a href="productos.php">Productos</a></li> -->
@@ -94,46 +96,47 @@ require_once "constantes/constantes.php";
                   <!-- <li><a><i class="fa fa-codepen"></i>Analisis de Materiales y         Productos <span class="fa fa-chevron-down"></span></a> -->
                     <ul class="nav child_menu">
                       <li>
-                        <a onclick="CargarContenido('orden_trabajo.php','right_col')">Orden de Trabajo</a>
+                        <a onclick="CargarContenido('vistas/orden_trabajo.php','right_col')">Orden de Trabajo</a>
                       </li>
                       <li>
-                        <a onclick="CargarContenido('resultados_ingreso.php','right_col')"></i>Ingreso de Resultados</a>
+                        <a onclick="CargarContenido('vistas/resultados_ingreso.php','right_col')"></i>Ingreso de Resultados</a>
                       </li> 
                       <li>
-                        <a onclick="CargarContenido('resultados_visualizacion.php','right_col')"></i>Visualizacion de Resultados</a>
+                        <a onclick="CargarContenido('vistas/resultados_visualizacion.php','right_col')"></i>Visualizacion de Resultados</a>
                       </li>                                        
                     </ul>
                   </li>                  
                   <li><a><i class="fa fa-codepen"></i>Inspección PT<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
                       <li>
-                        <a onclick="CargarContenido('inspeccion_variables.php','right_col')">Ingreso de variables a inspeccionar</a>
+                        <a onclick="CargarContenido('vistas/inspeccion_variables.php','right_col')">Ingreso de variables a inspeccionar</a>
                         <!-- <figcaption>Tu texto</figcaption> -->
                       </li>                  
                       <li>
-                        <a onclick="CargarContenido('inspeccion.php','right_col')"></i>Inspección</a>
+                        <a onclick="CargarContenido('vistas/inspeccion.php','right_col')"></i>Inspección</a>
                       </li> 
                       <li>
-                        <a onclick="CargarContenido('resultados_visualizacion.php','right_col')"></i>Visualizacion de Resultados</a>
+                        <a onclick="CargarContenido('vistas/resultados_visualizacion.php','right_col')"></i>Visualizacion de Resultados</a>
                       </li>
                       
-                      <li><a onclick="CargarContenido('inspeccion_cerrar.php','right_col')">Cerrar Inspeccion</a></li>
-                      <li><a onclick="CargarContenido('inspeccion_reporte.php','right_col')">Reporte Inspeccion</a></li>
+                      <li><a onclick="CargarContenido('vistas/inspeccion_cerrar.php','right_col')">Cerrar Inspeccion</a></li>
+                      <li><a onclick="CargarContenido('vistas/inspeccion_reporte.php','right_col')">Reporte Inspeccion</a></li>
                     </ul>
                   </li> 
 
-                  <li><a><i class="fa fa-codepen"></i>Higienico-Sanitario<span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu">
+                  <li class="ragde3">
+                    <a><i class="fa fa-codepen"></i>Higienico-Sanitario<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu ragde2">
                       <li>
-                        <a onclick="CargarContenido('planificacion.php','right_col')">Planificación</a>
+                        <a onclick="CargarContenido('vistas/planificacion.php','right_col')">Planificación</a>
                       </li>
                       <li>
-                        <a onclick="CargarContenido('planificacion_ingreso_resultados.php','right_col')"></i>Ingreso de Resultados</a>
+                        <a class="ragde" onclick="CargarContenido('vistas/planificacion_ingreso_resultados.php','right_col')"></i>Ingreso de Resultados</a>
                       </li> 
                       <li>
-                        <a onclick="CargarContenido('planificacion_ingreso_resultados_visualizacion.php','right_col')"></i>Visualizacion de Resultados</a>
+                        <a onclick="CargarContenido('vistas/planificacion_ingreso_resultados_visualizacion.php','right_col')"></i>Visualizacion de Resultados</a>
                       </li>
-                      <li><a onclick="CargarContenido('planificacion_reporte.php','right_col')">Reporte Planificación</a></li>
+                      <!-- <li><a onclick="CargarContenido('vistas/planificacion_reporte.php','right_col')">Reporte Planificación</a></li> -->
                     </ul>
                   </li> 
                 </ul>
@@ -153,8 +156,7 @@ require_once "constantes/constantes.php";
               <a data-toggle="tooltip" data-placement="top" >
                 <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
               </a>
-              <a data-toggle="tooltip" data-placement="top"  href="logout.php">
-              <!-- <a data-toggle="tooltip" data-placement="top"  onclick="CargarContenido('../logout.php','')"> -->
+              <a data-toggle="tooltip" data-placement="top"  href="logout.php">              
                 <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
               </a>
             </div>
@@ -175,7 +177,7 @@ require_once "constantes/constantes.php";
                 <ul class=" navbar-right"  style="padding: 0px;" >
                   <li class="nav-item dropdown open" style="padding-left: 15px;">
                     <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
-                      <img src="vistas/images/img.jpg" alt=""> <?php //echo $_SESSION['login'][0]->usuario;?>
+                      <img src="vistas/images/img.jpg" alt=""> <?php echo $_SESSION['login'][0]->usuario;?>
                     </a>
                     <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
                       <a class="dropdown-item"  href="logout.php"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
@@ -192,7 +194,8 @@ require_once "constantes/constantes.php";
           </div>
         </div>
         <!-- top navigation arriba a la derecha-->
+    
     <!-- jQuery -->
-    <script src="vistas/vendors/jquery/dist/jquery.min.js"></script>
+    <!-- <script src="vistas/vendors/jquery/dist/jquery.min.js"></script> -->
 
     

@@ -47,7 +47,7 @@ if(isset($_SESSION)){ }else{ session_start(); }
 				<div class="card-header pb-0 mb-0" >
                     <div class="row">
                         <div class="col-6">
-					       <h4> Ingreso de resultados2 </h4>
+					       <h4> Ingreso de resultados</h4>
                         </div>
                         <div class="col-6 text-" >
                             <button type="button" class="btn btn-success" id="btnSave" style="float: right;"> Save </button>
@@ -233,7 +233,7 @@ $(document).ready(function(){
         buttons: ['excel', 'pdf'],
 
         ajax:{
-            url:"../ajax/resultados.ajax.php",
+            url:"ajax/resultados.ajax.php",
             dataSrc: '',
             type:"POST",            
             data: {'accion' : 1}, // 1 para listar productos
@@ -288,7 +288,7 @@ $(document).ready(function(){
         pageLength: 10,
         language: 
         {
-            url: "json/idioma.json"
+            url: "vistas/json/idioma.json"
         },  
         rowCallback:function(row,data){
             // console.log("estado",data['estado']);
@@ -312,7 +312,7 @@ $(document).ready(function(){
         
         
         $.ajax({ //----BUSCAR ORDEN TRABAJO
-            url:"../ajax/orden_trabajo.ajax.php",
+            url:"ajax/orden_trabajo.ajax.php",
             type: "POST",
             data: {
                 'accion': 5,
@@ -348,7 +348,7 @@ $(document).ready(function(){
                         searching: false,
                         // responsive:true,
                         ajax:{
-                            url:"../ajax/normativas.ajax.php",
+                            url:"ajax/normativas.ajax.php",
                             dataSrc: '',
                             type:"POST",            
                             data: {
@@ -523,7 +523,7 @@ $(document).ready(function(){
 
         $.ajax({
                 async: false,
-                url:"../ajax/resultados.ajax.php",
+                url:"ajax/resultados.ajax.php",
                 method: "POST",
                 data: {
                     'accion':2, // GUARDAR

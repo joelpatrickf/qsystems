@@ -258,7 +258,7 @@ $(document).ready(function(){
     
 
         ajax:{
-            url:"../ajax/inspeccion.ajax.php",
+            url:"ajax/inspeccion.ajax.php",
             dataSrc: '',
             type:"POST",
             data: {
@@ -314,7 +314,7 @@ $(document).ready(function(){
         pageLength: 10,
         language: 
         {
-            url: "json/idioma.json"
+            url: "vistas/json/idioma.json"
         },  
     });
     $('#tbl_reporteInspeccion tbody').on('click','.btn_Excel', function(){
@@ -372,7 +372,7 @@ $(document).ready(function(){
                 ],
 
             ajax:{
-                url:"../ajax/inspeccion.ajax.php",
+                url:"ajax/inspeccion.ajax.php",
                 dataSrc: '',
                 type:"POST",
                 data: {
@@ -410,7 +410,7 @@ $(document).ready(function(){
             pageLength: 15,
             language: 
             {
-                url: "json/idioma.json"
+                url: "vistas/json/idioma.json"
             },  
         });
 
@@ -420,7 +420,7 @@ $(document).ready(function(){
 
         $.ajax({
             async: false,
-            url:"../ajax/inspeccion.ajax.php",
+            url:"ajax/inspeccion.ajax.php",
             method: "POST",
             data: {
                 'accion':10,
@@ -462,7 +462,7 @@ $(document).ready(function(){
     //     // usuario_inspeccion = data['usuario'];
         
     //     $.ajax({
-    //             // url:"../ajax/inspeccion.ajax.php",
+    //             // url:"ajax/inspeccion.ajax.php",
     //             url:"../excel.php",
     //             //method: "POST",
     //             // data: {

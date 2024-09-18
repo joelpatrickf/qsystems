@@ -340,7 +340,7 @@ $(document).ready(function(){
 
         $.ajax({
             async: false,
-            url:"../ajax/zonificacion.ajax.php",
+            url:"ajax/zonificacion.ajax.php",
             method: "POST",
             data: {
                 'accion':5,
@@ -383,7 +383,7 @@ $(document).ready(function(){
         //----CARGA PROVEEDORES
         //****************************
         $.ajax({
-            url:"../ajax/proveedores.ajax.php",
+            url:"ajax/proveedores.ajax.php",
             type: "POST",
             data: {'accion': 1}, // 1  listar
             dataType: 'json',
@@ -404,7 +404,7 @@ $(document).ready(function(){
         //----CARGA USUARIOS
         //****************************
         $.ajax({
-            url:"../ajax/usuarios.ajax.php",
+            url:"ajax/usuarios.ajax.php",
             type: "POST",
             data: {'accion': 1}, // 1  listar
             dataType: 'json',
@@ -439,7 +439,7 @@ $(document).ready(function(){
         buttons: ['excel', 'print','pdf'],
 
         ajax:{
-            url:"../ajax/orden_trabajo.ajax.php",
+            url:"ajax/orden_trabajo.ajax.php",
             dataSrc: '',
             type:"POST",            
             data: {'accion' : 1}, // 1 LISTAR ORDEN DE TRABAJO EXISTENTES
@@ -503,7 +503,7 @@ $(document).ready(function(){
         pageLength: 10,
         language: 
         {
-            url: "json/idioma.json"
+            url: "vistas/json/idioma.json"
         }, 
     });
 
@@ -513,7 +513,7 @@ $(document).ready(function(){
         //console.log("🚀 ~ file: ventas.php ~ line 313 ~ $ ~ ui.item.value", ui.item.value);
         $.ajax({
             async: false,
-            url:"../ajax/productos.ajax.php",
+            url:"ajax/productos.ajax.php",
             method: "POST",
             data: {'accion':4},
             dataType: "json",
@@ -536,7 +536,7 @@ $(document).ready(function(){
                         // ****************************
                         //alert(myArray);
                         $.ajax({
-                            url:"../ajax/productos.ajax.php",
+                            url:"ajax/productos.ajax.php",
                             type: "POST",
                             data: {'accion': 5, 'data':myArray}, // 1  buscar 
                             dataType: 'json',
@@ -573,7 +573,7 @@ $(document).ready(function(){
 
         $.ajax({
                 async: false,
-                url:"../ajax/muestras.ajax.php",
+                url:"ajax/muestras.ajax.php",
                 method: "POST",
                 data: {
                     'accion':4, //- CAMBIAR DE ESTADO A INACTIVO
@@ -738,7 +738,7 @@ $(document).ready(function(){
     };
         $.ajax({
                 async: false,
-                url:"../ajax/orden_trabajo.ajax.php",
+                url:"ajax/orden_trabajo.ajax.php",
                 method: "POST",
                 data: {
                     'accion':accion,

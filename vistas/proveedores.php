@@ -143,7 +143,7 @@ $(document).ready(function(){
         buttons: ['excel', 'print','pdf'],
 
         ajax:{
-            url:"../ajax/proveedores.ajax.php",
+            url:"ajax/proveedores.ajax.php",
             dataSrc: '',
             type:"POST",            
             data: {'accion' : 1}, // 1 para listar productos
@@ -248,7 +248,7 @@ $(document).ready(function(){
 
         $.ajax({
             async: false,
-            url:"../ajax/proveedores.ajax.php",
+            url:"ajax/proveedores.ajax.php",
             method: "POST",
             data: {
                 'accion':4,
@@ -320,7 +320,7 @@ $(document).ready(function(){
 
         $.ajax({
                 async: false,
-                url:"../ajax/proveedores.ajax.php",
+                url:"ajax/proveedores.ajax.php",
                 method: "POST",
                 data: {
                     'accion':accion,

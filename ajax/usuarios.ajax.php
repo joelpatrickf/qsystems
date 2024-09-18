@@ -109,7 +109,7 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR
 
 
 }else if (isset($_POST['accion']) && $_POST['accion'] == 5) { // LOGIN
-    // print_r($_POST)
+    //print_r($_POST);
 	$login1 = new AjaxUsuarios();
 	$login1-> ajaxLoginUsuarios($_POST['usuario'],$_POST['clave']);
 

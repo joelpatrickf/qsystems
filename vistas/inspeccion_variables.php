@@ -140,7 +140,7 @@ $(document).ready(function(){
             //paging: false,            
 
             ajax:{
-                url:"../ajax/inspeccion_variables.ajax.php",
+                url:"ajax/inspeccion_variables.ajax.php",
                 dataSrc: '',
                 type:"POST",            
                 data: {'accion' : 1}, // 1 para listar 
@@ -265,7 +265,7 @@ $(document).ready(function(){
 
         $.ajax({
                 async: false,
-                url:"../ajax/inspeccion_variables.ajax.php",
+                url:"ajax/inspeccion_variables.ajax.php",
                 method: "POST",
                 data: {
                     'accion':accion,

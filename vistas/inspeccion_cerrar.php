@@ -115,7 +115,7 @@ $(document).ready(function(){
         info: false,
         ordering: false,
         ajax:{
-            url:"../ajax/inspeccion.ajax.php",
+            url:"ajax/inspeccion.ajax.php",
             dataSrc: '',
             type:"POST",            
             data: {'accion' : 9}, // 1 para listar productos
@@ -205,7 +205,7 @@ $(document).ready(function(){
 
         $.ajax({
             async: false,
-            url:"../ajax/proveedores.ajax.php",
+            url:"ajax/proveedores.ajax.php",
             method: "POST",
             data: {
                 'accion':4,
@@ -274,7 +274,7 @@ $(document).ready(function(){
 
         $.ajax({
                 async: false,
-                url:"../ajax/inspeccion.ajax.php",
+                url:"ajax/inspeccion.ajax.php",
                 method: "POST",
                 data: {
                     'accion':3 ,

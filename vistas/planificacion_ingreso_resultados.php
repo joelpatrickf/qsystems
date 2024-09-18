@@ -247,7 +247,7 @@
                 ],
 
             ajax:{
-                url:"../ajax/planificacion_ingreso.ajax.php",
+                url:"ajax/planificacion_ingreso.ajax.php",
                 dataSrc: '',
                 type:"POST",            
                 data: {'accion' : 2}, // 1 para listar 
@@ -336,7 +336,7 @@ $(document).ready(function(){
         ************************************/
 
     // $.ajax({
-    //     url:"../ajax/planificacion_ingreso.ajax.php",
+    //     url:"ajax/planificacion_ingreso.ajax.php",
     //     type: "POST",
     //     data: {'accion': 2}, // 
 
@@ -360,7 +360,7 @@ $(document).ready(function(){
         Carga Categorias de Planificacion flag 1
       ===========================================*/
     $.ajax({
-        url:"../ajax/categorias.ajax.php",
+        url:"ajax/categorias.ajax.php",
         type: "POST",
         data: {'accion': 2}, // solo HIGIENICO-SANITARIO
         dataType: 'json',
@@ -439,7 +439,7 @@ $(document).ready(function(){
       ===============================================*/
     $.ajax({
         async: false,
-        url:"../ajax/planificacion.ajax.php",
+        url:"ajax/planificacion.ajax.php",
         type: "POST",
         data: {'accion': 11}, //   lista 
         dataType: 'json',
@@ -581,7 +581,7 @@ $(document).ready(function(){
          }
 
         $.ajax({
-            url:"../ajax/planificacion_ingreso.ajax.php",
+            url:"ajax/planificacion_ingreso.ajax.php",
             type: "POST",
             data: {
                 'accion': 1,
@@ -659,7 +659,7 @@ $(document).ready(function(){
 
 
         $.ajax({ // verificamos si existe la entrada en la base de datos
-            url:"../ajax/planificacion_ingreso.ajax.php",
+            url:"ajax/planificacion_ingreso.ajax.php",
             type: "POST",
             data: {
                 'accion': 3, // buscamos si existe
@@ -743,7 +743,7 @@ $(document).ready(function(){
             responsive: true,
            
             ajax:{
-                url:"../ajax/normativas.ajax.php",
+                url:"ajax/normativas.ajax.php",
                 dataSrc: '',
                 type:"POST",            
                 data: {

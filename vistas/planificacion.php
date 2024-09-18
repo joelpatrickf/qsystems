@@ -159,7 +159,7 @@ $(document).ready(function(){
 
     $.ajax({
         async: false,
-        url:"../ajax/zonificacion.ajax.php",
+        url:"ajax/zonificacion.ajax.php",
         method: "POST",
         data: {
             'accion':6,
@@ -179,7 +179,7 @@ $(document).ready(function(){
                     // buscamos la linea
                     $.ajax({
                     async: false,
-                    url:"../ajax/zonificacion.ajax.php",
+                    url:"ajax/zonificacion.ajax.php",
                     method: "POST",
                     data: {
                         'accion':6_1,
@@ -200,7 +200,7 @@ $(document).ready(function(){
                                 // buscamos PUNTO DE Inspeccion
                                     $.ajax({
                                     async: false,
-                                    url:"../ajax/zonificacion.ajax.php",
+                                    url:"ajax/zonificacion.ajax.php",
                                     method: "POST",
                                     data: {
                                         'accion':6_2,
@@ -257,7 +257,7 @@ $(document).ready(function(){
         buttons: ['excel', 'print','pdf'],
 
         ajax:{
-            url:"../ajax/planificacion.ajax.php",
+            url:"ajax/planificacion.ajax.php",
             dataSrc: '',
             type:"POST",            
             data: {'accion' : 1}, // 1 para listar productos
@@ -312,7 +312,7 @@ $(document).ready(function(){
         pageLength: 10,
         language: 
         {
-            url: "json/idioma.json"
+            url: "vistas/json/idioma.json"
         },         
   
     });    
@@ -349,7 +349,7 @@ $(document).ready(function(){
         varUsuarioEliminar = data[1];
         $.ajax({
                 async: false,
-                url:"../ajax/planificacion.ajax.php",
+                url:"ajax/planificacion.ajax.php",
                 method: "POST",
                 data: {
                     'accion':4,
@@ -401,7 +401,7 @@ $(document).ready(function(){
         
         $.ajax({
                 async: false,
-                url:"../ajax/planificacion.ajax.php",
+                url:"ajax/planificacion.ajax.php",
                 method: "POST",
                 data: {
                     'accion':accion,
