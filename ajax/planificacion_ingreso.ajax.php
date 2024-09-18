@@ -34,6 +34,15 @@ class AjaxPlanificacionIngresos{
 	}
 
 
+
+	/*===================================================
+		Buscar Ingresos de resultados Fecha y Area  # 4
+	  ===================================================*/
+	public function ajaxPIBuscarFechaArea($id_planificacion,$id_categoria_general,$fecha)
+	{
+		$respuesta = PlanificacionIngresoControlador::ctrPIBuscarFechaArea($id_planificacion,$id_categoria_general,$fecha);
+		echo json_encode($respuesta);
+	}
 } /* End class*/
 
 
@@ -67,5 +76,9 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // guardar ingreso de re
 	$res = new AjaxPlanificacionIngresos();
     $res-> ajaxPIBuscar($_POST['id_planificacion'],$_POST['id_categoria_general'],$_POST['id_normativa']);
 
-   	
+}else if (isset($_POST['accion']) && $_POST['accion'] == 4) { // buscar fecha y AREA
+	//echo "<pre>";print_r($_POST);echo "<pre>";
+	
+	$res = new AjaxPlanificacionIngresos();
+    $res-> ajaxPIBuscarFechaArea($_POST['id_planificacion'],$_POST['id_categoria_general'],$_POST['fecha']);
 }

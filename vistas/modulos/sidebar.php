@@ -1,5 +1,17 @@
 <?php 
 if(isset($_SESSION)){ }else{ session_start(); } 
+require_once "constantes/constantes.php";
+//$_SESSION['login'] = 'clorsa sda sdas';
+    // session_unset();
+    // session_destroy();
+//print_r(RUTA);
+
+// if (!isset($_SESSION['login'])){
+//     header('location:'.'http://localhost/qsystems/');
+
+//     session_unset();
+//     session_destroy();
+// }
 // include('../functions/myfunctions.php');
 // include('../controladores/constantes.php');
 
@@ -8,7 +20,8 @@ if(isset($_SESSION)){ }else{ session_start(); }
 //   echo '<script> window.location = "http://qanalytics.farmagreenscc.com/index.php"</script>';
 //   session_unset();
 // }
-    
+ 
+
     $page= substr($_SERVER['SCRIPT_NAME'],strrpos($_SERVER['SCRIPT_NAME'],"/")+1);    
 ?>
 
@@ -30,7 +43,7 @@ if(isset($_SESSION)){ }else{ session_start(); }
             <div class="navbar nav_title" style="border: 0;">
             
             
-              <a href="index.php" class="site_title"><img src="images/favicon.ico" width="30" height="30"/> <span>Q Analytics</span></a>
+              <a href="index.php" class="site_title"><img src="vistas/images/favicon.ico" width="30" height="30"/> <span>Q Analytics</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -38,12 +51,12 @@ if(isset($_SESSION)){ }else{ session_start(); }
             <!-- menu profile quick info -->
             <div class="profile clearfix">
               <div class="profile_pic">
-                <img src="images/img.jpg" alt="..." class="img-circle profile_img">
+                <img src="vistas/images/img.jpg" alt="..." class="img-circle profile_img">
               </div>
               <div class="profile_info">
                 <!-- <span>Bienvenido</span> -->
                 <!-- <h2>ragde Figueroa Pinargote</h2> -->
-                <h2><?php echo ucwords(strtolower($_SESSION['login'][0]->nombres));?></h2>
+                <h2><?php //echo ucwords(strtolower($_SESSION['login'][0]->nombres));?></h2>
               </div>
             </div>
             <!-- /menu profile quick info -->
@@ -63,7 +76,7 @@ if(isset($_SESSION)){ }else{ session_start(); }
                     <ul class="nav child_menu">
 
                       <li>
-                        <a id="pageUsuarios" onclick="CargarContenido('usuarios.php','right_col')">Usuarios</a>
+                        <a id="pageUsuarios" onclick="CargarContenido('vistas/usuarios.php','right_col')">Usuarios</a>
                       </li>
                       <li><a onclick="CargarContenido('proveedores.php','right_col')">Proveedores</a></li>
                       
@@ -118,7 +131,7 @@ if(isset($_SESSION)){ }else{ session_start(); }
                         <a onclick="CargarContenido('planificacion_ingreso_resultados.php','right_col')"></i>Ingreso de Resultados</a>
                       </li> 
                       <li>
-                        <a onclick="CargarContenido('planificacion_visualizacion.php','right_col')"></i>Visualizacion de Resultados</a>
+                        <a onclick="CargarContenido('planificacion_ingreso_resultados_visualizacion.php','right_col')"></i>Visualizacion de Resultados</a>
                       </li>
                       <li><a onclick="CargarContenido('planificacion_reporte.php','right_col')">Reporte Planificación</a></li>
                     </ul>
@@ -140,7 +153,7 @@ if(isset($_SESSION)){ }else{ session_start(); }
               <a data-toggle="tooltip" data-placement="top" >
                 <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
               </a>
-              <a data-toggle="tooltip" data-placement="top"  href="../logout.php">
+              <a data-toggle="tooltip" data-placement="top"  href="logout.php">
               <!-- <a data-toggle="tooltip" data-placement="top"  onclick="CargarContenido('../logout.php','')"> -->
                 <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
               </a>
@@ -162,10 +175,10 @@ if(isset($_SESSION)){ }else{ session_start(); }
                 <ul class=" navbar-right"  style="padding: 0px;" >
                   <li class="nav-item dropdown open" style="padding-left: 15px;">
                     <a href="javascript:;" class="user-profile dropdown-toggle" aria-haspopup="true" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
-                      <img src="images/img.jpg" alt=""> <?php echo $_SESSION['login'][0]->usuario;?>
+                      <img src="vistas/images/img.jpg" alt=""> <?php //echo $_SESSION['login'][0]->usuario;?>
                     </a>
                     <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
-                      <a class="dropdown-item"  href="../logout.php"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
+                      <a class="dropdown-item"  href="logout.php"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
                     </div>
                   </li>
                   <button type="button" class="btn btn-light" onclick="CargarContenido('planificacion.php','right_col')">Planificación</button>
@@ -180,6 +193,6 @@ if(isset($_SESSION)){ }else{ session_start(); }
         </div>
         <!-- top navigation arriba a la derecha-->
     <!-- jQuery -->
-    <script src="vendors/jquery/dist/jquery.min.js"></script>
+    <script src="vistas/vendors/jquery/dist/jquery.min.js"></script>
 
     

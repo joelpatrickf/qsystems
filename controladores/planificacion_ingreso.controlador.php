@@ -28,5 +28,13 @@ class PlanificacionIngresoControlador{
 		$res = PlanificacionIngresoModelo::mdlPIBuscar($id_planificacion,$id_categoria_general,$id_normativa);
 		return $res;
 	}
+
+	/*===================================================
+		Buscar Ingresos de resultados Fecha y Area  # 4
+	  ===================================================*/
+	static public function ctrPIBuscarFechaArea($id_planificacion,$id_categoria_general,$fecha){
+		$res = PlanificacionIngresoModelo::mdlPIBuscarFechaArea($id_planificacion,$id_categoria_general,$fecha);
+		return $res;
+	}	
 }
 

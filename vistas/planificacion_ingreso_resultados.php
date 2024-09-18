@@ -53,7 +53,7 @@
                 <div class="card-header pb-0 mb-0" >
                     <div class="row">
                         <div class="col-6">
-                           <h4> Ingresos de Resultados 2</h4>
+                           <h4> Ingresos de Resultados</h4>
                         </div>
                     </div>
                 </div>
@@ -66,7 +66,7 @@
                                     <span class="small">Área</span><span class="text-danger">*</span>
                                 </label>
                                 <input type="text" class="form-control" id="iptArea" autofocus autocomplete="off">
-                                <input type="text" class="form-control" id="iptIdPlanificacion" >
+                                <input type="hidden" class="form-control" id="iptIdPlanificacion" >
                             </div>
                         </div>
 
@@ -299,7 +299,7 @@
             },
 
             rowCallback:function(row,data){
-                console.log("estado",data['validacion']);
+                //console.log("estado",data['validacion']);
                 if (data['validacion'] == 'CONFORME'){
                     $($(row).find("td")[11]).css("background-color","#09f558");
                 }else if (data['validacion'] == 'NO CONFORME'){
@@ -444,7 +444,7 @@ $(document).ready(function(){
         data: {'accion': 11}, //   lista 
         dataType: 'json',
         success: function(respuesta){
-            console.log("autocomplete 1",respuesta);
+            //console.log("autocomplete 1",respuesta);
             $("#iptArea").mcautocomplete({
                 showHeader: false,
                 columns: columns,
@@ -452,7 +452,7 @@ $(document).ready(function(){
 
                 select: 
                   function (event, ui) {
-                    console.log("id_planificacion :",ui.item[0]);
+                    //console.log("id_planificacion :",ui.item[0]);
 
                     var result_text = (ui.item) ? ui.item[0] + ', ' + ui.item[1] + ', ' + ui.item[2] + ', ' + ui.item[3] : '';
                     
@@ -494,6 +494,7 @@ $(document).ready(function(){
         var varResultados='';
         var varLimiteMaxSinEspacios='';
         var varResultadosSinEspacios='';
+        var resultado = '';
         
         // Si es texto contenido del select si es numero contenido del input
         if ((validarMin == 'NUMERO') && (validarMax == 'NUMERO')) {
@@ -572,7 +573,12 @@ $(document).ready(function(){
 
         console.log("resCondicionMin-> "+resCondicionMin+"    resCondicionMax-> "+resCondicionMax);
 
- 
+         var esVisible_iptResultados = $("#iptResultados").is(":visible");
+         if (esVisible_iptResultados){
+            resultado = $("#iptResultados").val();
+         }else{
+              var resultado = $("#selResultados").find('option:selected').text(); // Capturamos el texto del option seleccionado
+         }
 
         $.ajax({
             url:"../ajax/planificacion_ingreso.ajax.php",
@@ -584,7 +590,7 @@ $(document).ready(function(){
                 'id_normativa':_id_normativa,
                 'limite_min':_min,
                 'limite_max':_max,
-                'resultados':$("#iptResultados").val(),
+                'resultados':resultado,
                 'fecha_resultados':$("#iptFechaResultados").val(),
                 'observacion':$("#iptObservacion").val(),
                 'validacion':validacion,
@@ -601,11 +607,12 @@ $(document).ready(function(){
                 $("#iptObservacion").val("");
                 $("#div_resultados" ).prop( "hidden", true );
 
-                /* Pimpiamos las inputs*/
-                $("#iptArea").val("");
-                $("#iptLinea").val("");
-                $("#iptPuntoInspeccion").val("");
-                $("#iptIdPlanificacion").val("");
+                /* Limpiamos las inputs*/
+                // $("#iptArea").val("");
+                // $("#iptLinea").val("");
+                // $("#iptPuntoInspeccion").val("");
+                // $("#iptIdPlanificacion").val("");
+
                 $("#selCategoriaAnalisis" ).prop( "disabled", true );                
 
             }
@@ -662,8 +669,8 @@ $(document).ready(function(){
             }, 
             dataType: 'json',
             success: function(respuesta){
-                console.log("EXISTE ",respuesta);
-                if (respuesta == 1){ // si existe preguntamos si aun asi desea registrarla
+                //console.log("EXISTE ",respuesta);
+                if (respuesta > 0){ // si existe preguntamos si aun asi desea registrarla
                     Swal.fire({
                         title: 'Entrada existente, desea registrarla',
                         icon: 'warning',
@@ -685,18 +692,19 @@ $(document).ready(function(){
                             return;
                         }
                     }) 
-                    return;                     
+                   
 
                 
                 }else{
                     validarExiste = 1;
+                    fnValidarExiste(validarExiste);
                 }
            
 
             }
         }); //FIN AJAX
 
-fnValidarExiste(validarExiste);
+
         
     }); 
 
@@ -812,7 +820,7 @@ function fnValidarExiste(validarExiste){
         $("#iptResultados").focus();
 
 
-            console.log("validarExiste  "+validarExiste);
+            //console.log("validarExiste  "+validarExiste);
             if ((validarMin == "TEXTO") && validarMax == "TEXTO"){
                 
                 $("#selResultados" ).prop( "hidden", false );
@@ -824,6 +832,7 @@ function fnValidarExiste(validarExiste){
                 for (let index = 0; index < arrUM.length;index++){
                     options = options + '<option value='+arrUM[index]+'>'+arrUM[index]+'</option>';
                 }
+
                 $("#selResultados").html(options);
             }else{
 

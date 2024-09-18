@@ -118,6 +118,39 @@ class PlanificacionIngresoModelo{
 
 
 
+	/*===================================================
+		Buscar Ingresos de resultados Fecha y Area  # 4
+	  ===================================================*/
+	static public function mdlPIBuscarFechaArea($id_planificacion,$id_categoria_general,$fecha)
+	{
+		date_default_timezone_set("America/Guayaquil");
+		$fechaActual = date('Y-m-d'); 
+		$user=$_SESSION['login'][0]->usuario;
+
+
+		$stmt = Conexion::conectar()->prepare(" SELECT area,linea,punto_inspeccion, cat.categoria,
+			nor.normativa, nor.categoria as subcategoria,nor.tipo_analisis, nor.analisis,
+			rp.limite_min, rp.limite_max,resultados, fecha_resultado,validacion, rp.usuario
+			from resultados_planificacion rp
+			inner join v_area_planificiacion va ON rp.id_planificacion = va.id_planificacion
+			inner join normativas nor ON rp.id_normativa=nor.id_normativa
+			inner join categorias cat on rp.id_categoria_general=cat.id_categoria
+			where fecha_resultado='$fecha' AND rp.id_planificacion='$id_planificacion'			
+		");
+		$stmt->execute();
+		$res = $stmt-> fetchAll(PDO::FETCH_ASSOC);
+
+		// echo "<pre>";
+		// print_r($data);
+		// echo "<pre>";
+		//echo "<br><br>";
+
+		return $res;
+
+
+	
+	}	
+
 	
    	// /*ACTUALIZAR REGISTROS*/
    	// static public function mdlPlanificacionSaveEdit($table,$data, $id, $nameId){

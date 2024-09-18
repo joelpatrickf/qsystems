@@ -39,6 +39,9 @@ class ResultadosModelo{
 
 			$stmt1 = Conexion::conectar()->prepare("SELECT * FROM resultados where orden_trabajo = '$ordenTrabajo' AND id_normativa_analisis = '$idNormativaAnalisis'");
 			$stmt1->execute();
+			
+			
+			
 			$nreg =$stmt1->rowCount();
 			if ($nreg >0 ){
 				$resultado = 'existe';

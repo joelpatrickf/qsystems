@@ -1,230 +1,242 @@
 <?php 
-session_start();
-if(isset($_GET['cerrar_sesion']) && $_GET['cerrar_sesion'] == 1){
-    require_once "constantes/constantes.php";
-    echo '<script> var ruta = <?php RUTA; ?>; window.location = ruta</script>';
-    session_unset();
-    session_destroy();        
-    //echo '<script> window.location = "https://ragdepruebas.farmagreenscc.com/"</script>';
-}
-$v_id_modulo = isset($_SESSION['usuario']->id_perfil)?$_SESSION['usuario']->id_perfil:"";
-//print_r($v_id_modulo);
-
+if(isset($_SESSION)){ }else{ session_start(); } 
+require_once "constantes/constantes.php";
 
 
 ?>
 <!DOCTYPE html>
-<!--
-This is a starter template page. Use this page to start your new project from
-scratch. This page gets rid of all links and provides the needed markup only.
--->
 <html lang="en">
-
-<head>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Meta, title, CSS, favicons, etc. -->
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>RsWeb</title>
+  <link rel="icon" href="images/favicon.ico" type="image/ico" />
 
-    <!-- ============================================================================================================= -->
-    <!-- HORARIOS -->
-    <?php 
-        
+    <title>Q Analytics</title>
     
-    if (isset($v_id_modulo) AND ($v_id_modulo === 1)) {?>
-        <!-- <link rel="stylesheet" href="vistas/css/tablaeditable.css"/> 
-        <link rel="stylesheet" href="vistas/css/estilotablaExcel.css"/>
-        <link rel="stylesheet" href="vistas/css/selectNormal.css"/>   -->
+    <!-- Bootstrap -->
+    <link href="vistas/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Custom Theme Style -->
+    <!-- ESTA CAMBIA EL ESTILO DE LAS DATATABLEE -->
+    <link href="vistas/build/css/custom.min.css" rel="stylesheet">
+    
+    
+    <!-- Font Awesome -->
+    <link href="vistas/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    
+    <!-- NProgress -->
+    <!-- <link href="vendors/nprogress/nprogress.css" rel="stylesheet"> -->
+    
+    <!-- iCheck -->
+    <link href="vistas/vendors/iCheck/skins/flat/green.css" rel="stylesheet">
+
+    <!-- bootstrap-progressbar -->
+    <!-- <link href="vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet"> -->
+    
+    <!-- JQVMap vector mapamundi-->
+    <!-- <link href="vendors/jqvmap/dist/jqvmap.min.css" rel="stylesheet"/> -->
+    
+    <!-- bootstrap-daterangepicker RANGE DATE-->
+    <!-- <link href="vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet"> -->
 
 
 
-    <?php } ?>
-    <!-- ============================================================================================================= -->    
-
-
-    <link rel="shortcut icon" href="vistas/assets/dist/img/rsPlus.ico" type="image/x-icon">
-
-    <!-- ============================================================================================================= -->
-    <!-- REQUIRED CSS -->
-    <!-- ============================================================================================================= -->
-
-    <!-- Google Font: Source Sans Pro REACTIVAR -->
-    <!-- <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"> -->
-
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="vistas/assets/plugins/fontawesome-free/css/all.min.css">
-
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-
-    <!-- SweetAlert2 -->
-    <link rel="stylesheet" href="vistas/assets/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
     
 
-    <!-- ================================================================ -->
-    <!-- verifiar sino borrar -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
-    <!-- Jquery CSS (para el modulo de factracion)--> 
-    <link rel="stylesheet" href="vistas/assets/plugins/jquery-ui/css/jquery-ui.css">
-
-    <!-- Bootstrap 5 -->
-    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"> -->
-
-
-    <!-- JSTREE CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />
-
-    <!-- Theme style -->
-    <link rel="stylesheet" href="vistas/assets/dist/css/adminlte.min.css">
 
     <!-- ============================================================
     =ESTILOS PARA USO DE DATATABLES JS
     ===============================================================-->
 
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.0/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.9/css/responsive.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.0.0/css/buttons.dataTables.min.css">
-    
-    <!-- PARA QUE SE ILIMINE LA FILA CUANDO SE PASA EL MOUSE  -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.1/css/dataTables.dataTables.css">
-
-    <!--  Datatables CSS ragde borrrar-->
-    <!-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.20/datatables.min.css"/>   -->
-
-
-    <!-- Estilos personzalidos -->
-    <link rel="stylesheet" href="vistas/assets/dist/css/plantilla.css">
-    
-    
-
-
-    <!-- ============================================================================================================= -->
-    <!-- REQUIRED SCRIPTS -->
-    <!-- ============================================================================================================= -->
-    
-    <!-- jQuery -->
-    <script src="vistas/assets/plugins/jquery/jquery.min.js"></script>
-
-    <!-- Bootstrap 4 -->
-    <script src="vistas/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-    <!-- ChartJS -->
-    <script src="vistas/assets/plugins/chart.js/Chart.min.js"></script>
-
-    <!-- <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script> -->
-    <script src="vistas/assets/dist/js/canvasjs.min.js"></script>
-
-    <!-- InputMask -->
-    <script src="vistas/assets/plugins/moment/moment.min.js"></script>
-    <script src="vistas/assets/plugins/inputmask/jquery.inputmask.min.js"></script>
-
-    <!-- SweetAlert2 -->
-    <script src="vistas/assets/plugins/sweetalert2/sweetalert2.min.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
-    <!-- jquery UI -->
-    <script src="vistas/assets/plugins/jquery-ui/js/jquery-ui.js"></script>
-
-    <!-- JS Bootstrap 5 -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-
-
-    <!-- JSTREE JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/jstree.min.js"></script>
-
-
-    <!-- ============================================================
-    =LIBRERIAS PARA USO DE DATATABLES JS
-    ===============================================================-->
-
-    <script src="https://cdn.datatables.net/1.11.0/js/jquery.dataTables.min.js" ></script>
-    <!-- <script src="https://cdn.datatables.net/1.11.1/js/jquery.dataTables.min.js"></script> -->
-    <script src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
-    
-
-    <!-- ============================================================
-    =LIBRERIAS PARA EXPORTAR A ARCHIVOS
-    ===============================================================-->
-    <script src="https://cdn.datatables.net/buttons/2.0.0/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.print.min.js"></script>
-
-    <!-- =================================================================
-     LIRERIAS PARA EXPORTAR Y PARA LOS BOTONES
-    ================================================================= - -->
-    <!--  -->
-    <!--  -->
+  <!-- datatable styles CSS -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.0.0/css/dataTables.dataTables.css">
+  <!-- ----- para exportar------- -->
+  <link href="https://cdn.datatables.net/buttons/2.0.0/css/buttons.dataTables.min.css" rel="stylesheet" >
+  <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet"/>
   
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.12/pdfmake.min.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.12/vfs_fonts.js"></script>
+  
 
-  <!-- viejos -->
-  <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.js"></script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script> -->
 
-  <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.js"></script>
-  <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.js"></script>
+  <!-- ============================================================
+    ESTILOS PARA USO DE DATATABLES JS (para que funcioes responsive) -->
+  
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.0.0/css/dataTables.bootstrap5.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/responsive/3.0.0/css/responsive.bootstrap5.css">
 
-<script src="https://cdn.jsdelivr.net/npm/datatables-buttons-excel-styles@1.2.0/js/buttons.html5.styles.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/datatables-buttons-excel-styles@1.2.0/js/buttons.html5.styles.templates.min.js"></script>
+  <!-- =============================================================== -->
 
-    <!-- Columna fija Fixed columns -->
-    <!-- <script src="https://cdn.datatables.net/fixedcolumns/3.2.2/js/dataTables.fixedColumns.min.js"></script> -->
-
-    <!-- Editar -->
-    <!-- <script src="https://markcell.github.io/jquery-tabledit/assets/js/tabledit.min.js"></script> -->
-    <script src="vistas/assets/dist/js/tabledit.min.js"></script>
-
-       
-       <!-- Columna Fijaa Column Fixed  JS -->
-    <script src="https://cdn.datatables.net/fixedcolumns/3.2.2/js/dataTables.fixedColumns.min.js" ></script>
-       <!-- Columna Fijaa Column Fixed  CSS -->
-    <link href="https://cdn.datatables.net/fixedcolumns/3.2.2/css/fixedColumns.dataTables.min.css" rel="stylesheet"/>
-
-    <!-- AdminLTE App -->
-    <script src="vistas/assets/dist/js/adminlte.min.js"></script>
-    <script src="vistas/assets/dist/js/plantilla.js"></script>
-
-    <!-- SUM()  Datatables-->
-    <script src="https://cdn.datatables.net/plug-ins/1.10.20/api/sum().js"></script>
-
-<!-- <script type="text/javascript" src="vistas/js/jquery.tabledit.js"></script> -->
-<!-- <script type="text/javascript" src="vistas/js/custom_table_edit.js"></script> -->
-</head>
-
-<?php if(isset($_SESSION['usuario'])): ?>
-
-<body class="hold-transition sidebar-mini">
-    <div class="wrapper">
-
-        <?php
-             include "modulos/navbar.php";
-            include "modulos/aside.php";
-        ?>
-
-        <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
-            <?php include "vistas/".$_SESSION['usuario']->vista ?>
-        </div> <!-- /.content-wrapper -->
-
-        
-        
-    </div> <!-- ./wrapper -->
+  <!-- Toast CSS  (siempre debajo de los stilos de datatables) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     
-    <script>
+  
+  
+  <!-- Estilos personzalidos datatables buttons-->
+  <link rel="stylesheet" href="vistas/css/plantilla.css">  
+  
+  <!-- PROPBAR SINO FUNCIONA BORRAR -->
+  <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tarekraafat-autocomplete.js/10.2.7/css/autoComplete.min.css"> -->
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+  
+  <!-- select2 css -->
+  <link href='vistas/vendors/select2/dist/css/select2.min.css' rel='stylesheet' type='text/css'>  
+  
+  <!-- Datatable personalizado linea pequeñas -->
+  <link href="vistas/css/ragde.css" rel="stylesheet" >
+  <!-- <link href="css/tablaNormal.css" rel="stylesheet" > -->
+
+  </head>
+  <body class="nav-md">
+    <div class="container body">
+      <div class="main_container">
+        <?php include("modulos/sidebar.php");?>
+        <div class="right_col" role="main">
+
+        </div>
+      </div>
+        </div>
+
+        <!-- jQuery -->
+        <script src="vistas/vendors/jquery/dist/jquery.min.js"></script>
+
+        <!-- Bootstrap -->
+        <script src="vistas/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
         
-        function CargarContenido(pagina_php,contenedor,id_perfil, id_modulo){
-            $("." + contenedor).load(pagina_php);
-        }
-    </script>
+        <!-- FastClick -->
+        <script src="vistas/vendors/fastclick/lib/fastclick.js"></script>
+        <!-- NProgress -->
+        <script src="vistas/vendors/nprogress/nprogress.js"></script>
+        <!-- Chart.js -->
+        <script src="vistas/vendors/Chart.js/dist/Chart.min.js"></script>
+        <!-- gauge.js -->
+        <script src="vistas/vendors/gauge.js/dist/gauge.min.js"></script>
+        <!-- bootstrap-progressbar -->
+        <script src="vistas/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+        <!-- iCheck -->
+        <script src="vistas/vendors/iCheck/icheck.min.js"></script>
+        <!-- Skycons -->
+        <script src="vistas/vendors/skycons/skycons.js"></script>
+        <!-- Flot -->
+        <script src="vistas/vendors/Flot/jquery.flot.js"></script>
+        <script src="vistas/vendors/Flot/jquery.flot.pie.js"></script>
+        <script src="vistas/vendors/Flot/jquery.flot.time.js"></script>
+        <script src="vistas/vendors/Flot/jquery.flot.stack.js"></script>
+        <script src="vistas/vendors/Flot/jquery.flot.resize.js"></script>
+        <!-- Flot plugins -->
+        <script src="vistas/vendors/flot.orderbars/js/jquery.flot.orderBars.js"></script>
+        <script src="vistas/vendors/flot-spline/js/jquery.flot.spline.min.js"></script>
+        <script src="vistas/vendors/flot.curvedlines/curvedLines.js"></script>
+        <!-- DateJS -->
+        <script src="vistas/vendors/DateJS/build/date.js"></script>
+        <!-- JQVMap -->
+        <script src="vistas/vendors/jqvmap/dist/jquery.vmap.js"></script>
+        <script src="vistas/vendors/jqvmap/dist/maps/jquery.vmap.world.js"></script>
+        <script src="vistas/vendors/jqvmap/examples/js/jquery.vmap.sampledata.js"></script>
+        <!-- bootstrap-daterangepicker -->
+        <script src="vistas/vendors/moment/min/moment.min.js"></script>
+        <script src="vistas/vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
 
-</body>
-<?php else: ?>
-    <body>
-       <?php include "vistas/login.php" ?> 
-    </body>
-<?php endif; ?>
 
-</html>
+        <!-- Toast JS -->
+        <!-- Toas para mensajes personalizados -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script> 
+
+        <!-- Custom Theme Scripts -->
+        <script src="vistas/build/js/custom.min.js"></script>
+
+
+
+        <!-- ============================================================
+        =LIBRERIAS PARA USO DE DATATABLES JS
+        ===============================================================-->
+
+        <!-- <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>     -->
+
+        <!-- Swwwt Alert2 -->
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        <!-- Toast JS -->
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script> -->
+
+        <!-- DataTable -->
+        <!-- <script type="text/javascript" src="https://cdn.datatables.net/1.10.8/js/jquery.dataTables.min.js"></script> -->
+
+
+
+
+
+        <!--   Core JS Files   -->
+        <!-- <script src="assets/js/core/popper.min.js" ></script>
+        <script src="assets/js/core/bootstrap.min.js" ></script>
+        <script src="assets/js/plugins/perfect-scrollbar.min.js" ></script>
+        <script src="assets/js/smooth-scrollbar.min.js" ></script>
+
+        <script src="assets/js/material-dashboard.min.js"></script> -->
+        
+        
+        
+        <!-- ============================================================
+        =LIBRERIAS PARA USO DE DATATABLES JS (para que funcioes responsive)
+        ===============================================================-->
+        
+        <!-- <script src="https://code.jquery.com/jquery-3.7.1.js"></script> -->
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script> -->
+        <script src="https://cdn.datatables.net/2.0.0/js/dataTables.js"></script>
+        <script src="https://cdn.datatables.net/2.0.0/js/dataTables.bootstrap5.js"></script>
+        
+        <script src="https://cdn.datatables.net/responsive/3.0.0/js/dataTables.responsive.js"></script>
+        <script src="https://cdn.datatables.net/responsive/3.0.0/js/responsive.bootstrap5.js"></script>
+        
+        
+        <!-- BOTONES DE EXPORTAR DATATABLES  -->
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.12/pdfmake.min.js"></script>
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.12/vfs_fonts.js"></script>
+        
+        <!-- viejos -->
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script> -->
+        
+        <script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+        <script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+
+        <!-- =================================================================
+         LIRERIAS PARA EXPORTAR Y PARA LOS BOTONES
+        ================================================================= - -->
+        <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.js"></script> -->
+        <!-- <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script> -->
+
+        <!-- <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.js"></script> -->
+        
+        <!-- REVIAR ESTE POR QUE YA EXISTE ARRIAB NO SE VA A DESCARGAR- -->
+        <!-- <script type="text/javascript" src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.js"></script> -->
+
+        <script src="https://cdn.jsdelivr.net/npm/datatables-buttons-excel-styles@1.2.0/js/buttons.html5.styles.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/datatables-buttons-excel-styles@1.2.0/js/buttons.html5.styles.templates.min.js"></script>
+
+        <script src="vistas/js/buttons.print.js"></script>
+
+        <!-- input autocomplete -->
+        <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+  
+
+        <!-- select2 script -->
+        <!-- <script src='vendors/select2/dist/js/select2.min.js'></script> -->
+
+
+      </body>
+    </html>
+
+
+
+<script>
+    function CargarContenido(pagina_php){
+        $("." + 'right_col').load(pagina_php);
+    }
+</script> 

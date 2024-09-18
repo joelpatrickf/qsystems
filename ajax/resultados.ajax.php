@@ -29,12 +29,12 @@ class AjaxResultados{
 
 
 if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR REGISTROS
-    //print_r($_POST);
     $resultados = new AjaxResultados();
     $resultados-> ajaxListarResultados();
 
 }else if (isset($_POST['accion']) && $_POST['accion'] == 2) { //  GUARDAR REGISTROS NUEVOS
-    $registrar = new AjaxResultados();
+   // print_r($_POST);
+    
 
     $data = array(
             "orden_trabajo" => $_POST["orden_trabajo"],
@@ -45,7 +45,8 @@ if (isset($_POST['accion']) && $_POST['accion'] == 1) { // LISTAR REGISTROS
             "estado" => $_POST["estado"],
             "id_item" => $_POST["id_item"]
     );
-
+	
+	$registrar = new AjaxResultados();
 	$registrar -> ajaxRegistrarResultados($data);
 
 }
