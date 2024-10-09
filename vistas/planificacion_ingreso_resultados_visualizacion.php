@@ -278,15 +278,15 @@
         },
     });
 
-    var f = new Date();
-    var mes1 =  (f.getMonth() +1);
-    var mes='';
-    if (mes1 < 10){mes="0"+mes1;
-    }else{mes=mes1;
-    }
-    var f_actual = f.getFullYear()+ "-" + mes + "-" + f.getDate()  ;
+    // var f = new Date();
+    // var mes1 =  (f.getMonth() +1);
+    // var mes='';
+    // if (mes1 < 10){mes="0"+mes1;
+    // }else{mes=mes1;
+    // }
+    // var f_actual = f.getFullYear()+ "-" + mes + "-" + f.getDate()  ;
     
-    $("#iptFechaResultados").val(f_actual);    
+    $("#iptFechaResultados").val();
 
 $(document).ready(function(){
     // Personalizamos el toast mensajes

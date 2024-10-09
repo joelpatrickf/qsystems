@@ -73,7 +73,8 @@ require_once "constantes/constantes.php";
                   <li>
 
                     <a onclick="CargarContenido('vistas/dashboard.php','right_col')"><i class="fa fa-home"></i>Dashboard</a>
-                  </li>                  
+                  </li>  
+                                  
                   <li><a><i class="fa fa-handshake"></i> Administracion <span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu">
 
@@ -124,14 +125,14 @@ require_once "constantes/constantes.php";
                     </ul>
                   </li> 
 
-                  <li class="ragde3">
+                  <li class="">
                     <a><i class="fa fa-codepen"></i>Higienico-Sanitario<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu ragde2">
                       <li>
                         <a onclick="CargarContenido('vistas/planificacion.php','right_col')">Planificación</a>
                       </li>
                       <li>
-                        <a class="ragde" onclick="CargarContenido('vistas/planificacion_ingreso_resultados.php','right_col')"></i>Ingreso de Resultados</a>
+                        <a class="" onclick="CargarContenido('vistas/planificacion_ingreso_resultados.php','right_col')"></i>Ingreso de Resultados</a>
                       </li> 
                       <li>
                         <a onclick="CargarContenido('vistas/planificacion_ingreso_resultados_visualizacion.php','right_col')"></i>Visualizacion de Resultados</a>
@@ -139,6 +140,10 @@ require_once "constantes/constantes.php";
                       <!-- <li><a onclick="CargarContenido('vistas/planificacion_reporte.php','right_col')">Reporte Planificación</a></li> -->
                     </ul>
                   </li> 
+                  <li>
+
+                    <a onclick="CargarContenido('vistas/documentacion.php','right_col')"><i class="fa fa-file"></i>Documentos</a>
+                  </li>                    
                 </ul>
               </div>
 
