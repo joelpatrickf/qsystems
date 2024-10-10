@@ -89,8 +89,7 @@ if(isset($_SESSION)){ }else{ session_start(); }
                                     <label class="lblRagde" for="iptVersion"><i class="fas fa-barcode fs-6"></i>
                                         <span class="small">Versión</span><span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control " id="iptVersion"
-                                        name="iptVersion" placeholder="Versión.."  >
+                                    <input type="text" class="form-control " id="iptVersion" name="iptVersion" placeholder="Versión.."  >
                                 </div>
                             </div>
 
@@ -99,8 +98,16 @@ if(isset($_SESSION)){ }else{ session_start(); }
                                     <label class="lblRagde" for="iptArea"><i class="fas fa-building fs-6"></i>
                                         <span class="small">Area</span><span class="text-danger">*</span>
                                     </label>
-                                    <input type="text" class="form-control " id="iptArea"
-                                        name="iptArea" placeholder="Area..."  >
+                                    <select class="form-control " aria-label=".form-select-sm example" id="iptArea" name="iptArea" >
+                                        <option value="0">Seleccione</option>
+                                        <option value="ADMINISTRATIVO">ADMINISTRATIVO</option>
+                                        <option value="AMBIENTE">AMBIENTE</option>
+                                        <option value="CALIDAD">CALIDAD</option>
+                                        <option value="PRODUCCCION">PRODUCCCION</option>
+                                        <option value="RRHH">RRHH</option>
+                                        <option value="SSO">SSO</option>
+                                    </select>                                    
+
                                 </div>
                             </div>
 
@@ -109,15 +116,7 @@ if(isset($_SESSION)){ }else{ session_start(); }
                                     <label class="lblRagde" for="selTipoDocumento"><i class="fas fa-file fs-6"></i>
                                         <span class="small">Tipo Documento</span><span class="text-danger">*</span>
                                     </label>
-                                    <select class="form-control " aria-label=".form-select-sm example" id="selTipoDocumento" name="selTipoDocumento" >
-                                        <option value="0">Seleccione</option>
-                                        <option value="CALIDAD">CALIDAD</option>
-                                        <option value="PRODUCCCION">PRODUCCCION</option>
-                                        <option value="ADMINISTRATIVO">ADMINISTRATIVO</option>
-                                        <option value="AMBIENTE">AMBIENTE</option>
-                                        <option value="SSO">SSO</option>
-                                        <option value="RRHH">RRHH</option>
-                                    </select>
+                                    <input type="text" class="form-control " id="selTipoDocumento" name="selTipoDocumento" placeholder="Tipo..."  >
                                 </div>
                             </div>
 
@@ -146,6 +145,15 @@ if(isset($_SESSION)){ }else{ session_start(); }
                                     </select>
                                 </div>
                             </div>  
+
+                            <div class="col-12 col-lg-4">
+                                <div class="form-group mb-2">
+                                    <label class="lblRagde" for="iptResponsable"><i class="fas fa-check"></i>
+                                        <span class="small">Responsable</span><span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" class="form-control " id="iptResponsable" name="iptResponsable" placeholder="Responsable" >
+                                </div>
+                            </div>
                             
                             <div class="col-12 col-lg-4">
                                 <div class="form-group mb-2">
@@ -188,7 +196,7 @@ if(isset($_SESSION)){ }else{ session_start(); }
                                         <th class="text-center">Código</th>
                                         <th class="text-center">Nombre</th>
                                         <th class="text-center">file_name</th>
-                                        <th class="text-center">Cersion</th>
+                                        <th class="text-center">Version</th>
                                         <th class="text-center">Area</th> 
                                         <th class="text-center">Tipo</th>
                                         <th class="text-center">Status</th> 
@@ -197,6 +205,7 @@ if(isset($_SESSION)){ }else{ session_start(); }
                                         <th class="text-center">Creacion</th> 
                                         <th class="text-center">Modificación</th>
                                         <th class="text-center">Observación</th>
+                                        <th class="text-center">Responsable</th>
                                         <th class="text-center">Acción</th>
                                     </tr>
                                 </thead>
@@ -360,7 +369,8 @@ $(document).ready(function(){
                 { "data": "usuario" },
                 { "data": "fecha_creacion" },
                 { "data": "fecha_modificacion" },
-                { "data": "observacion" }
+                { "data": "observacion" },
+                { "data": "responsable" }
             ],          
             responsive: {
                 details: {
@@ -376,13 +386,13 @@ $(document).ready(function(){
                 
                 {targets:0,visible:false,}, // au_inc
                 {targets:3,visible:false,},
+                {targets:9,visible:false,},
                 {targets:12,visible:false,},
                 
-               { responsivePriority: 1, targets: 13 },
+               { responsivePriority: 1, targets: 14 },
 
-// <a href='documentacion/ragde.pdf' target='_blank'></a>
                 {
-                    targets:13,
+                    targets:14,
                     orderable:false,
                     render: function(data, type, full, meta){
                         console.log(filePdf);
@@ -414,6 +424,7 @@ $(document).ready(function(){
         if ($("#iptNombreDocumento").val() == ''){msg.push(' Nombre ');}
         if ($("#iptVersion").val() == ''){msg.push(' Version');}
         if ($("#iptArea").val() == ''){msg.push(' Area');}
+        if ($("#iptResponsable").val() == ''){msg.push(' Responsable');}
         
         if ($("#selTipoDocumento").val() == 0){msg.push(' Tipo');}
         if ($("#selStatus").val() == 0){msg.push(' Status');}
@@ -422,10 +433,10 @@ $(document).ready(function(){
         if ($("#iptObservacion").val() == ''){msg.push(' Observacion');}
         if ($("#archivo").val() == ''){msg.push(' Archivo PDF');}
               
-        if (msg.length != 9 && msg.length != 0){
+        if (msg.length != 10 && msg.length != 0){
             toastr["error"]("Ingrese los siguientes datos  :"+msg, "!Atención!");
             return;
-        }else if(msg.length == 9){
+        }else if(msg.length == 10){
             
             toastr["error"]("No existen datos para guardar", "!Atención!");
             bloquearInputs();
@@ -523,7 +534,7 @@ $(document).ready(function(){
         $("#selPerfil").val(0);
 
     })     
-     $("#btnNew").click(function() {
+    $("#btnNew").click(function() {
         accion=2;
         $("#btnClose" ).prop( "hidden", false );
         $("#btnSave" ).prop( "hidden", false );
@@ -533,64 +544,8 @@ $(document).ready(function(){
         $("#selPerfil").val(0);
     })
      
-    //********************************************************    
-    //-GUARDAR 
-    //********************************************************    
-    // $("#btnSave").click(function() {
-
-    //     const msg = [];
-    //     if ($("#iptUsuario").val() == ''){msg.push('Usuario');}
-    //     if ($("#iptPassword").val() == ''){msg.push('Password');}
-    //     if ($("#iptCedula").val() == ''){msg.push('Cedula');}
-    //     if ($("#iptNombres").val() == ''){msg.push('Apellidos y Nombres');}
-    //     if ($("#selPerfil").val() == 0){msg.push('Perfil');}
-    //     if ($("#iptCargo").val() == ''){msg.push('Cargo');}
-    //     //toastr["error"]("Ingrese los siguientes datos  :"+msg, "!Atención!");
-
-    //     if (msg.length != 6 && msg.length != 0){
-    //         toastr["error"]("Ingrese los siguientes datos  :"+msg, "!Atención!");
-    //         return;
-    //     }else if(msg.length == 6){
-            
-    //         toastr["error"]("No existen datos para guardar", "!Atención!");
-    //         bloquearInputs();
-    //         return;
-    //     }
 
 
-        
-    //     $.ajax({
-    //             async: false,
-    //             url:"ajax/usuarios.ajax.php",
-    //             method: "POST",
-    //             data: {
-    //                 'accion':accion,
-    //                 'usuario': $("#iptUsuario").val(),
-    //                 'clave': $("#iptPassword").val(),
-    //                 'cedula': $("#iptCedula").val(),
-    //                 'nombres': $("#iptNombres").val(),
-    //                 'perfil': $("#selPerfil").val(),
-    //                 'cargo': $("#iptCargo").val()
-    //             },
-    //             dataType: "json",
-    //             success: function(respuesta){
-    //                 console.log(respuesta);
-    //                 if (respuesta == 'ok'){
-    //                     toastr["success"]("Ingreso de Información Correcta", "!Atención!");
-    //                     limpiar();
-    //                     bloquearInputs();
-
-    //                     table.ajax.reload();
-    //                 }else{
-    //                     toastr["error"]("Ingreso Incorrecto, entrada duplicada", "!Atención!");
-    //                 }
-    //                 bloquearInputs();
-    //                 limpiar();
-    //                 $("#btnClose" ).prop( "hidden", true );
-    //                 accion="";
-    //             }
-    //         });
-    // });
 
 });
 
@@ -604,6 +559,7 @@ function desBloquearInputs(){
     $("#selStatus").prop( "disabled", false );
     $("#selAcceso").prop( "disabled", false );
     $("#archivo").prop( "disabled", false );
+    $("#iptResponsable").prop( "disabled", false );
     
     $("#iptCodigoDocumento").focus();
 }
@@ -617,6 +573,7 @@ function bloquearInputs(){
     $("#selStatus").prop( "disabled", true );
     $("#selAcceso").prop( "disabled", true );
     $("#archivo").prop( "disabled", true );
+    $("#iptResponsable").prop( "disabled", true );
 
     $("#iptCodigoDocumento").focus();
 }
@@ -625,12 +582,13 @@ function limpiar(){
     $("#iptCodigoDocumento").val('');
     $("#iptNombreDocumento").val('');
     $("#iptVersion").val('');
-    $("#iptArea").val('');
+    $("#iptArea").val(0);
     $("#iptObservacion").val('');
-    $("#selTipoDocumento").val(0);
+    $("#selTipoDocumento").val("");
     $("#selStatus").val(0);
     $("#selAcceso").val(0);
     $("#archivo").val("");
+    $("#iptResponsable").val("");
 
 }
 </script>

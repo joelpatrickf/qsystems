@@ -14,9 +14,9 @@ class DocumentacionModelo{
 		$perfil = $_SESSION['login'][0]->perfil;
 		
 		if($perfil == 'ADMIN'){
-			$stmt = Conexion::conectar()->prepare("SELECT * FROM documentacion");
+			$stmt = Conexion::conectar()->prepare("SELECT au_inc, codigo, nombre_documento, file_name, version, area, tipo_documento, status, acceso, usuario, observacion, date(fecha_creacion) as fecha_creacion, date(fecha_modificacion) as fecha_modificacion, responsable FROM documentacion");
 		}else{
-			$stmt = Conexion::conectar()->prepare("SELECT * FROM documentacion WHERE acceso='NORMAL'");
+			$stmt = Conexion::conectar()->prepare("SELECT au_inc, codigo, nombre_documento, file_name, version, area, tipo_documento, status, acceso, usuario, observacion, date(fecha_creacion) as fecha_creacion, date(fecha_modificacion) as fecha_modificacion, responsable FROM documentacion WHERE acceso='NORMAL'");
 		}
 		
 		$stmt->execute();
@@ -43,13 +43,6 @@ class DocumentacionModelo{
 		$stmt->execute();
 		$res = $stmt ->fetchAll(PDO::FETCH_ASSOC);
 		
-		// if ($res){
-		// 	echo "existe";
-		// }else{
-		// 	echo "NOOO existe";
-		// }
-		// print_r($res);
-		// exit;
 
 		
 		if ($res){
@@ -77,8 +70,8 @@ class DocumentacionModelo{
 					$fechaActual = date('Y-m-d');
 					$estado = 'ACTIVO';
 
-			        $stmt = Conexion::conectar()->prepare("INSERT INTO documentacion(codigo, nombre_documento, file_name, version, area, tipo_documento, status, acceso, usuario, fecha_creacion,observacion) 
-					VALUES(:codigo,:nombre_documento,:file_name,:version,:area,:tipo_documento,:status,:acceso,:usuario,:fecha_creacion,:observacion)");
+			        $stmt = Conexion::conectar()->prepare("INSERT INTO documentacion(codigo, nombre_documento, file_name, version, area, tipo_documento, status, acceso, usuario, fecha_creacion,observacion,responsable) 
+					VALUES(:codigo,:nombre_documento,:file_name,:version,:area,:tipo_documento,:status,:acceso,:usuario,:fecha_creacion,:observacion,:responsable)");
 
 			        $stmt->bindParam(":codigo", $data['codigo_documento']); 
 			        $stmt->bindParam(":nombre_documento", $data['nombre_documento']); 
@@ -91,6 +84,7 @@ class DocumentacionModelo{
 			        $stmt->bindParam(":usuario", $usuario); 
 			        $stmt->bindParam(":fecha_creacion", $fechaActual); 
 			        $stmt->bindParam(":observacion", $data['observacion']); 
+			        $stmt->bindParam(":responsable", $data['responsable']); 
 					$stmt->execute();
 					$resultado = 'ok';
 

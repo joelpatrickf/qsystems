@@ -44,7 +44,8 @@ if (isset($_FILES["archivo"]) ) { // guardar documentación
 	        "tipo_documento" => $_POST['selTipoDocumento'],
 	        "status" => $_POST['selStatus'],
 	        "acceso" => $_POST['selAcceso'],
-	        "observacion" => $_POST['iptObservacion']
+	        "observacion" => $_POST['iptObservacion'],
+	        "responsable" => $_POST['iptResponsable']
 	);
 	$res = new AjaxDocumentacion();
 	$res-> ajaxDocumentacionSave($data,$_FILES['archivo']);
