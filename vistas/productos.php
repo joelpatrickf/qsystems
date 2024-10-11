@@ -90,7 +90,7 @@
                                         <option value="onz">onz</option>
                                         <option value="lb">lb</option>
                                         <option value="Kg">Kg</option>
-                                        <option value="ml">ml</option>
+                                        <option value="mL">mL</option>
                                         <option value="L">L</option>
                                         <option value="N/A">N/A</option>
 			                    </select>
