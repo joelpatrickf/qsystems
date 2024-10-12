@@ -92,7 +92,7 @@
                                 <label class="" for="iptAnalisis"><i class="fas fa-users fs-6"></i>
                                     <span class="small">Analisis</span><span class="text-danger">*</span>
                                 </label>
-                                <input type="text" class="form-control " id="iptAnalisis" placeholder="Ingrese el Analisis" required disabled autocomplete="off" >
+                                <input type="text" class="form-control " id="iptAnalisis" placeholder="Ingrese el Analisis" required disabled >
                             </div>
                         </div>
 
@@ -103,7 +103,7 @@
                                     <span class="small">Limte Min.</span>
                                     <span class="text-danger"><abbr title="En caso de mayor que, colocar el carácter, mayor o igual que sin caracter" class="acronimo" >?</abbr></span>
                                 </label>
-                                <input type="text" class="form-control " id="iptLimiteMinimo" placeholder="Ingrese Limite Minimo" required disabled autocomplete="off" >
+                                <input type="text" class="form-control " id="iptLimiteMinimo" placeholder="Ingrese Limite Minimo" required disabled >
                             </div>
                         </div>                        
                         <!-- Columna LIMITE MAXIMO -->
@@ -112,7 +112,7 @@
                                 <label class="" for="iptLimiteMaximo"><i class="fas fa-users fs-6"></i>
                                     <span class="small">Limite Max.</span><span class="text-danger"><abbr title="En caso de menor que, colocar el carácter, menor o igual que sin caracter" class="acronimo" >?</abbr></span>  
                                 </label>
-                                <input type="text" class="form-control " id="iptLimiteMaximo" placeholder="Ingrese Limite Maximo" required disabled autocomplete="off" >
+                                <input type="text" class="form-control " id="iptLimiteMaximo" placeholder="Ingrese Limite Maximo" required disabled >
                             </div>
                         </div> 
                        <!-- Columna UNIDAD DE MEDIDA -->
@@ -318,48 +318,44 @@ $(document).ready(function(){
         if ($("#iptCategoria").val() == ''){msg.push('Categoria');}
         if ($("#iptTipoAnalisis").val() == 0){msg.push(' Tipo de Analisis');}
         if ($("#iptAnalisis").val() == ''){msg.push(' Analisis');}
-        if ($("#iptLimiteMinimo").val() == ''){msg.push(' Limite Minimo');}
-        if ($("#iptLimiteMaximo").val() == ''){msg.push(' Limite Maximo');}
         if ($("#iptUnidadMedida").val() == ''){msg.push(' Unidad de Medida');}
         if ($("#selCategoriaGeneral").val() == 0){msg.push(' Categoria');}
         
-        if (msg.length != 8 && msg.length != 0){
+        if (msg.length != 6 && msg.length != 0){
             toastr["error"]("Ingrese los siguientes datos  :"+msg, "!Atención!");
             return;
-        }else if(msg.length == 8){
+        }else if(msg.length == 6){
             
             toastr["error"]("No existen datos para guardar", "!Atención!");
             bloquearInputs();
             $("#btnClose" ).prop( "hidden", true );
             return;
         }
+        // if ($("#iptLimiteMinimo").val() == ''){msg.push(' Limite Minimo');}
+        // if ($("#iptLimiteMaximo").val() == ''){msg.push(' Limite Maximo');}
+
         // validar si es texto o numero para cambiar coma por punto
         varMinimo = $("#iptLimiteMinimo").val();
         varMaximo = $("#iptLimiteMaximo").val();
         varUnidadMedida = $("#iptUnidadMedida").val();
+
+
         
         resValidarLimiteMin = validarTexto(varMinimo);
         resValidarLimiteMax = validarTexto(varMaximo);
-
-        if (resValidarLimiteMin != resValidarLimiteMax){
-            toastr["error"]("Lo ingresado no es consistente", "!Atención!");
-            return false;
-        }
         if ((resValidarLimiteMin == 'NUMERO') && (resValidarLimiteMax == 'NUMERO')){
             varMinimo = varMinimo.replace(/,/g, '.');
             varMaximo = varMaximo.replace(/,/g, '.');
         }
         
+
         if ((resValidarLimiteMin == 'TEXTO') && (resValidarLimiteMax == 'TEXTO')){
-            if (varUnidadMedida.includes('/')){
-            }else{
-
-                toastr["error"]("La unidad de medida no corresponde a lo contenido en Limites Máximo y Mínimo, este debera contener Max/Min separados por barra invertida /", "!Atención!");
-
+            if ((resValidarLimiteMin != resValidarLimiteMax) ){
+                toastr["error"]("Lo ingresado no es consistente", "!Atención!");
                 return false;
             }
-        }        
 
+        }        
         $.ajax({
                 async: false,
                 url:"ajax/normativas.ajax.php",
@@ -473,6 +469,8 @@ function buscarEnSelect(abuscar,select1)
 
     function validarTexto(valor) {
         contar_numeros = valor.replace(/[^0-9]/g,"").length;
+
+
         if ( contar_numeros == 0){
             resultado = 'TEXTO';
         }else{

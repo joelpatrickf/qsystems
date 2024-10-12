@@ -320,7 +320,7 @@ $(document).ready(function(){
             },
             dataType: 'json',
             success: function(respuesta){
-                //console.log("buscar Orden",respuesta);
+                console.log("buscar Orden",respuesta);
                 //console.log(respuesta[0]['orden_trabajo']);
                 if (respuesta.length == 1){
                     
@@ -468,10 +468,10 @@ $(document).ready(function(){
 
         // tomamos el resultado validado numero o letras
         validarResultadoLetras = validarTexto(varResultados);
+console.log("validarResultadoLetras  ",validarResultadoLetras)
         
         varLimiteMaxSinEspacios = varLimiteMax.replace(/ /g, "");
         varResultadosSinEspacios = varResultados.replace(/ /g, "");
-
 
         //console.log("validarMin "+validarMin +"  validarMax"+validarMax);
 
@@ -492,21 +492,6 @@ $(document).ready(function(){
                 return false;
             }
 
-            //Validamos el limite Minimo
-            if (varLimiteMin.includes('>')) {
-                valorMin = varLimiteMin.replace(">", "");
-                valorMin = parseFloat(valorMin);
-                resCondicionMin = varResultados > valorMin ? true:false;
-            } else if (varLimiteMin.includes('>=')) {
-                valorMin = varLimiteMin.replace(">=", "");
-                resCondicionMin = varResultados >= valorMin ? true:false;
-                valorMin = parseFloat(valorMin);
-            }else{
-                valorMin = varLimiteMin;
-                valorMin = parseFloat(valorMin);
-                resCondicionMin = varResultados >= valorMin ? true:false;
-            }            
-
             //Validamos el limite Maximo
             if (varLimiteMax.includes('<')) {
                 valorMax = varLimiteMax.replace("<", "");
@@ -523,44 +508,33 @@ $(document).ready(function(){
                 resCondicionMax = varResultados <= valorMax ? true:false;
             }
 
-
-
-
+            //Validamos el limite Minimo
+            if (varLimiteMin.includes('>')) {
+                valorMin = varLimiteMin.replace(">", "");
+                valorMin = parseFloat(valorMin);
+                resCondicionMin = varResultados > valorMin ? true:false;
+            } else if (varLimiteMin.includes('>=')) {
+                valorMin = varLimiteMin.replace(">=", "");
+                resCondicionMin = varResultados >= valorMin ? true:false;
+                valorMin = parseFloat(valorMin);
+            }else{
+                valorMin = varLimiteMin;
+                valorMin = parseFloat(valorMin);
+                resCondicionMin = varResultados >= valorMin ? true:false;
+            }
         }
-        //console.log (resCondicionMin +" - "+ resCondicionMax)
-
+        
         if ((resCondicionMin == true) && (resCondicionMax == true) ){
-
             validacion = 'CONFORME';
             estado = 'Liberado';
             
-        }else if ((resCondicionMin == true) && (resCondicionMax == false) ){ // si existe min, max sin limite
-            //console.log(varLimiteMin +" minnn--max "+varLimiteMax+"  dato ingresado "+varResultados);
-            if (varResultados >= varLimiteMin) {
-                validacion = 'CONFORME';
-                estado = 'Liberado';
-            }else{
-                validacion = 'NO CONFORME';
-                estado = 'retenido';
-            }
-        }else if ((resCondicionMin == false) && (resCondicionMax == true) ){ // si existe min, max sin limite
-            //console.log(varLimiteMin +" min--maxxx "+varLimiteMax+"  dato ingresado "+varResultados);
-            if ( parseInt(varResultados) <= parseInt(varLimiteMax)) {
-                validacion = 'CONFORME';
-                estado = 'Liberado' ;
-            }else{
-                validacion = 'NO CONFORME';
-                estado = 'retenido';
-            }
-            
         }else{
-            //console.log(varLimiteMin +" min--maxxx "+varLimiteMax+"  dato ingresado "+varResultados);
             validacion = 'NO CONFORME';
             estado = 'Retenido';
         }
-        //console.log("validacion "+validacion + " estado "+estado)
 
        // console.log("resCondicionMin-> "+resCondicionMin+"    resCondicionMax->"+resCondicionMax);
+return;
         $.ajax({
                 async: false,
                 url:"ajax/resultados.ajax.php",
@@ -685,6 +659,7 @@ $(document).ready(function(){
         }else{
             resultado ='VACIO';
         }
+            console.log("resultado   :",resultado)
 
         //console.log("# "+contar_numeros+"  resultado->"+resultado);
         return resultado;

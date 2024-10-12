@@ -188,7 +188,7 @@ require_once "constantes/constantes.php";
                       <a class="dropdown-item"  href="logout.php"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
                     </div>
                   </li>
-                  <button type="button" class="btn btn-light" onclick="CargarContenido('planificacion.php','right_col')">Planificación</button>
+                  <button type="button" class="btn btn-light" onclick="CargarContenido('vistas/resultados_ingreso.php','right_col')">resultados_ingreso</button>
                   <!-- <li>
                         <a onclick="CargarContenido('planificacion.php','right_col')">Planificación</a>
                   </li> -->
