@@ -690,93 +690,93 @@ $(document).ready(function(){
     //-GUARDAR 
     //********************************************************
     $("#btnSave").click(function() {
-    const msg = [];
-    var varFecha = $("#iptFecha").val();
-    var varProducto = $("#iptProducto").val();
-    var varId_item = $("#iptId_item").val();
-    
-    var varNorma = $("#iptNorma").val();
-    var varCategoria = $("#iptCategoria").val();
-    
-    var varPresentacion = $("#iptPresentacion").val();
-    var varPlanta = $("#selPlanta").val();
-    
-    var varUbicacion = $("#iptArea").val();
-    // var id_area
-    // var id_linea
+        const msg = [];
+        var varFecha = $("#iptFecha").val();
+        var varProducto = $("#iptProducto").val();
+        var varId_item = $("#iptId_item").val();
+        
+        var varNorma = $("#iptNorma").val();
+        var varCategoria = $("#iptCategoria").val();
+        
+        var varPresentacion = $("#iptPresentacion").val();
+        var varPlanta = $("#selPlanta").val();
+        
+        var varUbicacion = $("#iptArea").val();
+        // var id_area
+        // var id_linea
 
-    var varProveedor = $("#selProveedor").val();
-    var varTurno = $("#selTurno").val();
-    var varUsuarios = $("#selUsuarios").val();
-    var varMuestra = $("#iptMuestra").val();
-    var varLote = $("#iptLote").val();
-    var varIdNormativa = $("#iptNorma").val();
+        var varProveedor = $("#selProveedor").val();
+        var varTurno = $("#selTurno").val();
+        var varUsuarios = $("#selUsuarios").val();
+        var varMuestra = $("#iptMuestra").val();
+        var varLote = $("#iptLote").val();
+        var varIdNormativa = $("#iptNorma").val();
 
-    //if (varId_item.length == 0){msg.push(' Id_item');}
-    // alert(varIdNormativa);
-    // return;
-    
-    if (varProducto.length == 0){msg.push(' Producto');}
-    if (varNorma.length == 0){msg.push(' Norma');}
-    if (varCategoria.length == 0){msg.push('Categoria');}
-    if (varPresentacion.length == 0){msg.push('Presentacion');}
-    if (varPlanta.length == 1){msg.push(' Planta');}
-    if (varUbicacion == 0){msg.push(' Ubicacion/Area/Linea');}
-    if (varProveedor == 0){msg.push(' Proveedor');}
-    if (varTurno == 0){msg.push(' Turno');}
-    if (varUsuarios.length == 1){msg.push(' Usuarios');}
-    if (varMuestra.length == 0){msg.push(' Muestra');}
-    if (varLote.length == 0){msg.push(' Lote');}
-    
-    
-    if (msg.length != 11 && msg.length != 0){
-        toastr["error"]("Ingrese los siguientes datos :"+msg, "!Atención!");
-        return;
-    }else if(msg.length == 11){
-        toastr["error"]("No existen datos para guardar", "!Atención!");
+        //if (varId_item.length == 0){msg.push(' Id_item');}
+        // alert(varIdNormativa);
+        // return;
+        
+        if (varProducto.length == 0){msg.push(' Producto');}
+        if (varNorma.length == 0){msg.push(' Norma');}
+        if (varCategoria.length == 0){msg.push('Categoria');}
+        if (varPresentacion.length == 0){msg.push('Presentacion');}
+        if (varPlanta.length == 1){msg.push(' Planta');}    
+        if (varUbicacion == 0){msg.push(' Ubicacion/Area/Linea');}
+        if (varProveedor == 0){msg.push(' Proveedor');}
+        if (varTurno == 0){msg.push(' Turno');}
+        if (varUsuarios.length == 1){msg.push(' Usuarios');}
+        if (varMuestra.length == 0){msg.push(' Muestra');}
+        if (varLote.length == 0){msg.push(' Lote');}
+        
+        
+        if (msg.length != 11 && msg.length != 0){
+            toastr["error"]("Ingrese los siguientes datos :"+msg, "!Atención!");
             return;
-    };
-        $.ajax({
-                async: false,
-                url:"ajax/orden_trabajo.ajax.php",
-                method: "POST",
-                data: {
-                    'accion':accion,
-                    'varFecha':varFecha,
-                    'varProducto':varProducto,
-                    'varId_item':varId_item,
-                    // 'varNorma':varNorma,
-                    // 'varCategoria':varCategoria,
-                    'varIdNormativa':varIdNormativa,
-                    //'varPresentacion':varPresentacion,
-                    'varPlanta':varPlanta,
-                    // 'varUbicacion':varUbicacion,
-                    'varId_Area':id_area,
-                    'varId_Linea':id_linea,
-                    'varProveedor':varProveedor,
-                    'varTurno':varTurno,
-                    'varUsuarios':varUsuarios,
-                    'varMuestra':varMuestra,
-                    'varLote':varLote,
-                    'numero_orden':numero_orden
-                },
-                dataType: "json",
-                success: function(respuesta){
-                    //console.log(respuesta);
-                    if (respuesta == 'ok-ING' || respuesta == 'ok-EDIT'){
+        }else if(msg.length == 11){
+            toastr["error"]("No existen datos para guardar", "!Atención!");
+                return;
+        };
+            $.ajax({
+                    async: false,
+                    url:"ajax/orden_trabajo.ajax.php",
+                    method: "POST",
+                    data: {
+                        'accion':accion,
+                        'varFecha':varFecha,
+                        'varProducto':varProducto,
+                        'varId_item':varId_item,
+                        // 'varNorma':varNorma,
+                        // 'varCategoria':varCategoria,
+                        'varIdNormativa':varIdNormativa,
+                        //'varPresentacion':varPresentacion,
+                        'varPlanta':varPlanta,
+                        // 'varUbicacion':varUbicacion,
+                        'varId_Area':id_area,
+                        'varId_Linea':id_linea,
+                        'varProveedor':varProveedor,
+                        'varTurno':varTurno,
+                        'varUsuarios':varUsuarios,
+                        'varMuestra':varMuestra,
+                        'varLote':varLote,
+                        'numero_orden':numero_orden
+                    },
+                    dataType: "json",
+                    success: function(respuesta){
+                        //console.log(respuesta);
+                        if (respuesta == 'ok-ING' || respuesta == 'ok-EDIT'){
+                            limpiar();
+                            toastr["success"]("Proceso de Información Correcta", "!Atención!");
+                            table.ajax.reload();
+                        }else{
+                            toastr["error"]("Ingreso Incorrecto, entrada duplicada", "!Atención!");
+                        }
+                        bloquearInputs();
                         limpiar();
-                        toastr["success"]("Proceso de Información Correcta", "!Atención!");
-                        table.ajax.reload();
-                    }else{
-                        toastr["error"]("Ingreso Incorrecto, entrada duplicada", "!Atención!");
-                    }
-                    bloquearInputs();
-                    limpiar();
-                    $("#btnClose" ).prop( "hidden", true );
-                    accion="";
+                        $("#btnClose" ).prop( "hidden", true );
+                        accion="";
 
-                }
-            });
+                    }
+                });
     });
 
 
