@@ -19,7 +19,7 @@ if(isset($_SESSION)){ }else{ session_start(); }
                 <div class="card-header pb-0 mb-0" >
                     <div class="row">
                         <div class="col-6">
-                           <h4> Administrar Planificación </h4>
+                           <h4> Administrar Planificación1 </h4>
                         </div>
                         <div class="col-6 text-" >
                             <button type="button" class="btn btn-warning mx-1" id="btnClose" style="float: right;" hidden>close</button>
